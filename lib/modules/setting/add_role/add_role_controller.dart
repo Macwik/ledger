@@ -1,0 +1,57 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:ledger/config/api/auth_api.dart';
+import 'package:ledger/enum/process_status.dart';
+import 'package:ledger/modules/setting/add_role/add_role_state.dart';
+import 'package:ledger/res/export.dart';
+
+class AddRoleController extends GetxController {
+  final AddRoleState state = AddRoleState();
+
+  Future<void> addRole() async {
+    String? roleName = state.formKey.currentState!.fields['roleName']?.value;
+    String? roleDesc = state.formKey.currentState!.fields['roleDesc']?.value;
+
+    Loading.showDuration();
+    final result = await Http().network<void>(Method.post, AuthApi.add_role,
+        data: {'roleName': roleName, 'roleDesc': roleDesc});
+    if (result.success) {
+      Loading.dismiss();
+      Get.back(result: ProcessStatus.OK);
+    } else {
+      Toast.show(result.m.toString());
+    }
+  }
+
+  void onFormChange() {
+    state.formKey.currentState?.saveAndValidate(focusOnInvalid: false);
+    update(['add_role_btn']);
+  }
+
+ void addRoleGetBack() {
+   String? roleName = state.formKey.currentState?.fields['roleName']?.value;
+   String? roleDesc = state.formKey.currentState?.fields['roleDesc']?.value;
+    if ((roleName?.isNotEmpty ?? false) ||
+        (roleDesc?.isNotEmpty ?? false)) {
+      Get.dialog(AlertDialog(
+          title: Text('是否确认退出'),
+          content: Text('退出后将无法恢复'),
+          actions: [
+            TextButton(
+              child: Text('取消'),
+              onPressed: () {
+                Get.back();
+              },
+            ),
+            TextButton(
+                child: Text('确定'),
+                onPressed: () {
+                  Get.back();
+                  Get.back();
+                }),
+          ]));
+    } else {
+      Get.back();
+    }
+  }
+}

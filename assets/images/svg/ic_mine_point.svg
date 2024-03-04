@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16"
+    height="16" viewBox="0 0 16 16" fill="none">
+    <g opacity="1" transform="translate(0 0)">
+        <mask id="bg-mask-0" fill="white">
+            <use transform="translate(0 0)" xlink:href="#path_0"></use>
+        </mask>
+        <g mask="url(#bg-mask-0)">
+            <path id="路径 1" fill-rule="evenodd" style="fill:#FF8D1A" opacity="1"
+                d="M10.2078 8.05311C10.2078 8.6578 9.98907 9.17811 9.55001 9.61405C9.11095 10.05 8.59064 10.2687 7.98751 10.2687C7.38907 10.2687 6.87657 10.0515 6.44689 9.61874C6.0172 9.18436 5.80157 8.66405 5.80157 8.05311C5.80157 7.44843 6.01407 6.92968 6.43751 6.49686C6.86095 6.06405 7.37814 5.84686 7.98751 5.84686C8.60782 5.84686 9.13282 6.06561 9.56251 6.50155C9.9922 6.93593 10.2078 7.45468 10.2078 8.05311Z"></path>
+        </g>
+    </g>
+    <defs>
+        <rect id="path_0" x="0" y="0" width="16" height="16" rx="0" ry="0" />
+    </defs>
+</svg>
