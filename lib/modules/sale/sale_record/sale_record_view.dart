@@ -682,8 +682,7 @@ class SaleRecordView extends StatelessWidget {
                             var salePurchaseOrderDTO =
                                 controller.state.list![index];
                             return InkWell(
-                              onTap: () => controller
-                                  .toSalesDetail(salePurchaseOrderDTO),
+                              onTap: () => controller.toSalesDetail(salePurchaseOrderDTO),
                               child: Column(
                                 children: [
                                   Container(
@@ -866,16 +865,15 @@ class SaleRecordView extends StatelessWidget {
                                           children: [
                                             Expanded(
                                               child: Text(
-                                                  controller.state.orderType ==
-                                                          OrderType.PURCHASE
+                                                  controller.state.orderType == OrderType.PURCHASE
                                                       ? '${salePurchaseOrderDTO.batchNo}'
-                                                      : DateUtil
-                                                          .formatDefaultDateTimeMinute(
-                                                              salePurchaseOrderDTO
-                                                                  .gmtCreate),
+                                                      : DateUtil.formatDefaultDateTimeMinute(
+                                                              salePurchaseOrderDTO.gmtCreate),
                                                   style: TextStyle(
-                                                    color: Colours.text_ccc,
-                                                    fontSize: 24.sp,
+                                                    color:  controller.state.orderType == OrderType.PURCHASE
+                                                        ?Colours.text_999
+                                                        :Colours.text_ccc,
+                                                    fontSize: 26.sp,
                                                     fontWeight: FontWeight.w500,
                                                   )),
                                             ),
