@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/enum/is_deleted.dart';
 import 'package:ledger/res/colors.dart';
-import 'package:ledger/widget/custom_textfield.dart';
 import 'package:ledger/widget/elevated_btn.dart';
 import 'package:ledger/widget/image.dart';
 import 'package:ledger/widget/permission/permission_widget.dart';
@@ -150,15 +149,19 @@ class ProductDetailView extends StatelessWidget {
                                     width: 20.w,
                                   ),
                                   Expanded(
-                                    child: CustomTextField(
-                                        name: 'productName',
-                                        controller:
-                                            controller.state.nameController,
-                                        fontSize: 30.sp,
-                                        textColor: Colours.text_333,
-                                        keyboardType:
-                                            TextInputType.emailAddress,
+                                    child: TextFormField(
+                                        controller: controller.state.nameController,
                                         textAlign: TextAlign.right,
+                                        decoration: InputDecoration(
+                                          counterText: '',
+                                          border: InputBorder.none,
+                                          hintText: '请填写',
+                                        ),
+                                        style: TextStyle(
+                                            fontSize: 32.sp
+                                        ),
+                                        keyboardType:
+                                            TextInputType.name,
                                         maxLength: 10,
                                         readOnly: !controller.state.isEdit,
                                         validator: (value) {
@@ -229,14 +232,19 @@ class ProductDetailView extends StatelessWidget {
                                     ),
                                   )),
                                   Expanded(
-                                      child: CustomTextField(
-                                    name: 'productAddress',
+                                      child: TextFormField(
                                     controller:
                                         controller.state.addressController,
-                                    fontSize: 30.sp,
-                                    textColor: Colours.text_333,
-                                    keyboardType: TextInputType.emailAddress,
-                                    textAlign: TextAlign.right,
+                                        textAlign: TextAlign.right,
+                                        decoration: InputDecoration(
+                                          counterText: '',
+                                          border: InputBorder.none,
+                                          hintText: '请填写',
+                                        ),
+                                        style: TextStyle(
+                                            fontSize: 32.sp
+                                        ),
+                                    keyboardType: TextInputType.name,
                                     maxLength: 10,
                                     readOnly: !controller.state.isEdit,
                                   ))
@@ -263,14 +271,19 @@ class ProductDetailView extends StatelessWidget {
                                     ),
                                   )),
                                   Expanded(
-                                      child: CustomTextField(
-                                    name: 'productStandard',
+                                      child: TextFormField(
                                     controller:
                                         controller.state.standardController,
-                                    fontSize: 30.sp,
-                                    textColor: Colours.text_333,
-                                    keyboardType: TextInputType.emailAddress,
-                                    textAlign: TextAlign.right,
+                                        textAlign: TextAlign.right,
+                                        decoration: InputDecoration(
+                                          counterText: '',
+                                          border: InputBorder.none,
+                                          hintText: '请填写',
+                                        ),
+                                        style: TextStyle(
+                                            fontSize: 32.sp
+                                        ),
+                                    keyboardType: TextInputType.name,
                                     maxLength: 10,
                                     readOnly: !controller.state.isEdit,
                                   ))
@@ -350,14 +363,19 @@ class ProductDetailView extends StatelessWidget {
                                     ),
                                   )),
                                   Expanded(
-                                      child: CustomTextField(
-                                    name: 'productPrice',
+                                      child: TextFormField(
                                     controller:
                                         controller.state.priceController,
-                                    fontSize: 30.sp,
-                                    textColor: Colours.text_333,
+                                        textAlign: TextAlign.right,
+                                        decoration: InputDecoration(
+                                          counterText: '',
+                                          border: InputBorder.none,
+                                          hintText: '请填写',
+                                        ),
+                                        style: TextStyle(
+                                            fontSize: 32.sp
+                                        ),
                                     keyboardType: TextInputType.number,
-                                    textAlign: TextAlign.right,
                                     maxLength: 10,
                                     readOnly: !controller.state.isEdit,
                                   )),
@@ -532,7 +550,7 @@ class ProductDetailView extends StatelessWidget {
                                         maxLines: 8,
                                         minLines: 1,
                                         keyboardType:
-                                            TextInputType.emailAddress,
+                                            TextInputType.name,
                                         textAlign: TextAlign.right,
                                         maxLength: 32,
                                         readOnly: !controller.state.isEdit,

@@ -24,19 +24,12 @@ class AddCustomController extends GetxController {
     if (!state.formKey.currentState!.saveAndValidate(focusOnInvalid: false)) {
       return;
     }
-    String? customName = state.formKey.currentState!.fields['customName']?.value;
-    String? phone = state.formKey.currentState!.fields['customPhone']?.value;
-    String? customAddress =
-        state.formKey.currentState!.fields['customAddress']?.value;
-    String? customRemark =
-        state.formKey.currentState!.fields['customRemark']?.value;
-
     Loading.showDuration();
     Http().network(Method.post, CustomApi.addCustom, data: {
-      'customName': customName,
-      'phone': phone,
-      'address': customAddress,
-      'remark': customRemark,
+      'customName': state.nameController.text,
+      'phone': state.phoneController.text,
+      'address': state.addressController.text,
+      'remark': state.remarkController.text,
       'customType': state.customType,
     }).then((result) {
       Loading.dismiss();
@@ -50,11 +43,10 @@ class AddCustomController extends GetxController {
   }
 
   void addCustomGetBack() {
-    String? customName = state.formKey.currentState?.fields['customName']?.value;
-    String? phone = state.formKey.currentState?.fields['customPhone']?.value;
-    String? customAddress = state.formKey.currentState?.fields['customAddress']?.value;
-    String? customRemark = state.formKey.currentState?.fields['customRemark']?.value;
-    if((customName?.isNotEmpty ?? false)||(phone?.isNotEmpty ?? false)||(customAddress?.isNotEmpty ?? false)|| (customRemark?.isNotEmpty ?? false)){
+    if((state.nameController.text.isNotEmpty)
+        ||(state.phoneController.text.isNotEmpty)
+        ||(state.addressController.text.isNotEmpty)
+        || (state.remarkController.text.isNotEmpty)){
       Get.dialog(
           AlertDialog(
               title: Text('是否确认退出'),

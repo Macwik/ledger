@@ -43,9 +43,9 @@ class PendingSaleBillView extends StatelessWidget {
         leading: BackButton(
             onPressed: () {
               Get.until((route) {
-                return (route.settings.name == RouteConfig.purchase) ||
-                    (route.settings.name == RouteConfig.sale) ||
-                    (route.settings.name == RouteConfig.main);
+                return ((route.settings.name == RouteConfig.sale) ||
+                    (route.settings.name == RouteConfig.purchase) ||
+                    (route.settings.name == RouteConfig.main));
               });
             },
             color: Colors.white),

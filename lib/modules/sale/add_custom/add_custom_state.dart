@@ -6,6 +6,10 @@ class AddCustomState {
   //客户类别 0客户  | 1 供应商
   int customType = 0;
 
+  TextEditingController nameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  TextEditingController remarkController = TextEditingController();
 
   final formKey = GlobalKey<FormBuilderState>();
 }

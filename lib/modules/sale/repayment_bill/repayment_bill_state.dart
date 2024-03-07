@@ -38,4 +38,6 @@ class RepaymentBillState {
   }
 
   IsSelectType isSelect = IsSelectType.FALSE;
+
+  TextEditingController remarkController = TextEditingController();
 }

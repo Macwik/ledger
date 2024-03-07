@@ -124,8 +124,7 @@ class RepaymentBillController extends GetxController {
       Loading.dismiss();
       if (result.success) {
         Toast.show('还款成功');
-        Get.offNamed(RouteConfig.repaymentRecord,
-            arguments: {'customType': state.customDTO?.customType});
+        Get.back();
       } else {
         Toast.show(result.m.toString());
       }
@@ -216,13 +215,12 @@ class RepaymentBillController extends GetxController {
 
   void repayBillGetBack() {
     String discount = state.discountController.text;
-    String? remark = state.formKey.currentState?.fields['remark']?.value;
     String paymentAmount = state.repaymentController.text;
     if ((state.paymentMethodDTO != null) ||
         (state.isSelect == IsSelectType.TRUE) ||
         (paymentAmount.isNotEmpty) ||
         (discount.isNotEmpty) ||
-        (remark?.isNotEmpty ?? false)) {
+        (state.remarkController.text.isNotEmpty)) {
       Get.dialog(AlertDialog(
           title: Text('是否确认退出'),
           content: Text('退出后将无法恢复'),

@@ -264,11 +264,6 @@ class CustomRecordController extends GetxController {
 
   void customRecordGetBack() {
     clearCondition();
-    Get.until((route) {
-      return (route.settings.name == RouteConfig.purchase) ||
-          (route.settings.name == RouteConfig.sale) ||
-          (route.settings.name == RouteConfig.saleBill) ||
-          (route.settings.name == RouteConfig.main);
-    });
+    Get.back();
   }
 }

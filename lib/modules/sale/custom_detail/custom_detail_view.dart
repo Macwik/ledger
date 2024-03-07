@@ -8,7 +8,6 @@ import 'package:ledger/enum/custom_type.dart';
 import 'package:ledger/enum/is_deleted.dart';
 import 'package:ledger/modules/sale/custom_detail/custom_detail_controller.dart';
 import 'package:ledger/res/colors.dart';
-import 'package:ledger/widget/custom_textfield.dart';
 import 'package:ledger/widget/elevated_btn.dart';
 import 'package:ledger/widget/image.dart';
 import 'package:ledger/widget/permission/permission_widget.dart';
@@ -152,14 +151,19 @@ class CustomDetailView extends StatelessWidget {
                                         )),
                                     Expanded(
                                         flex: 1,
-                                        child: CustomTextField(
-                                            name: 'customName',
+                                        child: TextFormField(
                                             controller: state.nameController,
-                                            keyboardType:
-                                                TextInputType.emailAddress,
-                                            fontSize: 32.sp,
-                                            textColor: Colours.text_333,
                                             textAlign: TextAlign.right,
+                                            decoration: InputDecoration(
+                                              counterText: '',
+                                              border: InputBorder.none,
+                                              hintText: '请填写',
+                                            ),
+                                            style: TextStyle(
+                                                fontSize: 32.sp
+                                            ),
+                                            keyboardType:
+                                                TextInputType.name,
                                             maxLength: 10,
                                             readOnly: !state.isEdit,
                                             validator: (value) {
@@ -191,13 +195,18 @@ class CustomDetailView extends StatelessWidget {
                                       ),
                                     ),
                                     Expanded(
-                                      child: CustomTextField(
-                                          name: 'customPhone',
+                                      child: TextFormField(
                                           controller: state.phoneController,
-                                          keyboardType: TextInputType.phone,
-                                          fontSize: 32.sp,
-                                          textColor: Colours.text_333,
                                           textAlign: TextAlign.right,
+                                          decoration: InputDecoration(
+                                            counterText: '',
+                                            border: InputBorder.none,
+                                            hintText: '请填写',
+                                          ),
+                                          style: TextStyle(
+                                              fontSize: 32.sp
+                                          ),
+                                          keyboardType: TextInputType.phone,
                                           maxLength: 20,
                                           readOnly: !state.isEdit,
                                           validator: (value) {
@@ -236,14 +245,19 @@ class CustomDetailView extends StatelessWidget {
                                     ),
                                     Expanded(
                                         flex: 3,
-                                        child: CustomTextField(
-                                          name: 'customAddress',
+                                        child: TextFormField(
                                           controller: state.addressController,
-                                          keyboardType:
-                                              TextInputType.emailAddress,
-                                          fontSize: 32.sp,
-                                          textColor: Colours.text_333,
                                           textAlign: TextAlign.right,
+                                          decoration: InputDecoration(
+                                            counterText: '',
+                                            border: InputBorder.none,
+                                            hintText: '请填写',
+                                          ),
+                                          style: TextStyle(
+                                              fontSize: 32.sp
+                                          ),
+                                          keyboardType:
+                                              TextInputType.name,
                                           maxLength: 32,
                                           readOnly: !state.isEdit,
                                         ))
@@ -268,14 +282,18 @@ class CustomDetailView extends StatelessWidget {
                                     ),
                                     Expanded(
                                         flex: 3,
-                                        child: CustomTextField(
-                                          name: 'customRemark',
+                                        child: TextFormField(
                                           controller: state.remarkController,
-                                          keyboardType:
-                                              TextInputType.emailAddress,
-                                          fontSize: 32.sp,
-                                          textColor: Colours.text_333,
                                           textAlign: TextAlign.right,
+                                          decoration: InputDecoration(
+                                            counterText: '',
+                                            border: InputBorder.none,
+                                            hintText: '请填写',
+                                          ),
+                                          style: TextStyle(
+                                              fontSize: 32.sp
+                                          ),
+                                          keyboardType: TextInputType.name,
                                           maxLength: 32,
                                           readOnly: !state.isEdit,
                                         ))

@@ -48,18 +48,13 @@ class RemittanceController extends GetxController {
   }
 
   void addRemittance() {
-    String? payeeName = state.formKey.currentState!.fields['payeeName']?.value;
-    String? remittanceNum =
-        state.formKey.currentState!.fields['remittanceNum']?.value;
-    String? remittanceRemark =
-        state.formKey.currentState!.fields['remittanceRemark']?.value;
     if (null == state.paymentMethodDTO?.name) {
       Toast.show('请选择支付方式');
       return;
     }
     Http().network(Method.post, RemittanceApi.add_remittance, data: {
-      'receiver': payeeName,
-      'amount': Decimal.tryParse(remittanceNum ?? ''),
+      'receiver': state.receiverController.text,
+      'amount': Decimal.tryParse(state.amountController.text),
       'productIdList':
           (state.productDTO == null || state.productDTO?.id == null)
               ? null
@@ -67,11 +62,11 @@ class RemittanceController extends GetxController {
       'paymentRequest': [
         OrderPaymentRequest(
             paymentMethodId: state.paymentMethodDTO?.id,
-            paymentAmount: Decimal.tryParse(remittanceNum ?? ''),
+            paymentAmount: Decimal.tryParse(state.amountController.text),
             ordinal: 1)
       ],
       'remittanceDate': DateUtil.formatDefaultDate(state.date),
-      'remark': remittanceRemark,
+      'remark': state.remarkController.text,
     }).then((result) {
       if (result.success) {
         Get.offNamed(RouteConfig.remittanceRecord);
@@ -99,16 +94,11 @@ class RemittanceController extends GetxController {
   }
 
   void remittanceGetBack() {
-    String? payeeName = state.formKey.currentState?.fields['payeeName']?.value;
-    String? remittanceNum =
-        state.formKey.currentState?.fields['remittanceNum']?.value;
-    String? remittanceRemark =
-        state.formKey.currentState?.fields['remittanceRemark']?.value;
     if ((state.paymentMethodDTO != null) ||
         (state.productDTO != null) ||
-        (payeeName?.isNotEmpty ?? false) ||
-        (remittanceNum?.isNotEmpty ?? false) ||
-        (remittanceRemark?.isNotEmpty ?? false)) {
+        (state.receiverController.text.isNotEmpty) ||
+        (state.amountController.text.isNotEmpty) ||
+        (state.remarkController.text.isNotEmpty)) {
       Get.dialog(AlertDialog(
           title: Text('是否确认退出'),
           content: Text('退出后将无法恢复'),

@@ -200,7 +200,7 @@ class SaleBillController extends GetxController {
     }).then((result) {
       Loading.dismiss();
       if (result.success) {
-        Get.toNamed(RouteConfig.saleRecord, arguments: {'orderType': state.orderType});
+        Get.offNamed(RouteConfig.saleRecord, arguments: {'orderType': state.orderType});
         return true;
       } else {
         Toast.show(result.m.toString());
@@ -264,15 +264,12 @@ class SaleBillController extends GetxController {
                     return (route.settings.name == RouteConfig.purchase) ||
                         (route.settings.name == RouteConfig.sale) ||
                         (route.settings.name == RouteConfig.main);
-                  });
+                  }
+                 );
                 }),
           ]));
     } else {
-      Get.until((route) {
-        return (route.settings.name == RouteConfig.purchase) ||
-            (route.settings.name == RouteConfig.sale) ||
-            (route.settings.name == RouteConfig.main);
-      });
+      Get.back();
     }
   }
 

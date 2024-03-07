@@ -5,7 +5,6 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/res/export.dart';
-import 'package:ledger/widget/custom_textfield.dart';
 import 'package:ledger/widget/permission/ledger_widget_type.dart';
 import 'package:ledger/widget/permission/permission_owner_widget.dart';
 import 'package:ledger/widget/permission/permission_widget.dart';
@@ -63,7 +62,7 @@ class RemittanceView extends StatelessWidget {
                                   '日期',
                                   style: TextStyle(
                                     color: Colours.text_666,
-                                    fontSize: 30.sp,
+                                    fontSize: 32.sp,
                                     fontWeight: FontWeight.w400,
                                   ),
                                 ),
@@ -78,7 +77,7 @@ class RemittanceView extends StatelessWidget {
                                         DateUtil.formatDefaultDate(state.date),
                                         style: TextStyle(
                                           color: Colours.text_333,
-                                          fontSize: 30.sp,
+                                          fontSize: 32.sp,
                                           fontWeight: FontWeight.w500,
                                         ),
                                       );
@@ -98,6 +97,7 @@ class RemittanceView extends StatelessWidget {
                         Container(
                           color: Colours.divider,
                           height: 1.w,
+                          margin: EdgeInsets.symmetric( vertical: 8.w),
                           width: double.infinity,
                         ),
                         Container(
@@ -121,16 +121,23 @@ class RemittanceView extends StatelessWidget {
                                          '收款人姓名',
                                         style: TextStyle(
                                           color: Colours.text_666,
-                                          fontSize: 30.sp,
+                                          fontSize: 32.sp,
                                           fontWeight: FontWeight.w400,),
                                       ),
                                     ],
                                   ),
                                 ),
                               Expanded(
-                                child: CustomTextField(
-                                  name: 'payeeName',
-                                  hintText: '请输入',
+                                child: TextFormField(
+                                  controller: state.receiverController,
+                                  decoration: InputDecoration(
+                                    counterText: '',
+                                    border: InputBorder.none,
+                                    hintText: '请填写',
+                                  ),
+                                  style: TextStyle(
+                                      fontSize: 32.sp
+                                  ),
                                   maxLength: 10,
                                   validator: FormBuilderValidators.required(
                                       errorText: '收款人不能为空'.tr),
@@ -144,6 +151,7 @@ class RemittanceView extends StatelessWidget {
                         Container(
                           color: Colours.divider,
                           height: 1.w,
+                          margin: EdgeInsets.symmetric( vertical: 8.w),
                           width: double.infinity,
                         ),
                         Container(
@@ -168,17 +176,24 @@ class RemittanceView extends StatelessWidget {
                                                  '汇款金额',
                                                 style: TextStyle(
                                                   color: Colours.text_666,
-                                                  fontSize: 30.sp,
+                                                  fontSize: 32.sp,
                                                   fontWeight: FontWeight.w400,),
                                               ),
                                             ],
                                           ),
                                     Container(
                                         alignment: Alignment.center,
-                                        child: CustomTextField(
-                                          name: 'remittanceNum',
+                                        child: TextFormField(
+                                          controller: state.amountController,
+                                          decoration: InputDecoration(
+                                            counterText: '',
+                                            border: InputBorder.none,
+                                            hintText: '请填写',
+                                          ),
+                                          style: TextStyle(
+                                              fontSize: 32.sp
+                                          ),
                                           textAlign: TextAlign.center,
-                                          hintText: '请填写',
                                           maxLength: 10,
                                           keyboardType: TextInputType.number,
                                           validator: FormBuilderValidators.compose([
@@ -220,7 +235,7 @@ class RemittanceView extends StatelessWidget {
                                                 '汇款账户',
                                                 style: TextStyle(
                                                   color: Colours.text_666,
-                                                  fontSize: 30.sp,
+                                                  fontSize: 32.sp,
                                                   fontWeight: FontWeight.w400,),
                                               ),
                                             ],
@@ -242,7 +257,7 @@ class RemittanceView extends StatelessWidget {
                                                           state.paymentMethodDTO
                                                               ?.name ??
                                                               '请选择',
-                                                          style: TextStyle(fontSize: 30.sp,
+                                                          style: TextStyle(fontSize: 32.sp,
                                                             color:
                                                             state.paymentMethodDTO
                                                                 ?.name !=
@@ -293,14 +308,14 @@ class RemittanceView extends StatelessWidget {
                                         '采购品种',
                                         style: TextStyle(
                                           color: Colours.text_666,
-                                          fontSize: 30.sp,
+                                          fontSize: 32.sp,
                                           fontWeight: FontWeight.w400,
                                         ),
                                       ),
                                       const Spacer(),
                                       Text(state.productDTO?.productName ?? '请选择',
                                           style: TextStyle(
-                                              fontSize: 30.sp,
+                                              fontSize: 32.sp,
                                             color: state.productDTO?.productName !=
                                                 null
                                                 ? Colors.black87
@@ -336,18 +351,25 @@ class RemittanceView extends StatelessWidget {
                                   '备注',
                                   style: TextStyle(
                                     color: Colours.text_666,
-                                      fontSize: 30.sp,
+                                      fontSize: 32.sp,
                                     fontWeight: FontWeight.w400,
                                   ),
                                 ),
                               ),
                               Expanded(
                                 flex: 3,
-                                child: CustomTextField(
-                                  name: 'remittanceRemark',
-                                  hintText: '请填写',
+                                child: TextFormField(
+                                  controller: state.remarkController,
+                                  decoration: InputDecoration(
+                                    counterText: '',
+                                    border: InputBorder.none,
+                                    hintText: '请填写',
+                                  ),
+                                  style: TextStyle(
+                                      fontSize: 32.sp
+                                  ),
                                   textAlign: TextAlign.end,
-                                  keyboardType: TextInputType.emailAddress,
+                                  keyboardType: TextInputType.name,
                                   maxLength: 32,
                                 ),
                               ),

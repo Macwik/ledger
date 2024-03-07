@@ -199,7 +199,9 @@ class SupplierDetailController extends GetxController {
         (statisticsCustomOrderDTO?.orderType ==
             OrderType.PURCHASE_RETURN.value)) {
       return '￥- ${statisticsCustomOrderDTO?.creditAmount}';
-    } else {
+    } else if(statisticsCustomOrderDTO?.orderType == OrderType.CREDIT.value){
+      return '';
+    }else{
       return DecimalUtil.formatAmount(statisticsCustomOrderDTO?.creditAmount);
     }
   }
@@ -211,6 +213,32 @@ class SupplierDetailController extends GetxController {
       return '￥- ${statisticsCustomOrderDTO?.totalAmount}';
     } else {
       return DecimalUtil.formatAmount(statisticsCustomOrderDTO?.totalAmount);
+    }
+  }
+
+  String totalName(SalesOrderAccountsDTO salesOrderAccounts) {
+    switch (salesOrderAccounts.orderType) {
+      case 0: return '实付：';
+      case 1: return '实收：';
+      case 2: return '实退：';
+      case 3: return '实退：';
+      case 4: return '还款：';
+      case 5:return '赊账：';
+      default:
+        throw Exception('网络错误');
+    }
+  }
+
+  String creditName(SalesOrderAccountsDTO salesOrderAccounts) {
+    switch (salesOrderAccounts.orderType) {
+      case 0: return '赊账：';
+      case 1: return '赊账：';
+      case 2: return '赊账：';
+      case 3: return '赊账：';
+      case 4: return '剩余欠款：';
+      case 5:return'';
+      default:
+        throw Exception('网络错误');
     }
   }
 }

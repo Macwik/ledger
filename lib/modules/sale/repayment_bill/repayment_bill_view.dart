@@ -4,7 +4,6 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 import 'package:ledger/enum/is_select.dart';
 import 'package:ledger/res/export.dart';
-import 'package:ledger/widget/custom_textfield.dart';
 import 'package:ledger/widget/permission/ledger_widget_type.dart';
 import 'package:ledger/widget/permission/permission_owner_widget.dart';
 import 'package:ledger/widget/will_pop.dart';
@@ -63,7 +62,7 @@ class RepaymentBillView extends StatelessWidget {
                                       '日期',
                                       style: TextStyle(
                                           color: Colours.text_666,
-                                          fontSize: 30.sp,
+                                          fontSize: 32.sp,
                                           fontWeight: FontWeight.w400),
                                     ),
                                     const Spacer(),
@@ -79,7 +78,7 @@ class RepaymentBillView extends StatelessWidget {
                                                       state.date),
                                                   style: TextStyle(
                                                     color: Colours.text_333,
-                                                    fontSize: 30.sp,
+                                                    fontSize: 32.sp,
                                                     fontWeight: FontWeight.w500,
                                                   ),
                                                 );
@@ -103,7 +102,7 @@ class RepaymentBillView extends StatelessWidget {
                                   '客户',
                                   style: TextStyle(
                                     color: Colours.text_666,
-                                    fontSize: 30.sp,
+                                    fontSize: 32.sp,
                                     fontWeight: FontWeight.w400,
                                   ),
                                 ),
@@ -124,7 +123,7 @@ class RepaymentBillView extends StatelessWidget {
                                                           null
                                                       ? Colours.text_333
                                                       : Colours.text_ccc,
-                                                  fontSize: 30.sp,
+                                                  fontSize: 32.sp,
                                                   fontWeight: FontWeight.w500,
                                                 ),
                                               ),
@@ -157,7 +156,7 @@ class RepaymentBillView extends StatelessWidget {
                                         '是否按单还款',
                                         style: TextStyle(
                                           color: Colours.text_666,
-                                          fontSize: 30.sp,
+                                          fontSize: 32.sp,
                                           fontWeight: FontWeight.w400,
                                         ),
                                       ),
@@ -197,7 +196,7 @@ class RepaymentBillView extends StatelessWidget {
                                               '选择收款单据',
                                               style: TextStyle(
                                                 color: Colours.text_333,
-                                                fontSize: 30.sp,
+                                                fontSize: 32.sp,
                                               ),
                                             ),
                                             const Spacer(),
@@ -215,7 +214,7 @@ class RepaymentBillView extends StatelessWidget {
                                                                     .text_333
                                                                 : Colours
                                                                     .text_ccc,
-                                                        fontSize: 30.sp,
+                                                        fontSize: 32.sp,
                                                         fontWeight:
                                                             FontWeight.w500,
                                                       ),
@@ -250,7 +249,7 @@ class RepaymentBillView extends StatelessWidget {
                                     '优惠金额 (元)',
                                     style: TextStyle(
                                       color: Colours.text_666,
-                                      fontSize: 30.sp,
+                                      fontSize: 32.sp,
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
@@ -262,6 +261,7 @@ class RepaymentBillView extends StatelessWidget {
                                             hintText: '请填写优惠金额',
                                             counterText: '',
                                             border: InputBorder.none),
+                                        style: TextStyle(fontSize: 32.sp),
                                         textAlign: TextAlign.right,
                                         keyboardType: TextInputType.number,
                                         maxLength: 10,
@@ -304,7 +304,7 @@ class RepaymentBillView extends StatelessWidget {
                                         '收款金额 (元)',
                                         style: TextStyle(
                                           color: Colours.text_666,
-                                          fontSize: 30.sp,
+                                          fontSize: 32.sp,
                                           fontWeight: FontWeight.w400,
                                         ),
                                       ),
@@ -323,7 +323,7 @@ class RepaymentBillView extends StatelessWidget {
                                         '收款账户',
                                         style: TextStyle(
                                           color: Colours.text_666,
-                                          fontSize: 30.sp,
+                                          fontSize: 32.sp,
                                           fontWeight: FontWeight.w400,
                                         ),
                                       ),
@@ -344,9 +344,13 @@ class RepaymentBillView extends StatelessWidget {
                                       onTap: () =>
                                           controller.repaymentAmountUpdate(),
                                       decoration: InputDecoration(
-                                          counterText: '',
-                                          hintText: '请填写',
-                                          border: InputBorder.none),
+                                        counterText: '',
+                                        border: InputBorder.none,
+                                        hintText: '请填写',
+                                      ),
+                                      style: TextStyle(
+                                          fontSize: 32.sp
+                                      ),
                                       controller: state.repaymentController,
                                       textAlign: TextAlign.center,
                                       keyboardType: TextInputType.number,
@@ -397,7 +401,7 @@ class RepaymentBillView extends StatelessWidget {
                                                                         ?.name != null
                                                                 ? Colours.text_333
                                                                 : Colours.text_ccc,
-                                                    fontSize: 28.sp),
+                                                    fontSize: 32.sp),
                                                   )),
                                                   LoadAssetImage(
                                                     'common/arrow_right',
@@ -421,7 +425,7 @@ class RepaymentBillView extends StatelessWidget {
                                   '目前欠款',
                                   style: TextStyle(
                                     color: Colours.text_666,
-                                    fontSize: 30.sp,
+                                    fontSize: 32.sp,
                                     fontWeight: FontWeight.w400,
                                   ),
                                 ),
@@ -433,7 +437,7 @@ class RepaymentBillView extends StatelessWidget {
                                         '￥${state.customDTO?.creditAmount ?? ''}',
                                         style: TextStyle(
                                           color: Colours.text_333,
-                                          fontSize: 30.sp,
+                                          fontSize: 32.sp,
                                           fontWeight: FontWeight.w500,
                                         ),
                                       );
@@ -453,18 +457,25 @@ class RepaymentBillView extends StatelessWidget {
                                   '备注',
                                   style: TextStyle(
                                     color: Colours.text_666,
-                                    fontSize: 30.sp,
+                                    fontSize: 32.sp,
                                     fontWeight: FontWeight.w400,
                                   ),
                                 ),
                                 Expanded(
                                     flex: 3,
-                                    child: CustomTextField(
-                                      name: 'remark',
+                                    child: TextFormField(
+                                      controller: state.remarkController,
                                       textAlign: TextAlign.right,
-                                      hintText: '请填写',
+                                      decoration: InputDecoration(
+                                        counterText: '',
+                                        border: InputBorder.none,
+                                        hintText: '请填写',
+                                      ),
+                                      style: TextStyle(
+                                          fontSize: 32.sp
+                                      ),
                                       maxLength: 32,
-                                      keyboardType: TextInputType.emailAddress,
+                                      keyboardType: TextInputType.name,
                                     )),
                               ],
                             ),
@@ -524,7 +535,6 @@ class RepaymentBillView extends StatelessWidget {
                                           )))),
                               Expanded(
                                 child: ElevatedBtn(
-                                  // margin: EdgeInsets.only(top: 80.w),
                                   size: Size(double.infinity, 90.w),
                                   onPressed: () => controller.addRepayment(),
                                   radius: 15.w,

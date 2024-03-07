@@ -21,8 +21,6 @@ class AddDebtController extends GetxController {
     if (!state.formKey.currentState!.saveAndValidate(focusOnInvalid: false)) {
       return;
     }
-    String? debtMoney = state.formKey.currentState!.fields['debtMoney']?.value;
-    String? debtRemark = state.formKey.currentState!.fields['debtRemark']?.value;
     if (null == state.customDTO?.customName) {
       Toast.show('请选择欠款人');
       return;
@@ -32,8 +30,8 @@ class AddDebtController extends GetxController {
       'creditType': OrderType.CREDIT.value,
       'customId': state.customDTO?.id ,
       'creditDate':DateUtil.formatDate(state.date, format: DateFormats.y_mo_d),
-      'creditAmount': debtMoney,
-      'Remark': debtRemark,
+      'creditAmount': state.amountController.text,
+      'Remark': state.remarkController.text,
     }).then((result) {
       Loading.dismiss();
       if (result.success) {
@@ -72,9 +70,8 @@ class AddDebtController extends GetxController {
  }
 
   void addDebtGetBack() {
-    String? debtMoney = state.formKey.currentState?.fields['debtMoney']?.value;
-    String? debtRemark = state.formKey.currentState?.fields['debtRemark']?.value;
-    if((state.customDTO != null) || (debtRemark?.isNotEmpty ?? false )|| (debtMoney?.isNotEmpty ?? false)){
+    if((state.customDTO != null) || (state.remarkController.text.isNotEmpty)
+        || (state.amountController.text.isNotEmpty )){
       Get.dialog(AlertDialog(
           title: Text('是否确认退出'),
           content: Text('退出后将无法恢复'),

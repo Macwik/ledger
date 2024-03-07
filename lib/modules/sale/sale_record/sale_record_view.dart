@@ -944,7 +944,7 @@ class SaleRecordView extends StatelessWidget {
               height: 66.0,
               margin: EdgeInsets.all(30.w),
               child: FloatingActionButton(
-                onPressed: () => Get.offNamed(RouteConfig.saleBill, arguments: {
+                onPressed: () => Get.toNamed(RouteConfig.saleBill, arguments: {
                   'orderType': controller.state.orderType == OrderType.PURCHASE
                       ? OrderType.PURCHASE
                       : OrderType.SALE
