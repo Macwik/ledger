@@ -6,6 +6,7 @@ import 'package:ledger/entity/home/sales_payment_statistics_dto.dart';
 import 'package:ledger/entity/home/sales_product_statistics_dto.dart';
 import 'package:ledger/entity/home/sales_repayment_statistics_dto.dart';
 import 'package:ledger/enum/custom_type.dart';
+import 'package:ledger/enum/is_select.dart';
 import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/enum/unit_type.dart';
 import 'package:ledger/modules/home/home_controller.dart';
@@ -119,7 +120,7 @@ class HomeView extends StatelessWidget {
       leadingWidth: (ScreenUtil().screenWidth - 108.w),
       backgroundColor: Colors.white,
       leading: InkWell(
-        onTap: () => Get.toNamed(RouteConfig.myAccount),
+        onTap: () => Get.toNamed(RouteConfig.myAccount,arguments: {'isSelect':IsSelectType.FALSE.value}),
         child: Flex(
           direction: Axis.horizontal,
           crossAxisAlignment: CrossAxisAlignment.center,

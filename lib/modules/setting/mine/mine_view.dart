@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ledger/enum/is_select.dart';
 import 'package:ledger/res/export.dart';
 import 'package:ledger/util/image_util.dart';
 import 'package:ledger/widget/permission/permission_owner_widget.dart';
@@ -67,7 +68,7 @@ class MineView extends StatelessWidget {
               ),
             ),
             InkWell(
-              onTap: () => Get.toNamed(RouteConfig.myAccount),
+              onTap: () => Get.toNamed(RouteConfig.myAccount,arguments: {'isSelect':IsSelectType.FALSE.value}),
               child: Container(
                 color: Colors.white,
                 padding: EdgeInsets.symmetric(horizontal: 40.w,vertical: 32.w),

@@ -29,7 +29,7 @@ class SaleBillController extends GetxController {
     queryLedgerName();
     initPaymentMethodList();
     pendingOrderNum();
-    generateBatchNumber(state.orderType == OrderType.PURCHASE ? false : true);
+    generateBatchNumber(((state.orderType == OrderType.PURCHASE)||(state.orderType == OrderType.ADD_STOCK))? false : true);
     update(['bill_custom']);
   }
 
@@ -93,7 +93,7 @@ class SaleBillController extends GetxController {
     if (state.shoppingCarList.isEmpty) {
       Toast.show('请添加货物后再试');
       return;
-    } else if ((state.orderType ==OrderType.PURCHASE)
+    } else if (((state.orderType ==OrderType.PURCHASE)||(state.orderType ==OrderType.ADD_STOCK))
          && (state.textEditingController.text.isEmpty)) {
       Toast.show('请添填写批号后再试');
       return;
@@ -106,22 +106,26 @@ class SaleBillController extends GetxController {
         return;
       }
     }
-    Get.bottomSheet(
-        isScrollControlled: true,
-        PaymentDialog(
-            paymentMethods: state.paymentMethods!,
-            customDTO: state.customDTO,
-            orderType: state.orderType,
-            totalAmount: state.totalAmount,
-            onClick: (result) async {
-              state.orderPayDialogResult = result;
-              if (null != result?.customDTO) {
-                state.customDTO = result?.customDTO;
-              }
-              return await saveOrder();
-            }),
-        // ),
-        backgroundColor: Colors.white);
+    if(state.orderType ==OrderType.ADD_STOCK){
+      //执行保存入库命令代码
+      Toast.show('入库成功');
+    }else{
+      Get.bottomSheet(
+          isScrollControlled: true,
+          PaymentDialog(
+              paymentMethods: state.paymentMethods!,
+              customDTO: state.customDTO,
+              orderType: state.orderType,
+              totalAmount: state.totalAmount,
+              onClick: (result) async {
+                state.orderPayDialogResult = result;
+                if (null != result?.customDTO) {
+                  state.customDTO = result?.customDTO;
+                }
+                return await saveOrder();
+              }),
+          backgroundColor: Colors.white);
+    }
   }
 
   void toDeleteOrder(ProductShoppingCarDTO productShoppingCarDTO) {
@@ -212,8 +216,7 @@ class SaleBillController extends GetxController {
   void generateBatchNumber(bool? check) {
     state.checked = check ?? state.checked;
     if (check ?? false) {
-      var dateStr =
-          DateUtil.formatDate(DateTime.now(), format: DateFormats.YY_MM_DD_HH);
+      var dateStr = DateUtil.formatDate(DateTime.now(), format: DateFormats.YY_MM_DD_HH);
       var suffix = Uuid().v4().substring(0, 3);
       state.textEditingController.text = '$dateStr$suffix';
     } else {
@@ -245,7 +248,8 @@ class SaleBillController extends GetxController {
   void saleBillGetBack() {
     if ((state.customDTO != null) ||
         (state.shoppingCarList.isNotEmpty) ||
-        (state.remarkTextEditingController.text.isNotEmpty)) {
+        (state.remarkTextEditingController.text.isNotEmpty)
+    ) {
       Get.dialog(AlertDialog(
           title: Text('是否确认退出'),
           content: Text('退出后将无法恢复'),
@@ -262,7 +266,7 @@ class SaleBillController extends GetxController {
                   state.shoppingCarList.clear();
                   Get.until((route) {
                     return (route.settings.name == RouteConfig.purchase) ||
-                        (route.settings.name == RouteConfig.sale) ||
+                        (route.settings.name == RouteConfig.sale) ||(route.settings.name == RouteConfig.stock)||
                         (route.settings.name == RouteConfig.main);
                   }
                  );

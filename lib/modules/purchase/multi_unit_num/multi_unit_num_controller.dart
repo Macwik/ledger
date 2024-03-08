@@ -24,15 +24,15 @@ class MultiUnitNumController extends GetxController {
   void addUnit() {
     String? conversion;
     if (state.unitType == 1) {
-      conversion = state.formKeyWeight.currentState!.fields['conversion']?.value;
+      conversion = state.conversionWeightController.text;
     } else {
-      conversion = state.formKeyNum.currentState!.fields['conversion']?.value;
+      conversion = state.conversionNumController.text;
     }
     Loading.showDuration();
     Http().network<UnitDetailDTO>(Method.post, UnitApi.add_multi_unit, data: {
       'masterUnitId': state.selectedMasterOption?.id,
       'slaveUnitId': state.selectedSlaveOption?.id,
-      'conversion': Decimal.parse(conversion!),
+      'conversion': Decimal.parse(conversion),
       'unitType': state.unitType,
     }).then((result) {
       Loading.dismiss();

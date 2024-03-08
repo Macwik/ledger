@@ -4,7 +4,9 @@ enum OrderType {
   SALE_RETURN,
   PURCHASE_RETURN,
   CREDIT,
-  REPAYMENT}
+  REPAYMENT,
+  ADD_STOCK
+}
 
 extension OrderTypeExtension on OrderType {
   int get value {
@@ -21,6 +23,8 @@ extension OrderTypeExtension on OrderType {
         return 4;
       case OrderType.CREDIT:
         return 5;
+      case OrderType.ADD_STOCK:
+        return 6;
       default:
         throw Exception('Unsupported OrderType');
     }
@@ -41,6 +45,8 @@ extension OrderTypeExtension on OrderType {
         return '还款单';
       case OrderType.CREDIT:
         return '欠款单';
+      case OrderType.ADD_STOCK:
+        return '直接入库';
       default:
         throw Exception('Unsupported CustomDetailOrderType');
     }

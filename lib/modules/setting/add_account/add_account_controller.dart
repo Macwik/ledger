@@ -37,10 +37,9 @@ class AddAccountController extends GetxController {
     if (!state.formKey.currentState!.saveAndValidate(focusOnInvalid: false)) {
       return;
     }
-    String? ledgerName = state.formKey.currentState!.fields['account_name']?.value;
     Loading.showDuration();
     Http().network<int>(Method.post, LedgerApi.add_ledger, data: {
-      'ledgerName': ledgerName,
+      'ledgerName': state.nameController.text,
       'storeType': state.selectedStore,
       'businessScope': state.selectedBusinessScope,
     }).then((result) {
@@ -87,9 +86,7 @@ class AddAccountController extends GetxController {
   }
 
   void addAccountGetBack() {
-    String? ledgerName =
-        state.formKey.currentState?.fields['account_name']?.value;
-    if (ledgerName?.isNotEmpty ?? false) {
+    if (state.nameController.text.isNotEmpty ) {
       Get.dialog(AlertDialog(
           title: Text('是否确认退出'),
           content: Text('退出后将无法恢复'),

@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:ledger/modules/purchase/stock_list/stock_list_controller.dart';
 import 'package:ledger/modules/purchase/stock_list/stock_list_state.dart';
 import 'package:ledger/res/colors.dart';
 import 'package:ledger/route/route_config.dart';
 import 'package:ledger/util/date_util.dart';
 import 'package:ledger/util/picker_date_utils.dart';
 import 'package:ledger/util/toast_util.dart';
-import 'package:ledger/widget/custom_textfield.dart';
 import 'package:ledger/widget/elevated_btn.dart';
 
 import 'data_export_controller.dart';
@@ -53,11 +51,9 @@ class DataExportView extends StatelessWidget {
                             const Spacer(),
                             //ToDo 此处填充账套名字,默认是当前使用账套
                             Expanded(
-                              child: CustomTextField(
-                                name: 'account'
-                                    '账套名字',
+                              child: Text(
+                               '请选择',
                                 textAlign: TextAlign.end,
-                                readOnly: true,
                               ),
                             ),
                             Padding(
@@ -144,10 +140,9 @@ class DataExportView extends StatelessWidget {
                               const Spacer(),
                               //ToDo 此处填充货物名字,默认是全部
                               Expanded(
-                                child: CustomTextField(
-                                  name: 'goodsName',
+                                child: Text(
+                                  'goodsName',
                                   textAlign: TextAlign.end,
-                                  readOnly: true,
                                 ),
                               ),
                               Padding(

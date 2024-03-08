@@ -9,12 +9,9 @@ class AddRoleController extends GetxController {
   final AddRoleState state = AddRoleState();
 
   Future<void> addRole() async {
-    String? roleName = state.formKey.currentState!.fields['roleName']?.value;
-    String? roleDesc = state.formKey.currentState!.fields['roleDesc']?.value;
-
     Loading.showDuration();
     final result = await Http().network<void>(Method.post, AuthApi.add_role,
-        data: {'roleName': roleName, 'roleDesc': roleDesc});
+        data: {'roleName': state.nameController.text, 'roleDesc': state.remarkController.text});
     if (result.success) {
       Loading.dismiss();
       Get.back(result: ProcessStatus.OK);
@@ -29,10 +26,8 @@ class AddRoleController extends GetxController {
   }
 
  void addRoleGetBack() {
-   String? roleName = state.formKey.currentState?.fields['roleName']?.value;
-   String? roleDesc = state.formKey.currentState?.fields['roleDesc']?.value;
-    if ((roleName?.isNotEmpty ?? false) ||
-        (roleDesc?.isNotEmpty ?? false)) {
+    if ((state.nameController.text.isNotEmpty) ||
+        (state.remarkController.text.isNotEmpty)) {
       Get.dialog(AlertDialog(
           title: Text('是否确认退出'),
           content: Text('退出后将无法恢复'),

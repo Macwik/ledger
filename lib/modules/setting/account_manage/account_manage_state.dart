@@ -18,5 +18,5 @@ class AccountManageState {
 
  int? ledgerId;
 
-  TextEditingController? nameController;
+  TextEditingController nameController = TextEditingController();
 }

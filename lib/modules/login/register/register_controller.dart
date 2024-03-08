@@ -14,7 +14,7 @@ class RegisterController extends GetxController {
 
   /// 判断是否可以获取验证码
   bool checkGetVerify() {
-    return (state.formKey.currentState?.fields['phone']?.validate() ?? false) &&
+    return (state.phoneController.text.isNotEmpty) &&
         state.countdown.value <= 0;
   }
 
@@ -51,17 +51,13 @@ class RegisterController extends GetxController {
       Toast.show('请先阅读并同意隐私协议');
       return;
     }
-    String? phone = state.formKey.currentState?.fields['phone']?.value;
-    String? verifyCode =
-        state.formKey.currentState?.fields['verifyCode']?.value;
-    String? username = state.formKey.currentState?.fields['username']?.value;
     Loading.showDuration();
     final result =
         await Http().network<void>(Method.post, UserApi.register, data: {
-      'phone': phone,
-      'verifyCode': verifyCode,
+      'phone': state.phoneController.text,
+      'verifyCode': state.verifyController.text,
       'password': state.password,
-      'username': username,
+      'username': state.nameController.text,
       'gender': 2 //未知
     });
     Loading.dismiss();
@@ -74,9 +70,8 @@ class RegisterController extends GetxController {
   }
 
   Future<void> getVerifyCode() async {
-    String? phone = state.formKey.currentState?.fields['phone']?.value;
     final result = await Http().network<void>(Method.post, UserApi.verify_code,
-        queryParameters: {'phone': phone});
+        queryParameters: {'phone': state.phoneController.text});
     if (!result.success) {
       Toast.show(result.m.toString());
     } else {

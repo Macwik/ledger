@@ -237,56 +237,7 @@ class RepaymentBillView extends StatelessWidget {
                             Container(
                               color: Colours.divider,
                               height: 1.w,
-                              width: double.infinity,
-                            ),
-                            GetBuilder<RepaymentBillController>(
-                                id: 'repayment_discount_amount',
-                                builder: (_){
-                              return   Flex(
-                                direction: Axis.horizontal,
-                                children: [
-                                  Text(
-                                    '优惠金额 (元)',
-                                    style: TextStyle(
-                                      color: Colours.text_666,
-                                      fontSize: 32.sp,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                  Expanded(
-                                      child: TextFormField(
-                                        onTap: () => controller.discountAmountUpdate(),
-                                        controller: state.discountController,
-                                        decoration: InputDecoration(
-                                            hintText: '请填写优惠金额',
-                                            counterText: '',
-                                            border: InputBorder.none),
-                                        style: TextStyle(fontSize: 32.sp),
-                                        textAlign: TextAlign.right,
-                                        keyboardType: TextInputType.number,
-                                        maxLength: 10,
-                                        validator: (value) {
-                                          if ((null == value) || value.isEmpty) {
-                                            return null; // 非必填项目为空时不进行验证
-                                          }
-                                          String text = state.discountController.text;
-                                          var repaymentAmount =
-                                          Decimal.tryParse(text);
-                                          if (null == repaymentAmount) {
-                                            return '还款金额请输入数字';
-                                          } else if (repaymentAmount < Decimal.zero) {
-                                            return '还款金额不能小于0';
-                                          }
-                                          return null;
-                                        },
-                                      ))
-                                ],
-                              );
-                            }),
-                            Container(
-                              color: Colours.divider,
-                              height: 1.w,
-                              margin: EdgeInsets.only(top: 30.w, bottom: 40.w),
+                              margin: EdgeInsets.only( bottom: 30.w),
                               width: double.infinity,
                             ),
                             Flex(
@@ -416,7 +367,56 @@ class RepaymentBillView extends StatelessWidget {
                             Container(
                               color: Colours.divider,
                               height: 1.w,
-                              margin: EdgeInsets.only(top: 10.w, bottom: 30.w),
+                              width: double.infinity,
+                            ),
+                            GetBuilder<RepaymentBillController>(
+                                id: 'repayment_discount_amount',
+                                builder: (_){
+                                  return   Flex(
+                                    direction: Axis.horizontal,
+                                    children: [
+                                      Text(
+                                        '抹零金额 (元)',
+                                        style: TextStyle(
+                                          color: Colours.text_666,
+                                          fontSize: 32.sp,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                      Expanded(
+                                          child: TextFormField(
+                                            onTap: () => controller.discountAmountUpdate(),
+                                            controller: state.discountController,
+                                            decoration: InputDecoration(
+                                                hintText: '抹零会平摊到还款货物中',
+                                                counterText: '',
+                                                border: InputBorder.none),
+                                            style: TextStyle(fontSize: 32.sp),
+                                            textAlign: TextAlign.right,
+                                            keyboardType: TextInputType.number,
+                                            maxLength: 10,
+                                            validator: (value) {
+                                              if ((null == value) || value.isEmpty) {
+                                                return null; // 非必填项目为空时不进行验证
+                                              }
+                                              String text = state.discountController.text;
+                                              var repaymentAmount =
+                                              Decimal.tryParse(text);
+                                              if (null == repaymentAmount) {
+                                                return '还款金额请输入数字';
+                                              } else if (repaymentAmount < Decimal.zero) {
+                                                return '还款金额不能小于0';
+                                              }
+                                              return null;
+                                            },
+                                          ))
+                                    ],
+                                  );
+                                }),
+                            Container(
+                              color: Colours.divider,
+                              height: 1.w,
+                              margin: EdgeInsets.only( bottom: 40.w),
                               width: double.infinity,
                             ),
                             Row(

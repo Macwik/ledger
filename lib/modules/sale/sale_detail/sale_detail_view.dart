@@ -74,101 +74,105 @@ class SaleDetailView extends StatelessWidget {
           child: RepaintBoundary(
               key: salesDetailKey,
               child: Column(children: [
+                // GetBuilder<SaleDetailController>(
+                //     id: 'sale_detail_title',
+                //     builder: (_) {
+                //       return Container(
+                //           color: Colors.white,
+                //           padding: EdgeInsets.only(
+                //               left: 20, right: 20, top: 16, bottom: 10),
+                //           child: Flex(
+                //             direction: Axis.horizontal,
+                //             children: [
+                //               Text(
+                //                 '合计：',
+                //                 style: TextStyle(
+                //                   color: Colours.text_999,
+                //                   fontSize: 30.sp,
+                //                   fontWeight: FontWeight.w500,
+                //                 ),
+                //               ),
+                //
+                //               Expanded(
+                //                 child: Row(
+                //                   mainAxisAlignment: MainAxisAlignment.end,
+                //                   children: [
+                //                     Text(controller.buildTotalAmount(),
+                //                         style: TextStyle(
+                //                           color:
+                //                               state.orderDetailDTO?.invalid ==
+                //                                       IsDeleted.DELETED.value
+                //                                   ? Colours.text_ccc
+                //                                   : Colors.orange,
+                //                           fontSize: 38.sp,
+                //                           fontWeight: FontWeight.w400,
+                //                         )),
+                //                   ],
+                //                 ),
+                //               ),
+                //             ],
+                //           ));
+                //     }),
+                // Container(
+                //   color:
+                //       state.orderDetailDTO?.invalid == IsDeleted.DELETED.value
+                //           ? Colours.text_ccc
+                //           : Colors.orange,
+                //   height: 2.w,
+                //   width: double.infinity,
+                // ),
+                //货物详情
                 GetBuilder<SaleDetailController>(
                     id: 'sale_detail_title',
-                    builder: (_) {
-                      return Container(
-                          color: Colors.white,
-                          padding: EdgeInsets.only(
-                              left: 20, right: 20, top: 16, bottom: 10),
-                          child: Flex(
-                            direction: Axis.horizontal,
-                            children: [
-                              Text(
-                                '合计：',
-                                style: TextStyle(
-                                  color: Colours.text_999,
-                                  fontSize: 30.sp,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Visibility(
-                                  visible: state.orderDetailDTO?.invalid ==
-                                      IsDeleted.DELETED.value,
-                                  child: Container(
-                                    padding: EdgeInsets.only(
-                                        top: 2.w,
-                                        bottom: 2.w,
-                                        left: 4.w,
-                                        right: 4.w),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: Colors.red,
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    child: Text('已作废',
-                                        style: TextStyle(
-                                          color: Colors.red,
-                                          fontSize: 30.sp,
-                                          fontWeight: FontWeight.w500,
-                                        )),
-                                  )),
-                              Expanded(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Text(controller.buildTotalAmount(),
-                                        style: TextStyle(
-                                          color:
-                                              state.orderDetailDTO?.invalid ==
-                                                      IsDeleted.DELETED.value
-                                                  ? Colours.text_ccc
-                                                  : Colors.orange,
-                                          fontSize: 38.sp,
-                                          fontWeight: FontWeight.w400,
-                                        )),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ));
-                    }),
-                Container(
-                  color:
-                      state.orderDetailDTO?.invalid == IsDeleted.DELETED.value
-                          ? Colours.text_ccc
-                          : Colors.orange,
-                  height: 2.w,
-                  width: double.infinity,
-                ),
-                //货物详情
-                Container(
-                  padding: EdgeInsets.only(left: 40.w, right: 40.w, top: 30.w),
-                  width: double.infinity,
-                  color: Colors.white,
-                  child: Row(
-                    children: [
-                      Container(
-                        color: Colours.primary,
-                        height: 38.w,
-                        width: 8.w,
-                      ),
-                      Container(
-                        color: Colors.white,
-                        margin: EdgeInsets.only(left: 6),
-                        child: Text(
-                          '货物明细',
-                          style: TextStyle(
-                              color: Colours.text_666,
-                              fontSize: 36.sp,
-                              fontWeight: FontWeight.w600),
+                    builder: (_){
+                  return Container(
+                    padding: EdgeInsets.only(left: 40.w, right: 40.w, top: 30.w),
+                    width: double.infinity,
+                    color: Colors.white,
+                    child: Row(
+                      children: [
+                        Container(
+                          color: Colours.primary,
+                          height: 38.w,
+                          width: 8.w,
                         ),
-                      ),
-                    ],
-                  ),
-                ),
+                        Container(
+                          color: Colors.white,
+                          margin: EdgeInsets.only(left: 6.w,right:32.w ),
+                          child: Text(
+                            '货物明细',
+                            style: TextStyle(
+                                color: Colours.text_666,
+                                fontSize: 36.sp,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                        Visibility(
+                            visible: state.orderDetailDTO?.invalid == IsDeleted.DELETED.value,
+                            child: Container(
+                              padding: EdgeInsets.only(
+                                  top: 2.w,
+                                  bottom: 2.w,
+                                  left: 4.w,
+                                  right: 4.w),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.red,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: Text('已作废',
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 30.sp,
+                                    fontWeight: FontWeight.w500,
+                                  )),
+                            )),
+                      ],
+                    ),
+                  );
+                }),
                 GetBuilder<SaleDetailController>(
                     id: 'product_detail',
                     builder: (_) {

@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:ledger/config/api/ledger_api.dart';
 import 'package:ledger/entity/ledger/user_ledger_dto.dart';
+import 'package:ledger/enum/is_select.dart';
 import 'package:ledger/enum/process_status.dart';
 import 'package:ledger/res/export.dart';
 import 'package:ledger/store/store_controller.dart';
@@ -11,6 +12,10 @@ class MyAccountController extends GetxController {
   final MyAccountState state = MyAccountState();
 
   Future<void> onLoad() async {
+    var arguments = Get.arguments;
+    if ((arguments != null) && arguments['isSelect'] != null) {
+      state.isSelect = arguments['isSelect'];
+    }
     await listLedger();
   }
 
@@ -96,12 +101,29 @@ class MyAccountController extends GetxController {
   }
 
   void accountManage(int? id) {
-    Get.toNamed(RouteConfig.accountManage,
-        arguments: {'ledgerId': id
-        })?.then((value){
-      if (ProcessStatus.OK == value) {
-        listLedger();
-      }
-    });
+    if(state.isSelect == IsSelectType.FALSE.value){
+      Get.toNamed(RouteConfig.accountManage,
+          arguments: {'ledgerId': id
+          })?.then((value){
+        if (ProcessStatus.OK == value) {
+          listLedger();
+        }
+      });
+    }else{
+      Get.back(result: id );
+    }
+
+  }
+
+  void joiningAccountManage(int? id) {
+    if(state.isSelect == IsSelectType.FALSE.value){
+      Get.toNamed(
+          RouteConfig.accountManage,
+          arguments: {
+            'ledgerId': id
+          });
+    }else{
+      Toast.show('不能选择我参与的账本');
+    }
   }
 }

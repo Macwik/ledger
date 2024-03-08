@@ -3,7 +3,6 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger/res/colors.dart';
-import 'package:ledger/widget/custom_textfield.dart';
 import 'package:ledger/widget/elevated_btn.dart';
 import 'package:ledger/widget/image.dart';
 import 'package:ledger/widget/will_pop.dart';
@@ -87,7 +86,7 @@ class AccountManageView extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              Text('店铺名'),
+                              Text('店铺名',style: TextStyle(fontSize: 32.sp),),
                               Expanded(
                                   child: Container(
                                       margin: EdgeInsets.only(left: 20),
@@ -111,13 +110,27 @@ class AccountManageView extends StatelessWidget {
                                           width: 1.0,
                                         ),
                                       ),
-                                      child: CustomTextField(
-                                          name: 'AccountName',
-                                          hintText: '请输入店铺名称',
+                                      child: TextFormField(
                                         controller:state.nameController,
-                                        keyboardType: TextInputType.emailAddress,
+                                        decoration: InputDecoration(
+                                          counterText: '',
+                                          border: InputBorder.none,
+                                          hintText: '请填写店铺名称',
+                                        ),
+                                        style: TextStyle(
+                                            fontSize: 32.sp
+                                        ),
+                                        keyboardType: TextInputType.name,
                                         maxLength: 15,
                                         readOnly: !state.isEdit,
+                                          validator: (value) {
+                                            var text = state.nameController.text;
+                                            if (text.isEmpty) {
+                                              return '店铺名不能为空';
+                                            } else {
+                                              return null;
+                                            }
+                                          }
                                       ))),
                             ],
                           ),
@@ -126,7 +139,7 @@ class AccountManageView extends StatelessWidget {
                             direction: Axis.horizontal,
                             children: [
                     Expanded(
-                    child:Text('店铺类型')),
+                    child:Text('店铺类型',style: TextStyle(fontSize: 32.sp),)),
                               SizedBox(width: 10),
                               GetBuilder<AccountManageController>(
                                 id: 'storeType',
@@ -148,7 +161,7 @@ class AccountManageView extends StatelessWidget {
                                               ? Colors.white
                                               : Colors.black,
                                     ),
-                                    child: Text('批发商'),
+                                    child: Text('批发商',style: TextStyle(fontSize: 32.sp),),
                                   ),
                                   SizedBox(width: 10),
                                   ElevatedButton(
@@ -157,7 +170,7 @@ class AccountManageView extends StatelessWidget {
                                         controller.changeStoreType(1);
                                       }
                                     },
-                                    child: Text('货主'),
+                                    child: Text('货主',style: TextStyle(fontSize: 32.sp),),
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor:
                                           controller.isSelectedStoreType(1)
@@ -181,7 +194,7 @@ class AccountManageView extends StatelessWidget {
                             Expanded(
                                 child: Container(
                               margin: EdgeInsets.only(right: 10),
-                              child: Text('经营类型'),
+                              child: Text('经营类型',style: TextStyle(fontSize: 32.sp),),
                             )),
                             GetBuilder<AccountManageController>(
                                 id: 'businessScope',
@@ -203,13 +216,13 @@ class AccountManageView extends StatelessWidget {
                                                 ? Colors.white
                                                 : Colors.black,
                                           ),
-                                          child: Text('水果'),
+                                          child: Text('水果',style: TextStyle(fontSize: 32.sp),),
                                         ),
                                         ElevatedButton(
                                           onPressed: () {
                                             if(state.isEdit){  controller.changeBusinessScope(1);
                                             }},
-                                          child: Text('蔬菜'),
+                                          child: Text('蔬菜',style: TextStyle(fontSize: 32.sp),),
                                           style: ElevatedButton.styleFrom(
                                             backgroundColor:
                                             controller.isSelectedBusinessScope(1)
@@ -224,7 +237,7 @@ class AccountManageView extends StatelessWidget {
                                         ElevatedButton(
                                           onPressed: () =>
                                               controller.changeBusinessScope(2),
-                                          child: Text('粮油'),
+                                          child: Text('粮油',style: TextStyle(fontSize: 32.sp),),
                                           style: ElevatedButton.styleFrom(
                                             backgroundColor:
                                             controller.isSelectedBusinessScope(2)
@@ -256,11 +269,7 @@ class AccountManageView extends StatelessWidget {
                                 child:ElevatedBtn(
                                   margin: EdgeInsets.only(top: 80.w),
                                   size: Size(double.infinity, 90.w),
-                                  onPressed: () => (state.formKey.currentState!
-                                      .fields['AccountName']?.isValid ??
-                                      false)
-                                      ? controller.updateAccount()
-                                      : null,
+                                  onPressed: () => controller.updateAccount(),
                                   radius: 15.w,
                                   backgroundColor: Colours.primary,
                                   text: '保存',

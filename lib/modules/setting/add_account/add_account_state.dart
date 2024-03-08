@@ -9,4 +9,6 @@ class AddAccountState {
   var selectedBusinessScope = 0;
 
   final formKey = GlobalKey<FormBuilderState>();
+
+  TextEditingController nameController = TextEditingController();
 }

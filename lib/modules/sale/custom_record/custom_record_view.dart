@@ -295,7 +295,7 @@ class CustomRecordView extends StatelessWidget {
                           height: 120.w,
                           child: IconButton(
                             onPressed: () {
-                              controller.toAddCustom();
+                              controller.toAddCustom(context);
                             },
                             icon: Icon(Icons.add),
                             color: Colors.redAccent,
