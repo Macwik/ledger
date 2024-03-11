@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger/entity/custom/custom_dto.dart';
-import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/res/colors.dart';
 import 'package:ledger/widget/empty_layout.dart';
 
@@ -27,7 +26,7 @@ class CustomListView extends StatelessWidget {
           global: false,
           builder: (_) {
             return Text(
-              controller.state.orderType == OrderType.SALE.value ? '供应商' : '客户',
+              '请选要导入的内容',
               style: TextStyle(color: Colors.white),
             );
           },
@@ -36,36 +35,6 @@ class CustomListView extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Flex(
-            direction: Axis.horizontal,
-            children: [
-              Expanded(
-                flex: 1,
-                child: Container(
-                  height: 120.w,
-                  color: Colors.white60,
-                  padding: EdgeInsets.all(10.w),
-                  child: SearchBar(
-                    leading: Icon(
-                      Icons.search,
-                      color: Colors.grey,
-                    ),
-                    hintText: '请输入客户名称',
-                    onChanged: (value) => controller.searchCustom(value),
-                  ),
-                ),
-              ),
-              Container(
-                  color: Colors.white60,
-                  child: IconButton(
-                    onPressed: () {
-                      controller.toAddCustom();
-                    },
-                    icon: Icon(Icons.add),
-                    color: Colors.redAccent,
-                  ))
-            ],
-          ),
           GetBuilder<CustomListController>(
               id: 'custom_list',
               init: controller,
