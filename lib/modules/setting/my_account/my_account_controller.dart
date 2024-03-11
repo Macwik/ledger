@@ -42,24 +42,30 @@ class MyAccountController extends GetxController {
         confirm: '确定',
         content: '确认切换账本吗',
         onCancel: () {},
-        onConfirm: () {
+        onConfirm: () async {
           Loading.showDuration();
-          Http().network(Method.put, LedgerApi.ledger_change, queryParameters: {
+          await Http().network(Method.put, LedgerApi.ledger_change, queryParameters: {
             'ledgerId': ledgerId,
           }).then((result) {
-            Loading.dismiss();
-            if (result.success) {
-              Get.defaultDialog(
-                  title: '提示',
-                  barrierDismissible: false,
-                  middleText: '账本切换成功, 请重新登录',
-                  onConfirm: () {
-                    StoreController.to.signOut();
-                    Get.offAllNamed(RouteConfig.loginVerify);
-                  });
-            } else {
-              Toast.show(result.m.toString());
+            if(result.success){
+
+              StoreController.to.signOut();
+              Loading.dismiss();
+            }else{
+              Toast.showError(result.m.toString());
             }
+            // if (result.success) {
+            //   Get.defaultDialog(
+            //       title: '提示',
+            //       barrierDismissible: false,
+            //       middleText: '账本切换成功, 请重新登录',
+            //       onConfirm: () {
+            //         StoreController.to.signOut();
+            //         Get.offAllNamed(RouteConfig.loginVerify);
+            //       });
+            // } else {
+            //   Toast.show(result.m.toString());
+            // }
           });
         },
       ),

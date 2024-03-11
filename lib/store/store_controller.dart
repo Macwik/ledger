@@ -66,6 +66,7 @@ class StoreController extends GetxController {
     _changeLoginStatus(true);
   }
 
+
   Future<void> updateUser(String? username) async {
     userEntity.value.username = username;
     await GetStorage().write(Constant.CURRENT_USER, userEntity.value.toJson());
