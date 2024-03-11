@@ -87,6 +87,7 @@ class StockChangeSingleDialog extends StatelessWidget {
                       Expanded(
                         flex: 1,
                         child: TextFormField(
+                          onChanged: (value){controller.update(['profit_and_loss']);},
                           controller:  controller.stockChangeController,
                           autofocus: true,
                           onTap: () {
@@ -151,12 +152,16 @@ class StockChangeSingleDialog extends StatelessWidget {
                             color: Colors.black87,
                           ),
                         ),
-                        Text(widgetProfitAndLoss(),
-                          style: TextStyle(
-                            fontSize: 32.sp,
-                            color: Colors.black87,
-                          ),
-                        ),
+                        GetBuilder(
+                            id: 'profit_and_loss',
+                            builder: (_){
+                          return  Text(widgetProfitAndLoss(),
+                            style: TextStyle(
+                              fontSize: 32.sp,
+                              color: Colors.black87,
+                            ),
+                          );
+                        }),
                         Text(
                           productDTO.unitDetailDTO?.unitName ?? '',
                           style: TextStyle(
