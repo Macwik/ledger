@@ -1,4 +1,5 @@
 import 'package:flutter/animation.dart';
+import 'package:flutter_bugly/flutter_bugly.dart';
 import 'package:get/get.dart';
 import 'package:ledger/modules/home/home_binding.dart';
 import 'package:ledger/modules/home/home_controller.dart';
@@ -15,11 +16,30 @@ import 'main_state.dart';
 class MainController extends GetxController {
   final MainState state = MainState();
 
+  @override
+  void onInit() {
+    FlutterBugly.init(
+      androidAppId: '8441e68dc5',
+      iOSAppId: 'e3ec751bd3',
+    );
+    FlutterBugly.setAppChannel('Android');
+    FlutterBugly.setUserId(StoreController.to.getUser()?.toString() ?? '');
+    FlutterBugly.putUserData(
+        key: 'user', value: StoreController.to.getUser()?.toString() ?? '');
+    super.onInit();
+  }
+
+  @override
+  void onClose() {
+    FlutterBugly.dispose();
+  }
+
   int getSelectIndex() => state.selectedIndex.value;
 
   void selectTab(int currentIndex) async {
     state.selectedIndex.value = currentIndex;
-    state.pageController.animateToPage(currentIndex,
+    state.pageController
+        .animateToPage(currentIndex,
             duration: Duration(milliseconds: 300), // 动画持续时间
             curve: Curves.ease)
         .then((value) {

@@ -13,6 +13,7 @@ import 'dart:async';
 import 'login_verify_state.dart';
 
 class LoginVerifyController extends GetxController {
+
   final LoginVerifyState state = LoginVerifyState();
   static const String GET_VAR_ID_PAGE_TITLE = 'GET_VAR_ID_PAGE_TITLE';
   static const String GET_VAR_ID_LOGIN_TYPE = 'GET_VAR_ID_LOGIN_TYPE';

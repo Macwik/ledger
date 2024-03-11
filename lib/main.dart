@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
-import 'package:ledger/store/store_controller.dart';
 import 'package:lifecycle/lifecycle.dart';
 import 'util/theme_util.dart';
 
@@ -94,20 +93,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    FlutterBugly.init(
-      androidAppId: '8441e68dc5',
-      iOSAppId: 'e3ec751bd3',
-    );
-    FlutterBugly.setAppChannel('Android');
-    FlutterBugly.setUserId(StoreController.to.getUser()?.toString() ?? '');
-    FlutterBugly.putUserData(
-        key: 'user', value: StoreController.to.getUser()?.toString() ?? '');
     Application.getInstance().init();
-  }
-
-  @override
-  void dispose() {
-    FlutterBugly.dispose();
-    super.dispose();
   }
 }
