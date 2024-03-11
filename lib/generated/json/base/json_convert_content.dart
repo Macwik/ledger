@@ -36,6 +36,7 @@ import 'package:ledger/entity/order/order_product_request.dart';
 import 'package:ledger/entity/payment/order_pay_dialog_result.dart';
 import 'package:ledger/entity/payment/order_payment_request.dart';
 import 'package:ledger/entity/payment/payment_method_dto.dart';
+import 'package:ledger/entity/product/product_add_stock_car_dto.dart';
 import 'package:ledger/entity/product/product_classify_dto.dart';
 import 'package:ledger/entity/product/product_classify_list_dto.dart';
 import 'package:ledger/entity/product/product_create_dto.dart';
@@ -328,6 +329,10 @@ class JsonConvert {
       return data.map<PaymentMethodDTO>((Map<String, dynamic> e) =>
           PaymentMethodDTO.fromJson(e)).toList() as M;
     }
+    if (<ProductAddStockCarDTO>[] is M) {
+      return data.map<ProductAddStockCarDTO>((Map<String, dynamic> e) =>
+          ProductAddStockCarDTO.fromJson(e)).toList() as M;
+    }
     if (<ProductClassifyDTO>[] is M) {
       return data.map<ProductClassifyDTO>((Map<String, dynamic> e) =>
           ProductClassifyDTO.fromJson(e)).toList() as M;
@@ -496,6 +501,7 @@ class JsonConvertClassCollection {
     (OrderPayDialogResult).toString(): OrderPayDialogResult.fromJson,
     (OrderPaymentRequest).toString(): OrderPaymentRequest.fromJson,
     (PaymentMethodDTO).toString(): PaymentMethodDTO.fromJson,
+    (ProductAddStockCarDTO).toString(): ProductAddStockCarDTO.fromJson,
     (ProductClassifyDTO).toString(): ProductClassifyDTO.fromJson,
     (ProductClassifyListDTO).toString(): ProductClassifyListDTO.fromJson,
     (ProductCreateDTO).toString(): ProductCreateDTO.fromJson,

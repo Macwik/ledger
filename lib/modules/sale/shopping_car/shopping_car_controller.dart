@@ -18,10 +18,10 @@ import 'package:ledger/res/colors.dart';
 import 'package:ledger/route/route_config.dart';
 import 'package:ledger/util/decimal_util.dart';
 import 'package:ledger/util/toast_util.dart';
-import 'package:ledger/widget/dialog_widget/add_stock_dialog.dart';
+import 'package:ledger/widget/dialog_widget/add_stock_dialog/add_stock_dialog.dart';
 import 'package:ledger/widget/dialog_widget/product_unit_dialog.dart';
-import 'package:ledger/widget/dialog_widget/stock_change/stock_change_multi_dialog.dart';
-import 'package:ledger/widget/dialog_widget/stock_change/stock_change_single_dialog.dart';
+import 'package:ledger/widget/dialog_widget/stock_change/multi/stock_change_multi_dialog.dart';
+import 'package:ledger/widget/dialog_widget/stock_change/single/stock_change_single_dialog.dart';
 import 'package:ledger/widget/empty_layout.dart';
 import 'package:ledger/widget/image.dart';
 
@@ -449,13 +449,11 @@ class ShoppingCarController extends GetxController {
           content: SingleChildScrollView(
             child: AddStockDialog(
               productDTO: productDTO,
-              orderType: state.orderType,
               onClick: (result) {
-                state.shoppingCarList?.add(result);
+                state.addStockCarList?.add(result);
                 update(['shopping_car_box']);
                 return true;
               },
-              controller: this,
             ),
           ),
         ));

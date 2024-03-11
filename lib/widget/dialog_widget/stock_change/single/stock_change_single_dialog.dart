@@ -12,16 +12,23 @@ import 'package:ledger/enum/process_status.dart';
 import 'package:ledger/res/colors.dart';
 import 'package:ledger/util/decimal_util.dart';
 import 'package:ledger/util/toast_util.dart';
+import 'package:ledger/widget/dialog_widget/stock_change/single/stock_change_single_dialog_binding.dart';
+import 'package:ledger/widget/dialog_widget/stock_change/single/stock_change_single_dialog_controller.dart';
 
 class StockChangeSingleDialog extends StatelessWidget {
   final formKey = GlobalKey<FormBuilderState>();
 
   final ProductDTO productDTO;
+  late final StockChangeSingleDialogController controller;
   final bool Function(ProductStockAdjustRequest? result) onClick;
 
-  TextEditingController stockChangeController = TextEditingController();
-
-  StockChangeSingleDialog({required this.productDTO, required this.onClick});
+  StockChangeSingleDialog({
+    required this.productDTO,
+    required this.onClick}) {
+    StockChangeSingleDialogBinding().dependencies();
+    controller = Get.find<StockChangeSingleDialogController>();
+    controller.stockChangeController.text = DecimalUtil.formatDecimalNumber(productDTO.unitDetailDTO?.number);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,10 +87,10 @@ class StockChangeSingleDialog extends StatelessWidget {
                       Expanded(
                         flex: 1,
                         child: TextFormField(
-                          controller: stockChangeController = TextEditingController(text: DecimalUtil.formatDecimalNumber(productDTO.unitDetailDTO?.number)),
+                          controller:  controller.stockChangeController,
                           autofocus: true,
                           onTap: () {
-                            stockChangeController.selection = TextSelection(baseOffset: 0, extentOffset: stockChangeController.value.text.length);
+                            controller.stockChangeController.selection = TextSelection(baseOffset: 0, extentOffset: controller.stockChangeController.value.text.length);
                           },
                           decoration: InputDecoration(
                             counterText: '',
@@ -225,7 +232,7 @@ class StockChangeSingleDialog extends StatelessWidget {
         productName: productDTO.productName,
         unitName: productDTO.unitDetailDTO?.unitName,
         unitType: productDTO.unitDetailDTO?.unitType,
-        stock: Decimal.tryParse(stockChangeController.text));
+        stock: Decimal.tryParse(controller.stockChangeController.text));
   }
 
   String widgetProfitAndLoss() {
@@ -233,7 +240,7 @@ class StockChangeSingleDialog extends StatelessWidget {
     if((productDTO.unitDetailDTO==null)||(productDTO.unitDetailDTO?.number == null)){
       productNum = Decimal.zero;
     }
-    String? num = stockChangeController.text;
+    String? num = controller.stockChangeController.text;
     Decimal? numDec = Decimal.tryParse(num);
     return DecimalUtil.subtract((productNum??Decimal.zero),(numDec??Decimal.zero));
   }

@@ -4,9 +4,10 @@ import 'package:get/get.dart';
 import 'package:ledger/entity/unit/unit_detail_dto.dart';
 import 'package:ledger/util/decimal_util.dart';
 
-class StockChangeController extends GetxController {
+class StockChangeMultiDialogController extends GetxController {
   final TextEditingController masterStockController = TextEditingController();
   final TextEditingController slaveStockController = TextEditingController();
+
 
   void updateMasterStock(UnitDetailDTO? unitDetailDTO) {
     var masterStock = masterStockController.text;

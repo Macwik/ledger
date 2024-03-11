@@ -9,17 +9,25 @@ import 'package:ledger/enum/process_status.dart';
 import 'package:ledger/res/colors.dart';
 import 'package:ledger/util/decimal_util.dart';
 import 'package:ledger/util/toast_util.dart';
-import 'package:ledger/widget/dialog_widget/stock_change/stock_change_controller.dart';
+import 'package:ledger/widget/dialog_widget/stock_change/multi/stock_change_multi_dialog_binding.dart';
+import 'package:ledger/widget/dialog_widget/stock_change/multi/stock_change_multi_dialog_controller.dart';
 
 class StockChangeMultiDialog extends StatelessWidget {
   final formKey = GlobalKey<FormBuilderState>();
-  final StockChangeController stockChangeController =
-      Get.put<StockChangeController>(StockChangeController());
 
   final ProductDTO productDTO;
+  late final StockChangeMultiDialogController controller;
   final Function(ProductStockAdjustRequest? result) onClick;
 
-  StockChangeMultiDialog({required this.productDTO, required this.onClick});
+  StockChangeMultiDialog({
+    required this.productDTO,
+    required this.onClick}){
+    StockChangeMultiDialogBinding().dependencies();
+    controller = Get.find<StockChangeMultiDialogController>();
+    controller.masterStockController.text = DecimalUtil.formatDecimalDefault(productDTO.unitDetailDTO?.masterNumber);
+    controller.slaveStockController.text = DecimalUtil.formatDecimalDefault(productDTO.unitDetailDTO?.slaveNumber
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,24 +50,27 @@ class StockChangeMultiDialog extends StatelessWidget {
                           color: Colours.text_666,
                         ),
                       ),
-                      Expanded(child:
-                      Container(
+                      Expanded(
+                          child: Container(
                               alignment: Alignment.center,
-                              child: Text('${DecimalUtil.formatDecimalNumber(productDTO.unitDetailDTO?.slaveNumber,)}'
-                                  '${productDTO.unitDetailDTO?.slaveUnitName} | '
-                                  '${DecimalUtil.formatDecimalNumber(productDTO.unitDetailDTO?.masterNumber)}'
-                               '${productDTO.unitDetailDTO?.masterUnitName}',
+                              child: Text(
+                                '${DecimalUtil.formatDecimalNumber(
+                                  productDTO.unitDetailDTO?.slaveNumber,
+                                )}'
+                                '${productDTO.unitDetailDTO?.slaveUnitName} | '
+                                '${DecimalUtil.formatDecimalNumber(productDTO.unitDetailDTO?.masterNumber)}'
+                                '${productDTO.unitDetailDTO?.masterUnitName}',
                                 style: TextStyle(
                                   fontSize: 32.sp,
                                   color: Colours.text_666,
-                                ),)
-                      )),
+                                ),
+                              ))),
                     ],
                   ),
                   Container(
                     color: Colours.divider,
                     height: 2.w,
-                    margin: EdgeInsets.only(top: 24.w,bottom: 8.w),
+                    margin: EdgeInsets.only(top: 24.w, bottom: 8.w),
                     width: double.infinity,
                   ),
                   Flex(
@@ -68,32 +79,40 @@ class StockChangeMultiDialog extends StatelessWidget {
                       Text(
                         '实际数量',
                         style: TextStyle(
-                           fontSize: 32.sp,
+                          fontSize: 32.sp,
                           color: Colours.text_666,
                         ),
                       ),
                       Expanded(
                         flex: 1,
                         child: TextFormField(
-                          controller: stockChangeController.slaveStockController,
+                          onChanged: (value){controller.update(['profit_and_loss']);},
+                          controller:
+                              controller.slaveStockController,
                           onTap: () {
-                            stockChangeController.updateSlaveStock(productDTO.unitDetailDTO);
-                            stockChangeController.slaveStockController.selection =
-                                TextSelection(baseOffset: 0,
-                                    extentOffset: stockChangeController.slaveStockController.value.text.length);
+                            controller
+                                .updateSlaveStock(productDTO.unitDetailDTO);
+                            controller
+                                    .slaveStockController.selection =
+                                TextSelection(
+                                    baseOffset: 0,
+                                    extentOffset: controller
+                                        .slaveStockController
+                                        .value
+                                        .text
+                                        .length);
                           },
                           textAlign: TextAlign.center,
                           maxLength: 10,
                           decoration: InputDecoration(
                               counterText: '',
                               hintText: '0.00',
-                            border:InputBorder.none
-                          ),
+                              border: InputBorder.none),
                           style: TextStyle(fontSize: 32.sp),
                           keyboardType: TextInputType.number,
                           validator: (value) {
                             var slaveStockStr =
-                                stockChangeController.slaveStockController.text;
+                                controller.slaveStockController.text;
                             if (slaveStockStr.isEmpty) {
                               return '请输入商品辅单位数量';
                             }
@@ -110,7 +129,7 @@ class StockChangeMultiDialog extends StatelessWidget {
                       Text(
                         productDTO.unitDetailDTO?.slaveUnitName ?? '',
                         style: TextStyle(
-                           fontSize: 32.sp,
+                          fontSize: 32.sp,
                           color: Colours.text_666,
                         ),
                       )
@@ -127,30 +146,39 @@ class StockChangeMultiDialog extends StatelessWidget {
                       Text(
                         '实际数量',
                         style: TextStyle(
-                           fontSize: 32.sp,
+                          fontSize: 32.sp,
                           color: Colours.text_666,
                         ),
                       ),
                       Expanded(
                         flex: 1,
                         child: TextFormField(
+                          onChanged: (value){controller.update(['profit_and_loss']);},
                           onTap: () {
-                            stockChangeController.updateMasterStock(productDTO.unitDetailDTO);
-                            stockChangeController.masterStockController.selection =
-                                TextSelection(baseOffset: 0,
-                                    extentOffset: stockChangeController.masterStockController.value.text.length);
+                            controller
+                                .updateMasterStock(productDTO.unitDetailDTO);
+                            controller
+                                    .masterStockController.selection =
+                                TextSelection(
+                                    baseOffset: 0,
+                                    extentOffset: controller
+                                        .masterStockController
+                                        .value
+                                        .text
+                                        .length);
                           },
-                          controller: stockChangeController.masterStockController,
+                          controller:
+                              controller.masterStockController,
                           textAlign: TextAlign.center,
                           maxLength: 10,
                           style: TextStyle(fontSize: 32.sp),
                           decoration: InputDecoration(
                               counterText: '',
                               hintText: '0.00',
-                              border:InputBorder.none),
+                              border: InputBorder.none),
                           keyboardType: TextInputType.number,
                           validator: (value) {
-                            var masterStockStr = stockChangeController
+                            var masterStockStr = controller
                                 .masterStockController.text;
                             if (masterStockStr.isEmpty) {
                               return '请输入商品主单位数量';
@@ -168,14 +196,14 @@ class StockChangeMultiDialog extends StatelessWidget {
                       Text(
                         productDTO.unitDetailDTO?.masterUnitName ?? '',
                         style: TextStyle(
-                           fontSize: 32.sp,
+                          fontSize: 32.sp,
                           color: Colours.text_666,
                         ),
                       ),
                     ],
                   ),
                   Container(
-                    decoration:BoxDecoration(
+                    decoration: BoxDecoration(
                       color: Colours.divider,
                       borderRadius: BorderRadius.circular(2.0),
                     ),
@@ -185,7 +213,7 @@ class StockChangeMultiDialog extends StatelessWidget {
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 24.w),
                     padding: EdgeInsets.symmetric(vertical: 16.w),
-                    child:  Flex(
+                    child: Flex(
                       direction: Axis.horizontal,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -196,13 +224,17 @@ class StockChangeMultiDialog extends StatelessWidget {
                             color: Colours.text_666,
                           ),
                         ),
-                        Text(widgetProfitAndLoss(),
-                          style: TextStyle(
-                            fontSize: 32.sp,
-                            color: Colours.text_333,
-                            fontWeight: FontWeight.w500
-                          ),
-                        ),
+                        GetBuilder(
+                            id: 'profit_and_loss',
+                            builder: (_){
+                          return  Text(
+                            widgetProfitAndLoss(),
+                            style: TextStyle(
+                                fontSize: 32.sp,
+                                color: Colours.text_333,
+                                fontWeight: FontWeight.w500),
+                          );
+                        }),
                         Text(
                           productDTO.unitDetailDTO?.unitName ?? '',
                           style: TextStyle(
@@ -273,8 +305,8 @@ class StockChangeMultiDialog extends StatelessWidget {
   }
 
   ProductStockAdjustRequest buildProductStockAdjustRequest() {
-    String? masterStock = stockChangeController.masterStockController.text;
-    String? slaveStock = stockChangeController.slaveStockController.text;
+    String? masterStock = controller.masterStockController.text;
+    String? slaveStock = controller.slaveStockController.text;
     return ProductStockAdjustRequest(
         productId: productDTO.id,
         productName: productDTO.productName,
@@ -287,11 +319,13 @@ class StockChangeMultiDialog extends StatelessWidget {
 
   String widgetProfitAndLoss() {
     Decimal? productNum = productDTO.unitDetailDTO?.number;
-    if((productDTO.unitDetailDTO==null)||(productDTO.unitDetailDTO?.number == null)){
+    if ((productDTO.unitDetailDTO == null) ||
+        (productDTO.unitDetailDTO?.number == null)) {
       productNum = Decimal.zero;
     }
-    String? num = stockChangeController.slaveStockController.text;
+    String? num = controller.slaveStockController.text;
     Decimal? numDec = Decimal.tryParse(num);
-    return DecimalUtil.subtract((productNum??Decimal.zero),(numDec??Decimal.zero));
+    return DecimalUtil.subtract(
+        (productNum ?? Decimal.zero), (numDec ?? Decimal.zero));
   }
 }

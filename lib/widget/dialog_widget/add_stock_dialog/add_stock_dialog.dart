@@ -3,81 +3,28 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
-import 'package:ledger/entity/product/product_shopping_car_dto.dart';
+import 'package:ledger/entity/product/product_add_stock_car_dto.dart';
 import 'package:ledger/entity/product/product_dto.dart';
-import 'package:ledger/entity/unit/unit_detail_dto.dart';
-import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/enum/unit_type.dart';
+import 'package:ledger/generated/json/product_add_stock_car_dto.g.dart';
 import 'package:ledger/res/export.dart';
 import 'package:ledger/util/decimal_util.dart';
 
-class AddStockDialog<T extends GetxController> extends StatelessWidget {
+import 'add_stock_dialog_binding.dart';
+import 'add_stock_dialog_controller.dart';
+
+class AddStockDialog extends StatelessWidget {
   final formKey = GlobalKey<FormBuilderState>();
 
-  final TextEditingController masterController = TextEditingController();
-  final TextEditingController slaveController = TextEditingController();
-  // final TextEditingController amountController = TextEditingController();
-  // final TextEditingController priceController = TextEditingController();
-
-  final T controller;
+  late final AddStockDialogController controller;
   final ProductDTO productDTO;
-  final OrderType? orderType;
-  final Function(ProductShoppingCarDTO result) onClick;
+  final Function(ProductAddStockCarDTO result) onClick;
 
   AddStockDialog(
       {required this.productDTO,
-        required this.orderType,
-        required this.controller,
         required this.onClick}) {
-    // priceController.addListener(updateShoppingCarTotalAmount);
-    //
-    // amountController.addListener(updatePrice);
-
-    masterController.addListener(() {
-      String? masterNum = masterController.text;
-      Decimal? masterNumber = Decimal.tryParse(masterNum);
-      if (null == masterNumber) {
-        return;
-      }
-      var masterStock = productDTO.unitDetailDTO?.masterStock;
-      if (null != masterStock && masterStock < masterNumber) {
-        if (orderType == OrderType.SALE) {
-          isStockEnough();
-        }
-      }
-    });
-    slaveController.addListener(() {
-      String? slaveNum = slaveController.text;
-      Decimal? slaveNumber = Decimal.tryParse(slaveNum);
-      if (null == slaveNumber) {
-        return;
-      }
-      if (productDTO.unitDetailDTO?.unitType == UnitType.SINGLE.value) {
-        var stock = productDTO.unitDetailDTO?.stock;
-        if ((stock != null) && stock < slaveNumber) {
-          if (orderType == OrderType.SALE) {
-            isStockEnough();
-          }
-        }
-      } else {
-        if (productDTO.unitDetailDTO?.unitType == UnitType.MULTI_NUMBER.value &&
-            isSelectMaster()) {
-          var stock = productDTO.unitDetailDTO?.masterStock;
-          if ((stock != null) && stock < slaveNumber) {
-            if (orderType == OrderType.SALE) {
-              isStockEnough();
-            }
-          }
-        } else {
-          var stock = productDTO.unitDetailDTO?.slaveStock;
-          if ((stock != null) && stock < slaveNumber) {
-            if (orderType == OrderType.SALE) {
-              isStockEnough();
-            }
-          }
-        }
-      }
-    });
+    AddStockDialogBinding().dependencies();
+    controller = Get.find<AddStockDialogController>();
   }
 
   @override
@@ -103,8 +50,8 @@ class AddStockDialog<T extends GetxController> extends StatelessWidget {
               ),
               Container(
                 padding: EdgeInsets.only(right: 8.w, left: 8.w, bottom: 10.w),
-                child: GetBuilder<T>(
-                    id: 'shopping_car_unit',
+                child: GetBuilder<AddStockDialogController>(
+                    id: 'add_stock_unit',
                     builder: (_) {
                       return Visibility(
                           visible: UnitType.SINGLE.value !=
@@ -131,15 +78,11 @@ class AddStockDialog<T extends GetxController> extends StatelessWidget {
                                       if (false ==
                                           productDTO.unitDetailDTO
                                               ?.selectMasterUnit) {
-                                        masterController.text = '';
-                                        slaveController.text = '';
+                                        controller.masterController.text = '';
+                                        controller.slaveController.text = '';
                                         productDTO.unitDetailDTO
                                             ?.selectMasterUnit = true;
-                                        controller.update([
-                                          'shopping_car_unit',
-                                          'shopping_car_master_number',
-                                          'shopping_car_number_unit',
-                                        ]);
+                                        controller.update([]);
                                       }
                                     },
                                     child: Text(
@@ -175,14 +118,11 @@ class AddStockDialog<T extends GetxController> extends StatelessWidget {
                                         if (productDTO
                                             .unitDetailDTO?.selectMasterUnit ??
                                             true) {
-                                          masterController.text = '';
-                                          slaveController.text = '';
+                                          controller.masterController.text = '';
+                                          controller.slaveController.text = '';
                                           productDTO.unitDetailDTO
                                               ?.selectMasterUnit = false;
                                           controller.update([
-                                            'shopping_car_unit',
-                                            'shopping_car_master_number',
-                                            'shopping_car_number_unit',
                                           ]);
                                         }
                                       },
@@ -217,8 +157,8 @@ class AddStockDialog<T extends GetxController> extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    GetBuilder<T>(
-                        id: 'shopping_car_master_number',
+                    GetBuilder<AddStockDialogController>(
+                        id: 'add_stock_master_number',
                         builder: (_) {
                           return Visibility(
                               visible: isMasterUnitShow(),
@@ -236,7 +176,7 @@ class AddStockDialog<T extends GetxController> extends StatelessWidget {
                                         onTap: () {
                                           updateMasterNum();
                                         },
-                                        controller: masterController,
+                                        controller: controller.masterController,
                                         decoration: InputDecoration(
                                           counterText: '',
                                           hintText: '请输入重量',
@@ -287,7 +227,7 @@ class AddStockDialog<T extends GetxController> extends StatelessWidget {
                                 onTap: () {
                                   updateSlaveNum();
                                 },
-                                controller: slaveController,
+                                controller: controller.slaveController,
                                 decoration: InputDecoration(
                                   counterText: '',
                                   hintText: '请输入数量',
@@ -297,7 +237,7 @@ class AddStockDialog<T extends GetxController> extends StatelessWidget {
                                 keyboardType: TextInputType.numberWithOptions(
                                     signed: true, decimal: true),
                                 validator: (value) {
-                                  var text = slaveController.text;
+                                  var text = controller.slaveController.text;
                                   var slaveNumber = Decimal.tryParse(text);
                                   if (null == slaveNumber) {
                                     return '请正确输入商品数量';
@@ -306,8 +246,8 @@ class AddStockDialog<T extends GetxController> extends StatelessWidget {
                                   }
                                   return null;
                                 })),
-                        GetBuilder<T>(
-                            id: 'shopping_car_number_unit',
+                        GetBuilder<AddStockDialogController>(
+                            id: 'add_stock_number_unit',
                             builder: (_) {
                               return Text(
                                 getProductUnitName() ?? '',
@@ -319,96 +259,6 @@ class AddStockDialog<T extends GetxController> extends StatelessWidget {
                             })
                       ],
                     ),
-                    // Row(
-                    //   children: [
-                    //     Text(
-                    //       '单价',
-                    //       style: TextStyle(
-                    //         fontSize: 30.sp,
-                    //         color: Colors.black87,
-                    //       ),
-                    //     ),
-                    //     Flexible(
-                    //         child: TextFormField(
-                    //             onTap: () {
-                    //               updatePrice();
-                    //             },
-                    //             controller: priceController,
-                    //             decoration: InputDecoration(
-                    //               counterText: '',
-                    //               hintText: '请输入单价',
-                    //             ),
-                    //             textAlign: TextAlign.center,
-                    //             maxLength: 10,
-                    //             keyboardType: TextInputType.numberWithOptions(
-                    //                 signed: true, decimal: true),
-                    //             validator: (value) {
-                    //               var text = priceController.text;
-                    //               var price = Decimal.tryParse(text);
-                    //               if (null == price) {
-                    //                 return '请正确输入单价';
-                    //               } else if (price <= Decimal.zero) {
-                    //                 return '单价不能小于等于0';
-                    //               }
-                    //               return null;
-                    //             })),
-                    //     GetBuilder<T>(
-                    //         id: 'shopping_car_price_unit_name',
-                    //         builder: (_) {
-                    //           return Text(
-                    //             '元/${getProductPriceUnitName() ?? ''}',
-                    //             style: TextStyle(
-                    //                 fontSize: 30.sp,
-                    //                 color: Colors.redAccent,
-                    //                 fontWeight: FontWeight.w600
-                    //             ),
-                    //           );
-                    //         })
-                    //   ],
-                    // ),
-                    // Row(
-                    //   children: [
-                    //     Text(
-                    //       '总价',
-                    //       style: TextStyle(
-                    //         fontSize: 30.sp,
-                    //         color: Colors.black87,
-                    //       ),
-                    //     ),
-                    //     Flexible(
-                    //         child: TextFormField(
-                    //             onTap: () {
-                    //               updateShoppingCarTotalAmount();
-                    //             },
-                    //             controller: amountController,
-                    //             decoration: InputDecoration(
-                    //               counterText: '',
-                    //               hintText: '请输入总价',
-                    //             ),
-                    //             textAlign: TextAlign.center,
-                    //             maxLength: 10,
-                    //             keyboardType: TextInputType.numberWithOptions(
-                    //                 signed: true, decimal: true),
-                    //             validator: (value) {
-                    //               var text = amountController.text;
-                    //               var repaymentAmount = Decimal.tryParse(text);
-                    //               if (null == repaymentAmount) {
-                    //                 return '请正确输入总价';
-                    //               } else if (repaymentAmount <= Decimal.zero) {
-                    //                 return '总价不能小于等于0';
-                    //               }
-                    //               return null;
-                    //             })),
-                    //     Text(
-                    //       '元',
-                    //       style: TextStyle(
-                    //         fontSize: 30.sp,
-                    //         color: Colors.black87,
-                    //       ),
-                    //     )
-                    //   ],
-                    // ),
-                    // SizedBox(height: 10)
                   ],
                 ),
               ),
@@ -480,62 +330,49 @@ class AddStockDialog<T extends GetxController> extends StatelessWidget {
   }
 
   buildContent() {
-    return ProductShoppingCarDTO(
-        productId: productDTO.id,
-        productName: productDTO.productName,
-        productPlace: productDTO.productPlace,
-        productStandard: productDTO.productStandard,
-        unitDetailDTO: getUnitDetailDTO());
-  }
-
-  UnitDetailDTO? getUnitDetailDTO() {
-    String weight = masterController.text;
-    String number = slaveController.text;
+    var productAddStockCarDTO = ProductAddStockCarDTO(
+      productId: productDTO.id,
+      productName: productDTO.productName,
+      productPlace: productDTO.productPlace,
+      productStandard: productDTO.productStandard,
+    );
+    String weight = controller.masterController.text;
+    String number = controller.slaveController.text;
     var unitType = productDTO.unitDetailDTO?.unitType;
     if (UnitType.SINGLE.value == unitType) {
-      return productDTO.unitDetailDTO?.copyWith(
-          number: Decimal.tryParse(number),
-         );
+      return productAddStockCarDTO.copyWith(
+          number: Decimal.tryParse(number));
     } else {
       var selectMasterUnit = productDTO.unitDetailDTO?.selectMasterUnit ?? true;
       productDTO.unitDetailDTO?.selectMasterUnit = selectMasterUnit;
       if (selectMasterUnit) {
         if (UnitType.MULTI_WEIGHT.value == unitType) {
-          return productDTO.unitDetailDTO?.copyWith(
-              selectMasterUnit: true,
-              masterUnitId: productDTO.unitDetailDTO?.masterUnitId,
-              slaveUnitId: productDTO.unitDetailDTO?.slaveUnitId,
-              masterNumber: Decimal.tryParse(weight),
-              slaveNumber: Decimal.tryParse(number),
-             );
-        }
-        return productDTO.unitDetailDTO?.copyWith(
+          return productAddStockCarDTO.copyWith(
             selectMasterUnit: true,
             masterUnitId: productDTO.unitDetailDTO?.masterUnitId,
             slaveUnitId: productDTO.unitDetailDTO?.slaveUnitId,
-            masterNumber: Decimal.tryParse(number),
-           );
-      } else {
-        return productDTO.unitDetailDTO?.copyWith(
-            selectMasterUnit: false,
-            masterUnitId: productDTO.unitDetailDTO?.masterUnitId,
-            slaveUnitId: productDTO.unitDetailDTO?.slaveUnitId,
+            masterNumber: Decimal.tryParse(weight),
             slaveNumber: Decimal.tryParse(number),
-           );
+          );
+        }
+        return productAddStockCarDTO.copyWith(
+          selectMasterUnit: true,
+          masterUnitId: productDTO.unitDetailDTO?.masterUnitId,
+          slaveUnitId: productDTO.unitDetailDTO?.slaveUnitId,
+          masterNumber: Decimal.tryParse(number),
+        );
+      } else {
+        return productAddStockCarDTO.copyWith(
+          selectMasterUnit: false,
+          masterUnitId: productDTO.unitDetailDTO?.masterUnitId,
+          slaveUnitId: productDTO.unitDetailDTO?.slaveUnitId,
+          slaveNumber: Decimal.tryParse(number),
+        );
       }
     }
   }
 
-  String? getProductPriceUnitName() {
-    var unitDetailDTO = productDTO.unitDetailDTO;
-    if (UnitType.SINGLE.value == unitDetailDTO?.unitType) {
-      return unitDetailDTO?.unitName;
-    } else {
-      return (productDTO.unitDetailDTO?.selectMasterUnit ?? true)
-          ? unitDetailDTO?.masterUnitName
-          : unitDetailDTO?.slaveUnitName;
-    }
-  }
+
 
   String? getProductUnitName() {
     var unitDetailDTO = productDTO.unitDetailDTO;
@@ -551,66 +388,14 @@ class AddStockDialog<T extends GetxController> extends StatelessWidget {
     }
   }
 
-  void isStockEnough() {
-    Get.dialog(
-        AlertDialog(title: Text('是否继续开单'), content: Text('库存不足以开单'), actions: [
-          TextButton(
-            child: Text('取消'),
-            onPressed: () {
-              Get.until((route) {
-                return route.settings.name == RouteConfig.shoppingCar;
-              });
-            },
-          ),
-          TextButton(
-            child: Text('确定'),
-            onPressed: () {
-              Get.back();
-            },
-          ),
-        ]));
-  }
-
-  // void updatePrice() {
-  //   var unitType = productDTO.unitDetailDTO?.unitType;
-  //   Decimal? priceAmount = Decimal.tryParse(priceController.text);
-  //   if (isSelectMaster()) {
-  //     //主单位时候
-  //     String weight;
-  //     if (UnitType.MULTI_NUMBER.value == unitType) {
-  //       weight = slaveController.text;
-  //     } else {
-  //       weight = masterController.text;
-  //     }
-  //     String amount = amountController.text;
-  //     Decimal? productWeight = Decimal.tryParse(weight);
-  //     Decimal? productAmount = Decimal.tryParse(amount);
-  //     if ((productAmount != null && (productWeight != null))) {
-  //       priceAmount = DecimalUtil.divide(productAmount, productWeight);
-  //     }
-  //   } else {
-  //     //辅助单位时候
-  //     String number = slaveController.text;
-  //     String amount = amountController.text;
-  //     Decimal? productWeight = Decimal.tryParse(number);
-  //     Decimal? productAmount = Decimal.tryParse(amount);
-  //     if ((productAmount != null) && (productWeight != null)) {
-  //       priceAmount = DecimalUtil.divide(productAmount, productWeight);
-  //     }
-  //   }
-  //   priceController.removeListener(updateShoppingCarTotalAmount);
-  //   priceController.text = DecimalUtil.formatDecimalDefault(priceAmount);
-  //   priceController.addListener(updateShoppingCarTotalAmount);
-  // }
-
   updateSlaveNum() {
     /// 1、当选择主单位时(计重)，重量变化会引起数量变化
     /// 1、当选择主单位时(计件)，重量变化会引起数量变化
     /// 3、id:'shopping_car_slave_number'
-    Decimal? slaveNumber = Decimal.tryParse(slaveController.text);
+    Decimal? slaveNumber = Decimal.tryParse(controller.slaveController.text);
     if (isSelectMaster()) {
       if (UnitType.MULTI_WEIGHT.value == productDTO.unitDetailDTO?.unitType) {
-        String weightStr = masterController.text;
+        String weightStr = controller.masterController.text;
         Decimal? weight = Decimal.tryParse(weightStr);
         Decimal? conversion = productDTO.unitDetailDTO?.conversion;
         if ((weight != null) && (conversion != null)) {
@@ -618,57 +403,21 @@ class AddStockDialog<T extends GetxController> extends StatelessWidget {
         }
       }
     }
-    slaveController.text = DecimalUtil.formatDecimalDefault(slaveNumber);
+    controller.slaveController.text = DecimalUtil.formatDecimalDefault(slaveNumber);
   }
 
   updateMasterNum() {
-    Decimal? masterNumber = Decimal.tryParse(masterController.text);
+    Decimal? masterNumber = Decimal.tryParse(controller.masterController.text);
     if (isSelectMaster()) {
       if (UnitType.MULTI_WEIGHT.value == productDTO.unitDetailDTO?.unitType) {
-        Decimal? num = Decimal.tryParse(slaveController.text);
+        Decimal? num = Decimal.tryParse(controller.slaveController.text);
         Decimal? conversion = productDTO.unitDetailDTO?.conversion;
         if ((num != null) && (conversion != null)) {
           masterNumber = num * conversion;
         }
-        masterController.text = DecimalUtil.formatDecimalDefault(masterNumber);
+        controller.masterController.text = DecimalUtil.formatDecimalDefault(masterNumber);
       }
     }
   }
 
-  // updateShoppingCarTotalAmount() {
-  //   var unitType = productDTO.unitDetailDTO?.unitType;
-  //   Decimal? amountNumber = Decimal.tryParse(amountController.text);
-  //   if (isSelectMaster()) {
-  //     //主单位时候
-  //     if (UnitType.MULTI_NUMBER.value == unitType) {
-  //       String numberStr = slaveController.text;
-  //       String priceStr = priceController.text;
-  //       Decimal? productNumber = Decimal.tryParse(numberStr);
-  //       Decimal? productPrice = Decimal.tryParse(priceStr);
-  //       if ((productNumber != null) && (productPrice != null)) {
-  //         amountNumber = (productNumber * productPrice);
-  //       }
-  //     } else if (UnitType.MULTI_WEIGHT.value == unitType) {
-  //       String numberStr = masterController.text;
-  //       String priceStr = priceController.text;
-  //       Decimal? productNumber = Decimal.tryParse(numberStr);
-  //       Decimal? productPrice = Decimal.tryParse(priceStr);
-  //       if ((productNumber != null) && (productPrice != null)) {
-  //         amountNumber = (productNumber * productPrice);
-  //       }
-  //     }
-  //   } else {
-  //     //辅助单位时候
-  //     String numberStr = slaveController.text;
-  //     String priceStr = priceController.text;
-  //     Decimal? productNumber = Decimal.tryParse(numberStr);
-  //     Decimal? productPrice = Decimal.tryParse(priceStr);
-  //     if ((productNumber != null) && (productPrice != null)) {
-  //       amountNumber = (productNumber * productPrice);
-  //     }
-  //   }
-  //   amountController.removeListener(updatePrice);
-  //   amountController.text = DecimalUtil.formatDecimalDefault(amountNumber);
-  //   amountController.addListener(updatePrice);
-  // }
 }
