@@ -1,28 +1,21 @@
 import 'dart:async';
 
+import 'package:flutter/services.dart';
 import 'package:flutter_bugly/flutter_bugly.dart';
 import 'package:ledger/config/application.dart';
-import 'package:ledger/generated/json/base/custom_json_convert.dart';
-import 'package:ledger/generated/json/base/json_convert_content.dart';
 import 'package:ledger/lang/lang.dart';
 import 'package:ledger/res/export.dart';
-import 'package:ledger/store/initial_binding.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
-import 'package:ledger/store/store_controller.dart';
+import 'package:ledger/store/initial_binding.dart';
 import 'package:lifecycle/lifecycle.dart';
+import 'generated/json/base/custom_json_convert.dart';
+import 'generated/json/base/json_convert_content.dart';
 import 'util/theme_util.dart';
 
 Future<void> main() async {
-  // 创建一个新的绑定区域
-  Zone.current.fork(specification: ZoneSpecification(
-    createTimer: (self, parent, zone, duration, void Function() callback) {
-      // 确保回调函数在相同的区域中执行
-      return parent.createTimer(zone, duration, callback);
-    },
-  )).run(() async {
+  FlutterBugly.postCatchedException(() async {
     WidgetsFlutterBinding.ensureInitialized();
     jsonConvert = CustomJsonConvert();
     await GetStorage.init();
@@ -30,9 +23,7 @@ Future<void> main() async {
     await SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     var hasCookie = await Http().hasCookie();
-    FlutterBugly.postCatchedException(() {
-      runApp(MyApp(hasCookie: hasCookie));
-    });
+    runApp(MyApp(hasCookie: hasCookie));
   });
 }
 
@@ -94,14 +85,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    FlutterBugly.init(
-      androidAppId: '8441e68dc5',
-      iOSAppId: 'e3ec751bd3',
-    );
-    FlutterBugly.setAppChannel('Android');
-    FlutterBugly.setUserId(StoreController.to.getUser()?.toString() ?? '');
-    FlutterBugly.putUserData(
-        key: 'user', value: StoreController.to.getUser()?.toString() ?? '');
     Application.getInstance().init();
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/animation.dart';
+import 'package:flutter_bugly/flutter_bugly.dart';
 import 'package:get/get.dart';
 import 'package:ledger/modules/home/home_binding.dart';
 import 'package:ledger/modules/home/home_controller.dart';
@@ -16,6 +17,19 @@ class MainController extends GetxController {
   final MainState state = MainState();
 
   int getSelectIndex() => state.selectedIndex.value;
+
+  @override
+  void onInit() {
+    FlutterBugly.init(
+      androidAppId: '8441e68dc5',
+      iOSAppId: 'e3ec751bd3',
+    );
+    FlutterBugly.setAppChannel('Android');
+    FlutterBugly.setUserId(StoreController.to.getUser()?.toString() ?? '');
+    FlutterBugly.putUserData(
+        key: 'user', value: StoreController.to.getUser()?.toString() ?? '');
+    super.onInit();
+  }
 
   void selectTab(int currentIndex) async {
     state.selectedIndex.value = currentIndex;
