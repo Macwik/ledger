@@ -12,21 +12,20 @@ class MyAccountController extends GetxController {
   final MyAccountState state = MyAccountState();
 
   Future<void> onLoad() async {
-    var arguments = Get.arguments;
-    if ((arguments != null) && arguments['isSelect'] != null) {
-      state.isSelect = arguments['isSelect'];
-    }
     await listLedger();
   }
 
   //此处是Init Controller执行的内容
   Future<void> initState() async {
+    var arguments = Get.arguments;
+    if ((arguments != null) && arguments['isSelect'] != null) {
+      state.isSelect = arguments['isSelect'];
+    }
     listLedger();
   }
 
   Future<void> listLedger() async {
-    final result =
-        await Http().network<UserLedgerDTO>(Method.get, LedgerApi.ledger_list);
+    final result = await Http().network<UserLedgerDTO>(Method.get, LedgerApi.ledger_list);
     if (result.success) {
       state.userLedger = result.d;
       update(['join_account', 'own_account']);
