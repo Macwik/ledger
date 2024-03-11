@@ -179,7 +179,7 @@ class Http {
       return BaseEntity<T>.fromJson(map);
     } catch (e) {
       debugPrint(e.toString());
-      return BaseEntity<T>(ExceptionHandle.parse_error, '数据解析错误！', null);
+      return BaseEntity<T>(ExceptionHandle.parse_error, '网络开小差了...', null);
     }
   }
 
@@ -207,7 +207,7 @@ class Http {
       return BasePageEntity<T>.fromJson(map);
     } catch (e) {
       debugPrint(e.toString());
-      return BasePageEntity<T>(ExceptionHandle.parse_error, '数据解析错误！', null);
+      return BasePageEntity<T>(ExceptionHandle.parse_error, '网络开小差了...', null);
     }
   }
 
