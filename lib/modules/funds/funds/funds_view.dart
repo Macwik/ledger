@@ -27,11 +27,6 @@ class FundsView extends StatelessWidget {
           style: TextStyle(color: Colors.white),
         ),
         leading: BackButton(
-          onPressed: () {
-            Get.until((route) {
-              return route.settings.name == RouteConfig.main;
-            });
-          },
           color: Colors.white,
         ),
       ),

@@ -12,4 +12,7 @@ class AddDebtState {
 
   CustomDTO ? customDTO;
 
+  TextEditingController amountController = TextEditingController();
+  TextEditingController remarkController = TextEditingController();
+
 }

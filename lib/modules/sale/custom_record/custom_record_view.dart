@@ -295,7 +295,7 @@ class CustomRecordView extends StatelessWidget {
                           height: 120.w,
                           child: IconButton(
                             onPressed: () {
-                              controller.toAddCustom();
+                              controller.toAddCustom(context);
                             },
                             icon: Icon(Icons.add),
                             color: Colors.redAccent,
@@ -374,8 +374,7 @@ class CustomRecordView extends StatelessWidget {
                           : ListView.separated(
                               shrinkWrap: true,
                               itemBuilder: (context, index) {
-                                CustomDTO customDTO =
-                                    controller.state.customList![index];
+                                CustomDTO customDTO = controller.state.customList![index];
                                 return InkWell(
                                   onTap: () => controller.onClick(customDTO),
                                   child: Container(

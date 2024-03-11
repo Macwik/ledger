@@ -1,11 +1,11 @@
 import 'package:decimal/decimal.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:ledger/modules/purchase/multi_unit_num/option_item.dart';
 import 'package:ledger/res/export.dart';
-import 'package:ledger/widget/custom_textfield.dart';
 import 'multi_unit_num_controller.dart';
 
 class MultiUnitNumView extends StatelessWidget {
@@ -193,12 +193,19 @@ class MultiUnitNumView extends StatelessWidget {
                                         ),
                                       ),
                                       Flexible(
-                                          child: CustomTextField(
-                                        name: 'conversion',
+                                          child: TextFormField(
+                                            controller: state.conversionWeightController,
+                                            decoration: InputDecoration(
+                                              counterText: '',
+                                              border: InputBorder.none,
+                                              hintText: '换算量，如：一箱等于10斤',
+                                            ),
+                                            style: TextStyle(
+                                                fontSize: 28.sp
+                                            ),
                                         keyboardType: TextInputType.number,
                                         textAlign: TextAlign.center,
                                         maxLength: 7,
-                                        hintText: '换算量，如：一件等于10袋',
                                         validator:
                                             FormBuilderValidators.compose([
                                           FormBuilderValidators.required(
@@ -449,14 +456,21 @@ class MultiUnitNumView extends StatelessWidget {
                                                 ? '1${state.selectedSlaveOption?.name}='
                                                 : '',
                                             style: TextStyle(
-                                              color: Colors.black,
+                                              color: Colours.text_333,
                                               fontSize: 30.sp,
                                             ),
                                           ),
-                                          Flexible(
-                                              child: CustomTextField(
-                                            name: 'conversion',
-                                            hintText: '换算量，如：一件等于10袋',
+                                          Expanded(
+                                              child: TextFormField(
+                                                controller: state.conversionNumController,
+                                                decoration: InputDecoration(
+                                                  counterText: '',
+                                                  border: InputBorder.none,
+                                                  hintText: '换算量，如：一件等于10袋',
+                                                ),
+                                                style: TextStyle(
+                                                    fontSize: 28.sp
+                                                ),
                                             textAlign: TextAlign.center,
                                             maxLength: 7,
                                             keyboardType: TextInputType.number,

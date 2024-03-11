@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:ledger/modules/purchase/multi_unit_num/option_item.dart';
@@ -46,4 +47,7 @@ class MultiUnitNumState {
 
   //单位类别  1 计重单位 | 2 计件单位
   int unitType = 1;
+
+  TextEditingController conversionWeightController = TextEditingController();
+  TextEditingController conversionNumController = TextEditingController();
 }

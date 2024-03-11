@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:ledger/res/colors.dart';
-import 'package:ledger/widget/custom_textfield.dart';
 import 'package:ledger/widget/elevated_btn.dart';
 import 'package:ledger/widget/will_pop.dart';
 
@@ -68,10 +67,17 @@ class AddAccountView extends StatelessWidget {
                                       width: 1.0,
                                     ),
                                   ),
-                                  child: CustomTextField(
-                                      name: 'account_name',
-                                      hintText: '请输入店铺名称',
-                                      keyboardType: TextInputType.emailAddress,
+                                  child: TextFormField(
+                                    controller: state.nameController,
+                                    decoration: InputDecoration(
+                                      counterText: '',
+                                      border: InputBorder.none,
+                                      hintText: '请填写店铺名',
+                                    ),
+                                    style: TextStyle(
+                                        fontSize: 32.sp
+                                    ),
+                                      keyboardType: TextInputType.name,
                                       textAlign: TextAlign.center,
                                       maxLength: 10,
                                     validator: FormBuilderValidators.required(

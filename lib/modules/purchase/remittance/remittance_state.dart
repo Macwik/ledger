@@ -15,5 +15,9 @@ class RemittanceState {
 
   DateTime date = DateTime.now();
 
+  TextEditingController receiverController = TextEditingController();
+  TextEditingController amountController = TextEditingController();
+  TextEditingController remarkController = TextEditingController();
+
 }
 

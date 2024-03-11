@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/permission_code.dart';
+import 'package:ledger/enum/custom_type.dart';
 import 'package:ledger/enum/process_status.dart';
 import 'package:ledger/res/colors.dart';
 import 'package:ledger/util/date_util.dart';
@@ -31,7 +32,9 @@ class SupplierDetailView extends StatelessWidget {
             color: Colors.white),
         backgroundColor: Colours.primary,
         title: Text(
-          '客户详情'.tr,
+          state.customDTO?.customType == CustomType.CUSTOM.value
+              ?'客户详情'
+              :'供应商详情',
           style: TextStyle(color: Colors.white),
         ),
         actionsIconTheme: IconThemeData(color: Colors.white),
@@ -574,7 +577,9 @@ class SupplierDetailView extends StatelessWidget {
                   color: Colors.white,
                   margin: EdgeInsets.only(left: 6),
                   child: Text(
-                    '客户对账',
+                    state.customDTO?.customType == CustomType.CUSTOM.value
+                        ?'客户对账'
+                        :'供应商对账',
                     style: TextStyle(
                         color: Colours.text_666,
                         fontSize: 36.sp,
@@ -665,8 +670,7 @@ class SupplierDetailView extends StatelessWidget {
                                               Expanded(child:
                                               Text(
                                                   controller.getOrderTypeDesc(
-                                                      statisticsCustomOrderDTO
-                                                          .orderType!),
+                                                      statisticsCustomOrderDTO.orderType!),
                                                   textAlign:TextAlign.right,
                                                   style: TextStyle(
                                                     color: statisticsCustomOrderDTO.invalid != 0
@@ -685,11 +689,11 @@ class SupplierDetailView extends StatelessWidget {
                                               Expanded(
                                                   child: Row(
                                                 children: [
-                                                  Text('总额：',
+                                                  Text(controller.totalName(statisticsCustomOrderDTO),
                                                       style: TextStyle(
                                                         color: Colours.text_ccc,
                                                         fontSize: 26.sp,
-                                                        fontWeight: FontWeight.w300,
+                                                        fontWeight: FontWeight.w400,
                                                       )),
                                                   Expanded(
                                                     child: Text(
@@ -714,7 +718,7 @@ class SupplierDetailView extends StatelessWidget {
                                                         color: Colours.text_ccc,
                                                         fontSize: 26.sp,
                                                         fontWeight:
-                                                            FontWeight.w300,
+                                                            FontWeight.w400,
                                                       )),
                                                   Expanded(
                                                     child: Text(
@@ -742,17 +746,16 @@ class SupplierDetailView extends StatelessWidget {
                                               Expanded(
                                                   child: Row(
                                                 children: [
-                                                  Text('欠款：',
+                                                  Text(controller.creditName(statisticsCustomOrderDTO),
                                                       style: TextStyle(
                                                         color: Colours.text_ccc,
                                                         fontSize: 26.sp,
                                                         fontWeight:
-                                                            FontWeight.w300,
+                                                            FontWeight.w400,
                                                       )),
                                                   Expanded(
                                                     child: Text(
                                                       controller.creditAmount(statisticsCustomOrderDTO),
-                                                       // '￥${statisticsCustomOrderDTO.creditAmount ?? ''}',
                                                         style: TextStyle(
                                                           color:statisticsCustomOrderDTO.invalid == 0
                                                               ?Colours.text_666
@@ -764,18 +767,35 @@ class SupplierDetailView extends StatelessWidget {
                                                   )
                                                 ],
                                               )),
-                                              Expanded(
-                                                child: Text(
-                                                    TextUtil.listToStr(
-                                                        statisticsCustomOrderDTO
-                                                            .productNameList),
-                                                    style: TextStyle(
-                                                      color: Colours.text_666,
-                                                      fontSize: 26.sp,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                    )),
-                                              ),
+                                              Visibility(
+                                                  visible:statisticsCustomOrderDTO.productNameList?.isNotEmpty??false,
+                                                  child: Expanded(
+                                                      child: Row(
+                                                        children: [
+                                                          Text(state.customDTO?.customType == 0
+                                                              ? '客   户：'
+                                                              : '供应商：',
+                                                              style: TextStyle(
+                                                                color: Colours.text_ccc,
+                                                                fontSize: 26.sp,
+                                                                fontWeight:
+                                                                FontWeight.w400,
+                                                              )),
+                                                          Expanded(child:
+                                                          Text(
+                                                              TextUtil.listToStr(
+                                                                  statisticsCustomOrderDTO
+                                                                      .productNameList),
+                                                              style: TextStyle(
+                                                                color: Colours.text_666,
+                                                                fontSize: 26.sp,
+                                                                fontWeight:
+                                                                FontWeight.w500,
+                                                              ))),
+                                                        ],
+                                                      )
+                                                  ))
+                                             ,
                                             ],
                                           ),
                                         ],
@@ -820,29 +840,6 @@ class SupplierDetailView extends StatelessWidget {
                 child: Flex(
                   direction: Axis.horizontal,
                   children: [
-                    // Expanded(
-                    //     child: Container(
-                    //         color: Colors.white,
-                    //         height: 100.w,
-                    //         padding: EdgeInsets.only(left: 20, top: 5),
-                    //         child: Row(
-                    //           children: [
-                    //             Text('欠款合计：',
-                    //                 style: TextStyle(
-                    //                   color: Colors.black54,
-                    //                   fontSize: 24.sp,
-                    //                   fontWeight: FontWeight.w500,
-                    //                 )),
-                    //             Expanded(
-                    //                 child: Text(
-                    //                     '￥${state.customDTO?.creditAmount ?? ''}',
-                    //                     style: TextStyle(
-                    //                       color: Colors.redAccent,
-                    //                       fontSize: 28.sp,
-                    //                       fontWeight: FontWeight.w600,
-                    //                     ))),
-                    //           ],
-                    //         ))),
                     Expanded(
                             child:  TextButton(
                                   style: ElevatedButton.styleFrom(

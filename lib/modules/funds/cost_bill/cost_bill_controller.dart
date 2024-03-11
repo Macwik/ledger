@@ -38,8 +38,6 @@ class CostBillController extends GetxController {
     if (!state.formKey.currentState!.saveAndValidate(focusOnInvalid: false)) {
       return;
     }
-    String? remark = state.formKey.currentState!.fields['costRemark']?.value;
-    String? costMoney = state.formKey.currentState!.fields['costMoney']?.value;
     if (null == state.bankDTO) {
       Toast.show('请选择支付方式');
       return;
@@ -53,12 +51,12 @@ class CostBillController extends GetxController {
       'orderType': state.costOrderType?.value,
       'labelId': state.costLabel?.id,
       'costIncomeName': state.textEditingController.text,
-      'totalAmount': costMoney,
+      'totalAmount': state.amountController.text,
       'discount': state.selectedOption ?? 1,
       'orderPaymentRequest': [
         {
           'paymentMethodId': state.bankDTO!.id,
-          'paymentAmount': costMoney,
+          'paymentAmount': state.amountController.text,
           'ordinal': 0
         }
       ],
@@ -66,7 +64,7 @@ class CostBillController extends GetxController {
       'salesOrderId': state.orderDTO?.id,
       'salesOrderNo': state.orderDTO?.orderNo,
       'productIdList': state.bindingProduct?.map((e) => e.productId).toList(),
-      'remark': remark,
+      'remark': state.remarkController.text,
     }).then((result) {
       Loading.dismiss();
       if (result.success) {
@@ -140,7 +138,6 @@ class CostBillController extends GetxController {
     }
     return state.bindingProduct!.map((e) => e.productName).toList().join(',');
   }
-
   Future<void> pickerDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
@@ -161,14 +158,12 @@ class CostBillController extends GetxController {
   }
 
   void costBillGetBack() {
-    String? remark = state.formKey.currentState?.fields['remark']?.value;
-    String? costMoney = state.formKey.currentState?.fields['costMoney']?.value;
     if ((state.costLabel != null) ||
         (state.bankDTO != null) ||
         (state.bindingProduct != null) ||
         (state.orderDTO != null) ||
-        (costMoney?.isNotEmpty ?? false) ||
-        (remark?.isNotEmpty ?? false)) {
+        (state.amountController.text.isNotEmpty) ||
+        (state.remarkController.text.isNotEmpty )) {
       Get.dialog(AlertDialog(
           title: Text('是否确认退出'),
           content: Text('退出后将无法恢复'),

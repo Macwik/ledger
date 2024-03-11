@@ -3,7 +3,6 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:ledger/res/export.dart';
-import 'package:ledger/widget/custom_textfield.dart';
 
 import 'register_controller.dart';
 
@@ -47,19 +46,29 @@ class RegisterView extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          CustomTextField(
-                            name: 'username',
-                            hintText: '请输入昵称',
-                            border: UnderlineInputBorder(),
+                          TextFormField(
+                            controller: controller.state.nameController,
+                            decoration: InputDecoration(
+                              counterText: '',
+                              hintText: '请填写昵称',
+                            ),
+                            style: TextStyle(
+                                fontSize: 32.sp
+                            ),
                             keyboardType: TextInputType.name,
                             validator: FormBuilderValidators.required(
                                 errorText: '昵称不能为空'.tr),
                           ),
                           SizedBox(height: 30.w),
-                          CustomTextField(
-                            name: 'phone',
-                            hintText: '请输入手机号',
-                            border: UnderlineInputBorder(),
+                          TextFormField(
+                            controller: controller.state.phoneController,
+                            decoration: InputDecoration(
+                              counterText: '',
+                              hintText: '请填写手机号',
+                            ),
+                            style: TextStyle(
+                                fontSize: 32.sp
+                            ),
                             keyboardType: TextInputType.phone,
                             validator: FormBuilderValidators.required(
                                 errorText: '手机号码不能为空'.tr),
@@ -69,10 +78,15 @@ class RegisterView extends StatelessWidget {
                             alignment: const Alignment(0.1, -1),
                             children: [
                               Positioned(
-                                child: CustomTextField(
-                                  name: 'verifyCode',
-                                  hintText: '请输入验证码',
-                                  border: UnderlineInputBorder(),
+                                child: TextFormField(
+                                  controller: controller.state.verifyController,
+                                  decoration: InputDecoration(
+                                    counterText: '',
+                                    hintText: '请填写验证码',
+                                  ),
+                                  style: TextStyle(
+                                      fontSize: 32.sp
+                                  ),
                                   keyboardType: TextInputType.number,
                                   validator: FormBuilderValidators.required(
                                       errorText: '验证码不能为空'.tr),
@@ -107,10 +121,15 @@ class RegisterView extends StatelessWidget {
                               )
                             ],
                           ),
-                          CustomTextField(
-                            name: 'password',
-                            hintText: '请输入密码',
-                            border: UnderlineInputBorder(),
+                          TextFormField(
+                            controller: controller.state.passwordController,
+                            decoration: InputDecoration(
+                              counterText: '',
+                              hintText: '请填写',
+                            ),
+                            style: TextStyle(
+                                fontSize: 32.sp
+                            ),
                             obscureText: true,
                             onChanged: (value) {
                               controller.state.password = value;
@@ -120,10 +139,15 @@ class RegisterView extends StatelessWidget {
                                 errorText: '密码不能为空'.tr),
                           ),
                           SizedBox(height: 30.w),
-                          CustomTextField(
-                            name: 'passwordVerify',
-                            hintText: '请再次输入密码',
-                            border: UnderlineInputBorder(),
+                          TextFormField(
+                            controller: controller.state.passwordVerifyController,
+                            decoration: InputDecoration(
+                              counterText: '',
+                              hintText: '请填写',
+                            ),
+                            style: TextStyle(
+                                fontSize: 32.sp
+                            ),
                             obscureText: true,
                             keyboardType: TextInputType.visiblePassword,
                             validator: (value) {

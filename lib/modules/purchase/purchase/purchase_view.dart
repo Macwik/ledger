@@ -23,9 +23,7 @@ class PurchaseView extends StatelessWidget {
         centerTitle:true,
         title: Text('采购',style: TextStyle(color: Colors.white),),
         leading: BackButton(color: Colors.white,
-            onPressed:(){Get.until((route) {
-              return (route.settings.name == RouteConfig.main);
-            });}),),
+          ),),
       body: SingleChildScrollView(
         child: Column(children: [
           Container(

@@ -969,7 +969,7 @@ class DailyAccountView extends StatelessWidget {
                                   ),
                                   Text(
                                     DateUtil.formatDefaultDate(
-                                        controller.state.dateSaleMoney),
+                                        controller.state.dateCreditMoney),
                                     style: TextStyle(
                                       color: Colours.text_333,
                                       fontSize: 32.sp,

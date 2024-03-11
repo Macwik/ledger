@@ -54,7 +54,7 @@ class AddProductView extends StatelessWidget {
                                       '货物名称',
                                       style: TextStyle(
                                           color: Colours.text_666,
-                                          fontSize: 30.sp,
+                                          fontSize: 32.sp,
                                           fontWeight: FontWeight.w400),
                                     )
                                   ],

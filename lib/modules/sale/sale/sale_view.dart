@@ -26,12 +26,7 @@ class SaleView extends StatelessWidget {
           style: TextStyle(color: Colors.white),
         ),
         leading: BackButton(
-            color: Colors.white,
-            onPressed: () {
-              Get.until((route) {
-                return (route.settings.name == RouteConfig.main);
-              });
-            }),
+            color: Colors.white,)
       ),
       body: SingleChildScrollView(
         child: Column(children: [

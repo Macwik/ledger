@@ -5,7 +5,6 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:ledger/enum/cost_order_type.dart';
 import 'package:ledger/res/export.dart';
-import 'package:ledger/widget/custom_textfield.dart';
 import 'package:decimal/decimal.dart';
 import 'package:ledger/widget/permission/ledger_widget_type.dart';
 import 'package:ledger/widget/permission/permission_owner_widget.dart';
@@ -176,7 +175,7 @@ class CostBillView extends StatelessWidget {
                                                 var text = state
                                                     .textEditingController.text;
                                                 if (text.isEmpty) {
-                                                  return '此字段不能为空';
+                                                  return '名称不能为空';
                                                 }
                                                 // 进行其他验证逻辑
                                                 return null; // 如果验证成功，返回null
@@ -213,16 +212,22 @@ class CostBillView extends StatelessWidget {
                                     ),
                                   ),
                                   Expanded(
-                                      child: CustomTextField(
-                                    name: 'costMoney',
-                                    textAlign: TextAlign.right,
-                                    hintText: '请填写',
+                                      child: TextFormField(
+                                        controller: state.amountController,
+                                        textAlign: TextAlign.right,
+                                        decoration: InputDecoration(
+                                          counterText: '',
+                                          border: InputBorder.none,
+                                          hintText: '请填写',
+                                        ),
+                                        style: TextStyle(
+                                            fontSize: 30.sp
+                                        ),
                                     maxLength: 9,
-                                    fontSize: 30.sp,
                                     keyboardType: TextInputType.number,
                                     validator: FormBuilderValidators.compose([
                                       FormBuilderValidators.required(
-                                          errorText: '费用收入金额不能为空'),
+                                          errorText: '金额不能为空'),
                                       (value) {
                                         var repaymentAmount =
                                             Decimal.tryParse(value!);
@@ -481,13 +486,9 @@ class CostBillView extends StatelessWidget {
                                                   MainAxisAlignment.end,
                                               children: [
                                                 Text(
-                                                    controller
-                                                        .getBindingProductNames(),
+                                                    controller.getBindingProductNames(),
                                                     style: TextStyle(
-                                                      color: (state
-                                                                  .bindingProduct
-                                                                  ?.isEmpty ??
-                                                              true)
+                                                      color: (state.bindingProduct?.isEmpty ?? true)
                                                           ? Colours.text_ccc
                                                           : Colours.text_333,
                                                     )),
@@ -577,14 +578,20 @@ class CostBillView extends StatelessWidget {
                                   )),
                                   Expanded(
                                       flex: 3,
-                                      child: CustomTextField(
-                                        name: 'costRemark',
+                                      child: TextFormField(
+                                        controller: state.remarkController,
                                         textAlign: TextAlign.right,
-                                        fontSize: 30.sp,
-                                        hintText: '请填写',
+                                        decoration: InputDecoration(
+                                          counterText: '',
+                                          border: InputBorder.none,
+                                          hintText: '请填写',
+                                        ),
+                                        style: TextStyle(
+                                            fontSize: 30.sp
+                                        ),
                                         maxLength: 32,
                                         keyboardType:
-                                            TextInputType.emailAddress,
+                                            TextInputType.name,
                                       )),
                                 ],
                               ),

@@ -34,7 +34,8 @@ class SaleBillView extends StatelessWidget {
               style: TextStyle(
                   fontWeight: FontWeight.w500,
                   color: (controller.state.orderType == OrderType.SALE) ||
-                          (controller.state.orderType == OrderType.PURCHASE)
+                          (controller.state.orderType == OrderType.PURCHASE)||
+                      (controller.state.orderType ==OrderType.ADD_STOCK)
                       ? Colors.white
                       : Colors.red[700]),
             );
@@ -157,12 +158,8 @@ class SaleBillView extends StatelessWidget {
                                           child: Row(
                                             children: [
                                               Text(
-                                                (controller.state.orderType ==
-                                                            OrderType.SALE) ||
-                                                        (controller.state
-                                                                .orderType ==
-                                                            OrderType
-                                                                .SALE_RETURN)
+                                                (controller.state.orderType == OrderType.SALE) ||
+                                                        (controller.state.orderType == OrderType.SALE_RETURN)
                                                     ? '客户'
                                                     : '供应商',
                                                 style: TextStyle(
@@ -206,7 +203,8 @@ class SaleBillView extends StatelessWidget {
                                   width: double.infinity,
                                 ),
                                 Visibility(
-                                    visible: controller.state.orderType == OrderType.PURCHASE,
+                                    visible: (controller.state.orderType == OrderType.PURCHASE)||
+                                        (controller.state.orderType == OrderType.ADD_STOCK),
                                     child:
                                 Flex(
                                   direction: Axis.horizontal,
@@ -242,11 +240,12 @@ class SaleBillView extends StatelessWidget {
                                             counterText: '',
                                               hintText: '请输入采购批次号',
                                               border: InputBorder.none),
+                                          style: TextStyle(fontSize: 30.sp),
                                           keyboardType: TextInputType.text,
                                           validator: (value) {
-                                            if(controller.state.orderType == OrderType.PURCHASE) {
-                                              var text = controller.state
-                                                  .textEditingController.text;
+                                            if((controller.state.orderType == OrderType.PURCHASE)||
+                                                (controller.state.orderType == OrderType.ADD_STOCK)) {
+                                              var text = controller.state.textEditingController.text;
                                               if (text.isEmpty) {
                                                 return '批次号不能为空';
                                               }
@@ -284,7 +283,8 @@ class SaleBillView extends StatelessWidget {
                                   ],
                                 )),
                                 Visibility(
-                                    visible: controller.state.orderType == OrderType.PURCHASE,
+                                    visible: (controller.state.orderType == OrderType.PURCHASE)||
+                                        (controller.state.orderType == OrderType.ADD_STOCK),
                                     child:
                                 Container(
                                   color: Colours.divider,
@@ -517,24 +517,28 @@ class SaleBillView extends StatelessWidget {
                         )),
                         Visibility(
                             visible:controller.state.orderType ==OrderType.SALE,
-                            child:
-                        Container(
+                            child: Container(
                           width: 2.w,
                           height: 80.w,
                           margin: EdgeInsets.only(left: 16.w),
                           color: Colours.divider,
                         )),
-                    Container(
-                      margin: EdgeInsets.only(left: 16.w),
+                        Visibility(
+                            visible: controller.state.orderType != OrderType.ADD_STOCK,
+                            child: Container(
+                            margin: EdgeInsets.only(left: 16.w),
+                            child:
+                            Text(
+                              controller.totalAmount(),
+                              style: TextStyle(
+                                  color: Colours.text_999,
+                                  fontSize: 26.sp,
+                                  fontWeight: FontWeight.w500
+                              ),
+                            ))),
+                        Visibility(
+                      visible: controller.state.orderType != OrderType.ADD_STOCK,
                       child:
-                        Text(
-                          controller.totalAmount(),
-                          style: TextStyle(
-                            color: Colours.text_999,
-                            fontSize: 26.sp,
-                            fontWeight: FontWeight.w500
-                          ),
-                        )),
                         Expanded(
                             flex: 2,
                             child: Text(
@@ -544,7 +548,7 @@ class SaleBillView extends StatelessWidget {
                                 fontSize: 42.sp,
                                 fontWeight: FontWeight.w600,
                               ),
-                            )),
+                            ))),
                       ],
                     ),
                   ),
@@ -555,8 +559,7 @@ class SaleBillView extends StatelessWidget {
                         child: ElevatedButton(
                           onPressed: () {
                             controller.state.formKey.currentState
-                                        ?.saveAndValidate() ??
-                                    false
+                                        ?.saveAndValidate() ?? false
                                 ? controller.showPaymentDialog(context)
                                 : null;
                           },
@@ -571,7 +574,9 @@ class SaleBillView extends StatelessWidget {
                             )),
                           ),
                           child: Text(
-                            '支付',
+                            controller.state.orderType == OrderType.ADD_STOCK
+                            ?'确认入库'
+                            :'支付',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 30.sp,

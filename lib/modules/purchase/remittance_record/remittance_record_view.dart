@@ -18,12 +18,6 @@ class RemittanceRecordView extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           leading: BackButton(
-            onPressed: () {
-              Get.until((route) {
-                return (route.settings.name == RouteConfig.purchase) ||
-                    (route.settings.name == RouteConfig.main);
-              });
-            },
             color: Colors.white,
           ),
           backgroundColor: Colours.primary,

@@ -39,4 +39,7 @@ class CostBillState {
   CostBillState() {
     ///Initialize variables
   }
+
+  TextEditingController amountController = TextEditingController();
+  TextEditingController remarkController = TextEditingController();
 }

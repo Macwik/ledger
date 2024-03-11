@@ -7,7 +7,6 @@ import 'package:get/get.dart';
 import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/res/colors.dart';
 import 'package:ledger/util/date_util.dart';
-import 'package:ledger/widget/custom_textfield.dart';
 import 'package:ledger/widget/elevated_btn.dart';
 import 'package:ledger/widget/image.dart';
 import 'package:ledger/widget/permission/ledger_widget_type.dart';
@@ -64,7 +63,7 @@ class AddDebtView extends StatelessWidget {
                           '日期',
                           style: TextStyle(
                             color: Colours.text_666,
-                            fontSize: 30.sp,
+                            fontSize: 32.sp,
                             fontWeight: FontWeight.w400,
                           ),
                         ),
@@ -78,7 +77,7 @@ class AddDebtView extends StatelessWidget {
                                   DateUtil.formatDefaultDate(state.date),
                                   style: TextStyle(
                                     color: Colours.text_333,
-                                    fontSize: 30.sp,
+                                    fontSize: 32.sp,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 );
@@ -117,7 +116,7 @@ class AddDebtView extends StatelessWidget {
                                          '欠款人',
                                         style: TextStyle(
                                           color: Colours.text_666,
-                                          fontSize: 30.sp,
+                                          fontSize: 32.sp,
                                           fontWeight: FontWeight.w400,
                                         ),
                                       ),
@@ -128,7 +127,7 @@ class AddDebtView extends StatelessWidget {
                                  state.customDTO?.customName??'',
                                   style: TextStyle(
                                     color: Colours.text_333,
-                                    fontSize: 30.sp,
+                                    fontSize: 32.sp,
                                   ),
                                 ),
                                 Padding(
@@ -165,7 +164,7 @@ class AddDebtView extends StatelessWidget {
                                        '金额',
                                       style: TextStyle(
                                         color: Colours.text_666,
-                                        fontSize: 30.sp,
+                                        fontSize: 32.sp,
                                         fontWeight: FontWeight.w400,
                                       ),
                                     ),
@@ -173,11 +172,18 @@ class AddDebtView extends StatelessWidget {
                                 ),
                               ),
                               Expanded(
-                                  child: CustomTextField(
-                                name: 'debtMoney',
-                                textAlign: TextAlign.right,
+                                  child: TextFormField(
+                                    controller: state.amountController,
+                                    textAlign: TextAlign.right,
+                                    decoration: InputDecoration(
+                                      counterText: '',
+                                      border: InputBorder.none,
+                                      hintText: '请填写',
+                                    ),
+                                    style: TextStyle(
+                                        fontSize: 32.sp
+                                    ),
                                 maxLength: 9,
-                                hintText: '请填写',
                                 validator: FormBuilderValidators.compose([
                                   FormBuilderValidators.required(errorText: '还款金额不能为空！'),
                                   (value) {
@@ -210,18 +216,25 @@ class AddDebtView extends StatelessWidget {
                           '备注',
                           style: TextStyle(
                             color: Colours.text_666,
-                            fontSize: 30.sp,
+                            fontSize: 32.sp,
                             fontWeight: FontWeight.w400,
                           ),
                         )),
                         Expanded(
                           flex: 3,
-                            child: CustomTextField(
-                                    name: 'debtRemark',
-                                    hintText: '请填写',
-                                    textAlign: TextAlign.right,
+                            child: TextFormField(
+                              controller: state.remarkController,
+                              textAlign: TextAlign.right,
+                              decoration: InputDecoration(
+                                counterText: '',
+                                border: InputBorder.none,
+                                hintText: '请填写',
+                              ),
+                              style: TextStyle(
+                                  fontSize: 32.sp
+                              ),
                                     maxLength: 32,
-                                    keyboardType: TextInputType.emailAddress,
+                                    keyboardType: TextInputType.name,
                                ))
                           ],
                     ),

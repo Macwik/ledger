@@ -118,7 +118,8 @@ import 'package:ledger/modules/setting/payment_manage/payment_manage_binding.dar
 import 'package:ledger/modules/setting/payment_manage/payment_manage_view.dart';
 import 'package:ledger/modules/setting/permission_manage/permission_manage_binding.dart';
 import 'package:ledger/modules/setting/permission_manage/permission_manage_view.dart';
-
+import 'package:ledger/modules/stock/add_stock_record/add_stock_record_binding.dart';
+import 'package:ledger/modules/stock/add_stock_record/add_stock_record_view.dart';
 import 'package:ledger/modules/stock/goods_detail/goods_detail_binding.dart';
 import 'package:ledger/modules/stock/goods_detail/goods_detail_view.dart';
 import 'package:ledger/modules/stock/product_credit/product_credit_binding.dart';
@@ -206,6 +207,8 @@ class RouteConfig {
   static const String productTypeManage = '/page/product/type/manage';
   static const String pendingOrder = '/page/pending/order';
   static const String pendingSaleBill = '/page/pending/sale/bill';
+  static const String addStockRecord = '/page/add/stock/record';
+
 
   static final List<GetPage> getPages = [
     GetPage(name: home, page: () => HomeView(), binding: HomeBinding()),
@@ -435,5 +438,9 @@ class RouteConfig {
         name: pendingSaleBill,
         page: () => PendingSaleBillView(),
         binding: PendingSaleBillBinding()),
+    GetPage(
+        name: addStockRecord,
+        page: () => AddStockRecordView(),
+        binding: AddStockRecordBinding()),
   ];
 }

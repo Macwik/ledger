@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:ledger/res/colors.dart';
-import 'package:ledger/widget/custom_textfield.dart';
 import 'package:ledger/widget/elevated_btn.dart';
 import 'package:ledger/widget/will_pop.dart';
 
@@ -55,14 +54,20 @@ class AddRoleView extends StatelessWidget {
                                   fontSize: 32.sp
                               ),
                             ),
-                            Expanded(child:  CustomTextField(
-                              name: 'roleName',
+                            Expanded(child:  TextFormField(
+                              controller: state.nameController,
                               textAlign: TextAlign.right,
-                              hintText: '请填写',
+                              decoration: InputDecoration(
+                                counterText: '',
+                                border: InputBorder.none,
+                                hintText: '请填写',
+                              ),
+                              style: TextStyle(
+                                  fontSize: 32.sp,
+                                color: Colours.text_333,
+                              ),
                               maxLength: 10,
-                              textColor: Colours.text_333,
-                              fontSize: 32.sp,
-                              keyboardType: TextInputType.emailAddress,
+                              keyboardType: TextInputType.name,
                               validator: FormBuilderValidators.required(
                                   errorText: '请填写岗位名称'.tr),
                             ),),
@@ -84,14 +89,20 @@ class AddRoleView extends StatelessWidget {
                               ),
                             )),
                             Expanded(
-                                child: CustomTextField(
-                                name: 'roleDesc',
-                                hintText: '请填写',
-                                textColor: Colours.text_333,
-                                fontSize: 32.sp,
-                                textAlign: TextAlign.right,
+                                child: TextFormField(
+                                  controller: state.remarkController,
+                                  textAlign: TextAlign.right,
+                                  decoration: InputDecoration(
+                                    counterText: '',
+                                    border: InputBorder.none,
+                                    hintText: '请填写',
+                                  ),
+                                  style: TextStyle(
+                                    fontSize: 32.sp,
+                                    color: Colours.text_333,
+                                  ),
                                 maxLength: 20,
-                                keyboardType: TextInputType.emailAddress,
+                                keyboardType: TextInputType.name,
                             ))
                           ],
                         ),

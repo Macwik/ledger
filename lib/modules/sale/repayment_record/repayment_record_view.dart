@@ -581,7 +581,7 @@ class RepaymentRecordView extends StatelessWidget {
                               height: 66.0,
                               margin: EdgeInsets.all(30.w),
                               child: FloatingActionButton(
-                                onPressed: () => Get.offNamed(RouteConfig.repaymentBill,arguments: {'customType':CustomType.CUSTOM.value}),
+                                onPressed: () => Get.toNamed(RouteConfig.repaymentBill,arguments: {'customType':CustomType.CUSTOM.value}),
                                 child: Container(
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.center,
@@ -886,7 +886,7 @@ class RepaymentRecordView extends StatelessWidget {
                             height: 66.0,
                             margin: EdgeInsets.all(30.w),
                             child: FloatingActionButton(
-                              onPressed: () => Get.offNamed(RouteConfig.repaymentBill,arguments: {'customType':CustomType.SUPPLIER.value}),
+                              onPressed: () => Get.toNamed(RouteConfig.repaymentBill,arguments: {'customType':CustomType.SUPPLIER.value}),
                               child: Container(
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,

@@ -173,7 +173,7 @@ class DailyAccountController extends GetxController {
           return child!;
         });
     if (picked != null) {
-      state.dateSaleMoney = picked;
+      state.dateCreditMoney = picked;
       queryCreditMoneyStatistics();
       update(['daily_credit_money_date']);
     }

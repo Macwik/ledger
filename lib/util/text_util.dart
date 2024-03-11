@@ -97,8 +97,8 @@ class TextUtil {
     for (var element in list) {
       result = '$result$element ';
     }
-    if (result.length >= 20) {
-      return '${result.substring(0, 20)}...';
+    if (result.length >= 12) {
+      return '${result.substring(0, 12)}...';
     }
     return result;
   }

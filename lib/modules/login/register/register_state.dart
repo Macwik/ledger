@@ -18,4 +18,15 @@ class RegisterState {
 
   final formKey = GlobalKey<FormBuilderState>();
 
+
+  TextEditingController nameController = TextEditingController();
+
+  TextEditingController phoneController = TextEditingController();
+
+  TextEditingController verifyController = TextEditingController();
+
+  TextEditingController passwordController = TextEditingController();
+
+  TextEditingController passwordVerifyController = TextEditingController();
+
 }

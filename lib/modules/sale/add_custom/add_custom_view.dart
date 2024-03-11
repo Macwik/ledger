@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:ledger/res/colors.dart';
-import 'package:ledger/widget/custom_textfield.dart';
 import 'package:ledger/widget/elevated_btn.dart';
 import 'package:ledger/widget/will_pop.dart';
 
@@ -60,20 +59,27 @@ class AddCustomView extends StatelessWidget {
                                     Text(
                                        '姓名',
                                       style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 28.sp,
+                                        color: Colours.text_666,
+                                        fontSize: 32.sp,
                                       ),
                                     ),
                                   ],
                                 ),
                               ),
                           Expanded(
-                              child: CustomTextField(
-                                name: 'customName',
+                              child: TextFormField(
+                                controller: state.nameController,
                                 textAlign: TextAlign.right,
-                                hintText: '请填写',
+                                decoration: InputDecoration(
+                                  counterText: '',
+                                  border: InputBorder.none,
+                                  hintText: '请填写',
+                                ),
+                                style: TextStyle(
+                                  fontSize: 32.sp
+                                ),
                                 maxLength: 10,
-                                keyboardType: TextInputType.emailAddress,
+                                keyboardType: TextInputType.name,
                                 validator: FormBuilderValidators.required(
                                     errorText:
                                     state.customType == 0 ? '请输入客户名称' : '请输入供应商名称'),
@@ -82,7 +88,7 @@ class AddCustomView extends StatelessWidget {
                       ),
                       Container(
                         color: Colours.divider,
-                        margin: EdgeInsets.only(top: 10.0, bottom: 10),
+                        margin: EdgeInsets.symmetric( vertical: 8.w),
                         height: 1.w,
                         width: double.infinity,
                       ),
@@ -92,14 +98,21 @@ class AddCustomView extends StatelessWidget {
                               child: Text(
                                 '手机号',
                                 style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 28.sp,
+                                  color: Colours.text_666,
+                                  fontSize: 32.sp,
                                 ),
                               )),
                           Expanded(
-                              child: CustomTextField(
-                                name: 'customPhone',
-                                hintText: '请填写',
+                              child: TextFormField(
+                                controller: state.phoneController,
+                                  decoration: InputDecoration(
+                                    counterText: '',
+                                    border: InputBorder.none,
+                                    hintText: '请填写',
+                                  ),
+                                  style: TextStyle(
+                                      fontSize: 32.sp
+                                  ),
                                 maxLength: 11,
                                 textAlign: TextAlign.right,
                                 keyboardType: TextInputType.phone,
@@ -120,7 +133,7 @@ class AddCustomView extends StatelessWidget {
                       ),
                       Container(
                         color: Colours.divider,
-                        margin: EdgeInsets.only(top: 10.0, bottom: 10),
+                        margin: EdgeInsets.symmetric( vertical: 8.w),
                         height: 1.w,
                         width: double.infinity,
                       ),
@@ -130,24 +143,31 @@ class AddCustomView extends StatelessWidget {
                               child: Text(
                                 '地址',
                                 style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 28.sp,
+                                  color: Colours.text_666,
+                                  fontSize: 32.sp,
                                 ),
                               )),
                           Expanded(
                             flex: 3,
-                              child: CustomTextField(
-                                name: 'customAddress',
+                              child: TextFormField(
+                                controller: state.addressController,
+                                decoration: InputDecoration(
+                                  counterText: '',
+                                  border: InputBorder.none,
+                                  hintText: '请填写',
+                                ),
+                                style: TextStyle(
+                                    fontSize: 32.sp
+                                ),
                                 textAlign: TextAlign.right,
-                                hintText: '请填写',
                                 maxLength: 32,
-                                keyboardType: TextInputType.emailAddress,
+                                keyboardType: TextInputType.name,
                               ))
                         ],
                       ),
                       Container(
                         color: Colours.divider,
-                        margin: EdgeInsets.only(top: 10.0, bottom: 10),
+                        margin: EdgeInsets.symmetric( vertical: 8.w),
                         height: 1.w,
                         width: double.infinity,
                       ),
@@ -157,24 +177,31 @@ class AddCustomView extends StatelessWidget {
                               child: Text(
                                 '备注',
                                 style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 28.sp,
+                                  color: Colours.text_666,
+                                  fontSize: 32.sp,
                                 ),
                               )),
                           Expanded(
                             flex: 3,
-                              child: CustomTextField(
-                                name: 'customRemark',
+                              child: TextFormField(
+                                controller: state.remarkController,
+                                decoration: InputDecoration(
+                                  counterText: '',
+                                  border: InputBorder.none,
+                                  hintText: '请填写',
+                                ),
+                                style: TextStyle(
+                                    fontSize: 32.sp
+                                ),
                                 textAlign: TextAlign.right,
-                                hintText: '请填写',
                                 maxLength: 32,
-                                keyboardType: TextInputType.emailAddress,
+                                keyboardType: TextInputType.name,
                               ))
                         ],
                       ),
                       Container(
                         color: Colours.divider,
-                        margin: EdgeInsets.only(top: 10.0, bottom: 10),
+                        margin: EdgeInsets.only(top: 8.w),
                         height: 1.w,
                         width: double.infinity,
                       ),

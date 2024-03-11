@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/permission_code.dart';
+import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/modules/purchase/stock_list/stock_list_state.dart';
 import 'package:ledger/res/colors.dart';
 import 'package:ledger/route/route_config.dart';
@@ -27,11 +28,7 @@ class StockView extends StatelessWidget {
         ),
         leading: BackButton(
             color: Colors.white,
-            onPressed: () {
-              Get.until((route) {
-                return (route.settings.name == RouteConfig.main);
-              });
-            }),
+           ),
       ),
       body: SingleChildScrollView(
         child: Column(children: [
@@ -72,6 +69,46 @@ class StockView extends StatelessWidget {
                 ],
               ),
             ),
+          ),
+          InkWell(
+            onTap: () => Get.toNamed(RouteConfig.saleBill,
+                arguments: {'orderType':OrderType.ADD_STOCK,}),
+            child: PermissionWidget(
+                permissionCode: PermissionCode.purchase_purchase_order_permission,
+                child:Container(
+                  height: 180.w,
+                  color: Colors.white,
+                  padding: EdgeInsets.only(top: 10.0, left: 20, right: 20),
+                  margin: EdgeInsets.only(bottom: 1),
+                  child: ListView(
+                    children: [
+                      ListTile(
+                        leading: LoadSvg(
+                          'svg/stock_add_stocks',
+                          width: 100.w,
+                        ),
+                        title: Text(
+                          '直接入库',
+                          style: TextStyle(
+                            color: Colours.text_333,
+                            fontSize: 32.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        subtitle: Text(
+                          '非采购情况下，货物直接添加库存',
+                          style: TextStyle(
+                            color: Colours.text_ccc,
+                            fontSize: 24.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        trailing: Icon(Icons.keyboard_arrow_right,
+                          color: Colours.text_ccc,),
+                      ),
+                    ],
+                  ),
+                )),
           ),
           InkWell(
             onTap: () => Get.toNamed(RouteConfig.stockChangeBill),

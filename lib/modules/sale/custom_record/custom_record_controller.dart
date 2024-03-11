@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:ledger/config/api/custom_api.dart';
 import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/entity/custom/custom_dto.dart';
+import 'package:ledger/enum/is_select.dart';
 import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/enum/process_status.dart';
 import 'package:ledger/http/http_util.dart';
@@ -22,12 +23,12 @@ class CustomRecordController extends GetxController {
     var arguments = Get.arguments;
     if ((arguments != null) && arguments['initialIndex'] != null) {
       state.initialIndex = arguments['initialIndex'];
-    } else{
-      state.initialIndex=0;
+    } else {
+      state.initialIndex = 0;
     }
     if ((arguments != null) && arguments['isSelectCustom'] != null) {
       state.isSelectCustom = arguments['isSelectCustom'];
-    } else{
+    } else {
       state.isSelectCustom = false;
     }
     if ((arguments != null) && arguments['orderType'] != null) {
@@ -145,12 +146,12 @@ class CustomRecordController extends GetxController {
 
     actions.add(PermissionWidget(
         permissionCode: PermissionCode.custom_record_invalid_permission,
-        child:CupertinoActionSheetAction(
-      onPressed: () {
-        toInvalidCustom(customDTO);
-      },
-      child:  Text(customDTO?.invalid == 1 ? '启用客户' : '停用客户'),
-    )));
+        child: CupertinoActionSheetAction(
+          onPressed: () {
+            toInvalidCustom(customDTO);
+          },
+          child: Text(customDTO?.invalid == 1 ? '启用客户' : '停用客户'),
+        )));
 
     showCupertinoModalPopup(
       context: context,
@@ -176,7 +177,8 @@ class CustomRecordController extends GetxController {
         content: '确认删除此客户吗？',
         onCancel: () => Get.back(),
         onConfirm: () {
-          Http().network(Method.delete, CustomApi.deleteCustom, queryParameters: {
+          Http()
+              .network(Method.delete, CustomApi.deleteCustom, queryParameters: {
             'id': id,
           }).then((result) {
             if (result.success) {
@@ -253,22 +255,54 @@ class CustomRecordController extends GetxController {
     Get.back();
   }
 
-  void toAddCustom() {
-    Get.toNamed(RouteConfig.addCustom,
-        arguments: {'customType': state.initialIndex})?.then((value) {
-      if (ProcessStatus.OK == value) {
-        queryCustom();
-      }
-    });
+  void toAddCustom(BuildContext context) {
+    List<Widget> actions = [];
+    actions.add(CupertinoActionSheetAction(
+      onPressed: () {
+        Get.back();
+      },
+      child: Text('通讯录导入'),
+    ));
+
+    actions.add(CupertinoActionSheetAction(
+      onPressed: () {
+        Get.back();
+        Get.toNamed(RouteConfig.myAccount,arguments: {'isSelect': IsSelectType.TRUE.value});
+      },
+      child: Text('其他账本导入'),
+    ));
+
+    actions.add(CupertinoActionSheetAction(
+      onPressed: () {
+        Get.back();
+        Get.toNamed(RouteConfig.addCustom, arguments: {'customType': state.initialIndex})?.then((value) {
+          if (ProcessStatus.OK == value) {
+            queryCustom();
+          }
+        });
+      },
+      child: Text('手动输入'),
+    ));
+
+    showCupertinoModalPopup(
+      context: context,
+      builder: (BuildContext context) {
+        return CupertinoActionSheet(
+          actions: actions,
+          cancelButton: CupertinoActionSheetAction(
+            onPressed: () {
+              Get.back();
+            },
+            child: Text('取消'),
+          ),
+        );
+      },
+    );
+
   }
 
   void customRecordGetBack() {
     clearCondition();
-    Get.until((route) {
-      return (route.settings.name == RouteConfig.purchase) ||
-          (route.settings.name == RouteConfig.sale) ||
-          (route.settings.name == RouteConfig.saleBill) ||
-          (route.settings.name == RouteConfig.main);
-    });
+    Get.back();
   }
 }

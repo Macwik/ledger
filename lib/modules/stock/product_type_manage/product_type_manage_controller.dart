@@ -48,6 +48,7 @@ class ProductTypeManageController extends GetxController {
 
     actions.add(CupertinoActionSheetAction(
       onPressed: () {
+        Get.back();
         toEditProductClassify(productClassify);
       },
       child: Text('编辑'),

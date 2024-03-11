@@ -71,7 +71,7 @@ class PendingOrderController extends GetxController {
         cancel: '取消',
         confirm: '确定',
         content: '确认删除此挂单吗？删除后不可恢复！',
-        onCancel: () => {},//Get.back(),
+        onCancel: () => {},
         onConfirm: () {
           Http().network(Method.delete, OrderApi.pending_order_delete, queryParameters: {
             'salesOrderDraftId': id,
@@ -79,7 +79,6 @@ class PendingOrderController extends GetxController {
             if (result.success) {
               onRefresh();
               Toast.show('删除成功');
-             // Get.back();
             } else {
               Toast.show(result.m.toString());
             }

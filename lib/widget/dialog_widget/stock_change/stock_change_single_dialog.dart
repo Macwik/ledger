@@ -10,13 +10,14 @@ import 'package:ledger/entity/product/product_stock_adjust_request.dart';
 import 'package:ledger/enum/process_status.dart';
 import 'package:ledger/res/colors.dart';
 import 'package:ledger/util/toast_util.dart';
-import 'package:ledger/widget/custom_textfield.dart';
 
 class StockChangeSingleDialog extends StatelessWidget {
   final formKey = GlobalKey<FormBuilderState>();
 
   final ProductDTO productDTO;
   final bool Function(ProductStockAdjustRequest? result) onClick;
+
+  TextEditingController stockChangeController = TextEditingController();
 
   StockChangeSingleDialog({required this.productDTO, required this.onClick});
 
@@ -43,12 +44,17 @@ class StockChangeSingleDialog extends StatelessWidget {
                       ),
                       Expanded(
                         flex: 1,
-                        child: CustomTextField(
-                          name: 'stockChangeNum',
-                          hintText: '0.00',
+                        child: TextFormField(
+                          controller: stockChangeController,
+                          decoration: InputDecoration(
+                            counterText: '',
+                            hintText: '请填写',
+                          ),
+                          style: TextStyle(
+                              fontSize: 32.sp
+                          ),
                           textAlign: TextAlign.center,
                           maxLength: 10,
-                          border: UnderlineInputBorder(),
                           keyboardType: TextInputType.number,
                           validator: FormBuilderValidators.compose([
                             FormBuilderValidators.required(
@@ -136,12 +142,11 @@ class StockChangeSingleDialog extends StatelessWidget {
   }
 
   ProductStockAdjustRequest buildProductStockAdjustRequest() {
-    String? value = formKey.currentState?.fields['stockChangeNum']?.value;
     return ProductStockAdjustRequest(
         productId: productDTO.id,
         productName: productDTO.productName,
         unitName: productDTO.unitDetailDTO?.unitName,
         unitType: productDTO.unitDetailDTO?.unitType,
-        stock: Decimal.tryParse(value ?? '0'));
+        stock: Decimal.tryParse(stockChangeController.text));
   }
 }

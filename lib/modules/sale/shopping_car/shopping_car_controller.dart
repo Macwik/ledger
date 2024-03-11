@@ -7,6 +7,8 @@ import 'package:ledger/config/api/product_api.dart';
 import 'package:ledger/entity/product/product_classify_list_dto.dart';
 import 'package:ledger/entity/product/product_dto.dart';
 import 'package:ledger/entity/unit/unit_detail_dto.dart';
+import 'package:ledger/enum/order_type.dart';
+import 'package:ledger/enum/page_to_type.dart';
 import 'package:ledger/enum/process_status.dart';
 import 'package:ledger/enum/sales_channel.dart';
 import 'package:ledger/enum/unit_type.dart';
@@ -16,6 +18,7 @@ import 'package:ledger/res/colors.dart';
 import 'package:ledger/route/route_config.dart';
 import 'package:ledger/util/decimal_util.dart';
 import 'package:ledger/util/toast_util.dart';
+import 'package:ledger/widget/dialog_widget/add_stock_dialog.dart';
 import 'package:ledger/widget/dialog_widget/product_unit_dialog.dart';
 import 'package:ledger/widget/dialog_widget/stock_change/stock_change_multi_dialog.dart';
 import 'package:ledger/widget/dialog_widget/stock_change/stock_change_single_dialog.dart';
@@ -439,21 +442,41 @@ class ShoppingCarController extends GetxController {
   }
 
   Future<void> addToShoppingCar(ProductDTO productDTO) async {
-    Get.dialog(AlertDialog(
-      title: null, // 设置标题为null，
-      content: SingleChildScrollView(
-        child: ProductUnitDialog(
-          productDTO: productDTO,
-          orderType: state.orderType,
-          onClick: (result) {
-            state.shoppingCarList?.add(result);
-            update(['shopping_car_box']);
-            return true;
-          },
-          controller: this,
-        ),
-      ),
-    ));
+    if(PageToType.BILL == state.pageToType){
+      if(state.orderType == OrderType.ADD_STOCK){
+        Get.dialog(AlertDialog(
+          title: null, // 设置标题为null，
+          content: SingleChildScrollView(
+            child: AddStockDialog(
+              productDTO: productDTO,
+              orderType: state.orderType,
+              onClick: (result) {
+                state.shoppingCarList?.add(result);
+                update(['shopping_car_box']);
+                return true;
+              },
+              controller: this,
+            ),
+          ),
+        ));
+      }else{
+        Get.dialog(AlertDialog(
+          title: null, // 设置标题为null，
+          content: SingleChildScrollView(
+            child: ProductUnitDialog(
+              productDTO: productDTO,
+              orderType: state.orderType,
+              onClick: (result) {
+                state.shoppingCarList?.add(result);
+                update(['shopping_car_box']);
+                return true;
+              },
+              controller: this,
+            ),
+          ),
+        ));
+      }
+    }
   }
 
   Future<void> addToAdjust(ProductDTO productDTO) async {

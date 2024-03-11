@@ -15,11 +15,9 @@ class EmployeeManageController extends GetxController {
   }
 
   Future<void> queryLedgerUserList() async {
-    Loading.showDuration();
     final result = await Http()
         .network<List<UserBaseDTO>>(Method.get, LedgerApi.ledger_user_list);
     if (result.success) {
-      Loading.dismiss();
       state.items = result.d;
       update(['employee_manage_employee_list']);
     } else {

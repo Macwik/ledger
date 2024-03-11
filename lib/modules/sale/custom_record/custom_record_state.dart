@@ -31,4 +31,7 @@ class CustomRecordState {
   CustomRecordState() {
     ///Initialize variables
   }
+
+  //选择导入客户方式
+  int? selectedOption ;
 }
