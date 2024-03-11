@@ -26,7 +26,7 @@ class DecimalUtil {
 
   static String formatDecimalNumber(Decimal? amount, {int scale = 2}) {
     if (null == amount) {
-      return '';
+      return '0';
     }
     if (amount.isInteger) {
       return amount.toBigInt().toString();
@@ -51,12 +51,12 @@ class DecimalUtil {
     return (first - second).toStringAsFixed(2);
   }
 
-  /// 减法
-  static Decimal subtractDecimal(Decimal? first, Decimal? second) {
-    first = first ?? Decimal.zero;
-    second = second ?? Decimal.zero;
-    return first - second;
-  }
+  // /// 减法
+  // static Decimal subtractDecimal(Decimal? first, Decimal? second) {
+  //   first = first ?? Decimal.zero;
+  //   second = second ?? Decimal.zero;
+  //   return first - second;
+  // }
 
   /// 除法
   static Decimal? divide(Decimal? dividend, Decimal? divisor) {
