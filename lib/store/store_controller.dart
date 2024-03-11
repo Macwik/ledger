@@ -1,9 +1,6 @@
 import 'package:ledger/config/api/auth_api.dart';
-import 'package:ledger/config/api/calculate_scale_api.dart';
 import 'package:ledger/entity/auth/user_authorization_dto.dart';
-import 'package:ledger/entity/calculate/calculate_scale_dto.dart';
 import 'package:ledger/entity/user/user_dto_entity.dart';
-import 'package:ledger/enum/calculate_scale.dart';
 import 'package:ledger/res/export.dart';
 import 'package:get/get.dart';
 
@@ -11,8 +8,6 @@ class StoreController extends GetxController {
   static StoreController get to => Get.find();
   final RxBool authenticated = false.obs;
   final RxList<String> permissions = <String>[].obs;
-  final RxInt ledgerScale = CalculateScale.KEEP_TWO_DECIMALS.value.obs;
-  final RxBool ledgerScaleUpdated = false.obs;
   final RxObjectMixin<UserDTOEntity> userEntity = UserDTOEntity().obs;
 
   /// 获取当前用户
@@ -28,8 +23,7 @@ class StoreController extends GetxController {
     return userEntity.value;
   }
 
-
-  int? getCurrentUser(){
+  int? getCurrentUser() {
     var user = getUser();
     if (user == null) {
       return null;
@@ -65,7 +59,6 @@ class StoreController extends GetxController {
     await GetStorage().write(Constant.CURRENT_USER, user.toJson());
     _changeLoginStatus(true);
   }
-
 
   Future<void> updateUser(String? username) async {
     userEntity.value.username = username;
@@ -132,37 +125,6 @@ class StoreController extends GetxController {
       }
       return false;
     });
-  }
-
-  updateLedgerCalculateScale() {
-    Http()
-        .network<CalculateScaleDTO>(
-      Method.get,
-      CalculateScaleApi.get_calculate_scale,
-    )
-        .then((result) async {
-      if (result.success) {
-        var scale = result.d?.scale;
-        if (null != scale && scale != ledgerScale.value) {
-          await GetStorage().write(Constant.LEDGER_SCALE, scale);
-          ledgerScaleUpdated.value = true;
-          ledgerScale.value = scale;
-        }
-      }
-    });
-  }
-
-  int getLedgerCalculateScale() {
-    if (!ledgerScaleUpdated.value) {
-      int? calculateScale = GetStorage().read<int>(Constant.LEDGER_SCALE);
-      if (null != calculateScale) {
-        ledgerScaleUpdated.value = true;
-        ledgerScale.value = calculateScale;
-      }
-    } else {
-      updateLedgerCalculateScale();
-    }
-    return ledgerScale.value;
   }
 
   /// 获取用户当前全量权限点

@@ -96,8 +96,6 @@ import 'package:ledger/modules/setting/add_role/add_role_binding.dart';
 import 'package:ledger/modules/setting/add_role/add_role_view.dart';
 import 'package:ledger/modules/setting/auth/auth_update_binding.dart';
 import 'package:ledger/modules/setting/auth/auth_update_view.dart';
-import 'package:ledger/modules/setting/decimal_setting/decimal_setting_binding.dart';
-import 'package:ledger/modules/setting/decimal_setting/decimal_setting_view.dart';
 import 'package:ledger/modules/setting/employee/employee_binding.dart';
 import 'package:ledger/modules/setting/employee/employee_view.dart';
 import 'package:ledger/modules/setting/employee_manage/employee_manage_binding.dart';
@@ -402,10 +400,6 @@ class RouteConfig {
         name: stockChangeDetail,
         page: () => StockChangeDetailView(),
         binding: StockChangeDetailBinding()),
-    GetPage(
-        name: decimalSetting,
-        page: () => DecimalSettingView(),
-        binding: DecimalSettingBinding()),
     GetPage(
         name: customList,
         page: () => CustomListView(),

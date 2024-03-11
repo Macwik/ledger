@@ -1,6 +1,4 @@
 import 'package:decimal/decimal.dart';
-import 'package:ledger/enum/calculate_scale.dart';
-import 'package:ledger/store/store_controller.dart';
 
 enum DecimalUnit {
   YUAN, // ¥6.00
@@ -89,33 +87,6 @@ class DecimalUtil {
       return '';
     }
     return value.toStringAsFixed(scale);
-  }
-
-  static String formatDecimalScale(Decimal? value) {
-    if (null == value) {
-      return '';
-    }
-    int scale = StoreController.to.getLedgerCalculateScale();
-    CalculateScale calculateScale = getByValue(scale);
-    switch (calculateScale) {
-      case CalculateScale.KEEP_TWO_DECIMALS:
-        return value.toStringAsFixed(2).replaceAll(RegExp(r'\.00'), '');
-      case CalculateScale.KEEP_INTEGER:
-        return value.toStringAsFixed(0);
-      case CalculateScale.KEEP_ONE_DECIMAL:
-        return value.toStringAsFixed(1).replaceAll(RegExp(r'\.0'), '');
-    }
-  }
-
-  static const List<CalculateScale> calculateScaleList = CalculateScale.values;
-
-  static CalculateScale getByValue(int scaleValue) {
-    for (var value in calculateScaleList) {
-      if (value.value == scaleValue) {
-        return value;
-      }
-    }
-    return CalculateScale.KEEP_TWO_DECIMALS;
   }
 
   static String multiply(Decimal slaveStock, Decimal conversion,

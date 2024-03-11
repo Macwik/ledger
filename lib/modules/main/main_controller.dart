@@ -30,7 +30,6 @@ class MainController extends GetxController {
 
   void updatePage() {
     StoreController.to.updatePermissionCode();
-    StoreController.to.updateLedgerCalculateScale();
     switch (getSelectIndex()) {
       case 0:
         HomeBinding().dependencies();
