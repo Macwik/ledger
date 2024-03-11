@@ -8,7 +8,5 @@ class MineState {
   MineState() {
     ///Initialize variables
   }
-  final UserDTOEntity? user = StoreController.to.getUser();
-
 
 }

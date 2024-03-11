@@ -16,7 +16,7 @@ class AccountManageState {
 
   final formKey = GlobalKey<FormBuilderState>();
 
- int? ledgerId;
+  int? ledgerId;
 
   TextEditingController nameController = TextEditingController();
 }

@@ -13,6 +13,9 @@ class UserApi{
   //获取用户信息
   static const String user_detail = '/api/erp/v2/user/detail';
 
+  //获取用户列表信息
+  static const String user_info = '/api/erp/v2/user/user/info';
+
   //获取库存列表信息
   static const String product_list = '/api/erp/v2/product/list';
 

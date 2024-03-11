@@ -145,4 +145,9 @@ class StoreController extends GetxController {
     }
     return List<String>.empty();
   }
+
+  updateCurrentUserActiveLedger(UserDTOEntity user) async {
+    userEntity.value = user;
+    await GetStorage().write(Constant.CURRENT_USER, user.toJson());
+  }
 }

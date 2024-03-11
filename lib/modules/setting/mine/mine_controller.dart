@@ -5,6 +5,7 @@ import 'package:ledger/config/api/user_api.dart';
 import 'package:ledger/entity/app/app_check_dto.dart';
 import 'package:ledger/entity/user/user_detail_dto.dart';
 import 'package:ledger/enum/change_status.dart';
+import 'package:ledger/enum/is_select.dart';
 import 'package:ledger/http/http_util.dart';
 import 'package:ledger/route/route_config.dart';
 import 'package:ledger/util/toast_util.dart';
@@ -72,6 +73,13 @@ class MineController extends GetxController {
           barrierDismissible: false,
         );
       }
+    });
+  }
+
+  toMyAccount() {
+    Get.toNamed(RouteConfig.myAccount,
+        arguments: {'isSelect': IsSelectType.FALSE.value})?.then((result) {
+      update(['mine_active_ledger_name']);
     });
   }
 }

@@ -32,26 +32,26 @@ class HomeView extends StatelessWidget {
             liverAppBar(),
             GetBuilder<HomeController>(
                 id: 'home_head_function',
-                builder: (_){
-              return SliverPadding(
-                  padding: EdgeInsets.all(8),
-                  sliver: SliverGrid(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 5,
-                      crossAxisSpacing: 36.w,
-                      mainAxisSpacing: 0,
-                      childAspectRatio: 0.639,
+                builder: (_) {
+                  return SliverPadding(
+                    padding: EdgeInsets.all(8),
+                    sliver: SliverGrid(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 5,
+                        crossAxisSpacing: 36.w,
+                        mainAxisSpacing: 0,
+                        childAspectRatio: 0.639,
+                      ),
+                      delegate: SliverChildBuilderDelegate((context, index) {
+                        return gridItem(index);
+                      }, childCount: 5),
                     ),
-                    delegate: SliverChildBuilderDelegate((context, index) {
-                      return gridItem(index);
-                    }, childCount: 5),
-                  ),
-                );
-            }),
+                  );
+                }),
             SliverToBoxAdapter(
               child: Container(
                 alignment: Alignment.centerLeft,
-                padding: EdgeInsets.only(left: 52.w,top: 24.w),
+                padding: EdgeInsets.only(left: 52.w, top: 24.w),
                 child: Text(
                   '今日交易情况：',
                   style: TextStyle(
@@ -70,7 +70,7 @@ class HomeView extends StatelessWidget {
             SliverToBoxAdapter(
               child: Container(
                 alignment: Alignment.centerLeft,
-                padding: EdgeInsets.only(left: 52.w,top: 16.w),
+                padding: EdgeInsets.only(left: 52.w, top: 16.w),
                 child: Text(
                   '常用功能：',
                   style: TextStyle(
@@ -81,20 +81,20 @@ class HomeView extends StatelessWidget {
               ),
             ),
             GetBuilder<HomeController>(
-              id: 'home_common_function',
-                builder: (_){
-              return             //常用功能
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                        (BuildContext ctx, int index) {
-                      return functionCard(index);
-                    },
-                    childCount: 3,
-                    addAutomaticKeepAlives: false,
-                    addSemanticIndexes: false,
-                  ),
-                );
-            }),
+                id: 'home_common_function',
+                builder: (_) {
+                  return //常用功能
+                      SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (BuildContext ctx, int index) {
+                        return functionCard(index);
+                      },
+                      childCount: 3,
+                      addAutomaticKeepAlives: false,
+                      addSemanticIndexes: false,
+                    ),
+                  );
+                }),
 
             //card
             SliverList(
@@ -120,7 +120,8 @@ class HomeView extends StatelessWidget {
       leadingWidth: (ScreenUtil().screenWidth - 108.w),
       backgroundColor: Colors.white,
       leading: InkWell(
-        onTap: () => Get.toNamed(RouteConfig.myAccount,arguments: {'isSelect':IsSelectType.FALSE.value}),
+        onTap: () => Get.toNamed(RouteConfig.myAccount,
+            arguments: {'isSelect': IsSelectType.FALSE.value}),
         child: Flex(
           direction: Axis.horizontal,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -130,15 +131,19 @@ class HomeView extends StatelessWidget {
               constraints: BoxConstraints(
                 maxWidth: (ScreenUtil().screenWidth - 182.w),
               ),
-              child: Text(
-                controller.getActiveLedger() ?? '',
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 14,
-                ),
-              ),
+              child: GetBuilder<HomeController>(
+                  id: 'home_active_ledger_name',
+                  builder: (_) {
+                    return Text(
+                      controller.getActiveLedger() ?? '',
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 14,
+                      ),
+                    );
+                  }),
             ),
             Padding(
               padding: EdgeInsets.only(left: 10.w),
@@ -196,7 +201,10 @@ class HomeView extends StatelessWidget {
                   builder: (_) {
                     return InkWell(
                         onTap: () => Get.toNamed(RouteConfig.dailyAccount,
-                            arguments: {'initialIndex': 1,'startDateSalesProduct':DateTime.now()}),
+                                arguments: {
+                                  'initialIndex': 1,
+                                  'startDateSalesProduct': DateTime.now()
+                                }),
                         child: Column(
                           children: [
                             Container(
@@ -308,8 +316,14 @@ class HomeView extends StatelessWidget {
                                                             ),
                                                             Expanded(
                                                                 child: Text(
-                                                                  DecimalUtil.formatDecimal(((salesProductStatistics.totalAmount??Decimal.zero)
-                                                                      - (salesProductStatistics.discountAmount??Decimal.zero))),
+                                                              DecimalUtil.formatDecimal(((salesProductStatistics
+                                                                          .totalAmount ??
+                                                                      Decimal
+                                                                          .zero) -
+                                                                  (salesProductStatistics
+                                                                          .discountAmount ??
+                                                                      Decimal
+                                                                          .zero))),
                                                               style: TextStyle(
                                                                   fontSize:
                                                                       28.sp,
@@ -353,8 +367,11 @@ class HomeView extends StatelessWidget {
                                                         ),
                                                         Visibility(
                                                             visible:
-                                                                salesProductStatistics.unitType !=
-                                                                    UnitType.SINGLE.value,
+                                                                salesProductStatistics
+                                                                        .unitType !=
+                                                                    UnitType
+                                                                        .SINGLE
+                                                                        .value,
                                                             child: Column(
                                                               children: [
                                                                 SizedBox(
@@ -443,8 +460,8 @@ class HomeView extends StatelessWidget {
                                 bottom: 14.w),
                             child: Row(
                               children: [
-                                Expanded(child:
-                                Text(
+                                Expanded(
+                                    child: Text(
                                   '今日交易资金情况：',
                                   style: TextStyle(
                                     fontWeight: FontWeight.w400,
@@ -518,8 +535,8 @@ class HomeView extends StatelessWidget {
                                                     SizedBox(
                                                       width: 16.w,
                                                     ),
-                                                    Expanded(child:
-                                                    Text(
+                                                    Expanded(
+                                                        child: Text(
                                                       salesPaymentStatistics
                                                               .paymentMethodName ??
                                                           '',
@@ -597,7 +614,10 @@ class HomeView extends StatelessWidget {
                   id: 'home_repayment_statistics',
                   builder: (_) {
                     return InkWell(
-                        onTap: () => Get.toNamed(RouteConfig.repaymentRecord,arguments: {'customType': CustomType.CUSTOM.value,}),
+                        onTap: () => Get.toNamed(RouteConfig.repaymentRecord,
+                                arguments: {
+                                  'customType': CustomType.CUSTOM.value,
+                                }),
                         child: Column(
                           children: [
                             Container(
@@ -675,10 +695,11 @@ class HomeView extends StatelessWidget {
                                                   Expanded(
                                                       child: Row(
                                                     children: [
-                                                      Expanded(child:
-                                                      Text(
+                                                      Expanded(
+                                                          child: Text(
                                                         salesRepaymentStatistics
-                                                                .customName ?? '',
+                                                                .customName ??
+                                                            '',
                                                         style: TextStyle(
                                                           fontSize: 30.sp,
                                                           color: Colors.black,
@@ -708,7 +729,11 @@ class HomeView extends StatelessWidget {
                                                             ),
                                                             Expanded(
                                                                 child: Text(
-                                                                  DecimalUtil.subtract(salesRepaymentStatistics.totalAmount, salesRepaymentStatistics.discountAmount),
+                                                              DecimalUtil.subtract(
+                                                                  salesRepaymentStatistics
+                                                                      .totalAmount,
+                                                                  salesRepaymentStatistics
+                                                                      .discountAmount),
                                                               style: TextStyle(
                                                                 fontSize: 28.sp,
                                                                 color: Colours
@@ -867,14 +892,14 @@ class HomeView extends StatelessWidget {
                                                   SizedBox(width: 48.w),
                                                   Expanded(
                                                       child: Text(
-                                                        salesCreditStatisticsDTO
+                                                    salesCreditStatisticsDTO
                                                             .customName ??
-                                                            '',
-                                                        style: TextStyle(
-                                                          fontSize: 30.sp,
-                                                          color: Colors.black,
-                                                        ),
-                                                      )),
+                                                        '',
+                                                    style: TextStyle(
+                                                      fontSize: 30.sp,
+                                                      color: Colors.black,
+                                                    ),
+                                                  )),
                                                   Expanded(
                                                     child: Row(
                                                       mainAxisAlignment:
@@ -1026,8 +1051,7 @@ class _MySliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
           return Container(
             width: (ScreenUtil().screenWidth - 52.0) * 2.w,
             height: (ScreenUtil().screenWidth - 52.0) * 2.w * 0.7,
-            margin: EdgeInsets.symmetric(
-                horizontal: 16.w, vertical: 20.w),
+            margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.w),
             alignment: Alignment.center,
             decoration: BoxDecoration(
               image: DecorationImage(
@@ -1039,116 +1063,114 @@ class _MySliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
               children: [
                 Expanded(
                   flex: 1,
-                  child:Container(
-                    alignment: Alignment.center,
-                    child:
-                  Flex(
-                    direction: Axis.horizontal,
-                    children: [
-                      Expanded(
-                          flex:1,
-                          child: Column(
+                  child: Container(
+                      alignment: Alignment.center,
+                      child: Flex(
+                        direction: Axis.horizontal,
                         children: [
                           Expanded(
-                            child:Container(
-                          alignment: Alignment.bottomCenter,
-                              child:Text(
-                              textAlign: TextAlign.center,
-                              '销售实收：',
-                              style: TextStyle(
-                                  color: Colors.white70,
-                                  fontSize: 28.sp,
-                                  fontWeight: FontWeight.w400,
-                                )))
-                              ),
+                              flex: 1,
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                      child: Container(
+                                          alignment: Alignment.bottomCenter,
+                                          child: Text(
+                                              textAlign: TextAlign.center,
+                                              '销售实收：',
+                                              style: TextStyle(
+                                                color: Colors.white70,
+                                                fontSize: 28.sp,
+                                                fontWeight: FontWeight.w400,
+                                              )))),
+                                  Expanded(
+                                      flex: 2,
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          textAlign: TextAlign.left,
+                                          '￥${state.homeStatisticsDTO?.totalSalesAmount ?? '0'}',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 38.sp,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ))
+                                ],
+                              )),
                           Expanded(
-                            flex: 2,
-                            child: Container(
-                              alignment: Alignment.center,
-                              child:Text(
-                              textAlign: TextAlign.left,
-                              '￥${state.homeStatisticsDTO?.totalSalesAmount ?? '0'}',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 38.sp,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ))
-                        ],
-                      )),
-                      Expanded(
-                          flex:1,
-                          child: Column(
-                            children: [
-                              Expanded(
-                                child:Container(
-                          alignment: Alignment.bottomCenter,
-                            child:Text(
-                                  textAlign: TextAlign.center,
-                                  '销售地费用：',
-                                      style: TextStyle(
-                                        color: Colors.white70,
-                                        fontSize: 28.sp,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                )),
-                              ),
-                              Expanded(
-                                flex: 2,
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  child:Text(
-                                  textAlign: TextAlign.left,
-                                  '￥${state.homeStatisticsDTO?.totalCostAmount ?? '0'}',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 38.sp,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                )),
-                              )
-                            ],
-                          )),
-                      Expanded(
-                          flex:1,
-                          child: Visibility(
-                            visible:state.homeStatisticsDTO?.totalIncomeAmount!=Decimal.zero,
-                            child:Column(
-                              children: [
-                                Expanded(
+                              flex: 1,
+                              child: Column(
+                                children: [
+                                  Expanded(
                                     child: Container(
                                         alignment: Alignment.bottomCenter,
-                                        child:Text(
+                                        child: Text(
                                           textAlign: TextAlign.center,
-                                          '销售地收入：',
+                                          '销售地费用：',
                                           style: TextStyle(
                                             color: Colors.white70,
                                             fontSize: 28.sp,
                                             fontWeight: FontWeight.w400,
                                           ),
-                                        ))
-                                ),
-                                Expanded(
+                                        )),
+                                  ),
+                                  Expanded(
                                     flex: 2,
                                     child: Container(
-                                      alignment: Alignment.center,
-                                      child:Text(
-                                        textAlign: TextAlign.left,
-                                        '￥${state.homeStatisticsDTO?.totalIncomeAmount ?? '0'}',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 38.sp,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ))
-                              ],
-                            ) ,
-                          )
-                          ),
-                    ],
-                  )),
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          textAlign: TextAlign.left,
+                                          '￥${state.homeStatisticsDTO?.totalCostAmount ?? '0'}',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 38.sp,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        )),
+                                  )
+                                ],
+                              )),
+                          Expanded(
+                              flex: 1,
+                              child: Visibility(
+                                visible: state
+                                        .homeStatisticsDTO?.totalIncomeAmount !=
+                                    Decimal.zero,
+                                child: Column(
+                                  children: [
+                                    Expanded(
+                                        child: Container(
+                                            alignment: Alignment.bottomCenter,
+                                            child: Text(
+                                              textAlign: TextAlign.center,
+                                              '销售地收入：',
+                                              style: TextStyle(
+                                                color: Colors.white70,
+                                                fontSize: 28.sp,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ))),
+                                    Expanded(
+                                        flex: 2,
+                                        child: Container(
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            textAlign: TextAlign.left,
+                                            '￥${state.homeStatisticsDTO?.totalIncomeAmount ?? '0'}',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 38.sp,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ))
+                                  ],
+                                ),
+                              )),
+                        ],
+                      )),
                 ),
                 Container(
                   height: 1.w,
@@ -1163,71 +1185,69 @@ class _MySliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
                         children: [
                           Expanded(
                               flex: 1,
-                              child:Container(
+                              child: Container(
                                   alignment: Alignment.center,
-                                  child:
-                                  Column(
-                            children: [
-                              Expanded(
-                                  child: Container(
-                                  alignment: Alignment.bottomCenter,
-                                      child: Text(
-                                '客户还款: ',
-                                textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          color: Colors.white70,
-                                          fontSize: 28.sp,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                              ))),
-                              Expanded(
-                                flex: 2,
-                                  child: Container(
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                    '￥${state.homeStatisticsDTO?.totalRepaymentAmount ?? '0'}',
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 38.sp,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  )))
-                            ],
-                          ))),
+                                  child: Column(
+                                    children: [
+                                      Expanded(
+                                          child: Container(
+                                              alignment: Alignment.bottomCenter,
+                                              child: Text(
+                                                '客户还款: ',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  color: Colors.white70,
+                                                  fontSize: 28.sp,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              ))),
+                                      Expanded(
+                                          flex: 2,
+                                          child: Container(
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                '￥${state.homeStatisticsDTO?.totalRepaymentAmount ?? '0'}',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 38.sp,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              )))
+                                    ],
+                                  ))),
                           Expanded(
-                          child: Container(
-                            alignment: Alignment.center,
-                            child:  Column(
-                              children: [
-                                Expanded(
-                                    child: Container(
-                            alignment: Alignment.bottomCenter,
-                                child: Text(
-                                      textAlign: TextAlign.center,
-                                      '客户欠款: ',
-                                      style: TextStyle(
-                                        color: Colors.white70,
-                                        fontSize: 28.sp,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ))),
-                                Expanded(
-                                  flex: 2,
-                                    child:Container(
-                                        alignment: Alignment.center,
-                                        child:  Text(
-                                      textAlign: TextAlign.left,
-                                      '￥${state.homeStatisticsDTO?.totalCreditAmount ?? '0'}',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 38.sp,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    )))
-                              ],
-                            ))
-                         ),
+                              child: Container(
+                                  alignment: Alignment.center,
+                                  child: Column(
+                                    children: [
+                                      Expanded(
+                                          child: Container(
+                                              alignment: Alignment.bottomCenter,
+                                              child: Text(
+                                                textAlign: TextAlign.center,
+                                                '客户欠款: ',
+                                                style: TextStyle(
+                                                  color: Colors.white70,
+                                                  fontSize: 28.sp,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              ))),
+                                      Expanded(
+                                          flex: 2,
+                                          child: Container(
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                textAlign: TextAlign.left,
+                                                '￥${state.homeStatisticsDTO?.totalCreditAmount ?? '0'}',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 38.sp,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              )))
+                                    ],
+                                  ))),
                           Expanded(child: Container())
                         ],
                       ),
@@ -1274,7 +1294,8 @@ Widget functionCard(int index) {
             Get.toNamed(functionRoutes[index],
                 arguments: {'initialIndex': 0, 'isSelectCustom': false});
           } else {
-            Get.toNamed(functionRoutes[index], arguments: {'orderType': OrderType.SALE});
+            Get.toNamed(functionRoutes[index],
+                arguments: {'orderType': OrderType.SALE});
           }
         },
         child: Card(

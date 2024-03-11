@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:ledger/config/api/ledger_api.dart';
+import 'package:ledger/config/api/user_api.dart';
 import 'package:ledger/entity/ledger/user_ledger_dto.dart';
+import 'package:ledger/entity/user/user_dto_entity.dart';
 import 'package:ledger/enum/is_select.dart';
 import 'package:ledger/enum/process_status.dart';
 import 'package:ledger/res/export.dart';
@@ -25,7 +27,8 @@ class MyAccountController extends GetxController {
   }
 
   Future<void> listLedger() async {
-    final result = await Http().network<UserLedgerDTO>(Method.get, LedgerApi.ledger_list);
+    final result =
+        await Http().network<UserLedgerDTO>(Method.get, LedgerApi.ledger_list);
     if (result.success) {
       state.userLedger = result.d;
       update(['join_account', 'own_account']);
@@ -40,31 +43,37 @@ class MyAccountController extends GetxController {
         cancel: '取消',
         confirm: '确定',
         content: '确认切换账本吗',
-        onCancel: () {},
+        onCancel: () => Get.back(),
         onConfirm: () async {
-          Loading.showDuration();
-          await Http().network(Method.put, LedgerApi.ledger_change, queryParameters: {
+          Loading.showDuration(status: '账本切换中...');
+          await Http()
+              .network(Method.put, LedgerApi.ledger_change, queryParameters: {
             'ledgerId': ledgerId,
-          }).then((result) {
-            if(result.success){
-
-              StoreController.to.signOut();
-              Loading.dismiss();
-            }else{
+          }).then((result) async {
+            if (result.success) {
+              await Http()
+                  .network<UserDTOEntity>(Method.get, UserApi.user_info)
+                  .then((value) async {
+                if (value.strictSuccess) {
+                  await StoreController.to
+                      .updateCurrentUserActiveLedger(value.d!);
+                  await StoreController.to.clearPermission();
+                  await StoreController.to.updatePermissionCode();
+                  listLedger();
+                  Loading.dismiss();
+                  Get.defaultDialog(
+                      title: '提示',
+                      barrierDismissible: false,
+                      middleText: '账本切换成功',
+                      onConfirm: () => Get.back());
+                } else {
+                  Loading.dismiss();
+                  Toast.showError('账本切换失败，请稍后再试');
+                }
+              });
+            } else {
               Toast.showError(result.m.toString());
             }
-            // if (result.success) {
-            //   Get.defaultDialog(
-            //       title: '提示',
-            //       barrierDismissible: false,
-            //       middleText: '账本切换成功, 请重新登录',
-            //       onConfirm: () {
-            //         StoreController.to.signOut();
-            //         Get.offAllNamed(RouteConfig.loginVerify);
-            //       });
-            // } else {
-            //   Toast.show(result.m.toString());
-            // }
           });
         },
       ),
@@ -106,28 +115,22 @@ class MyAccountController extends GetxController {
   }
 
   void accountManage(int? id) {
-    if(state.isSelect == IsSelectType.FALSE.value){
-      Get.toNamed(RouteConfig.accountManage,
-          arguments: {'ledgerId': id
-          })?.then((value){
+    if (state.isSelect == IsSelectType.FALSE.value) {
+      Get.toNamed(RouteConfig.accountManage, arguments: {'ledgerId': id})
+          ?.then((value) {
         if (ProcessStatus.OK == value) {
           listLedger();
         }
       });
-    }else{
-      Get.back(result: id );
+    } else {
+      Get.back(result: id);
     }
-
   }
 
   void joiningAccountManage(int? id) {
-    if(state.isSelect == IsSelectType.FALSE.value){
-      Get.toNamed(
-          RouteConfig.accountManage,
-          arguments: {
-            'ledgerId': id
-          });
-    }else{
+    if (state.isSelect == IsSelectType.FALSE.value) {
+      Get.toNamed(RouteConfig.accountManage, arguments: {'ledgerId': id});
+    } else {
       Toast.show('不能选择我参与的账本');
     }
   }
