@@ -4,14 +4,19 @@ import 'package:ledger/entity/order/order_product_detail_dto.dart';
 import 'package:ledger/res/export.dart';
 import 'package:ledger/widget/dialog_widget/binding_product_dialog/binding_product_controller.dart';
 
+import 'binding_product_binding.dart';
+
 class BindingProductDialog extends StatelessWidget {
-  final controller = Get.put<BindingProductController>(BindingProductController());
+  late final BindingProductController controller;
   final List<OrderProductDetail> orderProductDetailList;
   final Set<OrderProductDetail> result = {};
   final Function(Set<OrderProductDetail> result) onClick;
 
   BindingProductDialog(
-      {required this.orderProductDetailList, required this.onClick});
+      {required this.orderProductDetailList, required this.onClick}) {
+    BindingProductBinding().dependencies();
+    controller = Get.find<BindingProductController>();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +57,8 @@ class BindingProductDialog extends StatelessWidget {
                       child: Row(children: [
                         GetBuilder<BindingProductController>(
                             id: 'binding_product_checkbox',
+                            init: controller,
+                            global: false,
                             builder: (_) {
                               return Checkbox(
                                   value: result.contains(item),
@@ -84,7 +91,7 @@ class BindingProductDialog extends StatelessWidget {
                         Toast.show('请选择商品');
                         return;
                       }
-                      if(onClick(result)){
+                      if (onClick(result)) {
                         Get.back();
                       }
                     },
