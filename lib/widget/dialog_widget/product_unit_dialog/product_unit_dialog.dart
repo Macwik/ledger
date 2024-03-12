@@ -453,7 +453,7 @@ class ProductUnitDialog extends StatelessWidget {
                           if (onClick(buildContent())) {
                             Get.back();
                           } else {
-                            Toast.show('系统异常！');
+                            Toast.show('添加失败，请重试');
                           }
                         }
                       },

@@ -18,7 +18,8 @@ import 'package:ledger/res/colors.dart';
 import 'package:ledger/route/route_config.dart';
 import 'package:ledger/util/decimal_util.dart';
 import 'package:ledger/util/toast_util.dart';
-import 'package:ledger/widget/dialog_widget/add_stock_dialog/add_stock_dialog.dart';
+import 'package:ledger/widget/dialog_widget/add_stock_dialog/multi/add_stock_multi_dialog.dart';
+import 'package:ledger/widget/dialog_widget/add_stock_dialog/single/add_stock_single_dialog.dart';
 import 'package:ledger/widget/dialog_widget/product_unit_dialog/product_unit_dialog.dart';
 import 'package:ledger/widget/dialog_widget/stock_change/multi/stock_change_multi_dialog.dart';
 import 'package:ledger/widget/dialog_widget/stock_change/single/stock_change_single_dialog.dart';
@@ -444,19 +445,38 @@ class ShoppingCarController extends GetxController {
   Future<void> addToShoppingCar(ProductDTO productDTO) async {
     if(PageToType.BILL == state.pageToType){
       if(state.orderType == OrderType.ADD_STOCK){
-        Get.dialog(AlertDialog(
-          title: null, // 设置标题为null，
-          content: SingleChildScrollView(
-            child: AddStockDialog(
-              productDTO: productDTO,
-              onClick: (result) {
-                state.addStockCarList?.add(result);
-                update(['shopping_car_box']);
-                return true;
-              },
-            ),
-          ),
-        ));
+          var unitDetailDTO = productDTO.unitDetailDTO;
+          if (UnitType.SINGLE.value == unitDetailDTO?.unitType) {
+            await Get.dialog(AlertDialog(
+              title: Text(productDTO.productName ?? ''),
+              content: SingleChildScrollView(
+                child: AddStockSingleDialog(
+                  productDTO: productDTO,
+                  onClick: (result) {
+                    state.productAddStockRequest = result;
+                    update(['shopping_car_box']);
+                    return true;
+                  },
+                ),
+              ),
+            ));
+          } else {
+            await Get.dialog(AlertDialog(
+              title: Text(
+                productDTO.productName ?? '',
+              ),
+              content: SingleChildScrollView(
+                child: AddStockMultiDialog(
+                  productDTO: productDTO,
+                  onClick: (result) {
+                    state.productAddStockRequest = result;
+                    update(['shopping_car_box']);
+                    return true;
+                  },
+                ),
+              ),
+            ));
+          }
       }else{
         Get.dialog(AlertDialog(
           title: null, // 设置标题为null，

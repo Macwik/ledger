@@ -206,7 +206,7 @@ class StockChangeSingleDialog extends StatelessWidget {
                           if (onClick(buildProductStockAdjustRequest())) {
                             Get.back(result: ProcessStatus.OK);
                           } else {
-                            Toast.show('系统异常！');
+                            Toast.show('保存失败，请重试');
                           }
                         }
                       },

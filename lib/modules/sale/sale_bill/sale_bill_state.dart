@@ -19,9 +19,9 @@ class SaleBillState {
 
   List<PaymentMethodDTO>? paymentMethods;
 
-  OrderType orderType = OrderType.SALE;
-
   bool checked = true;
+
+  OrderType orderType = OrderType.SALE;
 
   DateTime date = DateTime.now();
 

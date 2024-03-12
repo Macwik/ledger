@@ -5,7 +5,8 @@ enum OrderType {
   PURCHASE_RETURN,
   CREDIT,
   REPAYMENT,
-  ADD_STOCK
+  ADD_STOCK,
+  REFUND
 }
 
 extension OrderTypeExtension on OrderType {
@@ -25,6 +26,8 @@ extension OrderTypeExtension on OrderType {
         return 5;
       case OrderType.ADD_STOCK:
         return 6;
+      case OrderType.REFUND:
+        return 7;
       default:
         throw Exception('Unsupported OrderType');
     }
@@ -47,6 +50,8 @@ extension OrderTypeExtension on OrderType {
         return '欠款单';
       case OrderType.ADD_STOCK:
         return '直接入库';
+      case OrderType.REFUND:
+        return '退款';
       default:
         throw Exception('Unsupported CustomDetailOrderType');
     }

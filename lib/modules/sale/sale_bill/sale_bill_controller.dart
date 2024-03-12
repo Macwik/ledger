@@ -153,7 +153,7 @@ class SaleBillController extends GetxController {
   Future<void> addShoppingCar() async {
     var result = await Get.toNamed(RouteConfig.shoppingCar,
         arguments: {'pageType': PageToType.BILL, 'orderType': state.orderType});
-    addToShoppingCar(result);
+        addToShoppingCar(result);
   }
 
   Future<bool> pendingOrder() async {

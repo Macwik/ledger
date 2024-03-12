@@ -382,8 +382,7 @@ class ShoppingCarView extends StatelessWidget {
                                         padding: EdgeInsets.only(bottom: 40.w),
                                         child: Visibility(
                                           visible: state.shoppingCarList
-                                                  ?.isNotEmpty ??
-                                              false,
+                                                  ?.isNotEmpty ?? false,
                                           child: Container(
                                               padding: EdgeInsets.all(4.w),
                                               decoration: BoxDecoration(

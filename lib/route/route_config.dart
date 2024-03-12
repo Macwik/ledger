@@ -72,6 +72,8 @@ import 'package:ledger/modules/sale/repayment_detail/repayment_detail_binding.da
 import 'package:ledger/modules/sale/repayment_detail/repayment_detail_view.dart';
 import 'package:ledger/modules/sale/repayment_record/repayment_record_binding.dart';
 import 'package:ledger/modules/sale/repayment_record/repayment_record_view.dart';
+import 'package:ledger/modules/sale/retail_bill/retail_bill_binding.dart';
+import 'package:ledger/modules/sale/retail_bill/retail_bill_view.dart';
 import 'package:ledger/modules/sale/sale/sale_binding.dart';
 import 'package:ledger/modules/sale/sale/sale_view.dart';
 import 'package:ledger/modules/sale/sale_bill/sale_bill_binding.dart';
@@ -206,6 +208,7 @@ class RouteConfig {
   static const String pendingOrder = '/page/pending/order';
   static const String pendingSaleBill = '/page/pending/sale/bill';
   static const String addStockRecord = '/page/add/stock/record';
+  static const String retailBill = '/page/retail/bill';
 
 
   static final List<GetPage> getPages = [
@@ -436,5 +439,9 @@ class RouteConfig {
         name: addStockRecord,
         page: () => AddStockRecordView(),
         binding: AddStockRecordBinding()),
+    GetPage(
+        name: retailBill,
+        page: () => RetailBillView(),
+        binding: RetailBillBinding()),
   ];
 }
