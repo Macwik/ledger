@@ -19,7 +19,7 @@ import 'package:ledger/route/route_config.dart';
 import 'package:ledger/util/decimal_util.dart';
 import 'package:ledger/util/toast_util.dart';
 import 'package:ledger/widget/dialog_widget/add_stock_dialog/add_stock_dialog.dart';
-import 'package:ledger/widget/dialog_widget/product_unit_dialog.dart';
+import 'package:ledger/widget/dialog_widget/product_unit_dialog/product_unit_dialog.dart';
 import 'package:ledger/widget/dialog_widget/stock_change/multi/stock_change_multi_dialog.dart';
 import 'package:ledger/widget/dialog_widget/stock_change/single/stock_change_single_dialog.dart';
 import 'package:ledger/widget/empty_layout.dart';
@@ -469,7 +469,6 @@ class ShoppingCarController extends GetxController {
                 update(['shopping_car_box']);
                 return true;
               },
-              controller: this,
             ),
           ),
         ));

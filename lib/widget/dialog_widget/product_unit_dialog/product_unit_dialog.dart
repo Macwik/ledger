@@ -10,16 +10,13 @@ import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/enum/unit_type.dart';
 import 'package:ledger/res/export.dart';
 import 'package:ledger/util/decimal_util.dart';
+import 'package:ledger/widget/dialog_widget/product_unit_dialog/product_unit_dialog_binding.dart';
+import 'package:ledger/widget/dialog_widget/product_unit_dialog/product_unit_dialog_controller.dart';
 
-class ProductUnitDialog<T extends GetxController> extends StatelessWidget {
+class ProductUnitDialog extends StatelessWidget {
   final formKey = GlobalKey<FormBuilderState>();
 
-  final TextEditingController masterController = TextEditingController();
-  final TextEditingController slaveController = TextEditingController();
-  final TextEditingController amountController = TextEditingController();
-  final TextEditingController priceController = TextEditingController();
-
-  final T controller;
+  late final ProductUnitDialogController controller;
   final ProductDTO productDTO;
   final OrderType? orderType;
   final Function(ProductShoppingCarDTO result) onClick;
@@ -27,56 +24,59 @@ class ProductUnitDialog<T extends GetxController> extends StatelessWidget {
   ProductUnitDialog(
       {required this.productDTO,
       required this.orderType,
-      required this.controller,
       required this.onClick}) {
-    priceController.addListener(updateShoppingCarTotalAmount);
+    ProductUnitDialogBinding().dependencies();
+    controller = Get.find<ProductUnitDialogController>();
 
-    amountController.addListener(updatePrice);
-
-    masterController.addListener(() {
-      String? masterNum = masterController.text;
+    controller.priceController.addListener(updateShoppingCarTotalAmount);
+    controller.amountController.addListener(updatePrice);
+    controller.masterController.addListener(() {
+      if (orderType != OrderType.SALE) {
+        return;
+      }
+      String? masterNum = controller.masterController.text;
       Decimal? masterNumber = Decimal.tryParse(masterNum);
       if (null == masterNumber) {
         return;
       }
       var masterStock = productDTO.unitDetailDTO?.masterStock;
-      if (null != masterStock && masterStock < masterNumber) {
-        if (orderType == OrderType.SALE) {
-          isStockEnough();
-        }
+
+      if (null != masterStock &&
+          DecimalUtil.compare(masterStock, masterNumber) < 0) {
+        alertStockNotEnough();
       }
+      updateShoppingCarTotalAmount();
     });
-    slaveController.addListener(() {
-      String? slaveNum = slaveController.text;
+
+    controller.slaveController.addListener(() {
+      if (orderType != OrderType.SALE) {
+        return;
+      }
+      String? slaveNum = controller.slaveController.text;
       Decimal? slaveNumber = Decimal.tryParse(slaveNum);
       if (null == slaveNumber) {
         return;
       }
       if (productDTO.unitDetailDTO?.unitType == UnitType.SINGLE.value) {
         var stock = productDTO.unitDetailDTO?.stock;
-        if ((stock != null) && stock < slaveNumber) {
-          if (orderType == OrderType.SALE) {
-            isStockEnough();
-          }
+        if ((stock != null) && DecimalUtil.compare(stock, slaveNumber) < 0) {
+          alertStockNotEnough();
         }
       } else {
         if (productDTO.unitDetailDTO?.unitType == UnitType.MULTI_NUMBER.value &&
             isSelectMaster()) {
           var stock = productDTO.unitDetailDTO?.masterStock;
-          if ((stock != null) && stock < slaveNumber) {
-            if (orderType == OrderType.SALE) {
-              isStockEnough();
-            }
+          if ((stock != null) && DecimalUtil.compare(stock, slaveNumber) < 0) {
+            alertStockNotEnough();
           }
         } else {
           var stock = productDTO.unitDetailDTO?.slaveStock;
-          if ((stock != null) && stock < slaveNumber) {
-            if (orderType == OrderType.SALE) {
-              isStockEnough();
-            }
+          if ((stock != null) && DecimalUtil.compare(stock, slaveNumber) < 0) {
+            alertStockNotEnough();
           }
         }
       }
+      updateShoppingCarTotalAmount();
     });
   }
 
@@ -103,7 +103,7 @@ class ProductUnitDialog<T extends GetxController> extends StatelessWidget {
               ),
               Container(
                 padding: EdgeInsets.only(right: 8.w, left: 8.w, bottom: 10.w),
-                child: GetBuilder<T>(
+                child: GetBuilder<ProductUnitDialogController>(
                     id: 'shopping_car_unit',
                     builder: (_) {
                       return Visibility(
@@ -131,10 +131,10 @@ class ProductUnitDialog<T extends GetxController> extends StatelessWidget {
                                       if (false ==
                                           productDTO.unitDetailDTO
                                               ?.selectMasterUnit) {
-                                        masterController.text = '';
-                                        slaveController.text = '';
-                                        amountController.text = '';
-                                        priceController.text = '';
+                                        controller.masterController.text = '';
+                                        controller.slaveController.text = '';
+                                        controller.amountController.text = '';
+                                        controller.priceController.text = '';
                                         productDTO.unitDetailDTO
                                             ?.selectMasterUnit = true;
                                         controller.update([
@@ -178,10 +178,10 @@ class ProductUnitDialog<T extends GetxController> extends StatelessWidget {
                                     if (productDTO
                                             .unitDetailDTO?.selectMasterUnit ??
                                         true) {
-                                      masterController.text = '';
-                                      slaveController.text = '';
-                                      amountController.text = '';
-                                      priceController.text = '';
+                                      controller.masterController.text = '';
+                                      controller.slaveController.text = '';
+                                      controller.amountController.text = '';
+                                      controller.priceController.text = '';
                                       productDTO.unitDetailDTO
                                           ?.selectMasterUnit = false;
                                       controller.update([
@@ -223,7 +223,7 @@ class ProductUnitDialog<T extends GetxController> extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    GetBuilder<T>(
+                    GetBuilder<ProductUnitDialogController>(
                         id: 'shopping_car_master_number',
                         builder: (_) {
                           return Visibility(
@@ -242,7 +242,7 @@ class ProductUnitDialog<T extends GetxController> extends StatelessWidget {
                                     onTap: () {
                                       updateMasterNum();
                                     },
-                                    controller: masterController,
+                                    controller: controller.masterController,
                                     decoration: InputDecoration(
                                       counterText: '',
                                       hintText: '请输入重量',
@@ -293,7 +293,7 @@ class ProductUnitDialog<T extends GetxController> extends StatelessWidget {
                                 onTap: () {
                                   updateSlaveNum();
                                 },
-                                controller: slaveController,
+                                controller: controller.slaveController,
                                 decoration: InputDecoration(
                                   counterText: '',
                                   hintText: '请输入数量',
@@ -303,7 +303,7 @@ class ProductUnitDialog<T extends GetxController> extends StatelessWidget {
                                 keyboardType: TextInputType.numberWithOptions(
                                     signed: true, decimal: true),
                                 validator: (value) {
-                                  var text = slaveController.text;
+                                  var text = controller.slaveController.text;
                                   var slaveNumber = Decimal.tryParse(text);
                                   if (null == slaveNumber) {
                                     return '请正确输入商品数量';
@@ -312,7 +312,7 @@ class ProductUnitDialog<T extends GetxController> extends StatelessWidget {
                                   }
                                   return null;
                                 })),
-                        GetBuilder<T>(
+                        GetBuilder<ProductUnitDialogController>(
                             id: 'shopping_car_number_unit',
                             builder: (_) {
                               return Text(
@@ -339,7 +339,7 @@ class ProductUnitDialog<T extends GetxController> extends StatelessWidget {
                                 onTap: () {
                                   updatePrice();
                                 },
-                                controller: priceController,
+                                controller: controller.priceController,
                                 decoration: InputDecoration(
                                   counterText: '',
                                   hintText: '请输入单价',
@@ -349,7 +349,7 @@ class ProductUnitDialog<T extends GetxController> extends StatelessWidget {
                                 keyboardType: TextInputType.numberWithOptions(
                                     signed: true, decimal: true),
                                 validator: (value) {
-                                  var text = priceController.text;
+                                  var text = controller.priceController.text;
                                   var price = Decimal.tryParse(text);
                                   if (null == price) {
                                     return '请正确输入单价';
@@ -358,16 +358,15 @@ class ProductUnitDialog<T extends GetxController> extends StatelessWidget {
                                   }
                                   return null;
                                 })),
-                        GetBuilder<T>(
+                        GetBuilder<ProductUnitDialogController>(
                             id: 'shopping_car_price_unit_name',
                             builder: (_) {
                               return Text(
                                 '元/${getProductPriceUnitName() ?? ''}',
                                 style: TextStyle(
-                                  fontSize: 30.sp,
+                                    fontSize: 30.sp,
                                     color: Colors.redAccent,
-                                    fontWeight: FontWeight.w600
-                                ),
+                                    fontWeight: FontWeight.w600),
                               );
                             })
                       ],
@@ -386,7 +385,7 @@ class ProductUnitDialog<T extends GetxController> extends StatelessWidget {
                                 onTap: () {
                                   updateShoppingCarTotalAmount();
                                 },
-                                controller: amountController,
+                                controller: controller.amountController,
                                 decoration: InputDecoration(
                                   counterText: '',
                                   hintText: '请输入总价',
@@ -396,7 +395,7 @@ class ProductUnitDialog<T extends GetxController> extends StatelessWidget {
                                 keyboardType: TextInputType.numberWithOptions(
                                     signed: true, decimal: true),
                                 validator: (value) {
-                                  var text = amountController.text;
+                                  var text = controller.amountController.text;
                                   var repaymentAmount = Decimal.tryParse(text);
                                   if (null == repaymentAmount) {
                                     return '请正确输入总价';
@@ -495,10 +494,10 @@ class ProductUnitDialog<T extends GetxController> extends StatelessWidget {
   }
 
   UnitDetailDTO? getUnitDetailDTO() {
-    String weight = masterController.text;
-    String number = slaveController.text;
-    String price = priceController.text;
-    String totalAmount = amountController.text;
+    String weight = controller.masterController.text;
+    String number = controller.slaveController.text;
+    String price = controller.priceController.text;
+    String totalAmount = controller.amountController.text;
     var unitType = productDTO.unitDetailDTO?.unitType;
     if (UnitType.SINGLE.value == unitType) {
       return productDTO.unitDetailDTO?.copyWith(
@@ -563,7 +562,7 @@ class ProductUnitDialog<T extends GetxController> extends StatelessWidget {
     }
   }
 
-  void isStockEnough() {
+  void alertStockNotEnough() {
     Get.dialog(
         AlertDialog(title: Text('是否继续开单'), content: Text('库存不足以开单'), actions: [
       TextButton(
@@ -585,16 +584,16 @@ class ProductUnitDialog<T extends GetxController> extends StatelessWidget {
 
   void updatePrice() {
     var unitType = productDTO.unitDetailDTO?.unitType;
-    Decimal? priceAmount = Decimal.tryParse(priceController.text);
+    Decimal? priceAmount = Decimal.tryParse(controller.priceController.text);
     if (isSelectMaster()) {
       //主单位时候
       String weight;
       if (UnitType.MULTI_NUMBER.value == unitType) {
-        weight = slaveController.text;
+        weight = controller.slaveController.text;
       } else {
-        weight = masterController.text;
+        weight = controller.masterController.text;
       }
-      String amount = amountController.text;
+      String amount = controller.amountController.text;
       Decimal? productWeight = Decimal.tryParse(weight);
       Decimal? productAmount = Decimal.tryParse(amount);
       if ((productAmount != null && (productWeight != null))) {
@@ -602,17 +601,18 @@ class ProductUnitDialog<T extends GetxController> extends StatelessWidget {
       }
     } else {
       //辅助单位时候
-      String number = slaveController.text;
-      String amount = amountController.text;
+      String number = controller.slaveController.text;
+      String amount = controller.amountController.text;
       Decimal? productWeight = Decimal.tryParse(number);
       Decimal? productAmount = Decimal.tryParse(amount);
       if ((productAmount != null) && (productWeight != null)) {
         priceAmount = DecimalUtil.divide(productAmount, productWeight);
       }
     }
-    priceController.removeListener(updateShoppingCarTotalAmount);
-    priceController.text = DecimalUtil.formatDecimalDefault(priceAmount);
-    priceController.addListener(updateShoppingCarTotalAmount);
+    controller.priceController.removeListener(updateShoppingCarTotalAmount);
+    controller.priceController.text =
+        DecimalUtil.formatDecimalDefault(priceAmount);
+    controller.priceController.addListener(updateShoppingCarTotalAmount);
   }
 
   updateSlaveNum() {
@@ -620,10 +620,10 @@ class ProductUnitDialog<T extends GetxController> extends StatelessWidget {
     /// 1、当选择主单位时(计件)，重量变化会引起数量变化
     /// 2、当选择辅助单位时，数量变化会引起总价变化
     /// 3、id:'shopping_car_slave_number'
-    Decimal? slaveNumber = Decimal.tryParse(slaveController.text);
+    Decimal? slaveNumber = Decimal.tryParse(controller.slaveController.text);
     if (isSelectMaster()) {
       if (UnitType.MULTI_WEIGHT.value == productDTO.unitDetailDTO?.unitType) {
-        String weightStr = masterController.text;
+        String weightStr = controller.masterController.text;
         Decimal? weight = Decimal.tryParse(weightStr);
         Decimal? conversion = productDTO.unitDetailDTO?.conversion;
         if ((weight != null) && (conversion != null)) {
@@ -631,56 +631,58 @@ class ProductUnitDialog<T extends GetxController> extends StatelessWidget {
         }
       } else if (UnitType.MULTI_NUMBER.value ==
           productDTO.unitDetailDTO?.unitType) {
-        String amountStr = amountController.text;
+        String amountStr = controller.amountController.text;
         Decimal? amount = Decimal.tryParse(amountStr);
-        String priceStr = priceController.text;
+        String priceStr = controller.priceController.text;
         Decimal? price = Decimal.tryParse(priceStr);
         if ((null != amount) && (null != price)) {
           slaveNumber = DecimalUtil.divide(amount, price);
         }
       }
     } else {
-      String amountStr = amountController.text;
+      String amountStr = controller.amountController.text;
       Decimal? amount = Decimal.tryParse(amountStr);
-      String priceStr = priceController.text;
+      String priceStr = controller.priceController.text;
       Decimal? price = Decimal.tryParse(priceStr);
       if ((null != amount) && (null != price)) {
         slaveNumber = DecimalUtil.divide(amount, price);
       }
     }
-    slaveController.text = DecimalUtil.formatDecimalDefault(slaveNumber);
+    controller.slaveController.text =
+        DecimalUtil.formatDecimalDefault(slaveNumber);
   }
 
   updateMasterNum() {
-    Decimal? masterNumber = Decimal.tryParse(masterController.text);
+    Decimal? masterNumber = Decimal.tryParse(controller.masterController.text);
     if (isSelectMaster()) {
       if (UnitType.MULTI_WEIGHT.value == productDTO.unitDetailDTO?.unitType) {
-        Decimal? num = Decimal.tryParse(slaveController.text);
+        Decimal? num = Decimal.tryParse(controller.slaveController.text);
         Decimal? conversion = productDTO.unitDetailDTO?.conversion;
         if ((num != null) && (conversion != null)) {
           masterNumber = num * conversion;
         }
-        masterController.text = DecimalUtil.formatDecimalDefault(masterNumber);
+        controller.masterController.text =
+            DecimalUtil.formatDecimalDefault(masterNumber);
       }
     }
   }
 
   updateShoppingCarTotalAmount() {
     var unitType = productDTO.unitDetailDTO?.unitType;
-    Decimal? amountNumber = Decimal.tryParse(amountController.text);
+    Decimal? amountNumber = Decimal.tryParse(controller.amountController.text);
     if (isSelectMaster()) {
       //主单位时候
       if (UnitType.MULTI_NUMBER.value == unitType) {
-        String numberStr = slaveController.text;
-        String priceStr = priceController.text;
+        String numberStr = controller.slaveController.text;
+        String priceStr = controller.priceController.text;
         Decimal? productNumber = Decimal.tryParse(numberStr);
         Decimal? productPrice = Decimal.tryParse(priceStr);
         if ((productNumber != null) && (productPrice != null)) {
           amountNumber = (productNumber * productPrice);
         }
       } else if (UnitType.MULTI_WEIGHT.value == unitType) {
-        String numberStr = masterController.text;
-        String priceStr = priceController.text;
+        String numberStr = controller.masterController.text;
+        String priceStr = controller.priceController.text;
         Decimal? productNumber = Decimal.tryParse(numberStr);
         Decimal? productPrice = Decimal.tryParse(priceStr);
         if ((productNumber != null) && (productPrice != null)) {
@@ -689,16 +691,17 @@ class ProductUnitDialog<T extends GetxController> extends StatelessWidget {
       }
     } else {
       //辅助单位时候
-      String numberStr = slaveController.text;
-      String priceStr = priceController.text;
+      String numberStr = controller.slaveController.text;
+      String priceStr = controller.priceController.text;
       Decimal? productNumber = Decimal.tryParse(numberStr);
       Decimal? productPrice = Decimal.tryParse(priceStr);
       if ((productNumber != null) && (productPrice != null)) {
         amountNumber = (productNumber * productPrice);
       }
     }
-    amountController.removeListener(updatePrice);
-    amountController.text = DecimalUtil.formatDecimalDefault(amountNumber);
-    amountController.addListener(updatePrice);
+    controller.amountController.removeListener(updatePrice);
+    controller.amountController.text =
+        DecimalUtil.formatDecimalDefault(amountNumber);
+    controller.amountController.addListener(updatePrice);
   }
 }

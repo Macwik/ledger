@@ -1,4 +1,5 @@
 import 'package:decimal/decimal.dart';
+import 'package:intl/intl.dart';
 
 enum DecimalUnit {
   YUAN, // ¥6.00
@@ -92,5 +93,9 @@ class DecimalUtil {
   static String multiply(Decimal slaveStock, Decimal conversion,
       {int scale = 2}) {
     return formatDecimal(slaveStock * conversion);
+  }
+
+  static int compare(Decimal left, Decimal right, {int scale = 2}) {
+    return left.round(scale: scale).compareTo(right.round(scale: scale));
   }
 }
