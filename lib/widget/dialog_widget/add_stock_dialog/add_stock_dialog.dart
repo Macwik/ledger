@@ -9,7 +9,6 @@ import 'package:ledger/enum/unit_type.dart';
 import 'package:ledger/generated/json/product_add_stock_car_dto.g.dart';
 import 'package:ledger/res/export.dart';
 import 'package:ledger/util/decimal_util.dart';
-
 import 'add_stock_dialog_binding.dart';
 import 'add_stock_dialog_controller.dart';
 

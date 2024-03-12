@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/get_navigation.dart';
 import 'package:ledger/entity/product/product_dto.dart';
 import 'package:ledger/entity/product/product_stock_adjust_request.dart';
 import 'package:ledger/enum/process_status.dart';
@@ -27,7 +25,7 @@ class StockChangeSingleDialog extends StatelessWidget {
     required this.onClick}) {
     StockChangeSingleDialogBinding().dependencies();
     controller = Get.find<StockChangeSingleDialogController>();
-    controller.stockChangeController.text = DecimalUtil.formatDecimalNumber(productDTO.unitDetailDTO?.number);
+    controller.stockChangeController.text = DecimalUtil.formatDecimalNumber(productDTO.unitDetailDTO?.stock);
   }
 
   @override
@@ -53,7 +51,7 @@ class StockChangeSingleDialog extends StatelessWidget {
                           flex: 1,
                           child: Container(
                               alignment: Alignment.center,
-                              child: Text( DecimalUtil.formatDecimalNumber(productDTO.unitDetailDTO?.number,),
+                              child: Text( DecimalUtil.formatDecimalNumber(productDTO.unitDetailDTO?.stock),
                                 style: TextStyle(
                                   fontSize: 32.sp,
                                   color: Colors.black87,
@@ -138,40 +136,40 @@ class StockChangeSingleDialog extends StatelessWidget {
                     height: 8.w,
                     width: double.infinity,
                   ),
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 24.w),
-                    padding: EdgeInsets.symmetric(vertical: 16.w),
-                    child:  Flex(
-                      direction: Axis.horizontal,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '盈亏：',
-                          style: TextStyle(
-                            fontSize: 32.sp,
-                            color: Colors.black87,
-                          ),
-                        ),
-                        GetBuilder(
-                            id: 'profit_and_loss',
-                            builder: (_){
-                          return  Text(widgetProfitAndLoss(),
-                            style: TextStyle(
-                              fontSize: 32.sp,
-                              color: Colors.black87,
-                            ),
-                          );
-                        }),
-                        Text(
-                          productDTO.unitDetailDTO?.unitName ?? '',
-                          style: TextStyle(
-                            fontSize: 32.sp,
-                            color: Colors.black87,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  // Container(
+                  //   margin: EdgeInsets.symmetric(vertical: 24.w),
+                  //   padding: EdgeInsets.symmetric(vertical: 16.w),
+                  //   child:  Flex(
+                  //     direction: Axis.horizontal,
+                  //     mainAxisAlignment: MainAxisAlignment.center,
+                  //     children: [
+                  //       Text(
+                  //         '盈亏：',
+                  //         style: TextStyle(
+                  //           fontSize: 32.sp,
+                  //           color: Colors.black87,
+                  //         ),
+                  //       ),
+                  //       GetBuilder<StockChangeSingleDialogController>(
+                  //           id: 'profit_and_loss',
+                  //           builder: (_){
+                  //         return  Text(widgetProfitAndLoss(),
+                  //           style: TextStyle(
+                  //             fontSize: 32.sp,
+                  //             color: Colors.black87,
+                  //           ),
+                  //         );
+                  //       }),
+                  //       Text(
+                  //         productDTO.unitDetailDTO?.unitName ?? '',
+                  //         style: TextStyle(
+                  //           fontSize: 32.sp,
+                  //           color: Colors.black87,
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                 ],
               ),
 
@@ -240,13 +238,13 @@ class StockChangeSingleDialog extends StatelessWidget {
         stock: Decimal.tryParse(controller.stockChangeController.text));
   }
 
-  String widgetProfitAndLoss() {
-    Decimal? productNum = productDTO.unitDetailDTO?.number;
-    if((productDTO.unitDetailDTO==null)||(productDTO.unitDetailDTO?.number == null)){
-      productNum = Decimal.zero;
-    }
-    String? num = controller.stockChangeController.text;
-    Decimal? numDec = Decimal.tryParse(num);
-    return DecimalUtil.subtract((productNum??Decimal.zero),(numDec??Decimal.zero));
-  }
+  // String widgetProfitAndLoss() {
+  //   Decimal? productNum = productDTO.unitDetailDTO?.stock;
+  //   if((productDTO.unitDetailDTO==null)||(productDTO.unitDetailDTO?.stock == null)){
+  //     productNum = Decimal.zero;
+  //   }
+  //   String? num = controller.stockChangeController.text;
+  //   Decimal? numDec = Decimal.tryParse(num);
+  //   return DecimalUtil.subtract((productNum??Decimal.zero),(numDec??Decimal.zero));
+  // }
 }

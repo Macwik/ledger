@@ -24,8 +24,8 @@ class StockChangeMultiDialog extends StatelessWidget {
     required this.onClick}){
     StockChangeMultiDialogBinding().dependencies();
     controller = Get.find<StockChangeMultiDialogController>();
-    controller.masterStockController.text = DecimalUtil.formatDecimalDefault(productDTO.unitDetailDTO?.masterNumber);
-    controller.slaveStockController.text = DecimalUtil.formatDecimalDefault(productDTO.unitDetailDTO?.slaveNumber
+   // controller.masterStockController.text = DecimalUtil.formatDecimalDefault(productDTO.unitDetailDTO?.masterStock);
+    controller.slaveStockController.text = DecimalUtil.formatDecimalDefault(productDTO.unitDetailDTO?.slaveStock
     );
   }
 
@@ -55,10 +55,10 @@ class StockChangeMultiDialog extends StatelessWidget {
                               alignment: Alignment.center,
                               child: Text(
                                 '${DecimalUtil.formatDecimalNumber(
-                                  productDTO.unitDetailDTO?.slaveNumber,
+                                  productDTO.unitDetailDTO?.slaveStock,
                                 )}'
                                 '${productDTO.unitDetailDTO?.slaveUnitName} | '
-                                '${DecimalUtil.formatDecimalNumber(productDTO.unitDetailDTO?.masterNumber)}'
+                                '${DecimalUtil.formatDecimalNumber(productDTO.unitDetailDTO?.masterStock)}'
                                 '${productDTO.unitDetailDTO?.masterUnitName}',
                                 style: TextStyle(
                                   fontSize: 32.sp,
@@ -86,9 +86,10 @@ class StockChangeMultiDialog extends StatelessWidget {
                       Expanded(
                         flex: 1,
                         child: TextFormField(
-                          onChanged: (value){controller.update(['profit_and_loss']);},
-                          controller:
-                              controller.slaveStockController,
+                          onChanged: (value){controller.masterNum = value;
+                            controller.update(['master_profit_and_loss']);
+                            },
+                          controller: controller.slaveStockController,
                           onTap: () {
                             controller
                                 .updateSlaveStock(productDTO.unitDetailDTO);
@@ -153,22 +154,14 @@ class StockChangeMultiDialog extends StatelessWidget {
                       Expanded(
                         flex: 1,
                         child: TextFormField(
-                          onChanged: (value){controller.update(['profit_and_loss']);},
                           onTap: () {
-                            controller
-                                .updateMasterStock(productDTO.unitDetailDTO);
-                            controller
-                                    .masterStockController.selection =
+                            controller.updateMasterStock(productDTO.unitDetailDTO);
+                            controller.masterStockController.selection =
                                 TextSelection(
                                     baseOffset: 0,
-                                    extentOffset: controller
-                                        .masterStockController
-                                        .value
-                                        .text
-                                        .length);
+                                    extentOffset: controller.masterStockController.value.text.length);
                           },
-                          controller:
-                              controller.masterStockController,
+                          controller: controller.masterStockController,
                           textAlign: TextAlign.center,
                           maxLength: 10,
                           style: TextStyle(fontSize: 32.sp),
@@ -210,41 +203,40 @@ class StockChangeMultiDialog extends StatelessWidget {
                     height: 8.w,
                     width: double.infinity,
                   ),
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 24.w),
-                    padding: EdgeInsets.symmetric(vertical: 16.w),
-                    child: Flex(
-                      direction: Axis.horizontal,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '盈亏：',
-                          style: TextStyle(
-                            fontSize: 32.sp,
-                            color: Colours.text_666,
-                          ),
-                        ),
-                        GetBuilder(
-                            id: 'profit_and_loss',
-                            builder: (_){
-                          return  Text(
-                            widgetProfitAndLoss(),
-                            style: TextStyle(
-                                fontSize: 32.sp,
-                                color: Colours.text_333,
-                                fontWeight: FontWeight.w500),
-                          );
-                        }),
-                        Text(
-                          productDTO.unitDetailDTO?.unitName ?? '',
-                          style: TextStyle(
-                            fontSize: 32.sp,
-                            color: Colours.text_666,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  // Container(
+                  //   margin: EdgeInsets.symmetric(vertical: 24.w),
+                  //   padding: EdgeInsets.symmetric(vertical: 16.w),
+                  //   child: Flex(
+                  //     direction: Axis.horizontal,
+                  //     mainAxisAlignment: MainAxisAlignment.center,
+                  //     children: [
+                  //       Text(
+                  //         '盈亏：',
+                  //         style: TextStyle(
+                  //           fontSize: 32.sp,
+                  //           color: Colours.text_666,
+                  //         ),
+                  //       ),
+                  //       GetBuilder<StockChangeMultiDialogController>(
+                  //           id: 'master_profit_and_loss',
+                  //           builder: (_){
+                  //         return Text(controller.widgetProfitAndLoss(productDTO),
+                  //             style: TextStyle(
+                  //               fontSize: 32.sp,
+                  //               color: Colours.text_666,
+                  //             ),
+                  //           );
+                  //       }),
+                  //       Text(
+                  //         productDTO.unitDetailDTO?.unitName ?? '',
+                  //         style: TextStyle(
+                  //           fontSize: 32.sp,
+                  //           color: Colours.text_666,
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -315,17 +307,5 @@ class StockChangeMultiDialog extends StatelessWidget {
         unitType: productDTO.unitDetailDTO?.unitType,
         masterStock: Decimal.tryParse(masterStock),
         slaveStock: Decimal.tryParse(slaveStock));
-  }
-
-  String widgetProfitAndLoss() {
-    Decimal? productNum = productDTO.unitDetailDTO?.number;
-    if ((productDTO.unitDetailDTO == null) ||
-        (productDTO.unitDetailDTO?.number == null)) {
-      productNum = Decimal.zero;
-    }
-    String? num = controller.slaveStockController.text;
-    Decimal? numDec = Decimal.tryParse(num);
-    return DecimalUtil.subtract(
-        (productNum ?? Decimal.zero), (numDec ?? Decimal.zero));
   }
 }

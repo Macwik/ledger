@@ -188,8 +188,7 @@ class ShoppingCarView extends StatelessWidget {
                                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                         children: [
                                           Container(
-                                              padding: EdgeInsets.symmetric(
-                                                  vertical: 10.w),
+                                              padding: EdgeInsets.symmetric(vertical: 10.w),
                                               child: Flex(
                                                   direction: Axis.horizontal,
                                                   mainAxisAlignment:
