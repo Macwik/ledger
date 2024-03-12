@@ -578,7 +578,7 @@ class ShoppingCarController extends GetxController {
   Future<void> _queryProductClassifyList() async {
     await Http()
         .network<ProductClassifyListDTO>(
-            Method.post, ProductApi.product_classify_manage)
+            Method.post, ProductApi.product_classify_product_list)
         .then((result) {
       if (result.success) {
         state.productClassifyListDTO = result.d!;

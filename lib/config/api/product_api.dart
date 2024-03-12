@@ -26,7 +26,7 @@ class ProductApi{
   //搜索商品种类
   static const String product_type_search='/api/erp/v2/product/item/search';
   //货物分组管理
-  static const String product_classify_manage= '/api/erp/v2/product/classify/list';
+  static const String product_classify_product_list= '/api/erp/v2/product/classify/list';
   //货物分组删除
   static const String product_classify_delete= '/api/erp/v2/product/classify/delete';
   //更新货物分组

@@ -26,7 +26,7 @@ class ProductTypeManageController extends GetxController {
 
   Future<void> _queryProductClassifyList() async {
     final result = await Http().network<List<ProductClassifyDTO>>(
-        Method.get, ProductApi.product_classify_manage);
+        Method.get, ProductApi.product_classify_product_list);
     if (result.success) {
      state.productClassifyList = result.d!;
       update(['product_classify_item']);
