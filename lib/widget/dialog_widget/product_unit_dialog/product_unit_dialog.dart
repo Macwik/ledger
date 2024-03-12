@@ -31,12 +31,13 @@ class ProductUnitDialog extends StatelessWidget {
     controller.priceController.addListener(updateShoppingCarTotalAmount);
     controller.amountController.addListener(updatePrice);
     controller.masterController.addListener(() {
-      if (orderType != OrderType.SALE) {
-        return;
-      }
       String? masterNum = controller.masterController.text;
       Decimal? masterNumber = Decimal.tryParse(masterNum);
       if (null == masterNumber) {
+        return;
+      }
+      updateShoppingCarTotalAmount();
+      if (orderType != OrderType.SALE) {
         return;
       }
       var masterStock = productDTO.unitDetailDTO?.masterStock;
@@ -45,16 +46,16 @@ class ProductUnitDialog extends StatelessWidget {
           DecimalUtil.compare(masterStock, masterNumber) < 0) {
         alertStockNotEnough();
       }
-      updateShoppingCarTotalAmount();
     });
 
     controller.slaveController.addListener(() {
-      if (orderType != OrderType.SALE) {
-        return;
-      }
       String? slaveNum = controller.slaveController.text;
       Decimal? slaveNumber = Decimal.tryParse(slaveNum);
       if (null == slaveNumber) {
+        return;
+      }
+      updateShoppingCarTotalAmount();
+      if (orderType != OrderType.SALE) {
         return;
       }
       if (productDTO.unitDetailDTO?.unitType == UnitType.SINGLE.value) {
@@ -76,7 +77,6 @@ class ProductUnitDialog extends StatelessWidget {
           }
         }
       }
-      updateShoppingCarTotalAmount();
     });
   }
 
