@@ -11,11 +11,11 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 
-
 class RepaintBoundaryUtils {
 //生成截图
   /// 截屏图片生成图片流ByteData
-  Future<XFile> captureImage(BuildContext context, GlobalKey boundaryKey) async {
+  Future<XFile> captureImage(
+      BuildContext context, GlobalKey boundaryKey) async {
     RenderRepaintBoundary? boundary = boundaryKey.currentContext!
         .findRenderObject() as RenderRepaintBoundary?;
     double dpr = MediaQuery.of(context).devicePixelRatio; // 获取当前设备的像素比
@@ -56,27 +56,21 @@ class RepaintBoundaryUtils {
     var image = await boundary!.toImage(pixelRatio: dpr);
     // 将image转化成byte
     ByteData? byteData = await image.toByteData(format: ImageByteFormat.png);
-    //获取保存相册权限，如果没有，则申请改权限
-    bool permission = await getPermission();
-    if (permission) {
-      if (Platform.isIOS) {
-        Uint8List images = byteData!.buffer.asUint8List();
-        await ImageGallerySaver.saveImage(images,
-            quality: 60, name: DateTime.now().toIso8601String());
+    PermissionUtil.requestAuthPermission(Permission.photos);
+    if (Platform.isIOS) {
+      Uint8List images = byteData!.buffer.asUint8List();
+      await ImageGallerySaver.saveImage(images,
+          quality: 60, name: DateTime.now().toIso8601String());
+      Toast.show('保存成功');
+    } else {
+      //安卓
+      Uint8List images = byteData!.buffer.asUint8List();
+      final result = await ImageGallerySaver.saveImage(images, quality: 60);
+      if (result != null) {
         Toast.show('保存成功');
       } else {
-        //安卓
-        Uint8List images = byteData!.buffer.asUint8List();
-        final result = await ImageGallerySaver.saveImage(images, quality: 60);
-        if (result != null) {
-          Toast.show('保存成功');
-        } else {
-          Toast.show('保存失败');
-        }
+        Toast.showError('保存失败');
       }
-    } else {
-      //重新请求--第一次请求权限时，保存方法不会走，需要重新调一次
-      Toast.show('保存失败，请重试！');
     }
   }
 }

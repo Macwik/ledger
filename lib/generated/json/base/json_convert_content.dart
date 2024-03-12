@@ -10,6 +10,7 @@ import 'package:ledger/entity/auth/role_dto.dart';
 import 'package:ledger/entity/auth/sys_res_dto.dart';
 import 'package:ledger/entity/auth/user_authorization_dto.dart';
 import 'package:ledger/entity/auth/user_role_relation_dto.dart';
+import 'package:ledger/entity/contact/contact_dto.dart';
 import 'package:ledger/entity/costIncome/cost_income_detail_dto.dart';
 import 'package:ledger/entity/costIncome/cost_income_label_type_dto.dart';
 import 'package:ledger/entity/costIncome/cost_income_order_dto.dart';
@@ -220,6 +221,10 @@ class JsonConvert {
     if (<UserRoleRelationDTO>[] is M) {
       return data.map<UserRoleRelationDTO>((Map<String, dynamic> e) =>
           UserRoleRelationDTO.fromJson(e)).toList() as M;
+    }
+    if (<ContactDTO>[] is M) {
+      return data.map<ContactDTO>((Map<String, dynamic> e) =>
+          ContactDTO.fromJson(e)).toList() as M;
     }
     if (<CostIncomeDetailDTO>[] is M) {
       return data.map<CostIncomeDetailDTO>((Map<String, dynamic> e) =>
@@ -472,6 +477,7 @@ class JsonConvertClassCollection {
     (SysResDTO).toString(): SysResDTO.fromJson,
     (UserAuthorizationDTO).toString(): UserAuthorizationDTO.fromJson,
     (UserRoleRelationDTO).toString(): UserRoleRelationDTO.fromJson,
+    (ContactDTO).toString(): ContactDTO.fromJson,
     (CostIncomeDetailDTO).toString(): CostIncomeDetailDTO.fromJson,
     (CostIncomeLabelTypeDTO).toString(): CostIncomeLabelTypeDTO.fromJson,
     (CostIncomeOrderDTO).toString(): CostIncomeOrderDTO.fromJson,
