@@ -10,6 +10,7 @@ class OrderProductDetail {
   String? productName;
   String? productPlace;
   String? productStandard;
+  int? invalid;
   int? unitType;
   int? unitGroupId;
   int? unitId;

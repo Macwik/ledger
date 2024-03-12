@@ -27,6 +27,10 @@ OrderProductDetail $OrderProductDetailFromJson(Map<String, dynamic> json) {
   if (productStandard != null) {
     orderProductDetail.productStandard = productStandard;
   }
+  final int? invalid = jsonConvert.convert<int>(json['invalid']);
+  if (invalid != null) {
+    orderProductDetail.invalid = invalid;
+  }
   final int? unitType = jsonConvert.convert<int>(json['unitType']);
   if (unitType != null) {
     orderProductDetail.unitType = unitType;
@@ -108,6 +112,7 @@ Map<String, dynamic> $OrderProductDetailToJson(OrderProductDetail entity) {
   data['productName'] = entity.productName;
   data['productPlace'] = entity.productPlace;
   data['productStandard'] = entity.productStandard;
+  data['invalid'] = entity.invalid;
   data['unitType'] = entity.unitType;
   data['unitGroupId'] = entity.unitGroupId;
   data['unitId'] = entity.unitId;
@@ -134,6 +139,7 @@ extension OrderProductDetailExtension on OrderProductDetail {
     String? productName,
     String? productPlace,
     String? productStandard,
+    int? invalid,
     int? unitType,
     int? unitGroupId,
     int? unitId,
@@ -157,6 +163,7 @@ extension OrderProductDetailExtension on OrderProductDetail {
       ..productName = productName ?? this.productName
       ..productPlace = productPlace ?? this.productPlace
       ..productStandard = productStandard ?? this.productStandard
+      ..invalid = invalid ?? this.invalid
       ..unitType = unitType ?? this.unitType
       ..unitGroupId = unitGroupId ?? this.unitGroupId
       ..unitId = unitId ?? this.unitId
