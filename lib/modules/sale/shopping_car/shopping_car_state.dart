@@ -28,9 +28,9 @@ class ShoppingCarState {
 
   //购物车商品
   List<ProductShoppingCarDTO>? shoppingCarList = [];
-//调整库存
+  //调整库存
   ProductStockAdjustRequest? productStockAdjustRequest;
-//入库商品
+  //入库商品
   ProductStockAdjustRequest? productAddStockRequest;
 
   PageToType? pageToType;
