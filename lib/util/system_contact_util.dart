@@ -8,23 +8,29 @@ class SystemContactUtil {
   // 申请权限
   static Future<List<ContactDTO>> requestSystemContact() async {
     // Get all contacts
-    PermissionUtil.requestAuthPermission(Permission.contacts);
-    final contacts = await FastContacts.getAllContacts();
-    if (contacts.isEmpty) {
-      return List<ContactDTO>.empty();
-    }
-    List<ContactDTO> result = [];
-    for (var contact in contacts) {
-      var phones = contact.phones;
-      if (phones.isNotEmpty) {
-        for (var phone in phones) {
-          result
-              .add(ContactDTO(name: contact.displayName, phone: phone.number));
+    return PermissionUtil.requestAuthPermission(Permission.contacts)
+        .then((value) async {
+      if (value) {
+        final contacts = await FastContacts.getAllContacts();
+        if (contacts.isEmpty) {
+          return List<ContactDTO>.empty();
         }
+        List<ContactDTO> result = [];
+        for (var contact in contacts) {
+          var phones = contact.phones;
+          if (phones.isNotEmpty) {
+            for (var phone in phones) {
+              result.add(
+                  ContactDTO(name: contact.displayName, phone: phone.number));
+            }
+          } else {
+            result.add(ContactDTO(name: contact.displayName, phone: ''));
+          }
+        }
+        return result;
       } else {
-        result.add(ContactDTO(name: contact.displayName, phone: ''));
+        return List<ContactDTO>.empty();
       }
-    }
-    return result;
+    });
   }
 }
