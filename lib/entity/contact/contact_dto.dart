@@ -4,8 +4,8 @@ import 'dart:convert';
 
 @JsonSerializable()
 class ContactDTO {
-  String name;
-  String phone;
+  String? name;
+  String? phone;
 
   ContactDTO({this.name, this.phone});
 
