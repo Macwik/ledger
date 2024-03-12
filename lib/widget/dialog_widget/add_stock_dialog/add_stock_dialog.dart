@@ -19,9 +19,7 @@ class AddStockDialog extends StatelessWidget {
   final ProductDTO productDTO;
   final Function(ProductAddStockCarDTO result) onClick;
 
-  AddStockDialog(
-      {required this.productDTO,
-        required this.onClick}) {
+  AddStockDialog({required this.productDTO, required this.onClick}) {
     AddStockDialogBinding().dependencies();
     controller = Get.find<AddStockDialogController>();
   }
@@ -51,6 +49,8 @@ class AddStockDialog extends StatelessWidget {
                 padding: EdgeInsets.only(right: 8.w, left: 8.w, bottom: 10.w),
                 child: GetBuilder<AddStockDialogController>(
                     id: 'add_stock_unit',
+                    init: controller,
+                    global: false,
                     builder: (_) {
                       return Visibility(
                           visible: UnitType.SINGLE.value !=
@@ -86,7 +86,7 @@ class AddStockDialog extends StatelessWidget {
                                     },
                                     child: Text(
                                       productDTO
-                                          .unitDetailDTO?.masterUnitName ??
+                                              .unitDetailDTO?.masterUnitName ??
                                           '',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
@@ -95,13 +95,13 @@ class AddStockDialog extends StatelessWidget {
                                     ),
                                     style: ElevatedButton.styleFrom(
                                       foregroundColor: productDTO.unitDetailDTO
-                                          ?.selectMasterUnit ??
-                                          true
+                                                  ?.selectMasterUnit ??
+                                              true
                                           ? Colors.white
                                           : Colours.text_333,
                                       backgroundColor: productDTO.unitDetailDTO
-                                          ?.selectMasterUnit ??
-                                          true
+                                                  ?.selectMasterUnit ??
+                                              true
                                           ? Colours.primary
                                           : Colors.white60,
                                     ),
@@ -110,43 +110,42 @@ class AddStockDialog extends StatelessWidget {
                               ),
                               Expanded(
                                   child: Container(
-                                    alignment: Alignment.center,
-                                    margin: EdgeInsets.symmetric(horizontal: 8.w),
-                                    child: ElevatedButton(
-                                      onPressed: () {
-                                        if (productDTO
+                                alignment: Alignment.center,
+                                margin: EdgeInsets.symmetric(horizontal: 8.w),
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    if (productDTO
                                             .unitDetailDTO?.selectMasterUnit ??
-                                            true) {
-                                          controller.masterController.text = '';
-                                          controller.slaveController.text = '';
-                                          productDTO.unitDetailDTO
-                                              ?.selectMasterUnit = false;
-                                          controller.update([
-                                          ]);
-                                        }
-                                      },
-                                      child: Text(
-                                        productDTO.unitDetailDTO?.slaveUnitName ??
-                                            '',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontSize: 30.sp,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      style: ElevatedButton.styleFrom(
-                                        foregroundColor: productDTO.unitDetailDTO
-                                            ?.selectMasterUnit ??
+                                        true) {
+                                      controller.masterController.text = '';
+                                      controller.slaveController.text = '';
+                                      productDTO.unitDetailDTO
+                                          ?.selectMasterUnit = false;
+                                      controller.update([]);
+                                    }
+                                  },
+                                  child: Text(
+                                    productDTO.unitDetailDTO?.slaveUnitName ??
+                                        '',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 30.sp,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    foregroundColor: productDTO.unitDetailDTO
+                                                ?.selectMasterUnit ??
                                             true
-                                            ? Colours.text_333
-                                            : Colors.white,
-                                        backgroundColor: productDTO.unitDetailDTO
-                                            ?.selectMasterUnit ??
+                                        ? Colours.text_333
+                                        : Colors.white,
+                                    backgroundColor: productDTO.unitDetailDTO
+                                                ?.selectMasterUnit ??
                                             true
-                                            ? Colors.white60
-                                            : Colours.primary,
-                                      ),
-                                    ),
-                                  ))
+                                        ? Colors.white60
+                                        : Colours.primary,
+                                  ),
+                                ),
+                              ))
                             ],
                           ));
                     }),
@@ -158,6 +157,8 @@ class AddStockDialog extends StatelessWidget {
                   children: [
                     GetBuilder<AddStockDialogController>(
                         id: 'add_stock_master_number',
+                        init: controller,
+                        global: false,
                         builder: (_) {
                           return Visibility(
                               visible: isMasterUnitShow(),
@@ -172,35 +173,35 @@ class AddStockDialog extends StatelessWidget {
                                   ),
                                   Flexible(
                                       child: TextFormField(
-                                        onTap: () {
-                                          updateMasterNum();
-                                        },
-                                        controller: controller.masterController,
-                                        decoration: InputDecoration(
-                                          counterText: '',
-                                          hintText: '请输入重量',
-                                        ),
-                                        textAlign: TextAlign.center,
-                                        maxLength: 10,
-                                        keyboardType:
+                                    onTap: () {
+                                      updateMasterNum();
+                                    },
+                                    controller: controller.masterController,
+                                    decoration: InputDecoration(
+                                      counterText: '',
+                                      hintText: '请输入重量',
+                                    ),
+                                    textAlign: TextAlign.center,
+                                    maxLength: 10,
+                                    keyboardType:
                                         TextInputType.numberWithOptions(
                                             signed: true, decimal: true),
-                                        validator: FormBuilderValidators.compose([
-                                          FormBuilderValidators.required(
-                                              errorText: '重量不能为空'),
-                                              (value) {
-                                            var masterNumber =
+                                    validator: FormBuilderValidators.compose([
+                                      FormBuilderValidators.required(
+                                          errorText: '重量不能为空'),
+                                      (value) {
+                                        var masterNumber =
                                             Decimal.tryParse(value!);
-                                            if (null == masterNumber) {
-                                              return '重量请输入数字';
-                                            } else if (masterNumber <=
-                                                Decimal.zero) {
-                                              return '重量不能小于等于0';
-                                            }
-                                            return null;
-                                          },
-                                        ]),
-                                      )),
+                                        if (null == masterNumber) {
+                                          return '重量请输入数字';
+                                        } else if (masterNumber <=
+                                            Decimal.zero) {
+                                          return '重量不能小于等于0';
+                                        }
+                                        return null;
+                                      },
+                                    ]),
+                                  )),
                                   Text(
                                     productDTO.unitDetailDTO?.masterUnitName ??
                                         '',
@@ -247,6 +248,8 @@ class AddStockDialog extends StatelessWidget {
                                 })),
                         GetBuilder<AddStockDialogController>(
                             id: 'add_stock_number_unit',
+                            init: controller,
+                            global: false,
                             builder: (_) {
                               return Text(
                                 getProductUnitName() ?? '',
@@ -284,7 +287,7 @@ class AddStockDialog extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: () {
                         if (formKey.currentState
-                            ?.saveAndValidate(focusOnInvalid: true) ??
+                                ?.saveAndValidate(focusOnInvalid: true) ??
                             false) {
                           if (onClick(buildContent())) {
                             Get.back();
@@ -339,8 +342,7 @@ class AddStockDialog extends StatelessWidget {
     String number = controller.slaveController.text;
     var unitType = productDTO.unitDetailDTO?.unitType;
     if (UnitType.SINGLE.value == unitType) {
-      return productAddStockCarDTO.copyWith(
-          number: Decimal.tryParse(number));
+      return productAddStockCarDTO.copyWith(number: Decimal.tryParse(number));
     } else {
       var selectMasterUnit = productDTO.unitDetailDTO?.selectMasterUnit ?? true;
       productDTO.unitDetailDTO?.selectMasterUnit = selectMasterUnit;
@@ -371,8 +373,6 @@ class AddStockDialog extends StatelessWidget {
     }
   }
 
-
-
   String? getProductUnitName() {
     var unitDetailDTO = productDTO.unitDetailDTO;
     if (UnitType.SINGLE.value == unitDetailDTO?.unitType) {
@@ -402,7 +402,8 @@ class AddStockDialog extends StatelessWidget {
         }
       }
     }
-    controller.slaveController.text = DecimalUtil.formatDecimalDefault(slaveNumber);
+    controller.slaveController.text =
+        DecimalUtil.formatDecimalDefault(slaveNumber);
   }
 
   updateMasterNum() {
@@ -414,9 +415,9 @@ class AddStockDialog extends StatelessWidget {
         if ((num != null) && (conversion != null)) {
           masterNumber = num * conversion;
         }
-        controller.masterController.text = DecimalUtil.formatDecimalDefault(masterNumber);
+        controller.masterController.text =
+            DecimalUtil.formatDecimalDefault(masterNumber);
       }
     }
   }
-
 }
