@@ -105,6 +105,8 @@ class ProductUnitDialog extends StatelessWidget {
                 padding: EdgeInsets.only(right: 8.w, left: 8.w, bottom: 10.w),
                 child: GetBuilder<ProductUnitDialogController>(
                     id: 'shopping_car_unit',
+                    init: controller,
+                    global: false,
                     builder: (_) {
                       return Visibility(
                           visible: UnitType.SINGLE.value !=
@@ -141,7 +143,7 @@ class ProductUnitDialog extends StatelessWidget {
                                           'shopping_car_unit',
                                           'shopping_car_master_number',
                                           'shopping_car_number_unit',
-                                          'shopping_car_price_unit_name',
+                                          'shopping_car_price_unit_name'
                                         ]);
                                       }
                                     },
@@ -225,6 +227,8 @@ class ProductUnitDialog extends StatelessWidget {
                   children: [
                     GetBuilder<ProductUnitDialogController>(
                         id: 'shopping_car_master_number',
+                        init: controller,
+                        global: false,
                         builder: (_) {
                           return Visibility(
                               visible: isMasterUnitShow(),
@@ -314,6 +318,8 @@ class ProductUnitDialog extends StatelessWidget {
                                 })),
                         GetBuilder<ProductUnitDialogController>(
                             id: 'shopping_car_number_unit',
+                            init: controller,
+                            global: false,
                             builder: (_) {
                               return Text(
                                 getProductUnitName() ?? '',
@@ -360,6 +366,8 @@ class ProductUnitDialog extends StatelessWidget {
                                 })),
                         GetBuilder<ProductUnitDialogController>(
                             id: 'shopping_car_price_unit_name',
+                            init: controller,
+                            global: false,
                             builder: (_) {
                               return Text(
                                 '元/${getProductPriceUnitName() ?? ''}',
