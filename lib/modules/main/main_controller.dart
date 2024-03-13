@@ -49,7 +49,7 @@ class MainController extends GetxController {
       case 0:
         HomeBinding().dependencies();
         var homeController = Get.find<HomeController>();
-        homeController.initState();
+         homeController.initState();
         break;
       case 1:
         CustomRecordBinding().dependencies();

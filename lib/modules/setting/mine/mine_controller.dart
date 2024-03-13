@@ -59,19 +59,13 @@ class MineController extends GetxController {
         Toast.show('当前版本已经是最新版');
         return;
       } else {
-        //版本不符弹出对话框
-        Get.dialog(
-          AlertDialog(
-            title: null, // 设置标题为null，
-            content: SingleChildScrollView(
-              child: AppUpdateDialog(
-                force: false,
-                appCheckDTO: result.d!,
-              ),
-            ),
-          ),
-          barrierDismissible: false,
-        );
+        showDialog<void>(
+            context: context,
+            barrierDismissible: false,
+            builder: (_) => AppUpdateDialog(
+                  force: appCheckDTO.forceUpdate ?? false,
+                  appCheckDTO: result.d!,
+                ));
       }
     });
   }

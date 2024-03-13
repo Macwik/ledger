@@ -24,6 +24,7 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     controller.initState();
+    controller.checkUpdate(context);
     return Scaffold(
       body: Container(
         color: Colors.white,

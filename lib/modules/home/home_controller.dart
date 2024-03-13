@@ -1,5 +1,4 @@
 import 'package:decimal/decimal.dart';
-import 'package:fast_contacts/fast_contacts.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/api/app_update_api.dart';
@@ -14,12 +13,9 @@ import 'package:ledger/enum/unit_type.dart';
 import 'package:ledger/http/http_util.dart';
 import 'package:ledger/store/store_controller.dart';
 import 'package:ledger/util/decimal_util.dart';
-import 'package:ledger/util/logger_util.dart';
-import 'package:ledger/util/permission_util.dart';
 import 'package:ledger/util/toast_util.dart';
 import 'package:ledger/widget/dialog_widget/update_dialog/app_update_dialog.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 import 'home_state.dart';
 
@@ -28,7 +24,6 @@ class HomeController extends GetxController {
 
   Future<void> initState() async {
     _queryData();
-    _checkUpdate();
     _querySalesProductStatistics();
     _querySalesRepaymentStatistics();
     _querySalesPaymentStatistics();
@@ -49,7 +44,7 @@ class HomeController extends GetxController {
   }
 
   ///版本校验
-  _checkUpdate() async {
+  checkUpdate(BuildContext context) async {
     /// 获得服务器版本
     /// version 为android/add/build.gradle中的versionName
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -64,19 +59,13 @@ class HomeController extends GetxController {
       if (appCheckDTO.latest ?? true) {
         return;
       } else {
-        //版本不符弹出对话框
-        Get.dialog(
-          AlertDialog(
-            title: null, // 设置标题为null，
-            content: SingleChildScrollView(
-              child: AppUpdateDialog(
-                force: appCheckDTO.forceUpdate ?? false,
-                appCheckDTO: result.d!,
-              ),
-            ),
-          ),
-          barrierDismissible: false,
-        );
+        showDialog<void>(
+            context: context,
+            barrierDismissible: false,
+            builder: (_) => AppUpdateDialog(
+              force: appCheckDTO.forceUpdate ?? false,
+              appCheckDTO: result.d!,
+            ));
       }
     });
   }
