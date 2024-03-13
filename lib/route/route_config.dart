@@ -84,6 +84,8 @@ import 'package:ledger/modules/sale/sale_record/sale_record_binding.dart';
 import 'package:ledger/modules/sale/sale_record/sale_record_view.dart';
 import 'package:ledger/modules/sale/shopping_car/shopping_car_binding.dart';
 import 'package:ledger/modules/sale/shopping_car/shopping_car_view.dart';
+import 'package:ledger/modules/sale/shopping_car_list/shopping_car_list_binding.dart';
+import 'package:ledger/modules/sale/shopping_car_list/shopping_car_list_view.dart';
 import 'package:ledger/modules/sale/supplier_detail/supplier_detail_binding.dart';
 import 'package:ledger/modules/sale/supplier_detail/supplier_detail_view.dart';
 import 'package:ledger/modules/setting/about_us/about_us_binding.dart';
@@ -209,6 +211,7 @@ class RouteConfig {
   static const String pendingSaleBill = '/page/pending/sale/bill';
   static const String addStockRecord = '/page/add/stock/record';
   static const String retailBill = '/page/retail/bill';
+  static const String shoppingCarList = '/page/shopping/car/list';
 
 
   static final List<GetPage> getPages = [
@@ -443,5 +446,9 @@ class RouteConfig {
         name: retailBill,
         page: () => RetailBillView(),
         binding: RetailBillBinding()),
+    GetPage(
+        name: shoppingCarList,
+        page: () => ShoppingCarListView(),
+        binding: ShoppingCarListBinding()),
   ];
 }
