@@ -4,7 +4,8 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger/entity/product/product_dto.dart';
-import 'package:ledger/entity/product/product_stock_adjust_request.dart';
+import 'package:ledger/entity/product/product_shopping_car_dto.dart';
+import 'package:ledger/entity/unit/unit_detail_dto.dart';
 import 'package:ledger/enum/process_status.dart';
 import 'package:ledger/res/colors.dart';
 import 'package:ledger/util/toast_util.dart';
@@ -16,11 +17,9 @@ class AddStockSingleDialog extends StatelessWidget {
 
   final ProductDTO productDTO;
   late final AddStockSingleDialogController controller;
-  final Function(ProductStockAdjustRequest? result) onClick;
+  final Function(ProductShoppingCarDTO? result) onClick;
 
-  AddStockSingleDialog({
-    required this.productDTO,
-    required this.onClick}){
+  AddStockSingleDialog({required this.productDTO, required this.onClick}) {
     AddStockSingleDialogBinding().dependencies();
     controller = Get.find<AddStockSingleDialogController>();
   }
@@ -63,8 +62,7 @@ class AddStockSingleDialog extends StatelessWidget {
                             if (stockStr.isEmpty) {
                               return '请输入入库数量';
                             }
-                            Decimal? masterStock =
-                                Decimal.tryParse(stockStr);
+                            Decimal? masterStock = Decimal.tryParse(stockStr);
                             if (masterStock == null ||
                                 (masterStock < Decimal.zero)) {
                               return '数量不能小于0';
@@ -149,13 +147,19 @@ class AddStockSingleDialog extends StatelessWidget {
         ));
   }
 
-  ProductStockAdjustRequest buildProductAddStockRequest() {
-    return ProductStockAdjustRequest(
-       productId: productDTO.id,
-       productName: productDTO.productName,
-       unitName: productDTO.unitDetailDTO?.unitName,
-       unitType: productDTO.unitDetailDTO?.unitType,
-       stock: Decimal.tryParse(controller.stockController.text)
-   );
+  ProductShoppingCarDTO buildProductAddStockRequest() {
+    return ProductShoppingCarDTO(
+        productId: productDTO.id,
+        productName: productDTO.productName,
+        productPlace: productDTO.productPlace,
+        productStandard: productDTO.productStandard,
+        unitDetailDTO: getUnitDetailDTO());
+  }
+
+  UnitDetailDTO? getUnitDetailDTO() {
+    String? stock = controller.stockController.text;
+    return productDTO.unitDetailDTO?.copyWith(
+        unitId: productDTO.unitDetailDTO?.unitId,
+        stock: Decimal.tryParse(stock));
   }
 }

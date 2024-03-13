@@ -4,7 +4,8 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger/entity/product/product_dto.dart';
-import 'package:ledger/entity/product/product_stock_adjust_request.dart';
+import 'package:ledger/entity/product/product_shopping_car_dto.dart';
+import 'package:ledger/entity/unit/unit_detail_dto.dart';
 import 'package:ledger/enum/process_status.dart';
 import 'package:ledger/res/colors.dart';
 import 'package:ledger/util/toast_util.dart';
@@ -16,11 +17,9 @@ class AddStockMultiDialog extends StatelessWidget {
 
   final ProductDTO productDTO;
   late final AddStockMultiDialogController controller;
-  final Function(ProductStockAdjustRequest? result) onClick;
+  final Function(ProductShoppingCarDTO? result) onClick;
 
-  AddStockMultiDialog({
-    required this.productDTO,
-    required this.onClick}){
+  AddStockMultiDialog({required this.productDTO, required this.onClick}) {
     AddStockMultiDialogBinding().dependencies();
     controller = Get.find<AddStockMultiDialogController>();
   }
@@ -51,7 +50,8 @@ class AddStockMultiDialog extends StatelessWidget {
                         child: TextFormField(
                           controller: controller.slaveStockController,
                           onTap: () {
-                            controller.updateSlaveStock(productDTO.unitDetailDTO);
+                            controller
+                                .updateSlaveStock(productDTO.unitDetailDTO);
                           },
                           textAlign: TextAlign.center,
                           maxLength: 10,
@@ -105,7 +105,8 @@ class AddStockMultiDialog extends StatelessWidget {
                         flex: 1,
                         child: TextFormField(
                           onTap: () {
-                            controller.updateMasterStock(productDTO.unitDetailDTO);
+                            controller
+                                .updateMasterStock(productDTO.unitDetailDTO);
                           },
                           controller: controller.masterStockController,
                           textAlign: TextAlign.center,
@@ -117,8 +118,8 @@ class AddStockMultiDialog extends StatelessWidget {
                               border: InputBorder.none),
                           keyboardType: TextInputType.number,
                           validator: (value) {
-                            var masterStockStr = controller
-                                .masterStockController.text;
+                            var masterStockStr =
+                                controller.masterStockController.text;
                             if (masterStockStr.isEmpty) {
                               return '请输入入库数量';
                             }
@@ -208,15 +209,23 @@ class AddStockMultiDialog extends StatelessWidget {
         ));
   }
 
-  ProductStockAdjustRequest buildProductAddStockRequest() {
-    String? masterStock = controller.masterStockController.text;
-    String? slaveStock = controller.slaveStockController.text;
-    return ProductStockAdjustRequest(
+  ProductShoppingCarDTO buildProductAddStockRequest() {
+    return ProductShoppingCarDTO(
         productId: productDTO.id,
         productName: productDTO.productName,
-        masterUnitName: productDTO.unitDetailDTO?.masterUnitName,
-        slaveUnitName: productDTO.unitDetailDTO?.slaveUnitName,
-        unitType: productDTO.unitDetailDTO?.unitType,
+        productPlace: productDTO.productPlace,
+        productStandard: productDTO.productStandard,
+        unitDetailDTO: getUnitDetailDTO());
+  }
+
+  UnitDetailDTO? getUnitDetailDTO() {
+    String? masterStock = controller.masterStockController.text;
+    String? slaveStock = controller.slaveStockController.text;
+    var selectMasterUnit = productDTO.unitDetailDTO?.selectMasterUnit ?? true;
+    return productDTO.unitDetailDTO?.copyWith(
+        selectMasterUnit: selectMasterUnit,
+        masterUnitId: productDTO.unitDetailDTO?.masterUnitId,
+        slaveUnitId: productDTO.unitDetailDTO?.slaveUnitId,
         masterStock: Decimal.tryParse(masterStock),
         slaveStock: Decimal.tryParse(slaveStock));
   }
