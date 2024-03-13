@@ -8,7 +8,7 @@ class SaleController extends GetxController {
   final SaleState state = SaleState();
 
   toSaleBill() {
-    Get.toNamed(RouteConfig.saleBill, arguments: {'orderType': OrderType.SALE});
+    Get.toNamed(RouteConfig.retailBill, arguments: {'orderType': OrderType.SALE});
   }
 
   toSaleReturnBill() {

@@ -56,7 +56,12 @@ class DateUtil {
     return dateTime;
   }
 
-  /// 格式化日期
+  /// 格式化日期,月日
+  static String formatDayMonthDate(DateTime dateTime) {
+    return DateFormat(DateFormats.zh_mo_d).format(dateTime);
+  }
+
+  /// 格式化日期,年月日
   static String formatDefaultDate(DateTime dateTime) {
     return DateFormat(DateFormats.y_mo_d).format(dateTime);
   }
