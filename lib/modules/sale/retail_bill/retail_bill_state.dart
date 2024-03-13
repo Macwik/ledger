@@ -16,6 +16,7 @@ class RetailBillState {
   RetailBillState() {
     ///Initialize variables
   }
+
   final formKey = GlobalKey<FormBuilderState>();
 
   OrderType orderType = OrderType.SALE;
@@ -43,7 +44,7 @@ class RetailBillState {
   ProductClassifyListDTO? productClassifyListDTO;
   List<ProductDTO>? productList;
 
-  String? searchContent ='';
+  String? searchContent = '';
 
   int selectType = 1;
 
@@ -52,14 +53,16 @@ class RetailBillState {
 
   Decimal totalAmount = Decimal.zero;
 
-  int ? pendingOrderNum = 0;
+  int? pendingOrderNum = 0;
 
   //入库商品
-  ProductStockAdjustRequest? productAddStockRequest;
+  ProductShoppingCarDTO? productAddStockRequest;
+
   //销售、退货开单购物车商品
   List<ProductShoppingCarDTO>? shoppingCarList = [];
+
   //调整库存
   ProductStockAdjustRequest? productStockAdjustRequest;
 
- // PageToType? pageToType;
+// PageToType? pageToType;
 }
