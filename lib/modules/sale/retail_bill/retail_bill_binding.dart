@@ -5,6 +5,6 @@ import 'retail_bill_controller.dart';
 class RetailBillBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => RetailBillController());
+    Get.create<RetailBillController>(() => RetailBillController(), permanent: false);
   }
 }

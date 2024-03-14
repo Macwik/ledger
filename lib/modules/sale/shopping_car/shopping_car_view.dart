@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/entity/product/product_classify_dto.dart';
 import 'package:ledger/entity/product/product_dto.dart';
+import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/enum/page_to_type.dart';
 import 'package:ledger/res/colors.dart';
 import 'package:ledger/widget/custom_easy_refresh.dart';
@@ -423,8 +424,9 @@ class ShoppingCarView extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                            controller.getTotalAmount() ?? '',
+                          Text(state.orderType == OrderType.ADD_STOCK
+                            ?''
+                            :controller.getTotalAmount() ?? '',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 28.sp,

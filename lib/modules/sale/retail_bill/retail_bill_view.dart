@@ -21,7 +21,6 @@ class RetailBillView extends StatelessWidget {
   RetailBillView({super.key});
 
   final controller = Get.find<RetailBillController>();
-  final state = Get.find<RetailBillController>().state;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +29,7 @@ class RetailBillView extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         toolbarHeight:100.w,
-        title: Text( '${state.ledgerName ?? ''} 开单',
+        title: Text( '${controller.state.ledgerName ?? ''} 开单',
             style: TextStyle(color: Colors.white,fontSize: 42.sp),),
         leading: BackButton(
           onPressed: (){
@@ -85,6 +84,8 @@ class RetailBillView extends StatelessWidget {
                                     flex: 3,
                                   child: GetBuilder<RetailBillController>(
                                       id: 'retail_bill_sale_custom',
+                                      init: controller,
+                                      global: false,
                                       builder: (_){
                                     return InkWell(
                                         onTap: () =>
@@ -94,7 +95,7 @@ class RetailBillView extends StatelessWidget {
                                           children: [
                                             Icon(
                                               Icons.person_outline_rounded,
-                                                color: state.customDTO?.customName?.isEmpty??false
+                                                color: controller.state.customDTO?.customName?.isEmpty??false
                                                     ?Colours.text_999
                                                     :Colors.orange[600]
                                             ),
@@ -103,7 +104,7 @@ class RetailBillView extends StatelessWidget {
                                               style: TextStyle(
                                                   fontSize: 28.sp,
                                                   fontWeight: FontWeight.w500,
-                                                  color: state.customDTO?.customName?.isEmpty??false
+                                                  color: controller.state.customDTO?.customName?.isEmpty??false
                                                       ?Colours.text_999
                                                       :Colors.orange[600]
                                               ),
@@ -188,6 +189,8 @@ class RetailBillView extends StatelessWidget {
                         Expanded(
                             child: GetBuilder<RetailBillController>(
                                 id: 'product_classify_list',
+                                init: controller,
+                                global: false,
                                 builder: (_) {
                                   return Row(
                                     children: [
@@ -198,36 +201,36 @@ class RetailBillView extends StatelessWidget {
                                             Expanded(
                                                 child: Container(
                                                   color: Colors.white30,
-                                                  child:state.productClassifyListDTO
+                                                  child:controller.state.productClassifyListDTO
                                                       ?.productClassifyList ==
                                                       null
                                                       ? LottieIndicator()
-                                                      : state.productClassifyListDTO!
+                                                      : controller.state.productClassifyListDTO!
                                                       .productClassifyList!.isEmpty
                                                       ? EmptyLayout(hintText: '什么都没有')
                                                       : ListView.builder(
                                                     shrinkWrap: true,
                                                     padding: EdgeInsets.only(top: 0),
-                                                    controller: state.menuController,
-                                                    itemCount:state.productClassifyListDTO
+                                                    controller: controller.state.menuController,
+                                                    itemCount:controller.state.productClassifyListDTO
                                                         ?.productClassifyList
                                                         ?.length ?? 0,
                                                     itemBuilder: (BuildContext context,
                                                         int index) {
                                                       ProductClassifyDTO classifyDTO =
-                                                      state.productClassifyListDTO!.productClassifyList![index];
+                                                      controller.state.productClassifyListDTO!.productClassifyList![index];
                                                       return GestureDetector(
                                                         child: Container(
                                                           alignment: Alignment.center,
-                                                          height: state.menuItemHeight,
+                                                          height: controller.state.menuItemHeight,
                                                           decoration: BoxDecoration(
-                                                            color:state.selectType == classifyDTO.id
+                                                            color: controller.state.selectType == classifyDTO.id
                                                                 ? Colors.white
                                                                 : Colours.bg,
                                                             border: Border(
                                                               left: BorderSide(
                                                                   width: 3,
-                                                                  color:state.selectType == classifyDTO.id
+                                                                  color:controller.state.selectType == classifyDTO.id
                                                                       ? Colours.primary
                                                                       : Colors.white
                                                               ),
@@ -238,9 +241,7 @@ class RetailBillView extends StatelessWidget {
                                                             classifyDTO.productClassify ?? '',
                                                             style: TextStyle(
                                                               fontWeight: FontWeight.w500,
-                                                              color:state
-                                                                  .selectType ==
-                                                                  classifyDTO.id
+                                                              color:controller.state.selectType == classifyDTO.id
                                                                   ? Colours.primary
                                                                   : Colours.text_999,
                                                               fontSize: 32.sp,
@@ -271,18 +272,18 @@ class RetailBillView extends StatelessWidget {
                                       Expanded(
                                           flex:7,
                                           child: CustomEasyRefresh(
-                                              controller: state.refreshController,
+                                              controller: controller.state.refreshController,
                                               onLoad: controller.onLoad,
                                               onRefresh: controller.onRefresh,
-                                              emptyWidget: state.productList == null
+                                              emptyWidget: controller.state.productList == null
                                                   ? LottieIndicator()
-                                                  : state.productList!.isEmpty
+                                                  : controller.state.productList!.isEmpty
                                                   ? EmptyLayout(hintText: '什么都没有'.tr)
                                                   : null,
                                               child: ListView.separated(
-                                                itemCount: state.productList?.length ?? 0,
+                                                itemCount: controller.state.productList?.length ?? 0,
                                                 itemBuilder: (BuildContext context, int index) {
-                                                  ProductDTO stockDTO = state.productList![index];
+                                                  ProductDTO stockDTO = controller.state.productList![index];
                                                   return InkWell(
                                                       onTap: () => controller.addToShoppingCar(stockDTO),
                                                       child: Container(
@@ -452,6 +453,8 @@ class RetailBillView extends StatelessWidget {
               //底部栏
               GetBuilder<RetailBillController>(
                   id: 'shopping_car_box',
+                  init: controller,
+                  global: false,
                   builder: (_) {
                     return Container(
                       alignment: Alignment.bottomCenter,
@@ -514,7 +517,7 @@ class RetailBillView extends StatelessWidget {
                                         color: Colours.primary,
                                       ),
                                       Expanded(child:
-                                      Text('${state.shoppingCarList?.length ?? 0}',
+                                      Text('${controller.state.shoppingCarList?.length ?? 0}',
                                         style: TextStyle(
                                           color: Colors.red[600],
                                           fontSize: 32.sp,

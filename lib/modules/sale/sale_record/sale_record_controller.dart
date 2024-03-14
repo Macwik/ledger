@@ -228,19 +228,19 @@ class SaleRecordController extends GetxController {
     }
   }
 
-  String toRetailBillName() {
-    switch (state.initialIndex) {
-      case 0:
-        return '+销售';
-      case 1:
-        return '+退货';
-      case 2:
-        return '+仅退款';
-      default:
-        throw Exception('开单');
-    }
-
-  }
+  // String toRetailBillName() {
+  //   switch (state.initialIndex) {
+  //     case 0:
+  //       return '+销售';
+  //     case 1:
+  //       return '+退货';
+  //     case 2:
+  //       return '+仅退款';
+  //     default:
+  //       throw Exception('开单');
+  //   }
+  //
+  // }
 }
 
 enum SalesRecordSelectType { ALL, COMMON, RETURN }

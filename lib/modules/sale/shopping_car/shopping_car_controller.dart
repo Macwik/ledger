@@ -397,9 +397,10 @@ class ShoppingCarController extends GetxController {
 
   String? getTotalAmount() {
     var totalAmount = Decimal.zero;
-    state.shoppingCarList?.forEach((element) {
-      totalAmount = totalAmount + element.unitDetailDTO!.totalAmount!;
-    });
+      state.shoppingCarList?.forEach((element) {
+        totalAmount = totalAmount + element.unitDetailDTO!.totalAmount!;
+      });
+
     return DecimalUtil.formatDecimalDefault(totalAmount);
   }
 

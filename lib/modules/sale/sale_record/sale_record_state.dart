@@ -3,7 +3,7 @@ import 'package:ledger/entity/order/order_dto.dart';
 import 'package:ledger/entity/user/user_base_dto.dart';
 import 'package:ledger/enum/order_type.dart';
 
-class SaleRecordState {
+class SaleRecordState{
   final refreshController = EasyRefreshController(
     controlFinishRefresh: true,
     controlFinishLoad: true,
@@ -11,7 +11,6 @@ class SaleRecordState {
 
   int currentPage = 1;
 
-  int initialIndex = 0;
 
   bool? hasMore;
 

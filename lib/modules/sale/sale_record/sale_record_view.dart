@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/enum/order_state_type.dart';
 import 'package:ledger/enum/order_type.dart';
+import 'package:ledger/modules/sale/sale_record/tab_controller_manager.dart';
 import 'package:ledger/res/colors.dart';
 import 'package:ledger/route/route_config.dart';
 import 'package:ledger/util/date_util.dart';
@@ -20,13 +21,14 @@ import 'sale_record_controller.dart';
 
 class SaleRecordView extends StatelessWidget {
   final controller = Get.find<SaleRecordController>();
+  final TabControllerManager tabController = Get.put(TabControllerManager());
 
   @override
   Widget build(BuildContext context) {
     controller.initState();
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight:100.w,
+        toolbarHeight: 100.w,
         leading: BackButton(
             onPressed: () {
               Get.until((route) {
@@ -42,7 +44,7 @@ class SaleRecordView extends StatelessWidget {
                   (controller.state.orderType == OrderType.SALE_RETURN)
               ? '销售记录'
               : '采购记录',
-          style: TextStyle(color: Colors.white,fontSize: 42.sp),
+          style: TextStyle(color: Colors.white, fontSize: 42.sp),
         ),
         actionsIconTheme: IconThemeData(color: Colors.white),
       ),
@@ -647,67 +649,75 @@ class SaleRecordView extends StatelessWidget {
           child: DefaultTabController(
             initialIndex: 0,
             length: controller.state.orderType == OrderType.PURCHASE ? 2 : 3,
-            child:  Column(
-                children: [
-                  Container(
+            child: Column(
+              children: [
+                Container(
                     color: Colors.white,
-                      height: 90.w, // 调整TabBar高度
-                      child: TabBar(
-                       // controller:_tabController(),
-                    tabs: [
-                      Tab(text:  controller.state.orderType == OrderType.PURCHASE
-                      ?'采购':'销售',),
-                      Tab(text: controller.state.orderType == OrderType.PURCHASE
-                      ?'采购退货':'销售退货',),
+                    height: 90.w, // 调整TabBar高度
+                    child: TabBar(
+                      controller: tabController.tabController,
+                      tabs: [
+                        Tab(
+                          text: controller.state.orderType == OrderType.PURCHASE
+                              ? '采购'
+                              : '销售',
+                        ),
+                        Tab(
+                          text: controller.state.orderType == OrderType.PURCHASE
+                              ? '采购退货'
+                              : '销售退货',
+                        ),
+                        if (controller.state.orderType == OrderType.SALE)
+                          Tab(text: '退款'),
+                      ],
+                      indicatorWeight: 3.w,
+                      indicatorPadding: EdgeInsets.all(0),
+                      labelPadding: EdgeInsets.all(0),
+                      isScrollable: false,
+                      indicatorColor: Colours.primary,
+                      unselectedLabelColor: Colours.text_999,
+                      unselectedLabelStyle:
+                          const TextStyle(fontWeight: FontWeight.w500),
+                      labelStyle: TextStyle(fontWeight: FontWeight.w500),
+                      labelColor: Colours.primary,
+                    )),
+                Expanded(
+                    child: TabBarView(
+                        controller: tabController.tabController,
+                        children: [
+                      widgetSaleRecord(),
+                      widgetSaleRecord(),
                       if (controller.state.orderType == OrderType.SALE)
-                        Tab(text: '退款'),
-                    ],
-                    indicatorWeight: 3.w,
-                    indicatorPadding: EdgeInsets.all(0),
-                    labelPadding: EdgeInsets.all(0),
-                    isScrollable: false,
-                    indicatorColor: Colours.primary,
-                    unselectedLabelColor: Colours.text_999,
-                    unselectedLabelStyle:
-                    const TextStyle(fontWeight: FontWeight.w500),
-                    labelStyle: TextStyle(fontWeight: FontWeight.w500),
-                    labelColor: Colours.primary,
-                  )
-                  ),
-                  Expanded(
-                      child: TabBarView(children: [
                         widgetSaleRecord(),
-                        widgetSaleRecord(),
-                        if (controller.state.orderType == OrderType.SALE)widgetSaleRecord(),
-                      ]))
-                ],
-              ),
-          )
-      ),
+                    ]))
+              ],
+            ),
+          )),
       floatingActionButton: PermissionWidget(
           permissionCode: PermissionCode.sales_sale_order_permission,
-          child: GetBuilder(
+          child: GetBuilder<SaleRecordController>(
               id: 'sale_record_add_bill',
-              builder: (_){
-            return  Container(
-                width: 90.0,
-                height: 66.0,
-                margin: EdgeInsets.all(30.w),
-                child: FloatingActionButton(
-                  onPressed: () =>controller.toAddBill(),
-                  child: Container(
-                      child: Row(
+              builder: (_) {
+                return Container(
+                    width: 90.0,
+                    height: 66.0,
+                    margin: EdgeInsets.all(30.w),
+                    child: FloatingActionButton(
+                      onPressed: () => controller.toAddBill(),
+                      child: Container(
+                          child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(controller.toRetailBillName(),
+                          Text(
+                            '',
+                            //controller.toRetailBillName(),
                             style: TextStyle(fontSize: 32.sp),
                           ),
                         ],
                       )), // 按钮上显示的图标
-                ));
-          })
-         ),
+                    ));
+              })),
       floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
     );
   }
@@ -718,8 +728,7 @@ class SaleRecordView extends StatelessWidget {
       children: [
         Container(
           height: 120.w,
-          margin: EdgeInsets.only(
-               left: 10.w, right: 10.w),
+          margin: EdgeInsets.only(left: 10.w, right: 10.w),
           padding: EdgeInsets.only(top: 10.w, bottom: 10.w),
           child: SearchBar(
             leading: Icon(
@@ -745,14 +754,14 @@ class SaleRecordView extends StatelessWidget {
                   emptyWidget: controller.state.list == null
                       ? LottieIndicator()
                       : controller.state.list?.isEmpty ?? true
-                      ? EmptyLayout(hintText: '什么都没有'.tr)
-                      : null,
+                          ? EmptyLayout(hintText: '什么都没有'.tr)
+                          : null,
                   child: ListView.separated(
                     itemBuilder: (context, index) {
-                      var salePurchaseOrderDTO =
-                      controller.state.list![index];
+                      var salePurchaseOrderDTO = controller.state.list![index];
                       return InkWell(
-                        onTap: () => controller.toSalesDetail(salePurchaseOrderDTO),
+                        onTap: () =>
+                            controller.toSalesDetail(salePurchaseOrderDTO),
                         child: Column(
                           children: [
                             Container(
@@ -779,31 +788,27 @@ class SaleRecordView extends StatelessWidget {
                                   bottom: 20.w),
                               child: Column(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceEvenly,
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Flex(
                                     direction: Axis.horizontal,
                                     children: [
                                       Visibility(
                                           visible: (salePurchaseOrderDTO
-                                              .orderType ==
-                                              OrderType.SALE_RETURN
-                                                  .value) ||
-                                              (salePurchaseOrderDTO
-                                                  .orderType ==
+                                                      .orderType ==
                                                   OrderType
-                                                      .PURCHASE_RETURN
-                                                      .value),
+                                                      .SALE_RETURN.value) ||
+                                              (salePurchaseOrderDTO.orderType ==
+                                                  OrderType
+                                                      .PURCHASE_RETURN.value),
                                           child: Container(
                                             margin: EdgeInsets.symmetric(
                                                 horizontal: 16.w),
                                             padding: EdgeInsets.symmetric(
-                                                horizontal: 8.w,
-                                                vertical: 4.w),
+                                                horizontal: 8.w, vertical: 4.w),
                                             decoration: (BoxDecoration(
                                                 borderRadius:
-                                                BorderRadius.circular(
-                                                    (36)),
+                                                    BorderRadius.circular((36)),
                                                 border: Border.all(
                                                     color: Colors.orange,
                                                     width: 3.w),
@@ -824,8 +829,8 @@ class SaleRecordView extends StatelessWidget {
                                                     .productNameList),
                                             style: TextStyle(
                                               color: salePurchaseOrderDTO
-                                                  .invalid ==
-                                                  1
+                                                          .invalid ==
+                                                      1
                                                   ? Colours.text_ccc
                                                   : Colours.text_333,
                                               fontSize: 32.sp,
@@ -833,9 +838,8 @@ class SaleRecordView extends StatelessWidget {
                                             )),
                                       ),
                                       Visibility(
-                                          visible: salePurchaseOrderDTO
-                                              .invalid ==
-                                              1,
+                                          visible:
+                                              salePurchaseOrderDTO.invalid == 1,
                                           child: Container(
                                             padding: EdgeInsets.only(
                                                 top: 2.w,
@@ -848,15 +852,13 @@ class SaleRecordView extends StatelessWidget {
                                                 width: 1.0,
                                               ),
                                               borderRadius:
-                                              BorderRadius.circular(
-                                                  8.0),
+                                                  BorderRadius.circular(8.0),
                                             ),
                                             child: Text('已作废',
                                                 style: TextStyle(
                                                   color: Colours.text_999,
                                                   fontSize: 26.sp,
-                                                  fontWeight:
-                                                  FontWeight.w500,
+                                                  fontWeight: FontWeight.w500,
                                                 )),
                                           )),
                                       Expanded(
@@ -867,16 +869,15 @@ class SaleRecordView extends StatelessWidget {
                                                     .orderStatus),
                                             style: TextStyle(
                                               color: salePurchaseOrderDTO
-                                                  .invalid ==
-                                                  1
+                                                          .invalid ==
+                                                      1
                                                   ? Colours.text_ccc
-                                                  : OrderStateType
-                                                  .DEBT_ACCOUNT
-                                                  .value ==
-                                                  salePurchaseOrderDTO
-                                                      .orderStatus
-                                                  ? Colors.orange
-                                                  : Colours.text_ccc,
+                                                  : OrderStateType.DEBT_ACCOUNT
+                                                              .value ==
+                                                          salePurchaseOrderDTO
+                                                              .orderStatus
+                                                      ? Colors.orange
+                                                      : Colours.text_ccc,
                                               fontSize: 26.sp,
                                               fontWeight: FontWeight.w400,
                                             )),
@@ -899,8 +900,8 @@ class SaleRecordView extends StatelessWidget {
                                                 salePurchaseOrderDTO),
                                             style: TextStyle(
                                               color: salePurchaseOrderDTO
-                                                  .invalid ==
-                                                  1
+                                                          .invalid ==
+                                                      1
                                                   ? Colours.text_ccc
                                                   : Colors.red[600],
                                               fontSize: 32.sp,
@@ -909,22 +910,21 @@ class SaleRecordView extends StatelessWidget {
                                       ),
                                       Expanded(
                                           child: Row(children: [
-                                            Text('业务员：',
-                                                style: TextStyle(
-                                                  color: Colours.text_ccc,
-                                                  fontSize: 22.sp,
-                                                  fontWeight: FontWeight.w500,
-                                                )),
-                                            Text(
-                                                salePurchaseOrderDTO
-                                                    .creatorName ??
-                                                    '',
-                                                style: TextStyle(
-                                                  color: Colours.text_666,
-                                                  fontSize: 26.sp,
-                                                  fontWeight: FontWeight.w400,
-                                                )),
-                                          ])),
+                                        Text('业务员：',
+                                            style: TextStyle(
+                                              color: Colours.text_ccc,
+                                              fontSize: 22.sp,
+                                              fontWeight: FontWeight.w500,
+                                            )),
+                                        Text(
+                                            salePurchaseOrderDTO.creatorName ??
+                                                '',
+                                            style: TextStyle(
+                                              color: Colours.text_666,
+                                              fontSize: 26.sp,
+                                              fontWeight: FontWeight.w400,
+                                            )),
+                                      ])),
                                     ],
                                   ),
                                   SizedBox(
@@ -935,57 +935,60 @@ class SaleRecordView extends StatelessWidget {
                                     children: [
                                       Expanded(
                                         child: Text(
-                                            controller.state.orderType == OrderType.PURCHASE
+                                            controller.state.orderType ==
+                                                    OrderType.PURCHASE
                                                 ? '${salePurchaseOrderDTO.batchNo}'
-                                                : DateUtil.formatDefaultDateTimeMinute(
-                                                salePurchaseOrderDTO.gmtCreate),
+                                                : DateUtil
+                                                    .formatDefaultDateTimeMinute(
+                                                        salePurchaseOrderDTO
+                                                            .gmtCreate),
                                             style: TextStyle(
-                                              color:  controller.state.orderType == OrderType.PURCHASE
-                                                  ?Colours.text_999
-                                                  :Colours.text_ccc,
+                                              color:
+                                                  controller.state.orderType ==
+                                                          OrderType.PURCHASE
+                                                      ? Colours.text_999
+                                                      : Colours.text_ccc,
                                               fontSize: 26.sp,
                                               fontWeight: FontWeight.w500,
                                             )),
                                       ),
                                       Expanded(
                                           child: Row(
-                                            children: [
-                                              Visibility(
-                                                  visible:
+                                        children: [
+                                          Visibility(
+                                              visible: salePurchaseOrderDTO
+                                                      .customName?.isNotEmpty ??
+                                                  false,
+                                              child: Text(
+                                                  (controller.state.orderType ==
+                                                              OrderType.SALE) ||
+                                                          (controller.state
+                                                                  .orderType ==
+                                                              OrderType
+                                                                  .SALE_RETURN)
+                                                      ? '客户：'
+                                                      : '供应商：',
+                                                  style: TextStyle(
+                                                    color: Colours.text_ccc,
+                                                    fontSize: 22.sp,
+                                                    fontWeight: FontWeight.w500,
+                                                  ))),
+                                          Expanded(
+                                              child: Text(
                                                   salePurchaseOrderDTO
-                                                      .customName
-                                                      ?.isNotEmpty ??
-                                                      false,
-                                                  child: Text(
-                                                      (controller.state.orderType == OrderType.SALE) ||
-                                                          (controller.state.orderType == OrderType.SALE_RETURN)
-                                                          ? '客户：'
-                                                          :  '供应商：',
-                                                      style: TextStyle(
-                                                        color:
-                                                        Colours.text_ccc,
-                                                        fontSize: 22.sp,
-                                                        fontWeight:
-                                                        FontWeight.w500,
-                                                      ))),
-                                              Expanded(
-                                                  child: Text(
-                                                      salePurchaseOrderDTO
                                                           .customName ??
-                                                          '',
-                                                      style: TextStyle(
-                                                        color: salePurchaseOrderDTO
-                                                            .invalid ==
+                                                      '',
+                                                  style: TextStyle(
+                                                    color: salePurchaseOrderDTO
+                                                                .invalid ==
                                                             1
-                                                            ? Colours.text_ccc
-                                                            : Colours
-                                                            .text_666,
-                                                        fontSize: 26.sp,
-                                                        fontWeight:
-                                                        FontWeight.w400,
-                                                      )))
-                                            ],
-                                          ))
+                                                        ? Colours.text_ccc
+                                                        : Colours.text_666,
+                                                    fontSize: 26.sp,
+                                                    fontWeight: FontWeight.w400,
+                                                  )))
+                                        ],
+                                      ))
                                     ],
                                   )
                                 ],

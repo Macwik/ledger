@@ -627,7 +627,10 @@ class PaymentDialog extends StatelessWidget {
                                   });
                                 } else if ((OrderType.SALE == orderType) ||
                                     (OrderType.SALE_RETURN == orderType)) {
-                                  await Get.offNamed(RouteConfig.retailBill,
+
+
+                                  Get.back();
+                                  await Get.toNamed(RouteConfig.retailBill,
                                       arguments: {'orderType': OrderType.SALE})
                                       ?.then((value) {
                                     final controller =
