@@ -215,6 +215,32 @@ class SaleRecordController extends GetxController {
               (salePurchaseOrderDTO.discountAmount ?? Decimal.zero));
     }
   }
+
+  void toAddBill() {
+    if((state.orderType == OrderType.PURCHASE)||(state.orderType == OrderType.PURCHASE_RETURN)){
+      Get.toNamed(RouteConfig.saleBill, arguments: {
+        'orderType': OrderType.PURCHASE //TODO 进去页面带的数据要改，根据所在的页面initialIndex不同
+      });
+    }else{
+      Get.toNamed(RouteConfig.retailBill, arguments: {
+        'orderType': OrderType.SALE  //TODO 进去页面带的数据要改，根据所在的页面initialIndex不同
+      });
+    }
+  }
+
+  String toRetailBillName() {
+    switch (state.initialIndex) {
+      case 0:
+        return '+销售';
+      case 1:
+        return '+退货';
+      case 2:
+        return '+仅退款';
+      default:
+        throw Exception('开单');
+    }
+
+  }
 }
 
 enum SalesRecordSelectType { ALL, COMMON, RETURN }

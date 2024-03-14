@@ -26,6 +26,7 @@ class SaleRecordView extends StatelessWidget {
     controller.initState();
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight:100.w,
         leading: BackButton(
             onPressed: () {
               Get.until((route) {
@@ -41,7 +42,7 @@ class SaleRecordView extends StatelessWidget {
                   (controller.state.orderType == OrderType.SALE_RETURN)
               ? '销售记录'
               : '采购记录',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white,fontSize: 42.sp),
         ),
         actionsIconTheme: IconThemeData(color: Colors.white),
       ),
@@ -643,329 +644,368 @@ class SaleRecordView extends StatelessWidget {
             });
             return Future(() => true);
           },
-          child: Flex(
-            direction: Axis.vertical,
-            children: [
-              Container(
-                height: 120.w,
-                margin: EdgeInsets.only(
-                    top: 10.w, left: 10.w, right: 10.w, bottom: 10.w),
-                padding: EdgeInsets.only(top: 10.w, bottom: 10.w),
-                child: SearchBar(
-                  leading: Icon(
-                    Icons.search,
-                    color: Colors.grey,
+          child: DefaultTabController(
+            initialIndex: 0,
+            length: controller.state.orderType == OrderType.PURCHASE ? 2 : 3,
+            child:  Column(
+                children: [
+                  Container(
+                    color: Colors.white,
+                      height: 90.w, // 调整TabBar高度
+                      child: TabBar(
+                       // controller:_tabController(),
+                    tabs: [
+                      Tab(text:  controller.state.orderType == OrderType.PURCHASE
+                      ?'采购':'销售',),
+                      Tab(text: controller.state.orderType == OrderType.PURCHASE
+                      ?'采购退货':'销售退货',),
+                      if (controller.state.orderType == OrderType.SALE)
+                        Tab(text: '退款'),
+                    ],
+                    indicatorWeight: 3.w,
+                    indicatorPadding: EdgeInsets.all(0),
+                    labelPadding: EdgeInsets.all(0),
+                    isScrollable: false,
+                    indicatorColor: Colours.primary,
+                    unselectedLabelColor: Colours.text_999,
+                    unselectedLabelStyle:
+                    const TextStyle(fontWeight: FontWeight.w500),
+                    labelStyle: TextStyle(fontWeight: FontWeight.w500),
+                    labelColor: Colours.primary,
+                  )
                   ),
-                  onChanged: (value) {
-                    controller.searchSalesRecord(value);
-                  },
-                  hintText: '请输入货物名称',
-                ),
+                  Expanded(
+                      child: TabBarView(children: [
+                        widgetSaleRecord(),
+                        widgetSaleRecord(),
+                        if (controller.state.orderType == OrderType.SALE)widgetSaleRecord(),
+                      ]))
+                ],
               ),
-              Expanded(
-                child: GetBuilder<SaleRecordController>(
-                    id: 'sales_order_list',
-                    init: controller,
-                    global: false,
-                    builder: (_) {
-                      return CustomEasyRefresh(
-                        controller: controller.state.refreshController,
-                        onLoad: controller.onLoad,
-                        onRefresh: controller.onRefresh,
-                        emptyWidget: controller.state.list == null
-                            ? LottieIndicator()
-                            : controller.state.list?.isEmpty ?? true
-                                ? EmptyLayout(hintText: '什么都没有'.tr)
-                                : null,
-                        child: ListView.separated(
-                          itemBuilder: (context, index) {
-                            var salePurchaseOrderDTO =
-                                controller.state.list![index];
-                            return InkWell(
-                              onTap: () => controller.toSalesDetail(salePurchaseOrderDTO),
+          )
+      ),
+      floatingActionButton: PermissionWidget(
+          permissionCode: PermissionCode.sales_sale_order_permission,
+          child: GetBuilder(
+              id: 'sale_record_add_bill',
+              builder: (_){
+            return  Container(
+                width: 90.0,
+                height: 66.0,
+                margin: EdgeInsets.all(30.w),
+                child: FloatingActionButton(
+                  onPressed: () =>controller.toAddBill(),
+                  child: Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(controller.toRetailBillName(),
+                            style: TextStyle(fontSize: 32.sp),
+                          ),
+                        ],
+                      )), // 按钮上显示的图标
+                ));
+          })
+         ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
+    );
+  }
+
+  widgetSaleRecord() {
+    return Flex(
+      direction: Axis.vertical,
+      children: [
+        Container(
+          height: 120.w,
+          margin: EdgeInsets.only(
+               left: 10.w, right: 10.w),
+          padding: EdgeInsets.only(top: 10.w, bottom: 10.w),
+          child: SearchBar(
+            leading: Icon(
+              Icons.search,
+              color: Colors.grey,
+            ),
+            onChanged: (value) {
+              controller.searchSalesRecord(value);
+            },
+            hintText: '请输入货物名称',
+          ),
+        ),
+        Expanded(
+          child: GetBuilder<SaleRecordController>(
+              id: 'sales_order_list',
+              init: controller,
+              global: false,
+              builder: (_) {
+                return CustomEasyRefresh(
+                  controller: controller.state.refreshController,
+                  onLoad: controller.onLoad,
+                  onRefresh: controller.onRefresh,
+                  emptyWidget: controller.state.list == null
+                      ? LottieIndicator()
+                      : controller.state.list?.isEmpty ?? true
+                      ? EmptyLayout(hintText: '什么都没有'.tr)
+                      : null,
+                  child: ListView.separated(
+                    itemBuilder: (context, index) {
+                      var salePurchaseOrderDTO =
+                      controller.state.list![index];
+                      return InkWell(
+                        onTap: () => controller.toSalesDetail(salePurchaseOrderDTO),
+                        child: Column(
+                          children: [
+                            Container(
+                              width: double.infinity,
+                              padding: EdgeInsets.only(
+                                  left: 40.w, top: 10.w, bottom: 10.w),
+                              color: Colors.white12,
+                              child: Text(
+                                DateUtil.formatDefaultDate2(
+                                    salePurchaseOrderDTO.orderDate),
+                                style: TextStyle(
+                                  color: Colours.text_ccc,
+                                  fontSize: 24.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              color: Colors.white,
+                              padding: EdgeInsets.only(
+                                  left: 40.w,
+                                  right: 40.w,
+                                  top: 20.w,
+                                  bottom: 20.w),
                               child: Column(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Container(
-                                    width: double.infinity,
-                                    padding: EdgeInsets.only(
-                                        left: 40.w, top: 10.w, bottom: 10.w),
-                                    color: Colors.white12,
-                                    child: Text(
-                                      DateUtil.formatDefaultDate2(
-                                          salePurchaseOrderDTO.orderDate),
-                                      style: TextStyle(
-                                        color: Colours.text_ccc,
-                                        fontSize: 24.sp,
-                                        fontWeight: FontWeight.w500,
+                                  Flex(
+                                    direction: Axis.horizontal,
+                                    children: [
+                                      Visibility(
+                                          visible: (salePurchaseOrderDTO
+                                              .orderType ==
+                                              OrderType.SALE_RETURN
+                                                  .value) ||
+                                              (salePurchaseOrderDTO
+                                                  .orderType ==
+                                                  OrderType
+                                                      .PURCHASE_RETURN
+                                                      .value),
+                                          child: Container(
+                                            margin: EdgeInsets.symmetric(
+                                                horizontal: 16.w),
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 8.w,
+                                                vertical: 4.w),
+                                            decoration: (BoxDecoration(
+                                                borderRadius:
+                                                BorderRadius.circular(
+                                                    (36)),
+                                                border: Border.all(
+                                                    color: Colors.orange,
+                                                    width: 3.w),
+                                                color: Colors.white)),
+                                            child: Text(
+                                              '退',
+                                              style: TextStyle(
+                                                fontSize: 28.sp,
+                                                color: Colors.orange,
+                                              ),
+                                            ),
+                                          )),
+                                      Expanded(
+                                        flex: 3,
+                                        child: Text(
+                                            TextUtil.listToStr(
+                                                salePurchaseOrderDTO
+                                                    .productNameList),
+                                            style: TextStyle(
+                                              color: salePurchaseOrderDTO
+                                                  .invalid ==
+                                                  1
+                                                  ? Colours.text_ccc
+                                                  : Colours.text_333,
+                                              fontSize: 32.sp,
+                                              fontWeight: FontWeight.w500,
+                                            )),
                                       ),
-                                    ),
+                                      Visibility(
+                                          visible: salePurchaseOrderDTO
+                                              .invalid ==
+                                              1,
+                                          child: Container(
+                                            padding: EdgeInsets.only(
+                                                top: 2.w,
+                                                bottom: 2.w,
+                                                left: 4.w,
+                                                right: 4.w),
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                color: Colours.text_999,
+                                                width: 1.0,
+                                              ),
+                                              borderRadius:
+                                              BorderRadius.circular(
+                                                  8.0),
+                                            ),
+                                            child: Text('已作废',
+                                                style: TextStyle(
+                                                  color: Colours.text_999,
+                                                  fontSize: 26.sp,
+                                                  fontWeight:
+                                                  FontWeight.w500,
+                                                )),
+                                          )),
+                                      Expanded(
+                                        child: Text(
+                                            textAlign: TextAlign.right,
+                                            controller.getOrderStatusDesc(
+                                                salePurchaseOrderDTO
+                                                    .orderStatus),
+                                            style: TextStyle(
+                                              color: salePurchaseOrderDTO
+                                                  .invalid ==
+                                                  1
+                                                  ? Colours.text_ccc
+                                                  : OrderStateType
+                                                  .DEBT_ACCOUNT
+                                                  .value ==
+                                                  salePurchaseOrderDTO
+                                                      .orderStatus
+                                                  ? Colors.orange
+                                                  : Colours.text_ccc,
+                                              fontSize: 26.sp,
+                                              fontWeight: FontWeight.w400,
+                                            )),
+                                      )
+                                    ],
                                   ),
                                   Container(
-                                    color: Colors.white,
-                                    padding: EdgeInsets.only(
-                                        left: 40.w,
-                                        right: 40.w,
-                                        top: 20.w,
-                                        bottom: 20.w),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Flex(
-                                          direction: Axis.horizontal,
-                                          children: [
-                                            Visibility(
-                                                visible: (salePurchaseOrderDTO
-                                                            .orderType ==
-                                                        OrderType.SALE_RETURN
-                                                            .value) ||
-                                                    (salePurchaseOrderDTO
-                                                            .orderType ==
-                                                        OrderType
-                                                            .PURCHASE_RETURN
-                                                            .value),
-                                                child: Container(
-                                                  margin: EdgeInsets.symmetric(
-                                                      horizontal: 16.w),
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 8.w,
-                                                      vertical: 4.w),
-                                                  decoration: (BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              (36)),
-                                                      border: Border.all(
-                                                          color: Colors.orange,
-                                                          width: 3.w),
-                                                      color: Colors.white)),
-                                                  child: Text(
-                                                    '退',
-                                                    style: TextStyle(
-                                                      fontSize: 28.sp,
-                                                      color: Colors.orange,
-                                                    ),
-                                                  ),
+                                    height: 1.w,
+                                    margin: EdgeInsets.only(
+                                        top: 16.w, bottom: 16.w),
+                                    width: double.infinity,
+                                    color: Colours.divider,
+                                  ),
+                                  Flex(
+                                    direction: Axis.horizontal,
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                            controller.totalAmount(
+                                                salePurchaseOrderDTO),
+                                            style: TextStyle(
+                                              color: salePurchaseOrderDTO
+                                                  .invalid ==
+                                                  1
+                                                  ? Colours.text_ccc
+                                                  : Colors.red[600],
+                                              fontSize: 32.sp,
+                                              fontWeight: FontWeight.w500,
+                                            )),
+                                      ),
+                                      Expanded(
+                                          child: Row(children: [
+                                            Text('业务员：',
+                                                style: TextStyle(
+                                                  color: Colours.text_ccc,
+                                                  fontSize: 22.sp,
+                                                  fontWeight: FontWeight.w500,
                                                 )),
-                                            Expanded(
-                                              flex: 3,
-                                              child: Text(
-                                                  TextUtil.listToStr(
-                                                      salePurchaseOrderDTO
-                                                          .productNameList),
-                                                  style: TextStyle(
-                                                    color: salePurchaseOrderDTO
-                                                                .invalid ==
-                                                            1
-                                                        ? Colours.text_ccc
-                                                        : Colours.text_333,
-                                                    fontSize: 32.sp,
-                                                    fontWeight: FontWeight.w500,
-                                                  )),
-                                            ),
-                                            Visibility(
-                                                visible: salePurchaseOrderDTO
-                                                        .invalid ==
-                                                    1,
-                                                child: Container(
-                                                  padding: EdgeInsets.only(
-                                                      top: 2.w,
-                                                      bottom: 2.w,
-                                                      left: 4.w,
-                                                      right: 4.w),
-                                                  decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                      color: Colours.text_999,
-                                                      width: 1.0,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8.0),
-                                                  ),
-                                                  child: Text('已作废',
+                                            Text(
+                                                salePurchaseOrderDTO
+                                                    .creatorName ??
+                                                    '',
+                                                style: TextStyle(
+                                                  color: Colours.text_666,
+                                                  fontSize: 26.sp,
+                                                  fontWeight: FontWeight.w400,
+                                                )),
+                                          ])),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 16.w,
+                                  ),
+                                  Flex(
+                                    direction: Axis.horizontal,
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                            controller.state.orderType == OrderType.PURCHASE
+                                                ? '${salePurchaseOrderDTO.batchNo}'
+                                                : DateUtil.formatDefaultDateTimeMinute(
+                                                salePurchaseOrderDTO.gmtCreate),
+                                            style: TextStyle(
+                                              color:  controller.state.orderType == OrderType.PURCHASE
+                                                  ?Colours.text_999
+                                                  :Colours.text_ccc,
+                                              fontSize: 26.sp,
+                                              fontWeight: FontWeight.w500,
+                                            )),
+                                      ),
+                                      Expanded(
+                                          child: Row(
+                                            children: [
+                                              Visibility(
+                                                  visible:
+                                                  salePurchaseOrderDTO
+                                                      .customName
+                                                      ?.isNotEmpty ??
+                                                      false,
+                                                  child: Text(
+                                                      (controller.state.orderType == OrderType.SALE) ||
+                                                          (controller.state.orderType == OrderType.SALE_RETURN)
+                                                          ? '客户：'
+                                                          :  '供应商：',
                                                       style: TextStyle(
-                                                        color: Colours.text_999,
+                                                        color:
+                                                        Colours.text_ccc,
+                                                        fontSize: 22.sp,
+                                                        fontWeight:
+                                                        FontWeight.w500,
+                                                      ))),
+                                              Expanded(
+                                                  child: Text(
+                                                      salePurchaseOrderDTO
+                                                          .customName ??
+                                                          '',
+                                                      style: TextStyle(
+                                                        color: salePurchaseOrderDTO
+                                                            .invalid ==
+                                                            1
+                                                            ? Colours.text_ccc
+                                                            : Colours
+                                                            .text_666,
                                                         fontSize: 26.sp,
                                                         fontWeight:
-                                                            FontWeight.w500,
-                                                      )),
-                                                )),
-                                            Expanded(
-                                              child: Text(
-                                                  textAlign: TextAlign.right,
-                                                  controller.getOrderStatusDesc(
-                                                      salePurchaseOrderDTO
-                                                          .orderStatus),
-                                                  style: TextStyle(
-                                                    color: salePurchaseOrderDTO
-                                                                .invalid ==
-                                                            1
-                                                        ? Colours.text_ccc
-                                                        : OrderStateType
-                                                                    .DEBT_ACCOUNT
-                                                                    .value ==
-                                                                salePurchaseOrderDTO
-                                                                    .orderStatus
-                                                            ? Colors.orange
-                                                            : Colours.text_ccc,
-                                                    fontSize: 26.sp,
-                                                    fontWeight: FontWeight.w400,
-                                                  )),
-                                            )
-                                          ],
-                                        ),
-                                        Container(
-                                          height: 1.w,
-                                          margin: EdgeInsets.only(
-                                              top: 16.w, bottom: 16.w),
-                                          width: double.infinity,
-                                          color: Colours.divider,
-                                        ),
-                                        Flex(
-                                          direction: Axis.horizontal,
-                                          children: [
-                                            Expanded(
-                                              child: Text(
-                                                  controller.totalAmount(
-                                                      salePurchaseOrderDTO),
-                                                  style: TextStyle(
-                                                    color: salePurchaseOrderDTO
-                                                                .invalid ==
-                                                            1
-                                                        ? Colours.text_ccc
-                                                        : Colors.red[600],
-                                                    fontSize: 32.sp,
-                                                    fontWeight: FontWeight.w500,
-                                                  )),
-                                            ),
-                                            Expanded(
-                                                child: Row(children: [
-                                              Text('业务员：',
-                                                  style: TextStyle(
-                                                    color: Colours.text_ccc,
-                                                    fontSize: 22.sp,
-                                                    fontWeight: FontWeight.w500,
-                                                  )),
-                                              Text(
-                                                  salePurchaseOrderDTO
-                                                          .creatorName ??
-                                                      '',
-                                                  style: TextStyle(
-                                                    color: Colours.text_666,
-                                                    fontSize: 26.sp,
-                                                    fontWeight: FontWeight.w400,
-                                                  )),
-                                            ])),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 16.w,
-                                        ),
-                                        Flex(
-                                          direction: Axis.horizontal,
-                                          children: [
-                                            Expanded(
-                                              child: Text(
-                                                  controller.state.orderType == OrderType.PURCHASE
-                                                      ? '${salePurchaseOrderDTO.batchNo}'
-                                                      : DateUtil.formatDefaultDateTimeMinute(
-                                                              salePurchaseOrderDTO.gmtCreate),
-                                                  style: TextStyle(
-                                                    color:  controller.state.orderType == OrderType.PURCHASE
-                                                        ?Colours.text_999
-                                                        :Colours.text_ccc,
-                                                    fontSize: 26.sp,
-                                                    fontWeight: FontWeight.w500,
-                                                  )),
-                                            ),
-                                            Expanded(
-                                                child: Row(
-                                              children: [
-                                                Visibility(
-                                                    visible:
-                                                        salePurchaseOrderDTO
-                                                                .customName
-                                                                ?.isNotEmpty ??
-                                                            false,
-                                                    child: Text(
-                                                        (controller.state.orderType == OrderType.SALE) ||
-                                                            (controller.state.orderType == OrderType.SALE_RETURN)
-                                                            ? '客户：'
-                                                            :  '供应商：',
-                                                        style: TextStyle(
-                                                          color:
-                                                              Colours.text_ccc,
-                                                          fontSize: 22.sp,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                        ))),
-                                                Expanded(
-                                                    child: Text(
-                                                        salePurchaseOrderDTO
-                                                                .customName ??
-                                                            '',
-                                                        style: TextStyle(
-                                                          color: salePurchaseOrderDTO
-                                                                      .invalid ==
-                                                                  1
-                                                              ? Colours.text_ccc
-                                                              : Colours
-                                                                  .text_666,
-                                                          fontSize: 26.sp,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                        )))
-                                              ],
-                                            ))
-                                          ],
-                                        )
-                                      ],
-                                    ),
+                                                        FontWeight.w400,
+                                                      )))
+                                            ],
+                                          ))
+                                    ],
                                   )
                                 ],
                               ),
-                            );
-                          },
-                          separatorBuilder: (context, index) => Container(
-                            height: 2.w,
-                            color: Colors.white12,
-                            width: double.infinity,
-                          ),
-                          itemCount: controller.state.list?.length ?? 0,
+                            )
+                          ],
                         ),
                       );
-                    }),
-              ),
-            ],
-          )),
-      floatingActionButton: PermissionWidget(
-          permissionCode: PermissionCode.sales_sale_order_permission,
-          child: Container(
-              width: 90.0,
-              height: 66.0,
-              margin: EdgeInsets.all(30.w),
-              child: FloatingActionButton(
-                onPressed: () => Get.toNamed(RouteConfig.saleBill, arguments: {
-                  'orderType': controller.state.orderType == OrderType.PURCHASE
-                      ? OrderType.PURCHASE
-                      : OrderType.SALE
-                }),
-                child: Container(
-                    child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.add,
-                      size: 30.w,
+                    },
+                    separatorBuilder: (context, index) => Container(
+                      height: 2.w,
+                      color: Colors.white12,
+                      width: double.infinity,
                     ),
-                    Text(
-                      '开单',
-                      style: TextStyle(fontSize: 32.sp),
-                    ),
-                  ],
-                )), // 按钮上显示的图标
-              ))),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
+                    itemCount: controller.state.list?.length ?? 0,
+                  ),
+                );
+              }),
+        ),
+      ],
     );
   }
 }

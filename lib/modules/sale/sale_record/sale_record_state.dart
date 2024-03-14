@@ -11,6 +11,8 @@ class SaleRecordState {
 
   int currentPage = 1;
 
+  int initialIndex = 0;
+
   bool? hasMore;
 
   DateTime startDate = DateTime.now().subtract(Duration(days: 7));
