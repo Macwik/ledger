@@ -64,8 +64,8 @@ import 'package:ledger/modules/sale/choose_repayment_order/choose_repayment_orde
 import 'package:ledger/modules/sale/choose_repayment_order/choose_repayment_order_view.dart';
 import 'package:ledger/modules/sale/pending_order/pending_order_binding.dart';
 import 'package:ledger/modules/sale/pending_order/pending_order_view.dart';
-import 'package:ledger/modules/sale/pending_sale_bill/pending_sale_bill_binding.dart';
-import 'package:ledger/modules/sale/pending_sale_bill/pending_sale_bill_view.dart';
+import 'package:ledger/modules/sale/pending_retail_bill/pending_retail_bill_binding.dart';
+import 'package:ledger/modules/sale/pending_retail_bill/pending_retail_bill_view.dart';
 import 'package:ledger/modules/sale/repayment_bill/repayment_bill_binding.dart';
 import 'package:ledger/modules/sale/repayment_bill/repayment_bill_view.dart';
 import 'package:ledger/modules/sale/repayment_detail/repayment_detail_binding.dart';
@@ -208,10 +208,11 @@ class RouteConfig {
   static const String dailyAccountCostDetail = '/page/daily/account/cost/detail';
   static const String productTypeManage = '/page/product/type/manage';
   static const String pendingOrder = '/page/pending/order';
-  static const String pendingSaleBill = '/page/pending/sale/bill';
+  // static const String pendingSaleBill = '/page/pending/sale/bill';
   static const String addStockRecord = '/page/add/stock/record';
   static const String retailBill = '/page/retail/bill';
   static const String shoppingCarList = '/page/shopping/car/list';
+  static const String pendingRetailBill = '/page/pending/retail/bill';
 
 
   static final List<GetPage> getPages = [
@@ -434,10 +435,10 @@ class RouteConfig {
         name: pendingOrder,
         page: () => PendingOrderView(),
         binding: PendingOrderBinding()),
-    GetPage(
-        name: pendingSaleBill,
-        page: () => PendingSaleBillView(),
-        binding: PendingSaleBillBinding()),
+    // GetPage(
+    //     name: pendingSaleBill,
+    //     page: () => PendingSaleBillView(),
+    //     binding: PendingSaleBillBinding()),
     GetPage(
         name: addStockRecord,
         page: () => AddStockRecordView(),
@@ -450,5 +451,9 @@ class RouteConfig {
         name: shoppingCarList,
         page: () => ShoppingCarListView(),
         binding: ShoppingCarListBinding()),
+    GetPage(
+        name: pendingRetailBill,
+        page: () => PendingRetailBillView(),
+        binding: PendingRetailBillBinding()),
   ];
 }

@@ -17,7 +17,7 @@ class AddStockMultiDialog extends StatelessWidget {
 
   final ProductDTO productDTO;
   late final AddStockMultiDialogController controller;
-  final Function(ProductShoppingCarDTO? result) onClick;
+  final Function(ProductShoppingCarDTO result) onClick;
 
   AddStockMultiDialog({required this.productDTO, required this.onClick}) {
     AddStockMultiDialogBinding().dependencies();

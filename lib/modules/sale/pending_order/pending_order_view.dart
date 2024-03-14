@@ -1,16 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:ledger/entity/draft/order_draft_dto.dart';
-import 'package:ledger/res/colors.dart';
 import 'package:ledger/res/export.dart';
-import 'package:ledger/util/date_util.dart';
 import 'package:ledger/util/decimal_util.dart';
-import 'package:ledger/util/text_util.dart';
-import 'package:ledger/widget/custom_easy_refresh.dart';
-import 'package:ledger/widget/empty_layout.dart';
-import 'package:ledger/widget/lottie_indicator.dart';
 
 import 'pending_order_controller.dart';
 
@@ -73,7 +66,7 @@ class PendingOrderView extends StatelessWidget {
                         itemBuilder: (context, index) {
                           OrderDraftDTO orderDraftDTO = controller.state.list![index];
                           return InkWell(
-                            onTap: () => Get.offNamed(RouteConfig.pendingSaleBill,arguments: {'draftId':orderDraftDTO.id}),
+                            onTap: () => Get.toNamed(RouteConfig.pendingRetailBill,arguments: {'draftId':orderDraftDTO.id}),
                             child: Slidable(
                                 endActionPane: ActionPane(
                                   motion: const ScrollMotion(),
@@ -100,7 +93,6 @@ class PendingOrderView extends StatelessWidget {
                                     child: Column(
                                       children: [
                                         Container(
-
                                             child: Row(
                                               children: [
                                                 Text(orderDraftDTO.customName??'默认客户',

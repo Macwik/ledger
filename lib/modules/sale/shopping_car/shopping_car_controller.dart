@@ -453,7 +453,7 @@ class ShoppingCarController extends GetxController {
                 child: AddStockSingleDialog(
                   productDTO: productDTO,
                   onClick: (result) {
-                    state.productAddStockRequest = result;
+                    state.shoppingCarList?.add(result);
                     update(['shopping_car_box']);
                     return true;
                   },
@@ -469,7 +469,7 @@ class ShoppingCarController extends GetxController {
                 child: AddStockMultiDialog(
                   productDTO: productDTO,
                   onClick: (result) {
-                    state.productAddStockRequest = result;
+                    state.shoppingCarList?.add(result);
                     update(['shopping_car_box']);
                     return true;
                   },

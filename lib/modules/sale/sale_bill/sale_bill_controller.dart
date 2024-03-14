@@ -204,7 +204,7 @@ class SaleBillController extends GetxController {
     }).then((result) {
       Loading.dismiss();
       if (result.success) {
-        Get.offNamed(RouteConfig.saleRecord, arguments: {'orderType': state.orderType});
+        Get.offNamed(RouteConfig.retailBill, arguments: {'orderType': state.orderType});
         return true;
       } else {
         Toast.show(result.m.toString());

@@ -961,7 +961,7 @@ class RetailBillController extends GetxController {
       'orderProductRequest': state.shoppingCarList,
      // 'remark': state.remarkTextEditingController.text,  ToDO
       'orderDate': DateUtil.formatDefaultDate(state.date),
-      'orderType': state.orderType?.value,
+      'orderType': state.orderType.value,
     }).then((result) {
       Loading.dismiss();
       if (result.success) {
@@ -1075,13 +1075,44 @@ class RetailBillController extends GetxController {
     }).then((result) {
       Loading.dismiss();
       if (result.success) {
-        Get.offNamed(RouteConfig.saleRecord, arguments: {'orderType': state.orderType});
+        Get.offNamed(RouteConfig.retailBill, arguments: {'orderType': state.orderType});
         return true;
       } else {
         Toast.show(result.m.toString());
         return false;
       }
     });
+  }
+
+  void saleBillGetBack() {
+    if ((state.customDTO != null) ||
+        (state.shoppingCarList?.isNotEmpty??false)
+        //||(state.remarkTextEditingController.text.isNotEmpty)  ToDO
+    ) {
+      Get.dialog(AlertDialog(
+          title: Text('是否确认退出'),
+          content: Text('退出后将无法恢复'),
+          actions: [
+            TextButton(
+              child: Text('取消'),
+              onPressed: () {
+                Get.back();
+              },
+            ),
+            TextButton(
+                child: Text('确定'),
+                onPressed: () {
+                  state.shoppingCarList?.clear();
+                  Get.until((route) {
+                    return (route.settings.name == RouteConfig.sale) ||
+                        (route.settings.name == RouteConfig.main);
+                  }
+                  );
+                }),
+          ]));
+    } else {
+      Get.back();
+    }
   }
 
 }

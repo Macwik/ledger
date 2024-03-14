@@ -30,7 +30,7 @@ class ShoppingCarState {
   //调整库存
   ProductStockAdjustRequest? productStockAdjustRequest;
   //入库商品
-  ProductShoppingCarDTO? productAddStockRequest;
+  // ProductShoppingCarDTO? productAddStockRequest;
 
   PageToType? pageToType;
 

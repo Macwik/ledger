@@ -238,7 +238,7 @@ class PendingSaleBillController extends GetxController {
     }).then((result) {
       Loading.dismiss();
       if (result.success) {
-        Get.offNamed(RouteConfig.saleRecord, arguments: {'orderType': OrderType.SALE});
+        Get.offNamed(RouteConfig.retailBill, arguments: {'orderType': OrderType.SALE});
         return true;
       } else {
         Toast.show(result.m.toString());

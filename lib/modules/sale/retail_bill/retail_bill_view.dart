@@ -14,6 +14,7 @@ import 'package:ledger/widget/image.dart';
 import 'package:ledger/widget/lottie_indicator.dart';
 import 'package:ledger/widget/permission/ledger_widget_type.dart';
 import 'package:ledger/widget/permission/permission_owner_widget.dart';
+import 'package:ledger/widget/will_pop.dart';
 
 import 'retail_bill_controller.dart';
 
@@ -78,13 +79,18 @@ class RetailBillView extends StatelessWidget {
           ),
         )],
       ),
-      body:  DefaultTabController(
+      body:MyWillPop(
+          onWillPop: () async {
+            controller.saleBillGetBack();
+            return true;
+          },
+          child:DefaultTabController(
         length: 3,
         child: Container(
           //color: Colors.white,
           child: Column(
             children: [
-          Container(
+               Container(
           height: 90.w, // 调整TabBar高度
           child:
               TabBar(
@@ -352,34 +358,6 @@ class RetailBillView extends StatelessWidget {
                                                                               FontWeight.w500,
                                                                             )),
                                                                       ),
-                                                                      Visibility(
-                                                                          visible:
-                                                                          stockDTO.invalid == 1,
-                                                                          child: Container(
-                                                                            padding: EdgeInsets.only(
-                                                                                top: 2.w,
-                                                                                bottom: 2.w,
-                                                                                left: 4.w,
-                                                                                right: 4.w),
-                                                                            decoration: BoxDecoration(
-                                                                              border: Border.all(
-                                                                                color:
-                                                                                Colours.text_ccc,
-                                                                                width: 1.0,
-                                                                              ),
-                                                                              borderRadius:
-                                                                              BorderRadius
-                                                                                  .circular(8.0),
-                                                                            ),
-                                                                            child: Text('已停用',
-                                                                                style: TextStyle(
-                                                                                  color: Colours
-                                                                                      .text_999,
-                                                                                  fontSize: 26.sp,
-                                                                                  fontWeight:
-                                                                                  FontWeight.w500,
-                                                                                )),
-                                                                          )),
                                                                       Expanded(
                                                                         child: Text(
                                                                             textAlign: TextAlign.end,
@@ -1217,7 +1195,7 @@ class RetailBillView extends StatelessWidget {
           ),
         ),
 
-      )
+      ))
     );
   }
 }

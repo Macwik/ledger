@@ -51,7 +51,6 @@ class BindingSaleBillController extends GetxController {
       'page': currentPage,
       'orderTypeList': [
         OrderType.PURCHASE.value,
-        //OrderType.PURCHASE_RETURN.value  不支持绑定采购退货单
       ],
       'userIdList': state.selectEmployeeIdList,
       'orderStatus': state.orderStatus,
