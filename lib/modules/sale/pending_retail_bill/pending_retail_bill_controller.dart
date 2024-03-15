@@ -48,7 +48,6 @@ class PendingRetailBillController extends GetxController {
         state.shoppingCarList =  result.d?.shoppingCarList??[];
         state.date = result.d?.orderDate ?? DateTime.now();
         state.customDTO  =  result.d?.customDTO;
-        //state.remarkTextEditingController.text =  result.d?.remark ??'';  ToDO
         state.totalAmount = result.d?.totalAmount??Decimal.zero;
         update([
           'shopping_car_box',
@@ -238,7 +237,6 @@ class PendingRetailBillController extends GetxController {
     return await Http().network(Method.post, OrderApi.add_pending_order, data: {
       'customId': state.customDTO?.id,
       'orderProductRequest': state.shoppingCarList,
-      // 'remark': state.remarkTextEditingController.text,  ToDO
       'orderDate': DateUtil.formatDefaultDate(state.date),
       'orderType': state.orderType.value,
     }).then((result) {
@@ -249,7 +247,6 @@ class PendingRetailBillController extends GetxController {
         state.date = DateTime.now();
         state.shoppingCarList =  [];
         state.customDTO = null;
-        // state.remarkTextEditingController.text = '';  ToDO
         pendingOrderNum();
         update([ 'shopping_car_box',
           'retail_bill_sale_custom',
@@ -320,7 +317,7 @@ class PendingRetailBillController extends GetxController {
       'discountAmount': state.orderPayDialogResult?.discountAmount,
       'orderProductRequest': state.shoppingCarList,
       'orderPaymentRequest': state.orderPayDialogResult?.orderPaymentRequest,
-      //'remark': state.remarkTextEditingController.text,  ToDO
+      'remark': state.orderPayDialogResult?.remark,
       'orderDate': DateUtil.formatDefaultDate(state.date),
       'orderType': state.orderType.value,
       'orderDraftId':state.orderDraftDetailDTO?.id,
@@ -340,7 +337,6 @@ class PendingRetailBillController extends GetxController {
   void saleBillGetBack() {
     if ((state.customDTO != null) ||
         (state.shoppingCarList?.isNotEmpty??false)
-    //||(state.remarkTextEditingController.text.isNotEmpty)  ToDO
     ) {
       Get.dialog(AlertDialog(
           title: Text('是否确认退出'),

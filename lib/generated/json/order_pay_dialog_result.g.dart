@@ -24,6 +24,10 @@ OrderPayDialogResult $OrderPayDialogResultFromJson(Map<String, dynamic> json) {
   if (customDTO != null) {
     orderPayDialogResult.customDTO = customDTO;
   }
+  final String? remark = jsonConvert.convert<String>(json['remark']);
+  if (remark != null) {
+    orderPayDialogResult.remark = remark;
+  }
   final List<
       OrderPaymentRequest>? orderPaymentRequest = (json['orderPaymentRequest'] as List<
       dynamic>?)
@@ -42,6 +46,7 @@ Map<String, dynamic> $OrderPayDialogResultToJson(OrderPayDialogResult entity) {
   data['discountAmount'] = entity.discountAmount?.toJson();
   data['creditAmount'] = entity.creditAmount?.toJson();
   data['customDTO'] = entity.customDTO?.toJson();
+  data['remark'] = entity.remark;
   data['orderPaymentRequest'] =
       entity.orderPaymentRequest?.map((v) => v.toJson()).toList();
   return data;
@@ -52,12 +57,14 @@ extension OrderPayDialogResultExtension on OrderPayDialogResult {
     Decimal? discountAmount,
     Decimal? creditAmount,
     CustomDTO? customDTO,
+    String? remark,
     List<OrderPaymentRequest>? orderPaymentRequest,
   }) {
     return OrderPayDialogResult()
       ..discountAmount = discountAmount ?? this.discountAmount
       ..creditAmount = creditAmount ?? this.creditAmount
       ..customDTO = customDTO ?? this.customDTO
+      ..remark = remark ?? this.remark
       ..orderPaymentRequest = orderPaymentRequest ?? this.orderPaymentRequest;
   }
 }

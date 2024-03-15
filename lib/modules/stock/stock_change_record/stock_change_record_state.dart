@@ -26,7 +26,6 @@ class StockChangeRecordState {
 
   String? searchContent ='';
 
-  //调整状态选择  TODO 后面后台添加此项后，可能需要换个名字，需看1与0是否一致
   int? invalid;
 
   int? get itemCount => employeeList?.length; //筛选里chip的数量

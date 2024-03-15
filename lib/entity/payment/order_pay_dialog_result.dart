@@ -8,17 +8,16 @@ import 'dart:convert';
 @JsonSerializable()
 class OrderPayDialogResult {
   Decimal? discountAmount;
-
   Decimal? creditAmount;
-
   CustomDTO? customDTO;
-
+  String? remark;
   List<OrderPaymentRequest>? orderPaymentRequest;
 
   OrderPayDialogResult(
       {this.discountAmount,
       this.creditAmount,
       this.customDTO,
+        this.remark,
       this.orderPaymentRequest});
 
   factory OrderPayDialogResult.fromJson(Map<String, dynamic> json) =>

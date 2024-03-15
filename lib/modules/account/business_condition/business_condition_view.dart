@@ -114,7 +114,6 @@ class BusinessConditionView extends StatelessWidget {
                Flex(
                  direction: Axis.horizontal,
                  children: [
-                   //Todo 填充下利润
                    Expanded(
                      flex: 1,
                      child: Text('5555',
@@ -127,7 +126,6 @@ class BusinessConditionView extends StatelessWidget {
                    ),
                    Expanded(
                      flex: 1,
-                     //Todo 填充下其他费用
                      child: Text('000',
                        style: TextStyle(
                          fontSize: 34.sp,
@@ -180,7 +178,6 @@ class BusinessConditionView extends StatelessWidget {
                Flex(
                  direction: Axis.horizontal,
                  children: [
-                   //Todo 填充下收入
                    Expanded(
                      flex: 1,
                      child: Text('5555',
@@ -193,7 +190,6 @@ class BusinessConditionView extends StatelessWidget {
                    ),
                    Expanded(
                      flex: 1,
-                     //Todo 填充下采购及其费用
                      child: Text('000',
                        style: TextStyle(
                            fontSize: 34.sp,
@@ -209,7 +205,6 @@ class BusinessConditionView extends StatelessWidget {
 
              ],
            ),
-           //ToDo 货物详情部分没有写
          ),
          Container(
            padding: EdgeInsets.only(left:20,right:20,top: 20,bottom: 20),
@@ -267,7 +262,6 @@ class BusinessConditionView extends StatelessWidget {
                Flex(
                  direction: Axis.horizontal,
                  children: [
-                   //Todo 填充下利润
                    Expanded(
                      flex: 1,
                      child: Text('5555',
@@ -280,7 +274,6 @@ class BusinessConditionView extends StatelessWidget {
                    ),
                    Expanded(
                      flex: 1,
-                     //Todo 填充下其他费用
                      child: Text('000',
                        style: TextStyle(
                            fontSize: 34.sp,

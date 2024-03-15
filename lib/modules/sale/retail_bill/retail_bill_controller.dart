@@ -926,7 +926,6 @@ class RetailBillController extends GetxController {
     return await Http().network(Method.post, OrderApi.add_pending_order, data: {
       'customId': state.customDTO?.id,
       'orderProductRequest': state.shoppingCarList,
-     // 'remark': state.remarkTextEditingController.text,  ToDO
       'orderDate': DateUtil.formatDefaultDate(state.date),
       'orderType': state.orderType.value,
     }).then((result) {
@@ -937,7 +936,6 @@ class RetailBillController extends GetxController {
         state.date = DateTime.now();
         state.shoppingCarList =  [];
         state.customDTO = null;
-       // state.remarkTextEditingController.text = '';  ToDO
         pendingOrderNum();
         update(['retail_bill_sale_custom','bill_date','shopping_car_box','product_classify_list','sale_bill_pending_order']);//需要更新下挂单列表按钮颜色和数字
         return true;
@@ -1015,7 +1013,7 @@ class RetailBillController extends GetxController {
       'discountAmount': state.orderPayDialogResult?.discountAmount,
       'orderProductRequest': state.shoppingCarList,
       'orderPaymentRequest': state.orderPayDialogResult?.orderPaymentRequest,
-      //'remark': state.remarkTextEditingController.text,  ToDO
+      'remark': state.orderPayDialogResult?.remark,
       'orderDate': DateUtil.formatDefaultDate(state.date),
       'orderType': state.orderType.value,
     }).then((result) {
@@ -1033,7 +1031,6 @@ class RetailBillController extends GetxController {
   void saleBillGetBack() {
     if ((state.customDTO != null) ||
         (state.shoppingCarList?.isNotEmpty??false)
-        //||(state.remarkTextEditingController.text.isNotEmpty)  ToDO
     ) {
       Get.dialog(AlertDialog(
           title: Text('是否确认退出'),

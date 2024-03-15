@@ -12,7 +12,6 @@ import 'package:ledger/store/store_controller.dart';
 class SaleBillState {
   final formKey = GlobalKey<FormBuilderState>();
 
-
   String? ledgerName = StoreController.to.getUser()?.activeLedger?.ledgerName;
 
   int ? pendingOrderNum = 0;
@@ -36,8 +35,6 @@ class SaleBillState {
   List<OrderPaymentDTO>? orderPayRequest;
 
   TextEditingController textEditingController = TextEditingController();
-
-  TextEditingController remarkTextEditingController = TextEditingController();
 
   SaleBillState();
 

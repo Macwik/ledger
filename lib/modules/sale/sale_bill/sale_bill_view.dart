@@ -6,7 +6,6 @@ import 'package:ledger/entity/product/product_shopping_car_dto.dart';
 import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/res/export.dart';
 import 'package:ledger/util/decimal_util.dart';
-import 'package:ledger/util/image_util.dart';
 import 'package:ledger/widget/permission/ledger_widget_type.dart';
 import 'package:ledger/widget/permission/permission_owner_widget.dart';
 import 'package:ledger/widget/will_pop.dart';
@@ -41,45 +40,45 @@ class SaleBillView extends StatelessWidget {
             );
           },
         ),
-        actions:[ Visibility(
-            visible: controller.state.orderType ==OrderType.SALE,
-            child: Padding(
-            padding: EdgeInsets.only(right: 25.0),
-            child: InkWell(
-              onTap: () =>Get.toNamed(RouteConfig.pendingOrder)?.then((value){
-                if(OrderType.SALE == controller.state.orderType){
-                  controller.pendingOrderNum();
-                }
-              }),
-              child: GetBuilder<SaleBillController>(
-                id: 'sale_bill_pending_order',
-                init: controller,
-                global: false,
-                builder: (_){
-                return Row(
-                  children: [
-                    LoadAssetImage(
-                      'pending_order',
-                      format: ImageFormat.png,
-                      color: ((controller.state.pendingOrderNum != 0)&&(controller.state.pendingOrderNum !=null))
-                      ? Colors.white
-                      : Colors.white38,
-                      height: 70.w,
-                      width: 70.w,
-                    ),
-                    Text(((controller.state.pendingOrderNum != 0)&&(controller.state.pendingOrderNum !=null))
-                        ? controller.state.pendingOrderNum.toString()
-                        : '',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500
-                    ),),
-                  ],
-                );
-              },)
-            ),
-          ),
-        )],
+        // actions:[ Visibility(
+        //     visible: controller.state.orderType ==OrderType.SALE,
+        //     child: Padding(
+        //     padding: EdgeInsets.only(right: 25.0),
+        //     child: InkWell(
+        //       onTap: () =>Get.toNamed(RouteConfig.pendingOrder)?.then((value){
+        //         if(OrderType.SALE == controller.state.orderType){
+        //           controller.pendingOrderNum();
+        //         }
+        //       }),
+        //       child: GetBuilder<SaleBillController>(
+        //         id: 'sale_bill_pending_order',
+        //         init: controller,
+        //         global: false,
+        //         builder: (_){
+        //         return Row(
+        //           children: [
+        //             LoadAssetImage(
+        //               'pending_order',
+        //               format: ImageFormat.png,
+        //               color: ((controller.state.pendingOrderNum != 0)&&(controller.state.pendingOrderNum !=null))
+        //               ? Colors.white
+        //               : Colors.white38,
+        //               height: 70.w,
+        //               width: 70.w,
+        //             ),
+        //             Text(((controller.state.pendingOrderNum != 0)&&(controller.state.pendingOrderNum !=null))
+        //                 ? controller.state.pendingOrderNum.toString()
+        //                 : '',
+        //             style: TextStyle(
+        //               color: Colors.white,
+        //               fontWeight: FontWeight.w500
+        //             ),),
+        //           ],
+        //         );
+        //       },)
+        //     ),
+        //   ),
+        // )],
         leading: BackButton(
           color: Colors.white,
           onPressed: () {
@@ -292,37 +291,6 @@ class SaleBillView extends StatelessWidget {
                                   //margin: EdgeInsets.only( bottom: 8),
                                   width: double.infinity,
                                 )),
-                                Flex(
-                                  direction: Axis.horizontal,
-                                  children: [
-                                    Expanded(
-                                        child: Text(
-                                      '备注',
-                                      style: TextStyle(
-                                        color: Colours.text_666,
-                                        fontSize: 30.sp,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    )),
-                                    Expanded(
-                                        flex: 3,
-                                        child: TextFormField(
-                                          controller: controller.state.remarkTextEditingController,
-                                          textAlign: TextAlign.right,
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 30.sp
-                                          ),
-                                          keyboardType: TextInputType.streetAddress,
-                                          decoration: InputDecoration(
-                                              hintText: '请填写',
-                                              border: InputBorder.none,
-                                              counterText: ''
-                                          ),
-                                          maxLength: 32,
-                                        ))
-                                  ],
-                                ),
                               ],
                             )),
                         Container(
@@ -528,23 +496,23 @@ class SaleBillView extends StatelessWidget {
                     flex: 3,
                     child: Row(
                       children: [
-                        Visibility(
-                            visible: controller.state.orderType ==OrderType.SALE,
-                            child: InkWell(
-                          onTap: () =>controller.pendingOrder(),
-                          child:  Row(
-                            children: [
-                              LoadAssetImage(
-                                'pending_order',
-                                format: ImageFormat.png,
-                                color: Colours.primary,
-                                height: 70.w,
-                                width: 70.w,
-                              ),
-                              Text('挂单')
-                            ],
-                          )
-                        )),
+                        // Visibility(
+                        //     visible: controller.state.orderType ==OrderType.SALE,
+                        //     child: InkWell(
+                        //   onTap: () =>controller.pendingOrder(),
+                        //   child:  Row(
+                        //     children: [
+                        //       LoadAssetImage(
+                        //         'pending_order',
+                        //         format: ImageFormat.png,
+                        //         color: Colours.primary,
+                        //         height: 70.w,
+                        //         width: 70.w,
+                        //       ),
+                        //       Text('挂单')
+                        //     ],
+                        //   )
+                        // )),
                         Visibility(
                             visible:controller.state.orderType ==OrderType.SALE,
                             child: Container(

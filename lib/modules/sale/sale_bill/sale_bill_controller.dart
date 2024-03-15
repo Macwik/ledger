@@ -156,37 +156,37 @@ class SaleBillController extends GetxController {
         addToShoppingCar(result);
   }
 
-  Future<bool> pendingOrder() async {
-    if (state.shoppingCarList.isEmpty) {
-      Toast.show('开单商品不能为空');
-      return Future(() => false);
-    }
-    Loading.showDuration();
-    return await Http().network(Method.post, OrderApi.add_pending_order, data: {
-      'customId': state.customDTO?.id,
-      'orderProductRequest': state.shoppingCarList,
-      'remark': state.remarkTextEditingController.text,
-      'orderDate': DateUtil.formatDefaultDate(state.date),
-      'orderType': state.orderType.value,
-    }).then((result) {
-      Loading.dismiss();
-      if (result.success) {
-        Toast.show('挂单成功');
-        state.totalAmount  =Decimal.zero;
-        state.date = DateTime.now();
-        state.shoppingCarList =  [];
-        state.customDTO = null;
-        state.remarkTextEditingController.text = '';
-        state.visible = false;
-        pendingOrderNum();
-        update(['bill_custom','bill_date','sale_bill_product_title','sale_bill_product_list','sale_bill_btn']);//需要更新下挂单列表按钮颜色和数字
-        return true;
-      } else {
-        Toast.show(result.m.toString());
-        return false;
-      }
-    });
-  }
+  // Future<bool> pendingOrder() async {
+  //   if (state.shoppingCarList.isEmpty) {
+  //     Toast.show('开单商品不能为空');
+  //     return Future(() => false);
+  //   }
+  //   Loading.showDuration();
+  //   return await Http().network(Method.post, OrderApi.add_pending_order, data: {
+  //     'customId': state.customDTO?.id,
+  //     'orderProductRequest': state.shoppingCarList,
+  //     'remark': state.remarkTextEditingController.text,
+  //     'orderDate': DateUtil.formatDefaultDate(state.date),
+  //     'orderType': state.orderType.value,
+  //   }).then((result) {
+  //     Loading.dismiss();
+  //     if (result.success) {
+  //       Toast.show('挂单成功');
+  //       state.totalAmount  =Decimal.zero;
+  //       state.date = DateTime.now();
+  //       state.shoppingCarList =  [];
+  //       state.customDTO = null;
+  //       state.remarkTextEditingController.text = '';
+  //       state.visible = false;
+  //       pendingOrderNum();
+  //       update(['bill_custom','bill_date','sale_bill_product_title','sale_bill_product_list','sale_bill_btn']);//需要更新下挂单列表按钮颜色和数字
+  //       return true;
+  //     } else {
+  //       Toast.show(result.m.toString());
+  //       return false;
+  //     }
+  //   });
+  // }
 
   Future<bool> saveOrder() async {
     String batchNumber = state.textEditingController.text;
@@ -198,7 +198,7 @@ class SaleBillController extends GetxController {
       'batchNo': batchNumber,
       'orderProductRequest': state.shoppingCarList,
       'orderPaymentRequest': state.orderPayDialogResult?.orderPaymentRequest,
-      'remark': state.remarkTextEditingController.text,
+      'remark': state.orderPayDialogResult?.remark,
       'orderDate': DateUtil.formatDefaultDate(state.date),
       'orderType': state.orderType.value,
     }).then((result) {
@@ -247,9 +247,7 @@ class SaleBillController extends GetxController {
 
   void saleBillGetBack() {
     if ((state.customDTO != null) ||
-        (state.shoppingCarList.isNotEmpty) ||
-        (state.remarkTextEditingController.text.isNotEmpty)
-    ) {
+        (state.shoppingCarList.isNotEmpty)) {
       Get.dialog(AlertDialog(
           title: Text('是否确认退出'),
           content: Text('退出后将无法恢复'),

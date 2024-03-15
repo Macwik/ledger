@@ -574,6 +574,30 @@ class PaymentDialog extends StatelessWidget {
                       margin: EdgeInsets.only(top: 30.w),
                       width: double.infinity,
                     ),
+                Container(
+                  padding: EdgeInsets.only(
+                      left: 40.w, right: 40.w),
+                  child:Row(
+                    children: [
+                      Text('备注'),
+                      Expanded(
+                          child: TextFormField(
+                            controller: controller.remarkTextEditing,
+                            textAlign: TextAlign.right,
+                            decoration: InputDecoration(
+                              counterText: '',
+                              border: InputBorder.none,
+                              hintText: '请填写',
+                            ),
+                            style: TextStyle(
+                                fontSize: 32.sp
+                            ),
+                            maxLength: 32,
+                            keyboardType: TextInputType.name,
+                          ))
+                    ],
+                  )
+                )
                   ],
                 ),
               )
@@ -701,7 +725,7 @@ class PaymentDialog extends StatelessWidget {
     if (totalAmount !=
         (controller.discountAmount + creditAmount + paymentFirst + paymentSecond)) {
       await Get.defaultDialog(
-          title: '提示', // 设置标题为null，即不显示标题
+          title: '提示',
           middleText: '订单金额需等于 抹零 + 支付金额 + 赊账金额',
           middleTextStyle: TextStyle(
             fontSize: 30.sp,
@@ -721,6 +745,7 @@ class PaymentDialog extends StatelessWidget {
         discountAmount: controller.discountAmount,
         creditAmount: creditAmount,
         customDTO: controller.customDTO,
+        remark:controller.remarkTextEditing.text,
         orderPaymentRequest: orderPaymentRequest);
     return true;
   }

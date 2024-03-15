@@ -9,7 +9,10 @@ class OrderPaymentRequest{
   Decimal? paymentAmount;
   int? ordinal;
 
-  OrderPaymentRequest({this.paymentMethodId, this.paymentAmount, this.ordinal});
+  OrderPaymentRequest({
+    this.paymentMethodId,
+    this.paymentAmount,
+    this.ordinal});
 
   factory OrderPaymentRequest.fromJson(Map<String, dynamic> json) =>
       $OrderPaymentRequestFromJson(json);

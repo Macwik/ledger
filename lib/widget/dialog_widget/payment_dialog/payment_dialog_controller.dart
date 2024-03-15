@@ -22,6 +22,8 @@ class PaymentDialogController extends GetxController {
 
   OrderPayDialogResult? result;
 
+  TextEditingController remarkTextEditing =TextEditingController();
+
 
   void creditInputUpdate(Decimal totalAmount, Decimal discountAmount) {
     String paymentMethodSecond = secondAmountController.text;
