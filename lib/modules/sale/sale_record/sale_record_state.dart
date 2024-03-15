@@ -40,4 +40,7 @@ class SaleRecordState{
   int? get itemCount => employeeList?.length; //筛选里chip的数量
 
   SaleRecordState();
+
+  int? index = 0;
+
 }

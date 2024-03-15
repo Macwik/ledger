@@ -29,6 +29,9 @@ class SaleRecordController extends GetxController {
           ? [OrderType.SALE.value, OrderType.SALE_RETURN.value]
           : [OrderType.PURCHASE.value, OrderType.PURCHASE_RETURN.value];
     }
+    if (arguments != null && arguments['index'] != null) {
+      state.index =arguments['index'];
+    }
     onRefresh();
     _queryLedgerUserList();
   }
@@ -58,13 +61,15 @@ class SaleRecordController extends GetxController {
   }
 
   String getOrderStatusDesc(int? orderStatus) {
-    var list = OrderStateType.values;
-    for (var value in list) {
-      if (value.value == orderStatus) {
-        return value.desc;
-      }
-    }
-    return '';
+    if((state.orderType == OrderType.SALE)
+        ||(state.orderType == OrderType.PURCHASE)){
+      var list = OrderStateType.values;
+      for (var value in list) {
+        if (value.value == orderStatus) {
+          return value.desc;
+        }
+      }return '';
+    }return '';
   }
 
   Future<void> onLoad() async {
@@ -219,28 +224,36 @@ class SaleRecordController extends GetxController {
   void toAddBill() {
     if((state.orderType == OrderType.PURCHASE)||(state.orderType == OrderType.PURCHASE_RETURN)){
       Get.toNamed(RouteConfig.saleBill, arguments: {
-        'orderType': OrderType.PURCHASE //TODO 进去页面带的数据要改，根据所在的页面initialIndex不同
+      if(state.index == 0){
+        'orderType': OrderType.PURCHASE
+      }else{
+        'orderType': OrderType.PURCHASE_RETURN}
       });
     }else{
       Get.toNamed(RouteConfig.retailBill, arguments: {
-        'orderType': OrderType.SALE  //TODO 进去页面带的数据要改，根据所在的页面initialIndex不同
+        if(state.index == 0){
+          'orderType': OrderType.SALE,
+        }else if(state.index == 1){
+          'orderType': OrderType.SALE_RETURN,
+        }else{
+          'orderType': OrderType.REFUND,
+        }
       });
     }
   }
 
-  // String toRetailBillName() {
-  //   switch (state.initialIndex) {
-  //     case 0:
-  //       return '+销售';
-  //     case 1:
-  //       return '+退货';
-  //     case 2:
-  //       return '+仅退款';
-  //     default:
-  //       throw Exception('开单');
-  //   }
-  //
-  // }
+  String toAddBillsName(){
+    switch(state.index){
+      case 0:
+        return '+ 销售';
+      case 1:
+        return '+ 退货';
+      case 2:
+        return '+ 退款';
+      default:
+        throw Exception('此项不存在');
+    }
+  }
 }
 
 enum SalesRecordSelectType { ALL, COMMON, RETURN }

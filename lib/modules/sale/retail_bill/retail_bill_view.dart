@@ -29,7 +29,11 @@ class RetailBillView extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         toolbarHeight:100.w,
-        title: Text( '${controller.state.ledgerName ?? ''} 开单',
+        title: Text( controller.state.orderType == OrderType.SALE
+          ?'${controller.state.ledgerName ?? ''} 开单'
+          : controller.state.orderType == OrderType.SALE_RETURN
+              ?'销售退单'
+              :'仅退款',
             style: TextStyle(color: Colors.white,fontSize: 42.sp),),
         leading: BackButton(
           onPressed: (){
@@ -164,8 +168,8 @@ class RetailBillView extends StatelessWidget {
                                                       'pending_order',
                                                       format: ImageFormat.png,
                                                       color: ((controller.state.pendingOrderNum != 0)&&(controller.state.pendingOrderNum !=null))
-                                                          ? Colours.text_666
-                                                          : Colours.text_666,
+                                                          ? Colours.primary
+                                                          : Colours.text_ccc,
                                                       height: 70.w,
                                                       width: 70.w,
                                                     ),
@@ -173,7 +177,7 @@ class RetailBillView extends StatelessWidget {
                                                         ? controller.state.pendingOrderNum.toString()
                                                         : '',
                                                       style: TextStyle(
-                                                          color: Colours.text_666,
+                                                          color: Colours.primary,
                                                           fontWeight: FontWeight.w500
                                                       ),)
                                                   ],
@@ -425,14 +429,37 @@ class RetailBillView extends StatelessWidget {
                                                                     )
                                                                 )
                                                                 ),
-                                                                Container(
+                                                                Visibility(
+                                                                    visible: controller.state.orderType != OrderType.REFUND,
+                                                                    replacement: Container(
+                                                                      margin: EdgeInsets.symmetric(
+                                                                          horizontal: 16.w),
+                                                                      padding: EdgeInsets.symmetric(
+                                                                          horizontal: 8.w, vertical: 4.w),
+                                                                      decoration: (BoxDecoration(
+                                                                          borderRadius:
+                                                                          BorderRadius.circular((36)),
+                                                                          border: Border.all(
+                                                                              color: Colours.primary,
+                                                                              width: 3.w),
+                                                                          color: Colors.white)),
+                                                                      child: Text(
+                                                                        '+ 退款',
+                                                                        style: TextStyle(
+                                                                          fontSize: 28.sp,
+                                                                          color: Colours.primary,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    child:Container(
                                                                   padding: EdgeInsets.only(left: 48.w),
                                                                   child:  LoadAssetImage(
                                                                     'add_goods',
                                                                     width: 50.w,
                                                                     height: 50.w,
                                                                   ),
-                                                                )
+                                                                ) )
+
                                                               ],)
                                                           ],
                                                         ),
@@ -507,7 +534,7 @@ class RetailBillView extends StatelessWidget {
                           Expanded(
                             flex: 4,
                                 child: InkWell(
-                                  onTap: () =>controller.toShoppingCarList(),
+                                  onTap: () =>controller.toShoppingCarList(context),
                                      // controller.showShoppingCarDialog(context),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,

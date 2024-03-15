@@ -108,7 +108,7 @@ class SaleBillController extends GetxController {
     }
     if(state.orderType ==OrderType.ADD_STOCK){
       //执行保存入库命令代码
-      Toast.show('入库成功');
+      Toast.show('入库成功'); //ToDo 需要加入库后推数据，及页面跳转
     }else{
       Get.bottomSheet(
           isScrollControlled: true,
@@ -312,9 +312,22 @@ class SaleBillController extends GetxController {
     }
   }
 
+  String? getAddStockNum(UnitDetailDTO unitDetailDTO) {
+    var unitType = unitDetailDTO.unitType;
+    if (UnitType.SINGLE.value == unitType) {
+      return '${DecimalUtil.formatDecimalNumber(unitDetailDTO.stock)} ${unitDetailDTO.unitName}';
+    } else {
+      if (unitDetailDTO.selectMasterUnit ?? true) {
+        return '${DecimalUtil.formatDecimalNumber(unitDetailDTO.masterStock)} ${unitDetailDTO.masterUnitName}';
+      } else {
+        return '${DecimalUtil.formatDecimalNumber(unitDetailDTO.slaveStock)} ${unitDetailDTO.slaveUnitName}';
+      }
+    }
+  }
+
   String saleBill() {
-    if ((state.orderType == OrderType.SALE)) {
-      return '${state.ledgerName ?? ''} 开单';
+    if ((state.orderType == OrderType.ADD_STOCK)) {
+      return '添加库存';
     } else if (state.orderType == OrderType.PURCHASE) {
       return '采购开单';
     } else if (state.orderType == OrderType.SALE_RETURN) {

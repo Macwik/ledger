@@ -152,8 +152,7 @@ class ShoppingCarListView extends StatelessWidget {
                                             fontSize: 30.sp,
                                             fontWeight: FontWeight.w500,
                                           )),
-                                      Expanded(child:
-                                      Text(
+                                      Expanded(child: Text(
                                           DecimalUtil.formatAmount(productDTO.unitDetailDTO?.totalAmount),
                                           textAlign: TextAlign.right,
                                           style: TextStyle(

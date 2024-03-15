@@ -47,16 +47,14 @@ class StockChangeSingleDialog extends StatelessWidget {
                           color: Colors.black87,
                         ),
                       ),
-                      Expanded(
-                          flex: 1,
-                          child: Container(
+                     Container(
                               alignment: Alignment.center,
+                              padding: EdgeInsets.symmetric(horizontal: 24.w),
                               child: Text( DecimalUtil.formatDecimalNumber(productDTO.unitDetailDTO?.stock),
                                 style: TextStyle(
                                   fontSize: 32.sp,
                                   color: Colors.black87,
-                                ),))
-                      ),
+                                ),)),
                       Text(
                         productDTO.unitDetailDTO?.unitName ?? '',
                         style: TextStyle(

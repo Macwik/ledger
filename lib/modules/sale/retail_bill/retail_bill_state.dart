@@ -64,5 +64,6 @@ class RetailBillState {
   //调整库存
   ProductStockAdjustRequest? productStockAdjustRequest;
 
+
 // PageToType? pageToType;
 }

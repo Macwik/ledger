@@ -41,45 +41,29 @@ class PendingRetailBillView extends StatelessWidget {
             },
             color: Colors.white,
           ),
-          actions:[ Visibility(
-            visible: controller.state.orderType ==OrderType.SALE,
-            child: Padding(
-              padding: EdgeInsets.only(right: 25.0),
+          actions:[PermissionOwnerWidget(
+              widgetType: LedgerWidgetType.Disable,
               child: InkWell(
-                  onTap: () =>Get.toNamed(RouteConfig.pendingOrder)?.then((value){
-                    if(OrderType.SALE == controller.state.orderType){
-                      controller.pendingOrderNum();
-                    }
-                  }),
-                  child: GetBuilder<PendingRetailBillController>(
-                    id: 'sale_bill_pending_order',
+                onTap: () => controller.pickerDate(context),
+                child: GetBuilder<PendingRetailBillController>(
+                    id: 'bill_date',
                     init: controller,
                     global: false,
-                    builder: (_){
-                      return Row(
-                        children: [
-                          LoadAssetImage(
-                            'pending_order',
-                            format: ImageFormat.png,
-                            color: ((controller.state.pendingOrderNum != 0)&&(controller.state.pendingOrderNum !=null))
-                                ? Colors.white
-                                : Colors.white38,
-                            height: 70.w,
-                            width: 70.w,
+                    builder: (_) {
+                      return Container(
+                        padding: EdgeInsets.only(right: 16.w),
+                        child:  Text(
+                          DateUtil.formatDayMonthDate(
+                              controller.state.date),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 28.sp,
+                            fontWeight: FontWeight.w500,
                           ),
-                          Text(((controller.state.pendingOrderNum != 0)&&(controller.state.pendingOrderNum !=null))
-                              ? controller.state.pendingOrderNum.toString()
-                              : '',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500
-                            ),),
-                        ],
+                        ),
                       );
-                    },)
-              ),
-            ),
-          )],
+                    }),
+              ))],
         ),
     body: MyWillPop(
         onWillPop: () async {
@@ -157,31 +141,48 @@ class PendingRetailBillView extends StatelessWidget {
                   margin: EdgeInsets.symmetric(horizontal: 8.w),
                   color: Colours.text_ccc,
                 ),
+
                 Expanded(
                     flex: 2,
-                    child:PermissionOwnerWidget(
-                        widgetType: LedgerWidgetType.Disable,
+                    child: Visibility(
+                      visible: controller.state.orderType ==OrderType.SALE,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
                         child: InkWell(
-                          onTap: () => controller.pickerDate(context),
-                          child: GetBuilder<PendingRetailBillController>(
-                              id: 'bill_date',
+                            onTap: () =>Get.toNamed(RouteConfig.pendingOrder)?.then((value){
+                              if(OrderType.SALE == controller.state.orderType){
+                                controller.pendingOrderNum();
+                              }
+                            }),
+                            child: GetBuilder<PendingRetailBillController>(
+                              id: 'sale_bill_pending_order',
                               init: controller,
                               global: false,
-                              builder: (_) {
-                                return Container(
-                                  padding: EdgeInsets.only(right: 16.w),
-                                  child:  Text(
-                                    DateUtil.formatDayMonthDate(
-                                        controller.state.date),
-                                    style: TextStyle(
-                                      color: Colours.text_666,
-                                      fontSize: 28.sp,
-                                      fontWeight: FontWeight.w500,
+                              builder: (_){
+                                return Row(
+                                  children: [
+                                    LoadAssetImage(
+                                      'pending_order',
+                                      format: ImageFormat.png,
+                                      color: ((controller.state.pendingOrderNum != 0)&&(controller.state.pendingOrderNum !=null))
+                                          ? Colours.primary
+                                          : Colours.text_ccc,
+                                      height: 70.w,
+                                      width: 70.w,
                                     ),
-                                  ),
+                                    Text(((controller.state.pendingOrderNum != 0)&&(controller.state.pendingOrderNum !=null))
+                                        ? controller.state.pendingOrderNum.toString()
+                                        : '',
+                                      style: TextStyle(
+                                          color:  Colours.primary,
+                                          fontWeight: FontWeight.w500
+                                      ),),
+                                  ],
                                 );
-                              }),
-                        ))
+                              },)
+                        ),
+                      ),
+                    )
                 )
               ],
             )

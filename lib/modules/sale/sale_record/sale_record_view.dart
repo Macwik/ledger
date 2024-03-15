@@ -710,8 +710,7 @@ class SaleRecordView extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            '',
-                            //controller.toRetailBillName(),
+                           controller.toAddBillsName(),
                             style: TextStyle(fontSize: 32.sp),
                           ),
                         ],
@@ -868,9 +867,7 @@ class SaleRecordView extends StatelessWidget {
                                                 salePurchaseOrderDTO
                                                     .orderStatus),
                                             style: TextStyle(
-                                              color: salePurchaseOrderDTO
-                                                          .invalid ==
-                                                      1
+                                              color: salePurchaseOrderDTO.invalid == 1
                                                   ? Colours.text_ccc
                                                   : OrderStateType.DEBT_ACCOUNT
                                                               .value ==

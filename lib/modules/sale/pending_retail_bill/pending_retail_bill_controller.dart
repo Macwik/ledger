@@ -327,7 +327,8 @@ class PendingRetailBillController extends GetxController {
     }).then((result) {
       Loading.dismiss();
       if (result.success) {
-        Get.offNamed(RouteConfig.retailBill, arguments: {'orderType': state.orderType});
+        Get.back();
+        //Get.offNamed(RouteConfig.retailBill, arguments: {'orderType': state.orderType});
         return true;
       } else {
         Toast.show(result.m.toString());

@@ -9,7 +9,6 @@ import 'package:ledger/entity/payment/order_pay_dialog_result.dart';
 import 'package:ledger/entity/payment/order_payment_request.dart';
 import 'package:ledger/entity/payment/payment_method_dto.dart';
 import 'package:ledger/enum/order_type.dart';
-import 'package:ledger/modules/sale/sale_record/sale_record_controller.dart';
 import 'package:ledger/res/export.dart';
 import 'package:ledger/util/decimal_util.dart';
 import 'package:ledger/util/image_util.dart';
@@ -615,34 +614,35 @@ class PaymentDialog extends StatelessWidget {
                             }
                             await onClick(controller.result)
                                 .then((value) async {
-                              if (value) {
-                                if ((OrderType.PURCHASE == orderType) ||
-                                    (OrderType.PURCHASE_RETURN == orderType)) {
-                                  await Get.offNamed(RouteConfig.saleRecord,
-                                          arguments: {'orderType': OrderType.PURCHASE})
-                                      ?.then((value) {
-                                    final controller =
-                                        Get.find<SaleRecordController>();
-                                    controller.initState();
-                                  });
-                                } else if ((OrderType.SALE == orderType) ||
-                                    (OrderType.SALE_RETURN == orderType)) {
-
-
-                                  Get.back();
-                                  await Get.toNamed(RouteConfig.retailBill,
-                                      arguments: {'orderType': OrderType.SALE})
-                                      ?.then((value) {
-                                    final controller =
-                                        Get.find<SaleRecordController>();
-                                    controller.initState();
-                                  });
-                                } else {
-                                  //不可能走到这
-                                }
-                              }
+                              Get.back();
+                              // if (value) {
+                              //   if ((OrderType.PURCHASE == orderType) ||
+                              //       (OrderType.PURCHASE_RETURN == orderType)) {
+                              //     await Get.offNamed(RouteConfig.saleRecord,
+                              //             arguments: {'orderType': OrderType.PURCHASE})
+                              //         ?.then((value) {
+                              //       final controller =
+                              //           Get.find<SaleRecordController>();
+                              //       controller.initState();
+                              //     });
+                              //   } else if ((OrderType.SALE == orderType) ||
+                              //       (OrderType.SALE_RETURN == orderType)) {
+                              //     Get.back();
+                              //     await Get.toNamed(RouteConfig.retailBill,
+                              //         arguments: {'orderType': OrderType.SALE})
+                              //         ?.then((value) {
+                              //       final controller =
+                              //           Get.find<SaleRecordController>();
+                              //       controller.initState();
+                              //     });
+                              //   } else {
+                              //     //不可能走到这
+                              //   }
+                              // }
                             });
                           });
+                        }else {
+                          Toast.show('保存失败，请重试');
                         }
                       },
                       size: Size(double.infinity, 90.w),

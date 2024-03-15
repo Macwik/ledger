@@ -97,7 +97,122 @@ class ShoppingCarController extends GetxController {
                           GetBuilder<ShoppingCarController>(
                               id: 'shopping_car_add_result',
                               builder: (_) {
-                                return Table(
+                                return Visibility(
+                                  replacement:   Table(
+                                    // 设置表格属性
+                                    border: TableBorder(
+                                        horizontalInside: BorderSide(
+                                            width: 1.w, color: Colours.text_ccc),
+                                        bottom: BorderSide(
+                                            color: Colours.text_ccc)),
+                                    children: [
+                                      TableRow(
+                                        children: [
+                                          TableCell(
+                                              child: Container(
+                                                padding: EdgeInsets.only(
+                                                  top: 30.w,
+                                                  bottom: 30.w,
+                                                ),
+                                              )),
+                                          TableCell(
+                                            child: Container(
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: 20.0.w),
+                                                child: Text(
+                                                  '货品',
+                                                  style: TextStyle(
+                                                      fontSize: 24.sp,
+                                                      color: Colours.text_999),
+                                                )),
+                                          ),
+                                          TableCell(
+                                              child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 20.0.w),
+                                                  child: Text(
+                                                    '数量',
+                                                    style: TextStyle(
+                                                        fontSize: 24.sp,
+                                                        color: Colours.text_999),
+                                                  ))),
+                                          TableCell(
+                                              child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 20.0.w),
+                                                  child: Text(
+                                                    '重量',
+                                                    style: TextStyle(
+                                                        fontSize: 24.sp,
+                                                        color: Colours.text_999),
+                                                  ))),
+                                        ],
+                                      ),
+                                      // 根据动态数据创建行
+                                      for (var item in state.shoppingCarList!)
+                                        TableRow(
+                                          children: [
+                                            TableCell(
+                                                child: Container(
+                                                  alignment: Alignment.center,
+                                                  padding: EdgeInsets.only(
+                                                    top: 40.w,
+                                                  ),
+                                                  child: InkWell(
+                                                    onTap: () {
+                                                      state.shoppingCarList
+                                                          ?.remove(item);
+                                                      update([
+                                                        'shopping_car_add_result',
+                                                        'shopping_car_box'
+                                                      ]);
+                                                    },
+                                                    child: LoadSvg(
+                                                      'svg/delete',
+                                                      width: 40.w,
+                                                      color: Colours.primary,
+                                                    ),
+                                                  ),
+                                                )),
+                                            TableCell(
+                                                child: Container(
+                                                    padding: EdgeInsets.only(
+                                                      top: 30.w,
+                                                      bottom: 30.w,
+                                                    ),
+                                                    child: Text(
+                                                      item.productName ?? '',
+                                                      style: TextStyle(
+                                                          fontSize: 26.sp,
+                                                          fontWeight:
+                                                          FontWeight.w600,
+                                                          color:
+                                                          Colours.text_333),
+                                                    ))),
+                                            TableCell(
+                                                child: Container(
+                                                    padding: EdgeInsets.only(
+                                                        top: 30.w,
+                                                        bottom: 30.w,
+                                                        left: 10.w),
+                                                    child: Text(getAddStockNumber(item
+                                                        .unitDetailDTO!) ??
+                                                        '/'))),
+                                            TableCell(
+                                                child: Container(
+                                                    padding: EdgeInsets.only(
+                                                      top: 30.w,
+                                                      bottom: 30.w,
+                                                    ),
+                                                    child: Text(getAddStockWeight(item
+                                                        .unitDetailDTO!) ??
+                                                        '/'))),
+                                          ],
+                                        ),
+                                    ],
+                                  ),
+                                    visible: state.orderType != OrderType.ADD_STOCK,
+                                    child:Table(
                                   // 设置表格属性
                                   border: TableBorder(
                                       horizontalInside: BorderSide(
@@ -109,11 +224,11 @@ class ShoppingCarController extends GetxController {
                                       children: [
                                         TableCell(
                                             child: Container(
-                                          padding: EdgeInsets.only(
-                                            top: 30.w,
-                                            bottom: 30.w,
-                                          ),
-                                        )),
+                                              padding: EdgeInsets.only(
+                                                top: 30.w,
+                                                bottom: 30.w,
+                                              ),
+                                            )),
                                         TableCell(
                                           child: Container(
                                               padding: EdgeInsets.symmetric(
@@ -173,26 +288,26 @@ class ShoppingCarController extends GetxController {
                                         children: [
                                           TableCell(
                                               child: Container(
-                                            alignment: Alignment.center,
-                                            padding: EdgeInsets.only(
-                                              top: 40.w,
-                                            ),
-                                            child: InkWell(
-                                              onTap: () {
-                                                state.shoppingCarList
-                                                    ?.remove(item);
-                                                update([
-                                                  'shopping_car_add_result',
-                                                  'shopping_car_box'
-                                                ]);
-                                              },
-                                              child: LoadSvg(
-                                                'svg/delete',
-                                                width: 40.w,
-                                                color: Colours.primary,
-                                              ),
-                                            ),
-                                          )),
+                                                alignment: Alignment.center,
+                                                padding: EdgeInsets.only(
+                                                  top: 40.w,
+                                                ),
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    state.shoppingCarList
+                                                        ?.remove(item);
+                                                    update([
+                                                      'shopping_car_add_result',
+                                                      'shopping_car_box'
+                                                    ]);
+                                                  },
+                                                  child: LoadSvg(
+                                                    'svg/delete',
+                                                    width: 40.w,
+                                                    color: Colours.primary,
+                                                  ),
+                                                ),
+                                              )),
                                           TableCell(
                                               child: Container(
                                                   padding: EdgeInsets.only(
@@ -204,9 +319,9 @@ class ShoppingCarController extends GetxController {
                                                     style: TextStyle(
                                                         fontSize: 26.sp,
                                                         fontWeight:
-                                                            FontWeight.w600,
+                                                        FontWeight.w600,
                                                         color:
-                                                            Colours.text_333),
+                                                        Colours.text_333),
                                                   ))),
                                           TableCell(
                                               child: Container(
@@ -215,8 +330,8 @@ class ShoppingCarController extends GetxController {
                                                       bottom: 30.w,
                                                       left: 10.w),
                                                   child: Text(getNumber(item
-                                                          .unitDetailDTO!) ??
-                                                      ''))),
+                                                      .unitDetailDTO!) ??
+                                                      '/'))),
                                           TableCell(
                                               child: Container(
                                                   padding: EdgeInsets.only(
@@ -224,17 +339,8 @@ class ShoppingCarController extends GetxController {
                                                     bottom: 30.w,
                                                   ),
                                                   child: Text(getWeight(item
-                                                          .unitDetailDTO!) ??
-                                                      ''))),
-                                          TableCell(
-                                              child: Container(
-                                                  padding: EdgeInsets.only(
-                                                    top: 30.w,
-                                                    bottom: 30.w,
-                                                  ),
-                                                  child: Text(getPrice(item
-                                                          .unitDetailDTO!) ??
-                                                      ''))),
+                                                      .unitDetailDTO!) ??
+                                                      '/'))),
                                           TableCell(
                                               child: Container(
                                                   padding: EdgeInsets.only(
@@ -242,14 +348,25 @@ class ShoppingCarController extends GetxController {
                                                     bottom: 30.w,
                                                   ),
                                                   child: Text(
-                                                    DecimalUtil.formatDecimalDefault(
-                                                        item.unitDetailDTO
-                                                            ?.totalAmount),
+                                                      state.orderType == OrderType.ADD_STOCK
+                                                          ?'/'
+                                                          :getPrice(item.unitDetailDTO!) ?? '/'))),
+                                          TableCell(
+                                              child: Container(
+                                                  padding: EdgeInsets.only(
+                                                    top: 30.w,
+                                                    bottom: 30.w,
+                                                  ),
+                                                  child: Text(state.orderType == OrderType.ADD_STOCK
+                                                      ?'/'
+                                                      : DecimalUtil.formatDecimalDefault(
+                                                      item.unitDetailDTO?.totalAmount),
                                                   ))),
                                         ],
                                       ),
                                   ],
-                                );
+                                ))
+                                ;
                               }),
                           Row(children: [
                             Container(
@@ -269,8 +386,9 @@ class ShoppingCarController extends GetxController {
                                     right: 100.w,
                                     top: 20.w,
                                     bottom: 30.w),
-                                child: Text(
-                                  '${getTotalAmount()}',
+                                child: Text(state.orderType == OrderType.ADD_STOCK
+                                    ?'/'
+                                    : '${getTotalAmount()}',
                                   style: TextStyle(
                                       fontSize: 28.sp,
                                       fontWeight: FontWeight.w600,
@@ -366,8 +484,9 @@ class ShoppingCarController extends GetxController {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(
-                                '${getTotalAmount()}元',
+                              Text(state.orderType == OrderType.ADD_STOCK
+                                  ?''
+                                  : '${getTotalAmount()}元',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 28.sp,
@@ -420,6 +539,22 @@ class ShoppingCarController extends GetxController {
     }
   }
 
+  String? getAddStockNumber(UnitDetailDTO unitDetailDTO) {
+    var unitType = unitDetailDTO.unitType;
+    if (UnitType.SINGLE.value == unitType) {
+      return '${unitDetailDTO.stock} ${unitDetailDTO.unitName}';
+    } else {
+      if (unitDetailDTO.selectMasterUnit ?? true) {
+        if (UnitType.MULTI_WEIGHT.value == unitType) {
+          return '${unitDetailDTO.slaveStock} ${unitDetailDTO.slaveUnitName}';
+        }
+        return '${unitDetailDTO.masterStock} ${unitDetailDTO.masterUnitName}';
+      } else {
+        return '${unitDetailDTO.slaveStock} ${unitDetailDTO.slaveUnitName}';
+      }
+    }
+  }
+
   String? getPrice(UnitDetailDTO unitDetailDTO) {
     var unitType = unitDetailDTO.unitType;
     if (UnitType.SINGLE.value == unitType) {
@@ -440,7 +575,17 @@ class ShoppingCarController extends GetxController {
         return '${unitDetailDTO.masterNumber} ${unitDetailDTO.masterUnitName}';
       }
     }
-    return '-';
+    return '/';
+  }
+
+  String? getAddStockWeight(UnitDetailDTO unitDetailDTO) {
+    var unitType = unitDetailDTO.unitType;
+    if (UnitType.MULTI_WEIGHT.value == unitType) {
+      if (unitDetailDTO.selectMasterUnit ?? true) {
+        return '${unitDetailDTO.masterStock} ${unitDetailDTO.masterUnitName}';
+      }
+    }
+    return '/';
   }
 
   Future<void> addToShoppingCar(ProductDTO productDTO) async {

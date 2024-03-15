@@ -1,10 +1,8 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger/entity/product/product_dto.dart';
 import 'package:ledger/entity/unit/unit_detail_dto.dart';
-import 'package:ledger/res/colors.dart';
 import 'package:ledger/util/decimal_util.dart';
 
 class StockChangeMultiDialogController extends GetxController {

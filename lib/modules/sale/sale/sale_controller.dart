@@ -12,6 +12,6 @@ class SaleController extends GetxController {
   }
 
   toSaleReturnBill() {
-    Get.toNamed(RouteConfig.saleBill, arguments: {'orderType': OrderType.SALE_RETURN});
+    Get.toNamed(RouteConfig.retailBill, arguments: {'orderType': OrderType.SALE_RETURN});
   }
 }

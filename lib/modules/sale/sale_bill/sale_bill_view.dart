@@ -199,7 +199,7 @@ class SaleBillView extends StatelessWidget {
                                 Container(
                                   color: Colours.divider,
                                   height: 1.w,
-                                  margin: EdgeInsets.only(top: 16, bottom: 8),
+                                  margin: EdgeInsets.only(top: 16),
                                   width: double.infinity,
                                 ),
                                 Visibility(
@@ -289,7 +289,7 @@ class SaleBillView extends StatelessWidget {
                                 Container(
                                   color: Colours.divider,
                                   height: 1.w,
-                                  margin: EdgeInsets.only(top: 8, bottom: 8),
+                                  //margin: EdgeInsets.only( bottom: 8),
                                   width: double.infinity,
                                 )),
                                 Flex(
@@ -328,8 +328,7 @@ class SaleBillView extends StatelessWidget {
                         Container(
                           width: double.infinity,
                           height: 80.w,
-                          margin: EdgeInsets.only(
-                              left: 20, right: 20, top: 10, bottom: 10),
+                          margin: EdgeInsets.symmetric(horizontal: 32.w ,vertical: 16.w),
                           child: ElevatedButton(
                             onPressed: () => controller.addShoppingCar(),
                             child: Text(
@@ -413,17 +412,16 @@ class SaleBillView extends StatelessWidget {
                                           ),
                                         ],
                                       ),
-                                      child: Container(
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: 24.w,
-                                            horizontal: 40.w),
-                                        width: double.infinity,
-                                        color: Colors.white,
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            Row(
+                                      child: Visibility(
+                                        visible: controller.state.orderType != OrderType.ADD_STOCK,
+                                          //入库时候展示内容
+                                          replacement:Container(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical:32.w,
+                                                horizontal: 40.w),
+                                            width: double.infinity,
+                                            color: Colors.white,
+                                            child: Row(
                                               children: [
                                                 Expanded(
                                                     child: Text(
@@ -432,34 +430,66 @@ class SaleBillView extends StatelessWidget {
                                                           color: Colours.text_333,
                                                           fontSize: 32.sp,
                                                           fontWeight:
-                                                              FontWeight.w500,
+                                                          FontWeight.w500,
                                                         ))),
-                                                Text(
-                                                    DecimalUtil.formatAmount(productDTO.unitDetailDTO?.totalAmount),
+                                              Text(controller.getAddStockNum(productDTO.unitDetailDTO!) ?? '',
                                                     style: TextStyle(
                                                       color: Colours.text_333,
                                                       fontSize: 30.sp,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                    )),
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              height: 10.w,
-                                            ),
-                                            Row(
-                                              children: [
-                                                Text(controller.getPrice(productDTO.unitDetailDTO!) ?? '',
-                                                    style: TextStyle(
-                                                      color: Colours.text_666,
-                                                      fontSize: 26.sp,
                                                       fontWeight: FontWeight.w500,
                                                     )),
                                               ],
                                             ),
-                                          ],
-                                        ),
-                                      ));
+                                          ) ,
+                                          //开单时候展示内容
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 24.w,
+                                                horizontal: 40.w),
+                                            width: double.infinity,
+                                            color: Colors.white,
+                                            child: Column(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Expanded(
+                                                        child: Text(
+                                                            productDTO.productName ?? '',
+                                                            style: TextStyle(
+                                                              color: Colours.text_333,
+                                                              fontSize: 32.sp,
+                                                              fontWeight:
+                                                              FontWeight.w500,
+                                                            ))),
+                                                    Text(
+                                                        DecimalUtil.formatAmount(productDTO.unitDetailDTO?.totalAmount),
+                                                        style: TextStyle(
+                                                          color: Colours.text_333,
+                                                          fontSize: 30.sp,
+                                                          fontWeight:
+                                                          FontWeight.w500,
+                                                        )),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: 10.w,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Text(controller.getPrice(productDTO.unitDetailDTO!) ?? '',
+                                                        style: TextStyle(
+                                                          color: Colours.text_666,
+                                                          fontSize: 26.sp,
+                                                          fontWeight: FontWeight.w500,
+                                                        )),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ))
+                                      );
                                 },
                               );
                       }),
