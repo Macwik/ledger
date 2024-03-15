@@ -639,30 +639,6 @@ class PaymentDialog extends StatelessWidget {
                             await onClick(controller.result)
                                 .then((value) async {
                               Get.back();
-                              // if (value) {
-                              //   if ((OrderType.PURCHASE == orderType) ||
-                              //       (OrderType.PURCHASE_RETURN == orderType)) {
-                              //     await Get.offNamed(RouteConfig.saleRecord,
-                              //             arguments: {'orderType': OrderType.PURCHASE})
-                              //         ?.then((value) {
-                              //       final controller =
-                              //           Get.find<SaleRecordController>();
-                              //       controller.initState();
-                              //     });
-                              //   } else if ((OrderType.SALE == orderType) ||
-                              //       (OrderType.SALE_RETURN == orderType)) {
-                              //     Get.back();
-                              //     await Get.toNamed(RouteConfig.retailBill,
-                              //         arguments: {'orderType': OrderType.SALE})
-                              //         ?.then((value) {
-                              //       final controller =
-                              //           Get.find<SaleRecordController>();
-                              //       controller.initState();
-                              //     });
-                              //   } else {
-                              //     //不可能走到这
-                              //   }
-                              // }
                             });
                           });
                         }else {
