@@ -1,5 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:easy_refresh/easy_refresh.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/api/ledger_api.dart';
 import 'package:ledger/config/api/order_api.dart';
@@ -17,8 +18,28 @@ import 'package:ledger/util/toast_util.dart';
 
 import 'sale_record_state.dart';
 
-class SaleRecordController extends GetxController {
+class SaleRecordController extends GetxController with GetSingleTickerProviderStateMixin implements DisposableInterface{
   final SaleRecordState state = SaleRecordState();
+
+  late TabController tabController;
+
+
+  @override
+  void onInit() {
+    tabController = TabController(length: 3, vsync: this);
+    tabController.addListener(() {
+      var index = tabController.index;
+      state.index = index;
+      update(['sale_record_add_bill']);
+    });
+    super.onInit();
+  }
+
+  @override
+  void onClose() {
+    tabController.dispose(); // 清理操作
+    super.onClose();
+  }
 
   Future<void> initState() async {
     var arguments = Get.arguments;
@@ -35,6 +56,10 @@ class SaleRecordController extends GetxController {
     onRefresh();
     _queryLedgerUserList();
   }
+
+
+
+
 
   Future<BasePageEntity<OrderDTO>> _queryData(int currentPage) async {
     return await Http()
@@ -230,15 +255,13 @@ class SaleRecordController extends GetxController {
         'orderType': OrderType.PURCHASE_RETURN}
       });
     }else{
-      Get.toNamed(RouteConfig.retailBill, arguments: {
         if(state.index == 0){
-          'orderType': OrderType.SALE,
+          Get.toNamed(RouteConfig.retailBill, arguments: {'orderType': OrderType.SALE});
         }else if(state.index == 1){
-          'orderType': OrderType.SALE_RETURN,
+          Get.toNamed(RouteConfig.retailBill, arguments: {'orderType': OrderType.SALE_RETURN});
         }else{
-          'orderType': OrderType.REFUND,
+          Get.toNamed(RouteConfig.retailBill, arguments: {'orderType': OrderType.REFUND});
         }
-      });
     }
   }
 

@@ -1042,8 +1042,8 @@ class RetailBillController extends GetxController {
     }).then((result) {
       Loading.dismiss();
       if (result.success) {
-        Get.toNamed(RouteConfig.retailBill,
-            arguments: {'orderType': state.orderType});
+        Get.back();
+       // Get.toNamed(RouteConfig.retailBill, arguments: {'orderType': state.orderType});
         ///TODO 打的弹框
         Toast.showSuccess('开单成功');
         return true;

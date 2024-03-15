@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/enum/order_state_type.dart';
 import 'package:ledger/enum/order_type.dart';
-import 'package:ledger/modules/sale/sale_record/tab_controller_manager.dart';
 import 'package:ledger/res/colors.dart';
 import 'package:ledger/route/route_config.dart';
 import 'package:ledger/util/date_util.dart';
@@ -21,7 +20,6 @@ import 'sale_record_controller.dart';
 
 class SaleRecordView extends StatelessWidget {
   final controller = Get.find<SaleRecordController>();
-  final TabControllerManager tabController = Get.put(TabControllerManager());
 
   @override
   Widget build(BuildContext context) {
@@ -655,7 +653,7 @@ class SaleRecordView extends StatelessWidget {
                     color: Colors.white,
                     height: 90.w, // 调整TabBar高度
                     child: TabBar(
-                      controller: tabController.tabController,
+                      controller: controller.tabController,
                       tabs: [
                         Tab(
                           text: controller.state.orderType == OrderType.PURCHASE
@@ -668,7 +666,7 @@ class SaleRecordView extends StatelessWidget {
                               : '销售退货',
                         ),
                         if (controller.state.orderType == OrderType.SALE)
-                          Tab(text: '退款'),
+                          Tab(text: '仅退款'),
                       ],
                       indicatorWeight: 3.w,
                       indicatorPadding: EdgeInsets.all(0),
@@ -683,7 +681,7 @@ class SaleRecordView extends StatelessWidget {
                     )),
                 Expanded(
                     child: TabBarView(
-                        controller: tabController.tabController,
+                        controller: controller.tabController,
                         children: [
                       widgetSaleRecord(),
                       widgetSaleRecord(),
@@ -697,6 +695,8 @@ class SaleRecordView extends StatelessWidget {
           permissionCode: PermissionCode.sales_sale_order_permission,
           child: GetBuilder<SaleRecordController>(
               id: 'sale_record_add_bill',
+              init: controller,
+              global: false,
               builder: (_) {
                 return Container(
                     width: 90.0,
