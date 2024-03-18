@@ -1,9 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/res/export.dart';
+import 'package:ledger/widget/permission/permission_widget.dart';
 
 import 'more_controller.dart';
 
@@ -43,12 +42,15 @@ class MoreView extends StatelessWidget {
                       ),),
                   ),
                   Expanded(
-                      child: GridView.count(
-                        crossAxisCount: 4,
+                      child: GridView.extent(
+                        physics: NeverScrollableScrollPhysics(),
+                        maxCrossAxisExtent: 80,
                         mainAxisSpacing: 24.w,
                         padding: EdgeInsets.all(16.w),
                         children: List.generate(5, (index) {
-                          return  InkWell(
+                          return PermissionWidget(
+                              permissionCode: gridItemSalePermission[index],
+                              child:  InkWell(
                             onTap: ()=> controller.toSale(index),
                             child: Flex(
                               direction: Axis.vertical,
@@ -78,7 +80,7 @@ class MoreView extends StatelessWidget {
                                 ),
                               ],
                             ),
-                          );
+                          ));
                         }),
                       )),
                 ],),
@@ -104,12 +106,15 @@ class MoreView extends StatelessWidget {
                       ),),
                   ),
                   Expanded(
-                      child: GridView.count(
-                        crossAxisCount: 4,
+                      child: GridView.extent(
+                        physics: NeverScrollableScrollPhysics(),
+                        maxCrossAxisExtent: 80,
                         mainAxisSpacing: 24.w,
                         padding: EdgeInsets.all(16.w),
                         children: List.generate(4, (index) {
-                          return  InkWell(
+                          return PermissionWidget(
+                              permissionCode: gridItemPurchasePermission[index],
+                              child:  InkWell(
                             onTap: ()=> controller.toPurchase(index),
                             child: Flex(
                               direction: Axis.vertical,
@@ -139,7 +144,71 @@ class MoreView extends StatelessWidget {
                                 ),
                               ],
                             ),
-                          );
+                          ));
+                        }),
+                      )),
+                ],),
+              )),
+          Container(
+              height:340.w,
+              child: Card(
+                elevation: 6,
+                margin: EdgeInsets.only(left: 24.w, top: 16.w, right: 24.w),
+                clipBehavior: Clip.antiAlias,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(28.w)),
+                ),
+                child: Column(children: [
+                  Container(
+                    padding: EdgeInsets.only(top: 24.w,left: 40.w,bottom: 16.w),
+                    alignment: Alignment.centerLeft,
+                    child: Text('库存',
+                      style: TextStyle(
+                          color: Colours.text_333,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 32.sp
+                      ),),
+                  ),
+                  Expanded(
+                      child: GridView.extent(
+                        physics: NeverScrollableScrollPhysics(),
+                        maxCrossAxisExtent: 80,
+                        mainAxisSpacing: 24.w,
+                        padding: EdgeInsets.all(16.w),
+                        children: List.generate(4, (index) {
+                          return  PermissionWidget(
+                              permissionCode: gridItemStorePermission[index],
+                              child: InkWell(
+                            onTap: ()=> controller.toStore(index),
+                            child: Flex(
+                              direction: Axis.vertical,
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: double.infinity,
+                                  child: Center(
+                                    child: LoadSvg(
+                                      gridItemStorePaths[index],
+                                      width: 88.w,
+                                      height: 88.w,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 13),
+                                  child: Text(
+                                    gridItemStoreNames[index],
+                                    style: TextStyle(
+                                      fontSize: 28.sp,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colours.text_999,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ));
                         }),
                       )),
                 ],),
@@ -157,7 +226,7 @@ class MoreView extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.only(top: 24.w,left: 40.w,bottom: 16.w),
                     alignment: Alignment.centerLeft,
-                    child: Text('销售',
+                    child: Text('资金',
                       style: TextStyle(
                           color: Colours.text_333,
                           fontWeight: FontWeight.w600,
@@ -165,13 +234,16 @@ class MoreView extends StatelessWidget {
                       ),),
                   ),
                   Expanded(
-                      child: GridView.count(
-                        crossAxisCount: 4,
+                      child: GridView.extent(
+                        physics: NeverScrollableScrollPhysics(),
                         mainAxisSpacing: 24.w,
                         padding: EdgeInsets.all(16.w),
-                        children: List.generate(5, (index) {
-                          return  InkWell(
-                            onTap: ()=> controller.toSale(index),
+                        maxCrossAxisExtent: 80,
+                        children: List.generate(7, (index) {
+                          return PermissionWidget(
+                              permissionCode: gridItemFundPermission[index],
+                              child: InkWell(
+                            onTap: ()=> controller.toFund(index),
                             child: Flex(
                               direction: Axis.vertical,
                               mainAxisSize: MainAxisSize.min,
@@ -181,7 +253,7 @@ class MoreView extends StatelessWidget {
                                   width: double.infinity,
                                   child: Center(
                                     child: LoadSvg(
-                                      gridItemSalePaths[index],
+                                      gridItemFundPaths[index],
                                       width: 88.w,
                                       height: 88.w,
                                     ),
@@ -190,23 +262,23 @@ class MoreView extends StatelessWidget {
                                 Padding(
                                   padding: const EdgeInsets.only(top: 13),
                                   child: Text(
-                                    gridItemSaleNames[index],
+                                    gridItemFundNames[index],
                                     style: TextStyle(
                                       fontSize: 28.sp,
                                       fontWeight: FontWeight.w700,
                                       color: Colours.text_999,
                                     ),
-                                  ),
+                                  ) ,
                                 ),
                               ],
                             ),
-                          );
+                          ));
                         }),
                       )),
                 ],),
               )),
           Container(
-              height:520.w,
+              height:340.w,
               child: Card(
                 elevation: 6,
                 margin: EdgeInsets.only(left: 24.w, top: 16.w, right: 24.w),
@@ -218,7 +290,7 @@ class MoreView extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.only(top: 24.w,left: 40.w,bottom: 16.w),
                     alignment: Alignment.centerLeft,
-                    child: Text('销售',
+                    child: Text('账目',
                       style: TextStyle(
                           color: Colours.text_333,
                           fontWeight: FontWeight.w600,
@@ -226,13 +298,16 @@ class MoreView extends StatelessWidget {
                       ),),
                   ),
                   Expanded(
-                      child: GridView.count(
-                        crossAxisCount: 4,
+                      child: GridView.extent(
+                        physics: NeverScrollableScrollPhysics(),
+                        maxCrossAxisExtent: 80,
                         mainAxisSpacing: 24.w,
                         padding: EdgeInsets.all(16.w),
-                        children: List.generate(5, (index) {
-                          return  InkWell(
-                            onTap: ()=> controller.toSale(index),
+                        children: List.generate(1, (index) {
+                          return  PermissionWidget(
+                              permissionCode: gridItemAccountPermission[index],
+                              child:InkWell(
+                            onTap: ()=> Get.toNamed(RouteConfig.dailyAccount),
                             child: Flex(
                               direction: Axis.vertical,
                               mainAxisSize: MainAxisSize.min,
@@ -242,7 +317,7 @@ class MoreView extends StatelessWidget {
                                   width: double.infinity,
                                   child: Center(
                                     child: LoadSvg(
-                                      gridItemSalePaths[index],
+                                      gridItemAccountPaths[index],
                                       width: 88.w,
                                       height: 88.w,
                                     ),
@@ -251,7 +326,7 @@ class MoreView extends StatelessWidget {
                                 Padding(
                                   padding: const EdgeInsets.only(top: 13),
                                   child: Text(
-                                    gridItemSaleNames[index],
+                                    gridItemAccountNames[index],
                                     style: TextStyle(
                                       fontSize: 28.sp,
                                       fontWeight: FontWeight.w700,
@@ -261,68 +336,7 @@ class MoreView extends StatelessWidget {
                                 ),
                               ],
                             ),
-                          );
-                        }),
-                      )),
-                ],),
-              )),
-          Container(
-              height:520.w,
-              child: Card(
-                elevation: 6,
-                margin: EdgeInsets.only(left: 24.w, top: 16.w, right: 24.w),
-                clipBehavior: Clip.antiAlias,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(28.w)),
-                ),
-                child: Column(children: [
-                  Container(
-                    padding: EdgeInsets.only(top: 24.w,left: 40.w,bottom: 16.w),
-                    alignment: Alignment.centerLeft,
-                    child: Text('销售',
-                      style: TextStyle(
-                          color: Colours.text_333,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 32.sp
-                      ),),
-                  ),
-                  Expanded(
-                      child: GridView.count(
-                        crossAxisCount: 4,
-                        mainAxisSpacing: 24.w,
-                        padding: EdgeInsets.all(16.w),
-                        children: List.generate(5, (index) {
-                          return  InkWell(
-                            onTap: ()=> controller.toSale(index),
-                            child: Flex(
-                              direction: Axis.vertical,
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  width: double.infinity,
-                                  child: Center(
-                                    child: LoadSvg(
-                                      gridItemSalePaths[index],
-                                      width: 88.w,
-                                      height: 88.w,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 13),
-                                  child: Text(
-                                    gridItemSaleNames[index],
-                                    style: TextStyle(
-                                      fontSize: 28.sp,
-                                      fontWeight: FontWeight.w700,
-                                      color: Colours.text_999,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
+                          ));
                         }),
                       )),
                 ],),
@@ -348,6 +362,7 @@ const List<String> gridItemSalePermission = [
   PermissionCode.sales_sale_return_permission,
   PermissionCode.sales_sale_return_permission,
   PermissionCode.sales_sale_record_permission,
+  PermissionCode.sales_sale_order_permission,//ToDO 客户没有专属控制
 ];
 
 const List<String> gridItemPurchaseNames = ['采购开单', '采购退货', '采购记录', '供应商'];
@@ -363,4 +378,53 @@ const List<String> gridItemPurchasePermission = [
   PermissionCode.purchase_purchase_order_permission,
   PermissionCode.purchase_purchase_return_permission,
   PermissionCode.purchase_purchase_record_permission,
+  PermissionCode.purchase_purchase_order_permission,//TODO 供应商没有单独控制
+];
+
+const List<String> gridItemStoreNames = ['库存列表', '直接入库', '库存调整', '调整记录'];
+
+const List<String> gridItemStorePaths = [
+  'svg/ic_stock_list',
+  'svg/stock_add_stocks',
+  'svg/ic_stock_change',
+  'svg/ic_stock_change_record',
+];
+
+const List<String> gridItemStorePermission = [
+  PermissionCode.stock_page_permission,
+  PermissionCode.purchase_purchase_order_permission,
+  PermissionCode.stock_stock_change_permission,
+  PermissionCode.stock_stock_change_record_permission,
+];
+
+const List<String> gridItemFundNames = ['费用开单', '收入开单', '费/收记录', '录入欠款','还款记录','汇款开单','汇款记录'];
+
+const List<String> gridItemFundPaths = [
+  'svg/ic_funds_cost',
+  'svg/ic_funds_income',
+  'svg/ic_funds_record',
+  'svg/ic_funds_debt',
+  'svg/ic_funds_repayment',
+  'svg/ic_purchase_remittance',
+  'svg/ic_purchase_remittance_record'
+];
+
+const List<String> gridItemFundPermission = [
+  PermissionCode.funds_cost_order_permission,
+  PermissionCode.funds_income_order_permission,
+  PermissionCode.funds_cost_record_permission,
+  PermissionCode.funds_add_debt_permission,
+  PermissionCode.funds_repayment_record_permission,
+  PermissionCode.purchase_remittance_order_permission,
+  PermissionCode.remittance_remittance_record_permission
+];
+
+const List<String> gridItemAccountNames = ['每日流水', ];
+
+const List<String> gridItemAccountPaths = [
+  'svg/ic_account_day_to_day',
+];
+
+const List<String> gridItemAccountPermission = [
+  PermissionCode.account_page_permission,
 ];

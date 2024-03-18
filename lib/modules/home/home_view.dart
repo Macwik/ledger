@@ -671,9 +671,7 @@ class HomeView extends StatelessWidget {
                   builder: (_) {
                     return InkWell(
                         onTap: () => Get.toNamed(RouteConfig.repaymentRecord,
-                                arguments: {
-                                  'customType': CustomType.CUSTOM.value,
-                                }),
+                                arguments: {'customType': CustomType.CUSTOM.value,}),
                         child: Column(
                           children: [
                             Container(
@@ -723,8 +721,7 @@ class HomeView extends StatelessWidget {
                             MediaQuery.removeViewPadding(
                               context: context,
                               removeTop: true,
-                              child: state.salesRepaymentStatisticsDTO
-                                          ?.isEmpty ??
+                              child: state.salesRepaymentStatisticsDTO?.isEmpty ??
                                       true
                                   ? EmptyLayout(hintText: '什么都没有')
                                   : ListView.builder(

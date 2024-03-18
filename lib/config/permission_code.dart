@@ -90,8 +90,10 @@ class PermissionCode{
   //static const String home_centre_custom_list_permission = 'WIDGET_HOME_CENTRE_CUSTOM_LIST';
   //看客户列表--首页下面
  // static const String home_bottom_custom_list_permission = 'WIDGET_HOME_BOTTOM_CUSTOM_LIST';
-  //看客户列表--销售页
+  //看客户列表
   //static const String sales_custom_list_permission = 'WIDGET_SALES_CUSTOM_LIST';
+  //看供应商列表
+  //static const String sales_supplier_list_permission = 'WIDGET_SALES_SUPPLIER_LIST';
 
   //新增货物
   static const String stock_list_add_product_permission = 'WIDGET_STOCK_LIST_ADD_PRODUCT';
