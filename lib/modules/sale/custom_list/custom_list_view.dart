@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:ledger/entity/custom/custom_dto.dart';
+import 'package:ledger/entity/contact/contact_dto.dart';
 import 'package:ledger/res/colors.dart';
 import 'package:ledger/widget/empty_layout.dart';
 
@@ -21,9 +21,7 @@ class CustomListView extends StatelessWidget {
         leading: BackButton(color: Colors.white),
         backgroundColor: Colours.primary,
         title: GetBuilder<CustomListController>(
-          id: 'custom_list_title',
-          init: controller,
-          global: false,
+          id: 'contact_list_title',
           builder: (_) {
             return Text(
               '请选要导入的内容',
@@ -36,17 +34,16 @@ class CustomListView extends StatelessWidget {
       body: Column(
         children: [
           GetBuilder<CustomListController>(
-              id: 'custom_list',
-              init: controller,
+              id: 'contact_list',
               builder: (_) {
                 return Flexible(
-                  child: state.customList?.isEmpty ?? true
+                  child: state.contactList?.isEmpty ?? true
                       ? EmptyLayout(hintText: '什么都没有'.tr)
                       : ListView.separated(
                           itemBuilder: (context, index) {
-                            CustomDTO customDTO = state.customList![index];
+                            ContactDTO contactDTO = state.contactList![index];
                             return InkWell(
-                              onTap: () => Get.back(result: customDTO),
+                              onTap: () => Get.back(result: contactDTO),
                               child: Container(
                                 color: Colors.white,
                                 padding: EdgeInsets.only(
@@ -58,20 +55,16 @@ class CustomListView extends StatelessWidget {
                                         alignment: Alignment.centerLeft,
                                         child: Row(
                                           children: [
-                                            Text(customDTO.customName ?? '',
+                                            Text(contactDTO.name ?? '',
                                                 style: TextStyle(
-                                                  color: customDTO.invalid == 1
-                                                      ? Colours.text_ccc
-                                                      : Colours.text_333,
+                                                  color: Colours.text_333,
                                                   fontSize: 32.sp,
                                                   fontWeight: FontWeight.w500,
                                                 )),
                                             SizedBox(
                                               width: 15.w,
                                             ),
-                                            Visibility(
-                                              visible: customDTO.invalid == 1,
-                                              child: Container(
+                                            Container(
                                                 padding: EdgeInsets.only(
                                                     top: 2.w,
                                                     bottom: 2.w,
@@ -94,31 +87,8 @@ class CustomListView extends StatelessWidget {
                                                           FontWeight.w500,
                                                     )),
                                               ),
-                                            )
                                           ],
                                         )),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          '欠款：',
-                                          style: TextStyle(
-                                            color: Colours.text_ccc,
-                                            fontSize: 26.sp,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                        Text(
-                                          customDTO.creditAmount.toString(),
-                                          style: TextStyle(
-                                            color: customDTO.invalid == 1
-                                                ? Colours.text_ccc
-                                                : Colours.text_666,
-                                            fontSize: 26.sp,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
                                   ],
                                 ),
                               ),
@@ -129,7 +99,7 @@ class CustomListView extends StatelessWidget {
                             color: Colours.divider,
                             width: double.infinity,
                           ),
-                          itemCount: state.customList?.length ?? 0,
+                          itemCount: state.contactList?.length ?? 0,
                         ),
                 );
               }),

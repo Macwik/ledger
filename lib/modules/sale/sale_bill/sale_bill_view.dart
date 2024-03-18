@@ -22,69 +22,17 @@ class SaleBillView extends StatelessWidget {
     controller.initState();
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: GetBuilder<SaleBillController>(
-          id: 'bill_title',
-          init: controller,
-          global: false,
-          builder: (_) {
-            return Text(
-              controller.saleBill(),
-              style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  color: (controller.state.orderType == OrderType.SALE) ||
-                          (controller.state.orderType == OrderType.PURCHASE)||
-                      (controller.state.orderType ==OrderType.ADD_STOCK)
-                      ? Colors.white
-                      : Colors.red[700]),
-            );
-          },
-        ),
-        // actions:[ Visibility(
-        //     visible: controller.state.orderType ==OrderType.SALE,
-        //     child: Padding(
-        //     padding: EdgeInsets.only(right: 25.0),
-        //     child: InkWell(
-        //       onTap: () =>Get.toNamed(RouteConfig.pendingOrder)?.then((value){
-        //         if(OrderType.SALE == controller.state.orderType){
-        //           controller.pendingOrderNum();
-        //         }
-        //       }),
-        //       child: GetBuilder<SaleBillController>(
-        //         id: 'sale_bill_pending_order',
-        //         init: controller,
-        //         global: false,
-        //         builder: (_){
-        //         return Row(
-        //           children: [
-        //             LoadAssetImage(
-        //               'pending_order',
-        //               format: ImageFormat.png,
-        //               color: ((controller.state.pendingOrderNum != 0)&&(controller.state.pendingOrderNum !=null))
-        //               ? Colors.white
-        //               : Colors.white38,
-        //               height: 70.w,
-        //               width: 70.w,
-        //             ),
-        //             Text(((controller.state.pendingOrderNum != 0)&&(controller.state.pendingOrderNum !=null))
-        //                 ? controller.state.pendingOrderNum.toString()
-        //                 : '',
-        //             style: TextStyle(
-        //               color: Colors.white,
-        //               fontWeight: FontWeight.w500
-        //             ),),
-        //           ],
-        //         );
-        //       },)
-        //     ),
-        //   ),
-        // )],
-        leading: BackButton(
-          color: Colors.white,
-          onPressed: () {
-            controller.saleBillGetBack();
-          },
-        ),
+      appBar: TitleBar(
+        title: controller.saleBillTitle(),
+        titleColor:(controller.state.orderType ==OrderType.PURCHASE)||(controller.state.orderType ==OrderType.ADD_STOCK)
+            ? Colors.black87 : Colors.red,
+        backPressed: ()=> controller.saleBillGetBack(),
+        // actionWidget: LoadAssetImage(
+        //   'filtrate',
+        //   width: 40.w,
+        //   height: 40.w,
+        //   color: Colors.black87,
+        // ),
       ),
       body: MyWillPop(
           onWillPop: () async {
@@ -156,11 +104,7 @@ class SaleBillView extends StatelessWidget {
                                               controller.pickerCustom(),
                                           child: Row(
                                             children: [
-                                              Text(
-                                                (controller.state.orderType == OrderType.SALE) ||
-                                                        (controller.state.orderType == OrderType.SALE_RETURN)
-                                                    ? '客户'
-                                                    : '供应商',
+                                              Text('供应商',
                                                 style: TextStyle(
                                                   color: Colours.text_666,
                                                   fontSize: 30.sp,
@@ -496,31 +440,6 @@ class SaleBillView extends StatelessWidget {
                     flex: 3,
                     child: Row(
                       children: [
-                        // Visibility(
-                        //     visible: controller.state.orderType ==OrderType.SALE,
-                        //     child: InkWell(
-                        //   onTap: () =>controller.pendingOrder(),
-                        //   child:  Row(
-                        //     children: [
-                        //       LoadAssetImage(
-                        //         'pending_order',
-                        //         format: ImageFormat.png,
-                        //         color: Colours.primary,
-                        //         height: 70.w,
-                        //         width: 70.w,
-                        //       ),
-                        //       Text('挂单')
-                        //     ],
-                        //   )
-                        // )),
-                        Visibility(
-                            visible:controller.state.orderType ==OrderType.SALE,
-                            child: Container(
-                          width: 2.w,
-                          height: 80.w,
-                          margin: EdgeInsets.only(left: 16.w),
-                          color: Colours.divider,
-                        )),
                         Visibility(
                             visible: controller.state.orderType != OrderType.ADD_STOCK,
                             child: Container(

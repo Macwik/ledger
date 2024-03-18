@@ -28,11 +28,10 @@ class SaleBillController extends GetxController {
     }
     queryLedgerName();
     initPaymentMethodList();
-    pendingOrderNum();
     generateBatchNumber(((state.orderType == OrderType.PURCHASE)||(state.orderType == OrderType.ADD_STOCK))? false : true);
-    update(['bill_custom']);
   }
 
+  //拉取付款方式
   void initPaymentMethodList() {
     Http().network<List<PaymentMethodDTO>>(Method.get, PaymentApi.LEDGER_PAYMENT_METHOD_LIST)
         .then((result) {
@@ -77,10 +76,7 @@ class SaleBillController extends GetxController {
 
   Future<void> pickerCustom() async {
     var result = await Get.toNamed(RouteConfig.customRecord, arguments: {
-      'initialIndex': (state.orderType == OrderType.SALE) ||
-              (state.orderType == OrderType.SALE_RETURN)
-          ? 0
-          : 1,
+      'initialIndex':  1,
       'isSelectCustom': true,
       'orderType': state.orderType
     });
@@ -98,11 +94,9 @@ class SaleBillController extends GetxController {
       Toast.show('请添填写批号后再试');
       return;
     }
-    if ((state.orderType == OrderType.SALE_RETURN) ||
-        (state.orderType == OrderType.PURCHASE_RETURN)) {
+    if (state.orderType == OrderType.PURCHASE_RETURN) {
       if (state.customDTO == null) {
-        Toast.show(
-            state.orderType == OrderType.SALE_RETURN ? '请选择客户' : '请选择供应商');
+        Toast.show('请选择供应商');
         return;
       }
     }
@@ -155,38 +149,6 @@ class SaleBillController extends GetxController {
         arguments: {'pageType': PageToType.BILL, 'orderType': state.orderType});
         addToShoppingCar(result);
   }
-
-  // Future<bool> pendingOrder() async {
-  //   if (state.shoppingCarList.isEmpty) {
-  //     Toast.show('开单商品不能为空');
-  //     return Future(() => false);
-  //   }
-  //   Loading.showDuration();
-  //   return await Http().network(Method.post, OrderApi.add_pending_order, data: {
-  //     'customId': state.customDTO?.id,
-  //     'orderProductRequest': state.shoppingCarList,
-  //     'remark': state.remarkTextEditingController.text,
-  //     'orderDate': DateUtil.formatDefaultDate(state.date),
-  //     'orderType': state.orderType.value,
-  //   }).then((result) {
-  //     Loading.dismiss();
-  //     if (result.success) {
-  //       Toast.show('挂单成功');
-  //       state.totalAmount  =Decimal.zero;
-  //       state.date = DateTime.now();
-  //       state.shoppingCarList =  [];
-  //       state.customDTO = null;
-  //       state.remarkTextEditingController.text = '';
-  //       state.visible = false;
-  //       pendingOrderNum();
-  //       update(['bill_custom','bill_date','sale_bill_product_title','sale_bill_product_list','sale_bill_btn']);//需要更新下挂单列表按钮颜色和数字
-  //       return true;
-  //     } else {
-  //       Toast.show(result.m.toString());
-  //       return false;
-  //     }
-  //   });
-  // }
 
   Future<bool> saveOrder() async {
     String batchNumber = state.textEditingController.text;
@@ -264,7 +226,7 @@ class SaleBillController extends GetxController {
                   state.shoppingCarList.clear();
                   Get.until((route) {
                     return (route.settings.name == RouteConfig.purchase) ||
-                        (route.settings.name == RouteConfig.sale) ||(route.settings.name == RouteConfig.stock)||
+                        (route.settings.name == RouteConfig.stock)||
                         (route.settings.name == RouteConfig.main);
                   }
                  );
@@ -276,8 +238,7 @@ class SaleBillController extends GetxController {
   }
 
   String totalAmount() {
-    if ((state.orderType == OrderType.SALE) ||
-        (state.orderType == OrderType.PURCHASE_RETURN)) {
+    if (state.orderType == OrderType.PURCHASE_RETURN) {
       return '应收：';
     } else {
       return '应付：';
@@ -323,7 +284,7 @@ class SaleBillController extends GetxController {
     }
   }
 
-  String saleBill() {
+  String saleBillTitle() {
     if ((state.orderType == OrderType.ADD_STOCK)) {
       return '添加库存';
     } else if (state.orderType == OrderType.PURCHASE) {
@@ -336,9 +297,7 @@ class SaleBillController extends GetxController {
   }
 
   String customName() {
-    if (state.orderType == OrderType.SALE) {
-      return state.customDTO?.customName ?? '默认客户';
-    } else if (state.orderType == OrderType.PURCHASE) {
+    if (state.orderType == OrderType.PURCHASE) {
       return state.customDTO?.customName ?? '默认供应商';
     } else {
       return state.customDTO?.customName ?? '请选择';
@@ -348,7 +307,7 @@ class SaleBillController extends GetxController {
   void explainBatchNumber() {
     Get.dialog(AlertDialog(
         title: Text('批次号'),
-        content: Text('批次号是用来区分每一笔采购单 (或销售单），自动生成号码构成：年+月+日+时+3位随机数',
+        content: Text('批次号是采购单的识别号',
             style: TextStyle(
               color: Colours.text_333,
               fontSize: 32.sp,
@@ -361,15 +320,5 @@ class SaleBillController extends GetxController {
             },
           ),
         ]));
-  }
-
-  //拉取挂单 的数量
-  void pendingOrderNum() {
-      Http().network<int>(Method.post, OrderApi.pending_order_count).then((result) {
-        if (result.success) {
-          state.pendingOrderNum = result.d;
-          update(['sale_bill_pending_order']);
-        }
-      });
   }
 }

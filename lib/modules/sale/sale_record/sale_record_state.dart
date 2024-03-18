@@ -27,7 +27,7 @@ class SaleRecordState{
   List<UserBaseDTO>? employeeList;
 
   OrderType orderType = OrderType.SALE;
-  List<int> typeList = [OrderType.SALE.value,OrderType.SALE_RETURN.value];
+ // List<int> typeList = [OrderType.SALE.value,OrderType.SALE_RETURN.value];
 
   //已作废单据选择
   int? invalid = 0;

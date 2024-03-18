@@ -31,24 +31,26 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
       var index = tabController.index;
       state.index = index;
       update(['sale_record_add_bill']);
+      clearCondition();
+      onRefresh();
     });
     super.onInit();
   }
 
-  @override
-  void onClose() {
-    tabController.dispose(); // 清理操作
-    super.onClose();
-  }
+  // @override
+  // void onClose() {
+  //   tabController.dispose(); // 清理操作
+  //   super.onClose();
+  // }
 
   Future<void> initState() async {
     var arguments = Get.arguments;
     if (arguments != null && arguments['orderType'] != null) {
       state.orderType = arguments['orderType'];
-      state.typeList = ((state.orderType == OrderType.SALE) ||
-              ((state.orderType == OrderType.SALE_RETURN)))
-          ? [OrderType.SALE.value, OrderType.SALE_RETURN.value]
-          : [OrderType.PURCHASE.value, OrderType.PURCHASE_RETURN.value];
+      // state.typeList = ((state.orderType == OrderType.SALE) ||
+      //         ((state.orderType == OrderType.SALE_RETURN)))
+      //     ? [OrderType.SALE.value, OrderType.SALE_RETURN.value]
+      //     : [OrderType.PURCHASE.value, OrderType.PURCHASE_RETURN.value];
     }
     if (arguments != null && arguments['index'] != null) {
       state.index =arguments['index'];
@@ -58,14 +60,12 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
   }
 
 
-
-
-
   Future<BasePageEntity<OrderDTO>> _queryData(int currentPage) async {
-    return await Http()
-        .networkPage<OrderDTO>(Method.post, OrderApi.order_page, data: {
+    return await Http().networkPage<OrderDTO>(Method.post, OrderApi.order_page, data: {
       'page': currentPage,
-      'orderTypeList': state.typeList,
+      'orderTypeList': state.index == 0
+          ?[OrderType.SALE.value]
+          : state.index == 1 ?[OrderType.SALE_RETURN.value] : [OrderType.REFUND.value ],
       'userIdList': state.selectEmployeeIdList,
       'orderStatus': state.orderStatus,
       'invalid': state.invalid,
@@ -81,9 +81,9 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
   }
 
   //单据类型
-  bool checkOrderTypeAll() {
-    return state.typeList.length == 2;
-  }
+  // bool checkOrderTypeAll() {
+  //   return state.typeList.length == 2;
+  // }
 
   String getOrderStatusDesc(int? orderStatus) {
     if((state.orderType == OrderType.SALE)
@@ -157,10 +157,10 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
     state.endDate = DateTime.now();
     state.selectEmployeeIdList = null;
     state.orderStatus = null;
-    state.typeList = ((state.orderType == OrderType.SALE) ||
-            ((state.orderType == OrderType.SALE_RETURN)))
-        ? [OrderType.SALE.value, OrderType.SALE_RETURN.value]
-        : [OrderType.PURCHASE.value, OrderType.PURCHASE_RETURN.value];
+    // state.typeList = ((state.orderType == OrderType.SALE) ||
+    //         ((state.orderType == OrderType.SALE_RETURN)))
+    //     ? [OrderType.SALE.value, OrderType.SALE_RETURN.value]
+    //     : [OrderType.PURCHASE.value, OrderType.PURCHASE_RETURN.value];
     state.invalid = 0;
     update([
       'screen_btn',
@@ -224,16 +224,16 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
     }
   }
 
-  SalesRecordSelectType checkSelectOrderType() {
-    if (state.typeList.length == 2) {
-      return SalesRecordSelectType.ALL;
-    } else if (state.typeList.contains(OrderType.SALE.value) ||
-        state.typeList.contains(OrderType.PURCHASE.value)) {
-      return SalesRecordSelectType.COMMON;
-    } else {
-      return SalesRecordSelectType.RETURN;
-    }
-  }
+  // SalesRecordSelectType checkSelectOrderType() {
+  //   if (state.typeList.length == 2) {
+  //     return SalesRecordSelectType.ALL;
+  //   } else if (state.typeList.contains(OrderType.SALE.value) ||
+  //       state.typeList.contains(OrderType.PURCHASE.value)) {
+  //     return SalesRecordSelectType.COMMON;
+  //   } else {
+  //     return SalesRecordSelectType.RETURN;
+  //   }
+  // }
 
   String totalAmount(OrderDTO salePurchaseOrderDTO) {
     if ((salePurchaseOrderDTO.orderType == OrderType.SALE_RETURN.value) ||

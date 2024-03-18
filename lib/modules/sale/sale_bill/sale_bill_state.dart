@@ -20,7 +20,7 @@ class SaleBillState {
 
   bool checked = true;
 
-  OrderType orderType = OrderType.SALE;
+  OrderType orderType = OrderType.PURCHASE;
 
   DateTime date = DateTime.now();
 

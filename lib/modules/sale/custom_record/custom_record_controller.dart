@@ -260,6 +260,7 @@ class CustomRecordController extends GetxController {
     actions.add(CupertinoActionSheetAction(
       onPressed: () {
         Get.back();
+        Get.toNamed(RouteConfig.customList);
       },
       child: Text('通讯录导入'),
     ));

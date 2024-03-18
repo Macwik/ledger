@@ -7,6 +7,8 @@ import 'package:ledger/modules/account/daily_account/daily_account_binding.dart'
 import 'package:ledger/modules/account/daily_account/daily_account_view.dart';
 import 'package:ledger/modules/account/daily_account_cost_detail/daily_account_cost_detail_binding.dart';
 import 'package:ledger/modules/account/daily_account_cost_detail/daily_account_cost_detail_view.dart';
+import 'package:ledger/modules/account/more/more_binding.dart';
+import 'package:ledger/modules/account/more/more_view.dart';
 import 'package:ledger/modules/funds/add_debt/add_debt_binding.dart';
 import 'package:ledger/modules/funds/add_debt/add_debt_view.dart';
 import 'package:ledger/modules/funds/binding_sale_bill/binding_sale_bill_binding.dart';
@@ -208,7 +210,7 @@ class RouteConfig {
   static const String dailyAccountCostDetail = '/page/daily/account/cost/detail';
   static const String productTypeManage = '/page/product/type/manage';
   static const String pendingOrder = '/page/pending/order';
-  // static const String pendingSaleBill = '/page/pending/sale/bill';
+   static const String more = '/page/more';
   static const String addStockDetail= '/page/add/stock/detail';
   static const String retailBill = '/page/retail/bill';
   static const String shoppingCarList = '/page/shopping/car/list';
@@ -435,10 +437,10 @@ class RouteConfig {
         name: pendingOrder,
         page: () => PendingOrderView(),
         binding: PendingOrderBinding()),
-    // GetPage(
-    //     name: pendingSaleBill,
-    //     page: () => PendingSaleBillView(),
-    //     binding: PendingSaleBillBinding()),
+    GetPage(
+        name: more,
+        page: () => MoreView(),
+        binding: MoreBinding()),
     GetPage(
         name: addStockDetail,
         page: () => AddStockDetailView(),

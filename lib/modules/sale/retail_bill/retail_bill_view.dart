@@ -34,7 +34,11 @@ class RetailBillView extends StatelessWidget {
           : controller.state.orderType == OrderType.SALE_RETURN
               ?'销售退单'
               :'仅退款',
-            style: TextStyle(color: Colors.white,fontSize: 42.sp),),
+            style: TextStyle(
+                color:controller.state.orderType == OrderType.SALE
+                    ? Colors.white
+                    : Colors.orange[900],
+                fontSize: 42.sp),),
         leading: BackButton(
           onPressed: (){
             Get.back();

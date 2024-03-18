@@ -31,6 +31,13 @@ class HomeView extends StatelessWidget {
         child: CustomScrollView(
           slivers: <Widget>[
             liverAppBar(),
+            SliverPersistentHeader(
+              pinned: false,
+              delegate: _MySliverPersistentHeaderDelegate(),
+            ),
+            SliverToBoxAdapter(
+              child: SizedBox(height: 32.w,),
+            ),
             GetBuilder<HomeController>(
                 id: 'home_head_function',
                 builder: (_) {
@@ -49,35 +56,83 @@ class HomeView extends StatelessWidget {
                     ),
                   );
                 }),
-            SliverToBoxAdapter(
-              child: Container(
-                alignment: Alignment.centerLeft,
-                padding: EdgeInsets.only(left: 52.w, top: 24.w),
-                child: Text(
-                  '今日交易情况：',
-                  style: TextStyle(
-                      fontSize: 28.sp,
-                      color: Colours.text_ccc,
-                      fontWeight: FontWeight.w500),
+            SliverPadding(
+              padding: EdgeInsets.all(8),
+              sliver: SliverGrid(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 5,
+                  crossAxisSpacing: 36.w,
+                  mainAxisSpacing: 0,
+                  childAspectRatio: 0.639,
                 ),
+                delegate: SliverChildBuilderDelegate((context, index) {
+                  return InkWell(
+                    onTap: ()=>Get.toNamed(RouteConfig.more),
+                    child: Flex(
+                      direction: Axis.vertical,
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                            child: AspectRatio(
+                              aspectRatio: 1,
+                              child: ClipOval(
+                                child: Container(
+                                  width: double.infinity,
+                                  color: Color(0x4C04BFB3),
+                                  child: Center(
+                                    child: LoadAssetImage(
+                                      'more',
+                                      width: 66.w,
+                                      height: 66.w,
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 13),
+                          child: Text(
+                            '更多',
+                            style: TextStyle(
+                              fontSize: 28.sp,
+                              fontWeight: FontWeight.w700,
+                              color: Colours.text_999,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }, childCount: 1),
               ),
             ),
+            // SliverToBoxAdapter(
+            //   child: Container(
+            //     alignment: Alignment.centerLeft,
+            //     padding: EdgeInsets.only(left: 52.w, top: 24.w),
+            //     child: Text(
+            //       '今日交易情况：',
+            //       style: TextStyle(
+            //           fontSize: 28.sp,
+            //           color: Colours.text_ccc,
+            //           fontWeight: FontWeight.w500),
+            //     ),
+            //   ),
+            // ),
 
             //picture
-            SliverPersistentHeader(
-              pinned: false,
-              delegate: _MySliverPersistentHeaderDelegate(),
-            ),
             SliverToBoxAdapter(
               child: Container(
                 alignment: Alignment.centerLeft,
-                padding: EdgeInsets.only(left: 52.w, top: 16.w),
+                padding: EdgeInsets.only(left: 52.w, top: 52.w),
                 child: Text(
-                  '常用功能：',
+                  '常用功能',
                   style: TextStyle(
-                      fontSize: 28.sp,
-                      color: Colours.text_ccc,
-                      fontWeight: FontWeight.w500),
+                      fontSize: 32.sp,
+                      color: Colours.text_333,
+                      fontWeight: FontWeight.w600),
                 ),
               ),
             ),
@@ -976,7 +1031,7 @@ const List<String> gridItemPaths = [
 const List<String> gridItemRoutes = [
   RouteConfig.sale,
   RouteConfig.purchase,
-  RouteConfig.stock,
+  RouteConfig.stockList,
   RouteConfig.funds,
   RouteConfig.dailyAccount
 ];
@@ -993,7 +1048,7 @@ Widget gridItem(int index) {
   return PermissionWidget(
     permissionCode: gridItemPermission[index],
     child: InkWell(
-      onTap: () => Get.toNamed(gridItemRoutes[index]),
+        onTap: (){Get.toNamed(gridItemRoutes[index]);},
       child: Flex(
         direction: Axis.vertical,
         mainAxisSize: MainAxisSize.min,
@@ -1024,7 +1079,7 @@ Widget gridItem(int index) {
               style: TextStyle(
                 fontSize: 28.sp,
                 fontWeight: FontWeight.w700,
-                color: Colours.text_666,
+                color: Colours.text_999,
               ),
             ),
           ),
@@ -1035,10 +1090,8 @@ Widget gridItem(int index) {
 }
 
 class _MySliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
-  final double _minExtent =
-      (ScreenUtil().screenWidth - 53.0) * 2.w * 0.47 + 134.w;
-  final double _maxExtent =
-      (ScreenUtil().screenWidth - 53.0) * 2.w * 0.47 + 134.w;
+  final double _minExtent = (ScreenUtil().screenWidth - 53.0) * 2.w * 0.47 + 134.w;
+  final double _maxExtent = (ScreenUtil().screenWidth - 53.0) * 2.w * 0.47 + 134.w;
 
   final controller = Get.find<HomeController>();
   final state = Get.find<HomeController>().state;
@@ -1052,7 +1105,7 @@ class _MySliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
           return Container(
             width: (ScreenUtil().screenWidth - 52.0) * 2.w,
             height: (ScreenUtil().screenWidth - 52.0) * 2.w * 0.7,
-            margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.w),
+            margin: EdgeInsets.only(left: 16.w, right: 16.w),
             alignment: Alignment.center,
             decoration: BoxDecoration(
               image: DecorationImage(
@@ -1275,7 +1328,7 @@ List<String> titles = ['销售开单', '销售记录', '客户列表'];
 List<String> subTitles = ['销售货物，记录销售货物及资金变化', '查看过往销售记录', '客户还款及还款情况记录'];
 List<String> functionPaths = ['home_bill', 'home_calendar', 'home_custom'];
 List<String> functionRoutes = [
-  RouteConfig.saleBill,
+  RouteConfig.retailBill,
   RouteConfig.saleRecord,
   RouteConfig.customRecord
 ];

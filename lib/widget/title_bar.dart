@@ -7,19 +7,20 @@ import 'package:get/get.dart';
 class TitleBar extends StatelessWidget implements PreferredSizeWidget {
   const TitleBar({
     super.key,
-    this.backgroundColor = Colours.primary, //主题颜色
+    this.backgroundColor = Colors.white, //主题颜色
     this.title = '', //标题内容
     this.actionName = '', //右边（仅限单个文字）按钮名称
     this.backImg, //返回按钮图片
     this.backPressed, //返回按钮点击事件
     this.actionPressed, //右边（仅限单个文字）的点击事件
-    this.titleColor = Colors.white, //标题颜色
+    this.titleColor = Colors.black87, //标题颜色
     this.titleFontSize, //标题字号
     this.backColor, //返回按钮颜色
     this.actionWidget, //右边
     this.bottomWidget, //底部
     this.customWidget, //完全自定义appbar
     this.hideBottomLine = true, //底部分割线
+
   });
 
   final Color backgroundColor;
@@ -70,10 +71,10 @@ class TitleBar extends StatelessWidget implements PreferredSizeWidget {
                             height: double.infinity,
                             padding: EdgeInsets.symmetric(horizontal: 40.w),
                             child: LoadAssetImage(
-                              'back',
+                              'get_back',
                               width: 40.w,
                               height: 40.w,
-                              color: Colors.white,
+                              color: Colors.black87,
                             ),
                           ),
                     ),
@@ -96,7 +97,7 @@ class TitleBar extends StatelessWidget implements PreferredSizeWidget {
                             key: const Key('actionName'),
                             style: TextStyle(
                               fontSize: 26.sp,
-                              color: Colors.white,
+                              color: Colors.black87,
                             ),
                           ),
                         ),
@@ -109,7 +110,7 @@ class TitleBar extends StatelessWidget implements PreferredSizeWidget {
                       right: 0,
                       child: bottomWidget!,
                     ),
-                  if (!hideBottomLine)
+                  if (hideBottomLine)
                     Positioned(
                       bottom: 0,
                       left: 0,

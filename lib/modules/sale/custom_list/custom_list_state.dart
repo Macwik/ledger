@@ -1,10 +1,10 @@
-import 'package:ledger/entity/custom/custom_dto.dart';
+import 'package:ledger/entity/contact/contact_dto.dart';
 
 class CustomListState {
   CustomListState() {
     ///Initialize variables
   }
 
-  List<CustomDTO>? customList;
+  List<ContactDTO>? contactList;
 
 }
