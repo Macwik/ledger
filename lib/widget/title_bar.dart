@@ -20,7 +20,6 @@ class TitleBar extends StatelessWidget implements PreferredSizeWidget {
     this.bottomWidget, //底部
     this.customWidget, //完全自定义appbar
     this.hideBottomLine = true, //底部分割线
-
   });
 
   final Color backgroundColor;
@@ -40,7 +39,10 @@ class TitleBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle.light,
+      value: SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent, // 设置状态栏颜色为透明
+        statusBarIconBrightness: Brightness.dark, // 设置状态栏图标颜色为黑色
+      ),
       child: Material(
         color: backgroundColor,
         child: SafeArea(

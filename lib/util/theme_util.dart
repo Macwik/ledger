@@ -44,6 +44,10 @@ class ThemeUtil {
         appBarTheme: AppBarTheme(
           elevation: 0.0,
           color: Colours.white,
+          systemOverlayStyle: SystemUiOverlayStyle(
+            statusBarColor: Colors.transparent, // 设置状态栏颜色为透明
+            statusBarIconBrightness: Brightness.dark, // 设置状态栏图标颜色为黑色
+          )
         ),
         searchBarTheme: SearchBarThemeData().copyWith(
           hintStyle: MaterialStateProperty.all(TextStyle(
