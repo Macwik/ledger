@@ -27,12 +27,6 @@ class SaleBillView extends StatelessWidget {
         titleColor:(controller.state.orderType ==OrderType.PURCHASE)||(controller.state.orderType ==OrderType.ADD_STOCK)
             ? Colors.black87 : Colors.red,
         backPressed: ()=> controller.saleBillGetBack(),
-        // actionWidget: LoadAssetImage(
-        //   'filtrate',
-        //   width: 40.w,
-        //   height: 40.w,
-        //   color: Colors.black87,
-        // ),
       ),
       body: MyWillPop(
           onWillPop: () async {

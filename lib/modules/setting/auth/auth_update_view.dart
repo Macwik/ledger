@@ -16,14 +16,8 @@ class AuthUpdateView extends StatelessWidget {
   Widget build(BuildContext context) {
     controller.initState();
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          '${state.roleDTO?.roleName}权限设置',
-          style: TextStyle(color: Colors.white),
-        ),
-        leading: BackButton(
-          color: Colors.white,
-        ),
+      appBar: TitleBar(
+        title: '${state.roleDTO?.roleName}权限设置',
       ),
       body: GetBuilder<AuthUpdateController>(
           id: 'role_permission_update',

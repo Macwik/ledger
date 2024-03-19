@@ -22,20 +22,9 @@ class GoodsDetailView extends StatelessWidget {
   Widget build(BuildContext context) {
     controller.initState();
     return Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              Get.back(result: ProcessStatus.OK);
-            },
-          ),
-          title: Text(
-            '货物详情'.tr,
-            style: TextStyle(color: Colors.white),
-          ),
+        appBar: TitleBar(
+          backPressed:() {Get.back(result: ProcessStatus.OK);} ,
+          title: '货物详情'.tr,
         ),
         body: SingleChildScrollView(
           child:  Column(

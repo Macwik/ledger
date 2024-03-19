@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:ledger/res/colors.dart';
 import 'package:ledger/widget/elevated_btn.dart';
 import 'package:ledger/widget/image.dart';
+import 'package:ledger/widget/title_bar.dart';
 import 'package:ledger/widget/will_pop.dart';
 
 import 'account_manage_controller.dart';
@@ -19,13 +20,10 @@ class AccountManageView extends StatelessWidget {
   Widget build(BuildContext context) {
     controller.initState();
     return Scaffold(
-      appBar: AppBar(
-        title: Text('账本详情',style: TextStyle(color: Colors.white),),
-        leading: BackButton(
-          color: Colors.white,
-          onPressed: ()=>controller.accountManageGetBack(),
-        ),
-        actions: [Row(children: [
+      appBar: TitleBar(
+        title: '账本详情',
+        backPressed: ()=>controller.accountManageGetBack(),
+        actionWidget: Row(children: [
           Padding(
             padding: const EdgeInsets.only(right: 25.0),
             child: InkWell(
@@ -40,7 +38,7 @@ class AccountManageView extends StatelessWidget {
                             'edit',
                             width: 40.w,
                             height: 40.w,
-                            color: Colors.white,
+                            color: Colors.black54,
                           ),
                           SizedBox(width: 8),
                           GestureDetector(
@@ -48,7 +46,7 @@ class AccountManageView extends StatelessWidget {
                             child: Text(
                               '编辑',
                               style: TextStyle(
-                                color: Colors.white,
+                                color: Colors.black54,
                                 fontSize: 16,
                               ),
                             ),
@@ -59,7 +57,7 @@ class AccountManageView extends StatelessWidget {
                   }),
             ),
           ),
-        ])],
+        ]),
       ),
       body: MyWillPop(
           onWillPop: () async {

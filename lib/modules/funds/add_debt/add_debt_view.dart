@@ -6,6 +6,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/res/colors.dart';
+import 'package:ledger/res/export.dart';
 import 'package:ledger/util/date_util.dart';
 import 'package:ledger/widget/elevated_btn.dart';
 import 'package:ledger/widget/image.dart';
@@ -24,11 +25,10 @@ class AddDebtView extends StatelessWidget {
   Widget build(BuildContext context) {
     controller.initState();
     return Scaffold(
-      appBar: AppBar(
-        title: Text('录入欠款',style: TextStyle(color: Colors.white),),
-        leading: BackButton(
-          onPressed:()=> controller.addDebtGetBack(),
-          color: Colors.white,),),
+      appBar: TitleBar(
+        title: '录入欠款',
+        backPressed:()=> controller.addDebtGetBack() ,
+      ),
       body: MyWillPop(
           onWillPop: () async {
             controller.addDebtGetBack();

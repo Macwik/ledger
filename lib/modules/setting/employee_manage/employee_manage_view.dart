@@ -12,9 +12,8 @@ class EmployeeManageView extends StatelessWidget {
   Widget build(BuildContext context) {
     controller.initState();
     return Scaffold(
-      appBar: AppBar(
-        title: Text('员工管理',style: TextStyle(color: Colors.white),),
-        leading: BackButton(color: Colors.white,),),
+      appBar: TitleBar(
+        title: '员工管理',),
       body: Column(
           children: [
             Container(

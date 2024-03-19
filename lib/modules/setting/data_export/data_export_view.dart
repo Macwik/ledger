@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:ledger/modules/purchase/stock_list/stock_list_state.dart';
+import 'package:ledger/enum/stock_list_type.dart';
 import 'package:ledger/res/colors.dart';
+import 'package:ledger/res/export.dart';
 import 'package:ledger/route/route_config.dart';
 import 'package:ledger/util/date_util.dart';
 import 'package:ledger/util/picker_date_utils.dart';
@@ -19,9 +20,8 @@ class DataExportView extends StatelessWidget {
   Widget build(BuildContext context) {
     //controller.initState();
     return Scaffold(
-      appBar: AppBar(
-        title: Text('数据导出',style: TextStyle(color: Colors.white),),
-        leading: BackButton(color: Colors.white,),),
+      appBar: TitleBar(
+        title:'数据导出',),
       body: Column(children: [
             IntrinsicHeight(
               child: Container(

@@ -16,27 +16,9 @@ class CustomRecordView extends StatelessWidget {
   Widget build(BuildContext context) {
     controller.initState();
     return Scaffold(
-      appBar: AppBar(
-        title: GetBuilder<CustomRecordController>(
-            id: 'title',
-            init: controller,
-            global: false,
-            builder: (_) {
-              return Text(
-                  controller.state.initialIndex == 0 ? '客户列表' : '供应商列表');
-            }),
-        titleTextStyle: TextStyle(
-          color: Colors.white,
-          fontSize: 36.sp,
-          fontWeight: FontWeight.w500,
-        ),
-        leading: BackButton(
-            onPressed: () {
-              controller.customRecordGetBack();
-            },
-            color: Colors.white),
-        backgroundColor: Colours.primary,
-        actionsIconTheme: IconThemeData(color: Colors.white),
+      appBar: TitleBar(
+        title: controller.state.initialIndex == 0 ? '客户列表' : '供应商列表',
+        backPressed: () {controller.customRecordGetBack();},
       ),
       endDrawer: Drawer(
         width: MediaQuery.of(context).size.width * 0.8,

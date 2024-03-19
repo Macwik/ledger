@@ -6,6 +6,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:ledger/res/colors.dart';
 import 'package:ledger/widget/elevated_btn.dart';
+import 'package:ledger/widget/title_bar.dart';
 import 'package:ledger/widget/will_pop.dart';
 
 import 'add_custom_controller.dart';
@@ -18,13 +19,9 @@ class AddCustomView extends StatelessWidget {
   Widget build(BuildContext context) {
     controller.initState();
     return Scaffold(
-      appBar: AppBar(
-        title: Text(state.customType == 0 ? '新增客户' : '新增供应商',
-        style: TextStyle(color: Colors.white)),
-        leading: BackButton(
-          color: Colors.white,
-          onPressed: (){controller.addCustomGetBack();},
-        ),
+      appBar: TitleBar(
+        title: state.customType == 0 ? '新增客户' : '新增供应商',
+        backPressed: (){controller.addCustomGetBack();}
       ),
       body: MyWillPop(
           onWillPop: () async {

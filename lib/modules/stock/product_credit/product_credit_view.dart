@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/res/colors.dart';
+import 'package:ledger/res/export.dart';
 import 'package:ledger/util/date_util.dart';
 import 'package:ledger/util/decimal_util.dart';
 import 'package:ledger/widget/custom_easy_refresh.dart';
@@ -22,20 +23,8 @@ class ProductCreditView extends StatelessWidget {
   Widget build(BuildContext context) {
     controller.initState();
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            Get.back();
-          },
-        ),
-        title: Text(
-          '赊账情况'.tr,
-          style: TextStyle(color: Colors.white),
-        ),
+      appBar: TitleBar(
+        title: '赊账情况'.tr,
       ),
       body: Column(
         children: [

@@ -1,18 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/enum/cost_order_type.dart';
-import 'package:ledger/res/colors.dart';
-import 'package:ledger/route/route_config.dart';
-import 'package:ledger/util/date_util.dart';
+import 'package:ledger/res/export.dart';
 import 'package:ledger/util/picker_date_utils.dart';
-import 'package:ledger/util/text_util.dart';
-import 'package:ledger/util/toast_util.dart';
-import 'package:ledger/widget/custom_easy_refresh.dart';
-import 'package:ledger/widget/elevated_btn.dart';
-import 'package:ledger/widget/empty_layout.dart';
-import 'package:ledger/widget/lottie_indicator.dart';
 import 'package:ledger/widget/permission/permission_widget.dart';
 import 'cost_record_controller.dart';
 
@@ -26,24 +17,18 @@ class CostRecordView extends StatelessWidget {
   Widget build(BuildContext context) {
     controller.initState();
     return Scaffold(
-        appBar: AppBar(
-          leading: BackButton(
-            onPressed: () {
-              Get.back();
-            },
-            color: Colors.white,
-          ),
-          title: Text('费用收入记录'.tr,style: TextStyle(color: Colors.white),),
-          actionsIconTheme: IconThemeData(color: Colors.white),
+        appBar: TitleBar(
+          title:'费用收入记录',
         ),
         endDrawer: Drawer(
           width:  MediaQuery.of(context).size.width * 0.8,
           child: Container(
               color: Colours.select_bg,
               alignment: Alignment.centerLeft,
-              padding: EdgeInsets.only(top: 100.w, left: 20.w, right: 20.w),
+              padding: EdgeInsets.only(top: 100.w, left: 20.w, right: 20.w,bottom: 8.w),
               child: Stack(children: [
-                Column(
+                SingleChildScrollView(
+                  child:Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Flex(
@@ -85,12 +70,12 @@ class CostRecordView extends StatelessWidget {
                                     style: ButtonStyle(
                                       padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 24.w, horizontal: 20.w)),
                                       backgroundColor:
-                                          MaterialStateProperty.all(
-                                              Colors.white), // 背景色
+                                      MaterialStateProperty.all(
+                                          Colors.white), // 背景色
                                       shape: MaterialStateProperty.all(
                                         RoundedRectangleBorder(
                                           borderRadius:
-                                              BorderRadius.circular(35.0), // 圆角
+                                          BorderRadius.circular(35.0), // 圆角
                                           side: BorderSide(
                                             width: 1.0, // 边框宽度
                                             color: Colours.primary, // 边框颜色
@@ -100,17 +85,17 @@ class CostRecordView extends StatelessWidget {
                                     ),
                                     onPressed: () {
                                       PickerDateUtils.pickerDate(context,
-                                          (result) {
-                                        if (null != result) {
-                                          if (result.compareTo(state.endDate) >
-                                              0) {
-                                            Toast.show('起始时间需要小于结束时间');
-                                            return;
-                                          }
-                                          state.startDate = result;
-                                          controller.update(['date_range']);
-                                        }
-                                      });
+                                              (result) {
+                                            if (null != result) {
+                                              if (result.compareTo(state.endDate) >
+                                                  0) {
+                                                Toast.show('起始时间需要小于结束时间');
+                                                return;
+                                              }
+                                              state.startDate = result;
+                                              controller.update(['date_range']);
+                                            }
+                                          });
                                     },
                                     child: Text(
                                       ' ${DateUtil.formatDefaultDate(state.startDate)}',
@@ -141,13 +126,13 @@ class CostRecordView extends StatelessWidget {
                                         style: ButtonStyle(
                                           padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 24.w, horizontal: 20.w)),
                                           backgroundColor:
-                                              MaterialStateProperty.all(
-                                                  Colors.white), // 背景色
+                                          MaterialStateProperty.all(
+                                              Colors.white), // 背景色
                                           shape: MaterialStateProperty.all(
                                             RoundedRectangleBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(
-                                                      35.0), // 圆角
+                                              BorderRadius.circular(
+                                                  35.0), // 圆角
                                               side: BorderSide(
                                                 width: 1.0, // 边框宽度
                                                 color: Colours.primary, // 边框颜色
@@ -157,18 +142,18 @@ class CostRecordView extends StatelessWidget {
                                         ),
                                         onPressed: () {
                                           PickerDateUtils.pickerDate(context,
-                                              (result) {
-                                            if (null != result) {
-                                              if (result.compareTo(
+                                                  (result) {
+                                                if (null != result) {
+                                                  if (result.compareTo(
                                                       state.startDate) <
-                                                  0) {
-                                                Toast.show('结束时间需要大于起始时间');
-                                                return;
-                                              }
-                                              state.endDate = result;
-                                              controller.update(['date_range']);
-                                            }
-                                          });
+                                                      0) {
+                                                    Toast.show('结束时间需要大于起始时间');
+                                                    return;
+                                                  }
+                                                  state.endDate = result;
+                                                  controller.update(['date_range']);
+                                                }
+                                              });
                                         },
                                         child: Text(
                                           ' ${DateUtil.formatDefaultDate(state.endDate)}',
@@ -224,13 +209,13 @@ class CostRecordView extends StatelessWidget {
                                     ),
                                   ),
                                   backgroundColor:
-                                      state.selectEmployeeIdList == null
-                                          ? Colours.primary
-                                          : Colors.white,
+                                  state.selectEmployeeIdList == null
+                                      ? Colours.primary
+                                      : Colors.white,
                                 )),
                             ...List.generate(
                               state.itemCount!, // itemCount 是标签的数量
-                              (index) {
+                                  (index) {
                                 var employee = state.employeeList![index];
                                 return Builder(
                                   builder: (BuildContext context) {
@@ -247,7 +232,7 @@ class CostRecordView extends StatelessWidget {
                                               width: 1), // 设置边框颜色和宽度
                                         ),
                                         backgroundColor: controller
-                                                .isEmployeeSelect(employee.id)
+                                            .isEmployeeSelect(employee.id)
                                             ? Colours.primary
                                             : Colors.white,
                                         label: Text(
@@ -255,7 +240,7 @@ class CostRecordView extends StatelessWidget {
                                           style: TextStyle(
                                             fontSize: 30.sp,
                                             color: controller.isEmployeeSelect(
-                                                    employee.id)
+                                                employee.id)
                                                 ? Colors.white
                                                 : Colours.text_333,
                                           ),
@@ -289,13 +274,13 @@ class CostRecordView extends StatelessWidget {
                           TextButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor:
-                                  controller.selectedProfitType(null)
-                                      ? Colours.primary
-                                      : Colors.white,
+                              controller.selectedProfitType(null)
+                                  ? Colours.primary
+                                  : Colors.white,
                               foregroundColor:
-                                  controller.selectedProfitType(null)
-                                      ? Colors.white
-                                      : Colors.black,
+                              controller.selectedProfitType(null)
+                                  ? Colors.white
+                                  : Colors.black,
                               side: BorderSide(
                                 color: Colours.primary, // 添加边框颜色，此处为灰色
                                 width: 1.0, // 设置边框宽度
@@ -368,7 +353,7 @@ class CostRecordView extends StatelessWidget {
                               id: 'costType',
                               builder: (_) {
                                 return Text(
-                                   state.costLabel?.labelName ?? '请选择',
+                                    state.costLabel?.labelName ?? '请选择',
                                     style: TextStyle(
                                       color:
                                       state.costLabel?.labelName != null
@@ -476,11 +461,9 @@ class CostRecordView extends StatelessWidget {
                           );
                         }),
                   ],
-                ),
-                Positioned(
-                  bottom: 100.w,
-                  right: 20.w,
-                  left: 20.w,
+                ) ,),
+                Align(
+                  alignment: Alignment.bottomCenter,
                   child: GetBuilder<CostRecordController>(
                       id: 'screen_btn',
                       builder: (logic) {

@@ -16,13 +16,8 @@ class RemittanceRecordView extends StatelessWidget {
   Widget build(BuildContext context) {
     controller.initState();
     return Scaffold(
-        appBar: AppBar(
-          leading: BackButton(
-            color: Colors.white,
-          ),
-          backgroundColor: Colours.primary,
-          title: Text('汇款记录'.tr,style: TextStyle(color: Colors.white),),
-          actionsIconTheme: IconThemeData(color: Colors.white),
+        appBar: TitleBar(
+          title:'汇款记录'.tr,
         ),
         endDrawer: Drawer(
           width:  MediaQuery.of(context).size.width * 0.8,

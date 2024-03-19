@@ -17,18 +17,8 @@ class PendingOrderView extends StatelessWidget {
   Widget build(BuildContext context) {
     controller.initState();
     return  Scaffold(
-      appBar: AppBar(
-        toolbarHeight:85.w,
-        title: Text('挂单情况'),
-        titleTextStyle: TextStyle(
-          color: Colors.white,
-          fontSize: 42.sp,
-          fontWeight: FontWeight.w500,
-        ),
-        leading: BackButton(
-            color: Colors.white),
-        backgroundColor: Colours.primary,
-        actionsIconTheme: IconThemeData(color: Colors.white),
+      appBar: TitleBar(
+        title: '挂单情况',
       ),
       body:  Column(
         children: [

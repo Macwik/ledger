@@ -8,6 +8,7 @@ import 'package:ledger/entity/product/product_classify_list_dto.dart';
 import 'package:ledger/entity/product/product_dto.dart';
 import 'package:ledger/enum/process_status.dart';
 import 'package:ledger/enum/sales_channel.dart';
+import 'package:ledger/enum/stock_list_type.dart';
 import 'package:ledger/enum/unit_type.dart';
 import 'package:ledger/http/base_page_entity.dart';
 import 'package:ledger/res/export.dart';

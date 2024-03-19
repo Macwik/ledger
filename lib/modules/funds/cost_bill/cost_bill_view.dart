@@ -22,24 +22,9 @@ class CostBillView extends StatelessWidget {
   Widget build(BuildContext context) {
     controller.initState();
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colours.primary,
-          title: GetBuilder<CostBillController>(
-            id: 'bill_title',
-            builder: (_) {
-              return Text(
-                state.costOrderType == CostOrderType.COST ? '费用开单' : '收入开单',
-                style: TextStyle(color: Colors.white),
-              );
-            },
-          ),
-          leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-              color: Colors.white,
-            ),
-            onPressed: () => controller.costBillGetBack(),
-          ),
+        appBar: TitleBar(
+          title: state.costOrderType == CostOrderType.COST ? '费用开单' : '收入开单',
+          backPressed:() => controller.costBillGetBack() ,
         ),
         body: MyWillPop(
             onWillPop: () async {

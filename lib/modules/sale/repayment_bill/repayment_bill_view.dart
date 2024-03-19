@@ -20,15 +20,9 @@ class RepaymentBillView extends StatelessWidget {
   Widget build(BuildContext context) {
     controller.initState();
     return Scaffold(
-      appBar: AppBar(
-        leading: BackButton(
-          onPressed: () => controller.repayBillGetBack(),
-          color: Colors.white,
-        ),
-        title: Text(
-          '还款开单'.tr,
-          style: TextStyle(color: Colors.white),
-        ),
+      appBar: TitleBar(
+        backPressed: () => controller.repayBillGetBack(),
+        title: '还款开单'.tr,
       ),
       body: MyWillPop(
           onWillPop: () async {

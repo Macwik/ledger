@@ -5,6 +5,7 @@ import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/enum/custom_type.dart';
 import 'package:ledger/enum/process_status.dart';
 import 'package:ledger/res/colors.dart';
+import 'package:ledger/res/export.dart';
 import 'package:ledger/util/date_util.dart';
 import 'package:ledger/util/picker_date_utils.dart';
 import 'package:ledger/util/text_util.dart';
@@ -26,18 +27,11 @@ class SupplierDetailView extends StatelessWidget {
   Widget build(BuildContext context) {
     controller.initState();
     return Scaffold(
-      appBar: AppBar(
-        leading: BackButton(
-            onPressed: () => Get.back(result: ProcessStatus.OK),
-            color: Colors.white),
-        backgroundColor: Colours.primary,
-        title: Text(
-          state.customDTO?.customType == CustomType.CUSTOM.value
+      appBar: TitleBar(
+        backPressed:() => Get.back(result: ProcessStatus.OK),
+        title:state.customDTO?.customType == CustomType.CUSTOM.value
               ?'客户详情'
               :'供应商详情',
-          style: TextStyle(color: Colors.white),
-        ),
-        actionsIconTheme: IconThemeData(color: Colors.white),
       ),
       endDrawer: Drawer(
         width: MediaQuery.of(context).size.width * 0.8,

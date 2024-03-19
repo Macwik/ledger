@@ -22,45 +22,9 @@ class RepaymentRecordView extends StatelessWidget {
       length: 2,
       initialIndex: state.initialIndex,
       child: Scaffold(
-          appBar: AppBar(
-              centerTitle: true,
-              title: GetBuilder<RepaymentRecordController>(
-                  id: 'title',
-                  builder: (_) {
-                    return Text('还款列表');
-                  }),
-              actionsIconTheme: IconThemeData(color: Colors.white),
-              titleTextStyle: TextStyle(
-                color: Colors.white,
-                fontSize: 36.sp,
-                fontWeight: FontWeight.w500,
-              ),
-              backgroundColor: Colours.primary,
-              leading: IconButton(
-                icon: Icon(
-                  Icons.arrow_back,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  Get.back();
-                },
-              ),
-              bottom: TabBar(
-                onTap: (index) => controller.switchIndex(index),
-                indicatorColor: Colors.orange,
-                tabs: [
-                  Tab(
-                      child: Text(
-                    '客户',
-                    style: TextStyle(color: Colors.white, fontSize: 28.w),
-                  )),
-                  Tab(
-                      child: Text(
-                    '供应商',
-                    style: TextStyle(color: Colors.white, fontSize: 28.w),
-                  )),
-                ],
-              )),
+          appBar: TitleBar(
+              title: '还款列表',
+             ),
           endDrawer: Drawer(
             width:  MediaQuery.of(context).size.width * 0.8,
             child: Container(
@@ -311,628 +275,629 @@ class RepaymentRecordView extends StatelessWidget {
                   )
                 ])),
           ),
-          body: TabBarView(
-            physics: NeverScrollableScrollPhysics(), // 禁用左右滑动
+          body: Column(
             children: [
-              Stack(
+              Container(
+                  color: Colors.white,
+                  height: 90.w, // 调整TabBar高度
+                  child: TabBar(
+                    onTap:  (index) => controller.switchIndex(index),
+                    tabs: [
+                      Tab(text:'客户'),
+                      Tab(text: '供应商',
+                      ),
+                    ],
+                    indicatorWeight: 3.w,
+                    indicatorPadding: EdgeInsets.all(0),
+                    labelPadding: EdgeInsets.all(0),
+                    isScrollable: false,
+                    indicatorColor: Colours.primary,
+                    unselectedLabelColor: Colours.text_999,
+                    unselectedLabelStyle:
+                    const TextStyle(fontWeight: FontWeight.w500),
+                    labelStyle: TextStyle(fontWeight: FontWeight.w500),
+                    labelColor: Colours.primary,
+                  )),
+              Expanded(
+                  child: TabBarView(
+                physics: NeverScrollableScrollPhysics(), // 禁用左右滑动
                 children: [
-                  Column(
+                  Stack(
                     children: [
-                      Container(
-                          color: Colors.white60,
-                          height: 120.w,
-                          padding: EdgeInsets.all(10.w),
-                          child: SearchBar(
-                            onChanged: (value) {
-                              controller.searchRepaymentRecord(value);
-                            },
-                            leading: Icon(
-                              Icons.search,
-                              color: Colors.grey,
-                            ),
-                            hintText: '请输入客户名称',
-                          )),
-                      //搜索框
-                      Expanded(
-                          child: GetBuilder<RepaymentRecordController>(
-                              id: 'custom_detail',
-                              builder: (_) {
-                                return CustomEasyRefresh(
-                                  controller: state.refreshController,
-                                  onLoad: controller.onLoad,
-                                  onRefresh: controller.onRefresh,
-                                  emptyWidget: state.items == null
-                                      ? LottieIndicator()
-                                      : state.items!.isEmpty
-                                      ? EmptyLayout(hintText: '什么都没有'.tr)
-                                      : null,
-                                  child: ListView.builder(
-                                    itemBuilder: (context, index) {
-                                      var repaymentOrderDTO = state.items![index];
-                                      return InkWell(
-                                          onTap: () => controller.toRepaymentDetail(
-                                              repaymentOrderDTO.id),
-                                          child: Column(
-                                            children: [
-                                              Container(
-                                                padding: EdgeInsets.only(
-                                                    bottom: 10.w,
-                                                    left: 30.w,
-                                                    top: 10.w),
-                                                alignment: Alignment.centerLeft,
-                                                color: Colors.white12,
-                                                child: Text(
-                                                    DateUtil.formatDefaultDate2(
-                                                        repaymentOrderDTO
-                                                            .repaymentDate),
-                                                    style: TextStyle(
-                                                      color: Colours.text_ccc,
-                                                      fontSize: 24.sp,
-                                                      fontWeight: FontWeight.w500,
-                                                    )),
-                                              ),
-                                              Container(
-                                                color: Colors.white,
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 40.w,
-                                                    vertical: 20.w),
-                                                child: Column(
-                                                  children: [
-                                                    Flex(
-                                                      direction: Axis.horizontal,
+                      Column(
+                        children: [
+                          Container(
+                              color: Colors.white60,
+                              height: 120.w,
+                              padding: EdgeInsets.all(10.w),
+                              child: SearchBar(
+                                onChanged: (value) {
+                                  controller.searchRepaymentRecord(value);
+                                },
+                                leading: Icon(
+                                  Icons.search,
+                                  color: Colors.grey,
+                                ),
+                                hintText: '请输入客户名称',
+                              )),
+                          //搜索框
+                          Expanded(
+                              child: GetBuilder<RepaymentRecordController>(
+                                  id: 'custom_detail',
+                                  builder: (_) {
+                                    return CustomEasyRefresh(
+                                      controller: state.refreshController,
+                                      onLoad: controller.onLoad,
+                                      onRefresh: controller.onRefresh,
+                                      emptyWidget: state.items == null
+                                          ? LottieIndicator()
+                                          : state.items!.isEmpty
+                                          ? EmptyLayout(hintText: '什么都没有'.tr)
+                                          : null,
+                                      child: ListView.builder(
+                                        itemBuilder: (context, index) {
+                                          var repaymentOrderDTO = state.items![index];
+                                          return InkWell(
+                                              onTap: () => controller.toRepaymentDetail(
+                                                  repaymentOrderDTO.id),
+                                              child: Column(
+                                                children: [
+                                                  Container(
+                                                    padding: EdgeInsets.only(
+                                                        bottom: 10.w,
+                                                        left: 30.w,
+                                                        top: 10.w),
+                                                    alignment: Alignment.centerLeft,
+                                                    color: Colors.white12,
+                                                    child: Text(
+                                                        DateUtil.formatDefaultDate2(
+                                                            repaymentOrderDTO
+                                                                .repaymentDate),
+                                                        style: TextStyle(
+                                                          color: Colours.text_ccc,
+                                                          fontSize: 24.sp,
+                                                          fontWeight: FontWeight.w500,
+                                                        )),
+                                                  ),
+                                                  Container(
+                                                    color: Colors.white,
+                                                    padding: EdgeInsets.symmetric(
+                                                        horizontal: 40.w,
+                                                        vertical: 20.w),
+                                                    child: Column(
                                                       children: [
-                                                        Expanded(
-                                                            child: Text(
-                                                              repaymentOrderDTO
-                                                                  .customName ??
-                                                                  '',
-                                                              style: TextStyle(
-                                                                color: repaymentOrderDTO
-                                                                    .invalid ==
-                                                                    0
-                                                                    ? Colours.text_333
-                                                                    : Colours.text_ccc,
-                                                                fontSize: 30.sp,
-                                                                fontWeight:
-                                                                FontWeight.w500,
-                                                              ),
-                                                            )),
-                                                        Visibility(
-                                                            visible: repaymentOrderDTO
-                                                                .invalid ==
-                                                                0
-                                                                ? false
-                                                                : true,
-                                                            child: Container(
-                                                              padding:
-                                                              EdgeInsets.only(
-                                                                  top: 2.w,
-                                                                  bottom: 2.w,
-                                                                  left: 4.w,
-                                                                  right: 4.w),
-                                                              decoration:
-                                                              BoxDecoration(
-                                                                border: Border.all(
-                                                                  color: Colours
-                                                                      .text_ccc,
-                                                                  width: 1.0,
-                                                                ),
-                                                                borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                    8.0),
-                                                              ),
-                                                              child: Text('已作废',
-                                                                  style: TextStyle(
-                                                                    color: Colours
-                                                                        .text_666,
-                                                                    fontSize: 26.sp,
-                                                                    fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                                  )),
-                                                            )),
-                                                      ],
-                                                    ),
-                                                    Container(
-                                                      height: 1.w,
-                                                      margin: EdgeInsets.only(
-                                                          top: 16.w, bottom: 16.w),
-                                                      width: double.infinity,
-                                                      color: Colours.divider,
-                                                    ),
-                                                    Flex(
-                                                      direction: Axis.horizontal,
-                                                      children: [
-                                                        Expanded(
-                                                            child:Row(
-                                                              children: [
-                                                                Text(
-                                                                  '本次还款：',
-                                                                  style: TextStyle(
-                                                                    color: Colours
-                                                                        .text_ccc,
-                                                                    fontSize: 26.sp,
-                                                                    fontWeight:
-                                                                    FontWeight.w400,
-                                                                  ),
-                                                                ) ,
-                                                                Expanded(child:  Text(
-                                                                  textAlign:TextAlign.left,
-                                                                  DecimalUtil.formatAmount(repaymentOrderDTO
-                                                                      .totalAmount),
-                                                                  style: TextStyle(
-                                                                    color: repaymentOrderDTO
-                                                                        .invalid ==
-                                                                        0
-                                                                        ? Colours
-                                                                        .text_333
-                                                                        : Colours
-                                                                        .text_ccc,
-                                                                    fontSize: 28.sp,
-                                                                    fontWeight:
-                                                                    FontWeight.w500,
-                                                                  ),
-                                                                ))
-
-                                                              ],
-                                                            ) ),
-                                                        Expanded(
-                                                            child: Row(
-                                                              children: [
-                                                                Text(
-                                                                  '业务员：',
-                                                                  style: TextStyle(
-                                                                    color: Colours
-                                                                        .text_ccc,
-                                                                    fontSize: 26.sp,
-                                                                    fontWeight:
-                                                                    FontWeight.w400,
-                                                                  ),
-                                                                ),
-                                                                Text(
+                                                        Flex(
+                                                          direction: Axis.horizontal,
+                                                          children: [
+                                                            Expanded(
+                                                                child: Text(
                                                                   repaymentOrderDTO
-                                                                      .creatorName ??
+                                                                      .customName ??
                                                                       '',
                                                                   style: TextStyle(
                                                                     color: repaymentOrderDTO
                                                                         .invalid ==
                                                                         0
-                                                                        ? Colours
-                                                                        .text_666
-                                                                        : Colours
-                                                                        .text_ccc,
-                                                                    fontSize: 26.sp,
+                                                                        ? Colours.text_333
+                                                                        : Colours.text_ccc,
+                                                                    fontSize: 30.sp,
                                                                     fontWeight:
                                                                     FontWeight.w500,
                                                                   ),
-                                                                ),
-                                                              ],
-                                                            )),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      height: 16.w,
-                                                    ),
-                                                    Flex(
-                                                      direction: Axis.horizontal,
-                                                      children: [
-                                                        Expanded(
-                                                            child: Row(
-                                                          children: [
-                                                          Text(
-                                                          '其中优惠：',
-                                                          style: TextStyle(
-                                                            color: Colours
-                                                                .text_ccc,
-                                                            fontSize: 26.sp,
-                                                            fontWeight:
-                                                            FontWeight.w400,
-                                                          ),
-                                                        ) ,
-                                                        Text(
-                                                          DecimalUtil.formatAmount( repaymentOrderDTO
-                                                              .discountAmount),
-                                                          style: TextStyle(
-                                                            color: repaymentOrderDTO
-                                                                .invalid ==
-                                                                0
-                                                                ? Colours
-                                                                .text_666
-                                                                : Colours
-                                                                .text_ccc,
-                                                            fontSize: 26.sp,
-                                                            fontWeight:
-                                                            FontWeight.w500,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    )),
-                                                        Expanded(child: Text(
-                                                          DateUtil.formatDefaultDateTimeMinute(
-                                                            repaymentOrderDTO
-                                                                .gmtCreate),
-                                                            style: TextStyle(
-                                                              color: Colours.text_ccc,
-                                                              fontSize: 28.sp,
-                                                              fontWeight: FontWeight.w400,
-                                                            )),)
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                              )
-                                            ],
-                                          ));
-                                    },
-                                    itemCount: state.items?.length ?? 0,
-                                  ),
-                                );
-                              })),
-                    ],
-                  ),
-                  Positioned(
-                      bottom: 20.w,
-                      right: 20.w,
-                      child: PermissionWidget(
-                          permissionCode: PermissionCode.supplier_detail_repayment_order_permission,
-                          child:Container(
-                              width: 90.0,
-                              height: 66.0,
-                              margin: EdgeInsets.all(30.w),
-                              child: FloatingActionButton(
-                                onPressed: () => Get.toNamed(RouteConfig.repaymentBill,arguments: {'customType':CustomType.CUSTOM.value}),
-                                child: Container(
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.add,
-                                          size: 30.w,
-                                        ),
-                                        Text(
-                                          '还款',
-                                          style: TextStyle(fontSize: 32.sp),
-                                        ),
-                                      ],
-                                    )), // 按钮上显示的图标
-                              ))))
-                ],
-              ),
-              //供应商列表
-              Stack(
-                  children: [
-                    //搜索框
-                    Column(
-                      children: [
-                        Container(
-                            color: Colors.white60,
-                            height: 120.w,
-                            padding:
-                            EdgeInsets.all(10.w),
-                            child: SearchBar(
-                              onChanged: (value) {
-                                controller.searchRepaymentRecord(value);
-                              },
-                              leading: Icon(
-                                Icons.search,
-                                color: Colors.grey,
-                              ),
-                              hintText: '请输入供应商名称',
-                            )),
-                        Expanded(
-                            child: GetBuilder<RepaymentRecordController>(
-                                id: 'supplier_detail',
-                                builder: (_) {
-                                  return CustomEasyRefresh(
-                                    controller: state.refreshController,
-                                    onLoad: controller.onLoad,
-                                    onRefresh: controller.onRefresh,
-                                    emptyWidget: state.items == null
-                                        ? LottieIndicator()
-                                        : state.items!.isEmpty
-                                        ? EmptyLayout(hintText: '什么都没有'.tr)
-                                        : null,
-                                    child: ListView.builder(
-                                      itemBuilder: (context, index) {
-                                        var repaymentOrderDTO = state.items![index];
-                                        return InkWell(
-                                            onTap: () => controller.toRepaymentDetail(
-                                                repaymentOrderDTO.id),
-                                            child: Column(
-                                              children: [
-                                                Container(
-                                                  margin: EdgeInsets.only(
-                                                      bottom: 10.w,
-                                                      top: 10.w,
-                                                      left: 30.w),
-                                                  alignment: Alignment.centerLeft,
-                                                  child: Text(
-                                                      DateUtil.formatDefaultDate2(
-                                                          repaymentOrderDTO
-                                                              .repaymentDate),
-                                                      style: TextStyle(
-                                                        color: Colours.text_999,
-                                                        fontSize: 24.sp,
-                                                        fontWeight: FontWeight.w500,
-                                                      )),
-                                                ),
-                                                Container(
-                                                  color: Colors.white,
-                                                  padding: EdgeInsets.only(
-                                                      left: 40.w,
-                                                      right: 40.w,
-                                                      top: 20.w,
-                                                      bottom: 20.w),
-                                                  child: Column(
-                                                    children: [
-                                                      Flex(
-                                                        direction: Axis.horizontal,
-                                                        children: [
-                                                          Expanded(
-                                                            child: Text(
-                                                              repaymentOrderDTO
-                                                                  .customName ??
-                                                                  '',
-                                                              style: TextStyle(
-                                                                color: repaymentOrderDTO
+                                                                )),
+                                                            Visibility(
+                                                                visible: repaymentOrderDTO
                                                                     .invalid ==
                                                                     0
-                                                                    ? Colours
-                                                                    .text_333
-                                                                    : Colours
-                                                                    .text_ccc,
-                                                                fontSize: 30.sp,
-                                                                fontWeight:
-                                                                FontWeight.w500,
+                                                                    ? false
+                                                                    : true,
+                                                                child: Container(
+                                                                  padding:
+                                                                  EdgeInsets.only(
+                                                                      top: 2.w,
+                                                                      bottom: 2.w,
+                                                                      left: 4.w,
+                                                                      right: 4.w),
+                                                                  decoration:
+                                                                  BoxDecoration(
+                                                                    border: Border.all(
+                                                                      color: Colours
+                                                                          .text_ccc,
+                                                                      width: 1.0,
+                                                                    ),
+                                                                    borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                        8.0),
+                                                                  ),
+                                                                  child: Text('已作废',
+                                                                      style: TextStyle(
+                                                                        color: Colours
+                                                                            .text_666,
+                                                                        fontSize: 26.sp,
+                                                                        fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                      )),
+                                                                )),
+                                                          ],
+                                                        ),
+                                                        Container(
+                                                          height: 1.w,
+                                                          margin: EdgeInsets.only(
+                                                              top: 16.w, bottom: 16.w),
+                                                          width: double.infinity,
+                                                          color: Colours.divider,
+                                                        ),
+                                                        Flex(
+                                                          direction: Axis.horizontal,
+                                                          children: [
+                                                            Expanded(
+                                                                child:Row(
+                                                                  children: [
+                                                                    Text(
+                                                                      '本次还款：',
+                                                                      style: TextStyle(
+                                                                        color: Colours
+                                                                            .text_ccc,
+                                                                        fontSize: 26.sp,
+                                                                        fontWeight:
+                                                                        FontWeight.w400,
+                                                                      ),
+                                                                    ) ,
+                                                                    Expanded(child:  Text(
+                                                                      textAlign:TextAlign.left,
+                                                                      DecimalUtil.formatAmount(repaymentOrderDTO
+                                                                          .totalAmount),
+                                                                      style: TextStyle(
+                                                                        color: repaymentOrderDTO
+                                                                            .invalid ==
+                                                                            0
+                                                                            ? Colours
+                                                                            .text_333
+                                                                            : Colours
+                                                                            .text_ccc,
+                                                                        fontSize: 28.sp,
+                                                                        fontWeight:
+                                                                        FontWeight.w500,
+                                                                      ),
+                                                                    ))
+
+                                                                  ],
+                                                                ) ),
+                                                            Expanded(
+                                                                child: Row(
+                                                                  children: [
+                                                                    Text(
+                                                                      '业务员：',
+                                                                      style: TextStyle(
+                                                                        color: Colours
+                                                                            .text_ccc,
+                                                                        fontSize: 26.sp,
+                                                                        fontWeight:
+                                                                        FontWeight.w400,
+                                                                      ),
+                                                                    ),
+                                                                    Text(
+                                                                      repaymentOrderDTO
+                                                                          .creatorName ??
+                                                                          '',
+                                                                      style: TextStyle(
+                                                                        color: repaymentOrderDTO
+                                                                            .invalid ==
+                                                                            0
+                                                                            ? Colours
+                                                                            .text_666
+                                                                            : Colours
+                                                                            .text_ccc,
+                                                                        fontSize: 26.sp,
+                                                                        fontWeight:
+                                                                        FontWeight.w500,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                )),
+                                                          ],
+                                                        ),
+                                                        SizedBox(
+                                                          height: 16.w,
+                                                        ),
+                                                        Flex(
+                                                          direction: Axis.horizontal,
+                                                          children: [
+                                                            Expanded(
+                                                                child: Row(
+                                                                  children: [
+                                                                    Text(
+                                                                      '其中优惠：',
+                                                                      style: TextStyle(
+                                                                        color: Colours
+                                                                            .text_ccc,
+                                                                        fontSize: 26.sp,
+                                                                        fontWeight:
+                                                                        FontWeight.w400,
+                                                                      ),
+                                                                    ) ,
+                                                                    Text(
+                                                                      DecimalUtil.formatAmount( repaymentOrderDTO
+                                                                          .discountAmount),
+                                                                      style: TextStyle(
+                                                                        color: repaymentOrderDTO
+                                                                            .invalid ==
+                                                                            0
+                                                                            ? Colours
+                                                                            .text_666
+                                                                            : Colours
+                                                                            .text_ccc,
+                                                                        fontSize: 26.sp,
+                                                                        fontWeight:
+                                                                        FontWeight.w500,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                )),
+                                                            Expanded(child: Text(
+                                                                DateUtil.formatDefaultDateTimeMinute(
+                                                                    repaymentOrderDTO
+                                                                        .gmtCreate),
+                                                                style: TextStyle(
+                                                                  color: Colours.text_ccc,
+                                                                  fontSize: 28.sp,
+                                                                  fontWeight: FontWeight.w400,
+                                                                )),)
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  )
+                                                ],
+                                              ));
+                                        },
+                                        itemCount: state.items?.length ?? 0,
+                                      ),
+                                    );
+                                  })),
+                        ],
+                      ),
+                      Positioned(
+                          bottom: 20.w,
+                          right: 20.w,
+                          child: PermissionWidget(
+                              permissionCode: PermissionCode.supplier_detail_repayment_order_permission,
+                              child:Container(
+                                  width: 90.0,
+                                  height: 66.0,
+                                  margin: EdgeInsets.all(30.w),
+                                  child: FloatingActionButton(
+                                    onPressed: () => Get.toNamed(RouteConfig.repaymentBill,arguments: {'customType':CustomType.CUSTOM.value}),
+                                    child: Container(
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.add,
+                                              size: 30.w,
+                                            ),
+                                            Text(
+                                              '还款',
+                                              style: TextStyle(fontSize: 32.sp),
+                                            ),
+                                          ],
+                                        )), // 按钮上显示的图标
+                                  ))))
+                    ],
+                  ),
+                  //供应商列表
+                  Stack(
+                    children: [
+                      //搜索框
+                      Column(
+                        children: [
+                          Container(
+                              color: Colors.white60,
+                              height: 120.w,
+                              padding:
+                              EdgeInsets.all(10.w),
+                              child: SearchBar(
+                                onChanged: (value) {
+                                  controller.searchRepaymentRecord(value);
+                                },
+                                leading: Icon(
+                                  Icons.search,
+                                  color: Colors.grey,
+                                ),
+                                hintText: '请输入供应商名称',
+                              )),
+                          Expanded(
+                              child: GetBuilder<RepaymentRecordController>(
+                                  id: 'supplier_detail',
+                                  builder: (_) {
+                                    return CustomEasyRefresh(
+                                      controller: state.refreshController,
+                                      onLoad: controller.onLoad,
+                                      onRefresh: controller.onRefresh,
+                                      emptyWidget: state.items == null
+                                          ? LottieIndicator()
+                                          : state.items!.isEmpty
+                                          ? EmptyLayout(hintText: '什么都没有'.tr)
+                                          : null,
+                                      child: ListView.builder(
+                                        itemBuilder: (context, index) {
+                                          var repaymentOrderDTO = state.items![index];
+                                          return InkWell(
+                                              onTap: () => controller.toRepaymentDetail(
+                                                  repaymentOrderDTO.id),
+                                              child: Column(
+                                                children: [
+                                                  Container(
+                                                    margin: EdgeInsets.only(
+                                                        bottom: 10.w,
+                                                        top: 10.w,
+                                                        left: 30.w),
+                                                    alignment: Alignment.centerLeft,
+                                                    child: Text(
+                                                        DateUtil.formatDefaultDate2(
+                                                            repaymentOrderDTO
+                                                                .repaymentDate),
+                                                        style: TextStyle(
+                                                          color: Colours.text_999,
+                                                          fontSize: 24.sp,
+                                                          fontWeight: FontWeight.w500,
+                                                        )),
+                                                  ),
+                                                  Container(
+                                                    color: Colors.white,
+                                                    padding: EdgeInsets.only(
+                                                        left: 40.w,
+                                                        right: 40.w,
+                                                        top: 20.w,
+                                                        bottom: 20.w),
+                                                    child: Column(
+                                                      children: [
+                                                        Flex(
+                                                          direction: Axis.horizontal,
+                                                          children: [
+                                                            Expanded(
+                                                              child: Text(
+                                                                repaymentOrderDTO
+                                                                    .customName ??
+                                                                    '',
+                                                                style: TextStyle(
+                                                                  color: repaymentOrderDTO
+                                                                      .invalid ==
+                                                                      0
+                                                                      ? Colours
+                                                                      .text_333
+                                                                      : Colours
+                                                                      .text_ccc,
+                                                                  fontSize: 30.sp,
+                                                                  fontWeight:
+                                                                  FontWeight.w500,
+                                                                ),
                                                               ),
                                                             ),
-                                                          ),
-                                                          Visibility(
-                                                              visible: repaymentOrderDTO
-                                                                  .invalid ==
-                                                                  0
-                                                                  ? false
-                                                                  : true,
-                                                              child: Container(
-                                                                padding:
-                                                                EdgeInsets.only(
-                                                                    top: 2.w,
-                                                                    bottom: 2.w,
-                                                                    left: 4.w,
-                                                                    right: 4.w),
-                                                                decoration:
-                                                                BoxDecoration(
-                                                                  border:
-                                                                  Border.all(
-                                                                    color: Colours
-                                                                        .text_ccc,
-                                                                    width: 1.0,
-                                                                  ),
-                                                                  borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                      8.0),
-                                                                ),
-                                                                child: Text('已作废',
-                                                                    style:
-                                                                    TextStyle(
+                                                            Visibility(
+                                                                visible: repaymentOrderDTO
+                                                                    .invalid ==
+                                                                    0
+                                                                    ? false
+                                                                    : true,
+                                                                child: Container(
+                                                                  padding:
+                                                                  EdgeInsets.only(
+                                                                      top: 2.w,
+                                                                      bottom: 2.w,
+                                                                      left: 4.w,
+                                                                      right: 4.w),
+                                                                  decoration:
+                                                                  BoxDecoration(
+                                                                    border:
+                                                                    Border.all(
                                                                       color: Colours
-                                                                          .text_666,
-                                                                      fontSize:
-                                                                      26.sp,
-                                                                      fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                    )),
-                                                              )),
-                                                        ],
-                                                      ),
-                                                      Container(
-                                                        height: 1.w,
-                                                        margin: EdgeInsets.only(
-                                                            top: 16.w,
-                                                            bottom: 16.w),
-                                                        width: double.infinity,
-                                                        color: Colours.divider,
-                                                      ),
-                                                      Flex(
-                                                        direction: Axis.horizontal,
-                                                        children: [
-                                                          Expanded(
-                                                              child: Row(
-                                                            children: [
-                                                            Text(
-                                                            '本次还款：',
-                                                            style: TextStyle(
-                                                              color: Colours
-                                                                  .text_ccc,
-                                                              fontSize: 26.sp,
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .w400,
-                                                            ),
-                                                          ),
-                                                          Expanded(child:  Text(
-                                                            DecimalUtil.formatAmount( repaymentOrderDTO
-                                                                .totalAmount),
-                                                            textAlign:TextAlign.left,
-                                                            style: TextStyle(
-                                                              color: repaymentOrderDTO
-                                                                  .invalid ==
-                                                                  0
-                                                                  ? Colours
-                                                                  .text_333
-                                                                  : Colours
-                                                                  .text_ccc,
-                                                              fontSize: 30.sp,
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .w500,
-                                                            ),
-                                                          ))
+                                                                          .text_ccc,
+                                                                      width: 1.0,
+                                                                    ),
+                                                                    borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                        8.0),
+                                                                  ),
+                                                                  child: Text('已作废',
+                                                                      style:
+                                                                      TextStyle(
+                                                                        color: Colours
+                                                                            .text_666,
+                                                                        fontSize:
+                                                                        26.sp,
+                                                                        fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                      )),
+                                                                )),
+                                                          ],
+                                                        ),
+                                                        Container(
+                                                          height: 1.w,
+                                                          margin: EdgeInsets.only(
+                                                              top: 16.w,
+                                                              bottom: 16.w),
+                                                          width: double.infinity,
+                                                          color: Colours.divider,
+                                                        ),
+                                                        Flex(
+                                                          direction: Axis.horizontal,
+                                                          children: [
+                                                            Expanded(
+                                                                child: Row(
+                                                                  children: [
+                                                                    Text(
+                                                                      '本次还款：',
+                                                                      style: TextStyle(
+                                                                        color: Colours
+                                                                            .text_ccc,
+                                                                        fontSize: 26.sp,
+                                                                        fontWeight:
+                                                                        FontWeight
+                                                                            .w400,
+                                                                      ),
+                                                                    ),
+                                                                    Expanded(child:  Text(
+                                                                      DecimalUtil.formatAmount( repaymentOrderDTO
+                                                                          .totalAmount),
+                                                                      textAlign:TextAlign.left,
+                                                                      style: TextStyle(
+                                                                        color: repaymentOrderDTO
+                                                                            .invalid ==
+                                                                            0
+                                                                            ? Colours
+                                                                            .text_333
+                                                                            : Colours
+                                                                            .text_ccc,
+                                                                        fontSize: 30.sp,
+                                                                        fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                      ),
+                                                                    ))
 
-                                                        ],
-                                                      )),
-                                                          Expanded(
-                                                              child: Row(
-                                                                children: [
-                                                                  Text(
-                                                                    '业务员：',
-                                                                    style: TextStyle(
-                                                                      color: Colours
-                                                                          .text_ccc,
-                                                                      fontSize: 26.sp,
-                                                                      fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
+                                                                  ],
+                                                                )),
+                                                            Expanded(
+                                                                child: Row(
+                                                                  children: [
+                                                                    Text(
+                                                                      '业务员：',
+                                                                      style: TextStyle(
+                                                                        color: Colours
+                                                                            .text_ccc,
+                                                                        fontSize: 26.sp,
+                                                                        fontWeight:
+                                                                        FontWeight
+                                                                            .w400,
+                                                                      ),
                                                                     ),
-                                                                  ),
-                                                                  Text(
+                                                                    Text(
+                                                                      repaymentOrderDTO
+                                                                          .creatorName ??
+                                                                          '',
+                                                                      style: TextStyle(
+                                                                        color: repaymentOrderDTO
+                                                                            .invalid ==
+                                                                            0
+                                                                            ? Colours
+                                                                            .text_666
+                                                                            : Colours
+                                                                            .text_ccc,
+                                                                        fontSize: 26.sp,
+                                                                        fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                )),
+                                                          ],
+                                                        ),
+                                                        SizedBox(
+                                                          height: 16.w,
+                                                        ),
+                                                        Flex(
+                                                          direction: Axis.horizontal,
+                                                          children: [
+                                                            Expanded(
+                                                                child:Row(
+                                                                  children: [
+                                                                    Text(
+                                                                      '本次优惠：',
+                                                                      style: TextStyle(
+                                                                        color: Colours
+                                                                            .text_ccc,
+                                                                        fontSize: 26.sp,
+                                                                        fontWeight:
+                                                                        FontWeight
+                                                                            .w400,
+                                                                      ),
+                                                                    ),
+                                                                    Text(
+                                                                      DecimalUtil.formatAmount( repaymentOrderDTO
+                                                                          .discountAmount),
+                                                                      textAlign:TextAlign.left,
+                                                                      style: TextStyle(
+                                                                        color: repaymentOrderDTO
+                                                                            .invalid ==
+                                                                            0
+                                                                            ? Colours
+                                                                            .text_666
+                                                                            : Colours
+                                                                            .text_ccc,
+                                                                        fontSize: 26.sp,
+                                                                        fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                )),
+                                                            Expanded(child: Text(
+                                                                DateUtil.formatDefaultDateTimeMinute(
                                                                     repaymentOrderDTO
-                                                                        .creatorName ??
-                                                                        '',
-                                                                    style: TextStyle(
-                                                                      color: repaymentOrderDTO
-                                                                          .invalid ==
-                                                                          0
-                                                                          ? Colours
-                                                                          .text_666
-                                                                          : Colours
-                                                                          .text_ccc,
-                                                                      fontSize: 26.sp,
-                                                                      fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              )),
-                                                        ],
-                                                      ),
-                                                      SizedBox(
-                                                        height: 16.w,
-                                                      ),
-                                                      Flex(
-                                                        direction: Axis.horizontal,
-                                                        children: [
-                                                          Expanded(
-                                                              child:Row(
-                                                                children: [
-                                                                  Text(
-                                                                    '本次优惠：',
-                                                                    style: TextStyle(
-                                                                      color: Colours
-                                                                          .text_ccc,
-                                                                      fontSize: 26.sp,
-                                                                      fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
-                                                                    ),
-                                                                  ),
-                                                                  Text(
-                                                                    DecimalUtil.formatAmount( repaymentOrderDTO
-                                                                        .discountAmount),
-                                                                    textAlign:TextAlign.left,
-                                                                    style: TextStyle(
-                                                                      color: repaymentOrderDTO
-                                                                          .invalid ==
-                                                                          0
-                                                                          ? Colours
-                                                                          .text_666
-                                                                          : Colours
-                                                                          .text_ccc,
-                                                                      fontSize: 26.sp,
-                                                                      fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              )),
-                                                          Expanded(child: Text(
-                                                              DateUtil.formatDefaultDateTimeMinute(
-                                                                  repaymentOrderDTO
-                                                                      .gmtCreate),
-                                                              style: TextStyle(
-                                                                color: Colours.text_ccc,
-                                                                fontSize: 28.sp,
-                                                                fontWeight: FontWeight.w400,
-                                                              ))),
-                                                        ],
-                                                      ),
-                                                    ],
+                                                                        .gmtCreate),
+                                                                style: TextStyle(
+                                                                  color: Colours.text_ccc,
+                                                                  fontSize: 28.sp,
+                                                                  fontWeight: FontWeight.w400,
+                                                                ))),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
-                                            ));
-                                      },
-                                      //separatorBuilder是分隔符组件，可以直接拿来用
-                                      itemCount: state.items?.length ?? 0,
-                                      //state.customList?.length ?? 0,
-                                    ),
-                                  );
-                                })),
-                      ],
-                    ),
-                    Positioned(
-                      bottom: 20.w,
-                        right: 20.w,
-                        child: PermissionWidget(
-                        permissionCode: PermissionCode.supplier_detail_repayment_order_permission,
-                        child:Container(
-                            width: 90.0,
-                            height: 66.0,
-                            margin: EdgeInsets.all(30.w),
-                            child: FloatingActionButton(
-                              onPressed: () => Get.toNamed(RouteConfig.repaymentBill,arguments: {'customType':CustomType.SUPPLIER.value}),
-                              child: Container(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.add,
-                                        size: 30.w,
+                                                ],
+                                              ));
+                                        },
+                                        //separatorBuilder是分隔符组件，可以直接拿来用
+                                        itemCount: state.items?.length ?? 0,
+                                        //state.customList?.length ?? 0,
                                       ),
-                                      Text(
-                                        '还款',
-                                        style: TextStyle(fontSize: 32.sp),
-                                      ),
-                                    ],
-                                  )), // 按钮上显示的图标
-                            ))))
-                  ],
-                ),
+                                    );
+                                  })),
+                        ],
+                      ),
+                      Positioned(
+                          bottom: 20.w,
+                          right: 20.w,
+                          child: PermissionWidget(
+                              permissionCode: PermissionCode.supplier_detail_repayment_order_permission,
+                              child:Container(
+                                  width: 90.0,
+                                  height: 66.0,
+                                  margin: EdgeInsets.all(30.w),
+                                  child: FloatingActionButton(
+                                    onPressed: () => Get.toNamed(RouteConfig.repaymentBill,arguments: {'customType':CustomType.SUPPLIER.value}),
+                                    child: Container(
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.add,
+                                              size: 30.w,
+                                            ),
+                                            Text(
+                                              '还款',
+                                              style: TextStyle(fontSize: 32.sp),
+                                            ),
+                                          ],
+                                        )), // 按钮上显示的图标
+                                  ))))
+                    ],
+                  ),
+                ],
+              ))
             ],
-          )),
-          // floatingActionButton: PermissionWidget(
-          //     permissionCode: PermissionCode.supplier_detail_repayment_order_permission,
-          //     child:Container(
-          //     width: 90.0,
-          //     height: 66.0,
-          //     margin: EdgeInsets.all(30.w),
-          //     child: FloatingActionButton(
-          //       onPressed: () => Get.offNamed(RouteConfig.repaymentBill),
-          //       child: Container(
-          //           child: Row(
-          //         mainAxisAlignment: MainAxisAlignment.center,
-          //         crossAxisAlignment: CrossAxisAlignment.center,
-          //         children: [
-          //           Icon(
-          //             Icons.add,
-          //             size: 30.w,
-          //           ),
-          //           Text(
-          //             '还款',
-          //             style: TextStyle(fontSize: 32.sp),
-          //           ),
-          //         ],
-          //       )), // 按钮上显示的图标
-          //     ))),
-          // floatingActionButtonLocation:
-          //     FloatingActionButtonLocation.endContained),
+          )
+      ),
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:ledger/entity/product/product_shopping_car_dto.dart';
 import 'package:ledger/res/colors.dart';
+import 'package:ledger/res/export.dart';
 import 'package:ledger/util/decimal_util.dart';
 import 'package:ledger/widget/elevated_btn.dart';
 import 'package:ledger/widget/empty_layout.dart';
@@ -20,12 +21,8 @@ class ShoppingCarListView extends StatelessWidget {
   Widget build(BuildContext context) {
     controller.initState();
     return Scaffold(
-      appBar: AppBar(
-        title: Text('销售开单',
-            style: TextStyle(color: Colors.white)),
-        leading: BackButton(
-          color: Colors.white,
-        ),
+      appBar: TitleBar(
+        title:'销售开单',
       ),
       body: Column(
         children: [

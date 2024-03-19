@@ -5,6 +5,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:ledger/res/colors.dart';
 import 'package:ledger/widget/elevated_btn.dart';
+import 'package:ledger/widget/title_bar.dart';
 import 'package:ledger/widget/will_pop.dart';
 
 import 'add_role_controller.dart';
@@ -16,11 +17,9 @@ class AddRoleView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('新增岗位',style: TextStyle(color: Colors.white),),
-        leading: BackButton(
-          onPressed: ()=> controller.addRoleGetBack(),
-          color: Colors.white,)
+      appBar: TitleBar(
+        title: '新增岗位',
+        backPressed:()=> controller.addRoleGetBack(),
       ),
       body: MyWillPop(
           onWillPop: () async {

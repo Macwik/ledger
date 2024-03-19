@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger/entity/auth/role_dto.dart';
 import 'package:ledger/res/colors.dart';
+import 'package:ledger/res/export.dart';
 import 'package:ledger/widget/custom_easy_refresh.dart';
 import 'package:ledger/widget/empty_layout.dart';
 import 'package:ledger/widget/lottie_indicator.dart';
@@ -16,14 +17,8 @@ class InviteEmployeeView extends StatelessWidget {
   Widget build(BuildContext context) {
     controller.initState();
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          '邀请员工',
-          style: TextStyle(color: Colors.white),
-        ),
-        leading: BackButton(
-          color: Colors.white,
-        ),
+      appBar: TitleBar(
+        title:  '邀请员工',
       ),
       body: GetBuilder<InviteEmployeeController>(
           init: controller,

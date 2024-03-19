@@ -16,15 +16,9 @@ class MineDetailView extends StatelessWidget {
   Widget build(BuildContext context) {
     controller.initState();
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
+        appBar: TitleBar(
+          title:
             '个人信息',
-            style: TextStyle(color: Colors.white),
-          ),
-          leading: BackButton(
-            color: Colors.white,
-          ),
-
         ),
         body: MyWillPop(
           onWillPop: () async {

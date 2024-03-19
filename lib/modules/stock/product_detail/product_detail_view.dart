@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/enum/is_deleted.dart';
 import 'package:ledger/res/colors.dart';
+import 'package:ledger/res/export.dart';
 import 'package:ledger/widget/elevated_btn.dart';
 import 'package:ledger/widget/image.dart';
 import 'package:ledger/widget/permission/permission_widget.dart';
@@ -21,21 +22,10 @@ class ProductDetailView extends StatelessWidget {
   Widget build(BuildContext context) {
     controller.initState();
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            controller.productDetailGetBack();
-          },
-        ),
-        title: Text(
-          '货物资料'.tr,
-          style: TextStyle(color: Colors.white),
-        ),
-        actions: [
+      appBar: TitleBar(
+        backPressed: ()=>controller.productDetailGetBack(),
+        title: '货物资料'.tr,
+        actionWidget:
           Row(children: [
             Padding(
               padding: const EdgeInsets.only(right: 25.0),
@@ -56,7 +46,7 @@ class ProductDetailView extends StatelessWidget {
                                     'edit',
                                     width: 40.w,
                                     height: 40.w,
-                                    color: Colors.white,
+                                    color: Colors.black54,
                                   ),
                                   SizedBox(width: 8),
                                   GestureDetector(
@@ -64,7 +54,7 @@ class ProductDetailView extends StatelessWidget {
                                     child: Text(
                                       '编辑',
                                       style: TextStyle(
-                                        color: Colors.white,
+                                        color: Colors.black54,
                                         fontSize: 16,
                                       ),
                                     ),
@@ -75,7 +65,6 @@ class ProductDetailView extends StatelessWidget {
                       })),
             ),
           ])
-        ],
       ),
       body: MyWillPop(
           onWillPop: () async {

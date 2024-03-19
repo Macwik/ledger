@@ -5,6 +5,7 @@ import 'package:ledger/entity/product/product_classify_dto.dart';
 import 'package:ledger/entity/product/product_dto.dart';
 import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/res/colors.dart';
+import 'package:ledger/res/export.dart';
 import 'package:ledger/route/route_config.dart';
 import 'package:ledger/util/date_util.dart';
 import 'package:ledger/util/image_util.dart';
@@ -27,25 +28,16 @@ class RetailBillView extends StatelessWidget {
     controller.initState();
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        toolbarHeight:100.w,
-        title: Text( controller.state.orderType == OrderType.SALE
+      appBar: TitleBar(
+        title:  controller.state.orderType == OrderType.SALE
           ?'${controller.state.ledgerName ?? ''} 开单'
           : controller.state.orderType == OrderType.SALE_RETURN
               ?'销售退单'
               :'仅退款',
-            style: TextStyle(
-                color:controller.state.orderType == OrderType.SALE
-                    ? Colors.white
-                    : Colors.orange[900],
-                fontSize: 42.sp),),
-        leading: BackButton(
-          onPressed: (){
-            Get.back();
-          },
-          color: Colors.white,
-        ),
-        actions:[ PermissionOwnerWidget(
+        titleColor: controller.state.orderType == OrderType.SALE
+             ?Colors.black87
+             :Colors.red,
+        actionWidget: PermissionOwnerWidget(
             widgetType: LedgerWidgetType.Disable,
             child: InkWell(
               onTap: () => controller.pickerDate(context),
@@ -60,14 +52,14 @@ class RetailBillView extends StatelessWidget {
                         DateUtil.formatDayMonthDate(
                             controller.state.date),
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Colors.black54,
                           fontSize: 28.sp,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
                     );
                   }),
-            ))],
+            )),
       ),
       body:  DefaultTabController(
         length: 3,

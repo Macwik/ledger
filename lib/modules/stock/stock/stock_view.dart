@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/enum/order_type.dart';
-import 'package:ledger/modules/purchase/stock_list/stock_list_state.dart';
+import 'package:ledger/enum/stock_list_type.dart';
 import 'package:ledger/res/colors.dart';
 import 'package:ledger/route/route_config.dart';
 import 'package:ledger/widget/image.dart';

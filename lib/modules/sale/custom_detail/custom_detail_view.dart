@@ -8,6 +8,7 @@ import 'package:ledger/enum/custom_type.dart';
 import 'package:ledger/enum/is_deleted.dart';
 import 'package:ledger/modules/sale/custom_detail/custom_detail_controller.dart';
 import 'package:ledger/res/colors.dart';
+import 'package:ledger/res/export.dart';
 import 'package:ledger/widget/elevated_btn.dart';
 import 'package:ledger/widget/image.dart';
 import 'package:ledger/widget/permission/permission_widget.dart';
@@ -23,25 +24,14 @@ class CustomDetailView extends StatelessWidget {
   Widget build(BuildContext context) {
     controller.initState();
     return Scaffold(
-        appBar: AppBar(
-          leading: BackButton(
-            color: Colors.white,
-            onPressed: () {
-              controller.customDetailGetBack();
-            },
-          ),
-          title: GetBuilder<CustomDetailController>(
-            id: 'custom_detail_title',
-            builder: (_) {
-              return Text(
-                state.customDTO?.customType == CustomType.CUSTOM.value
-                    ? '客户资料'
-                    : '供应商资料',
-                style: TextStyle(color: Colors.white),
-              );
-            },
-          ),
-          actions: [
+        appBar: TitleBar(
+          backPressed:() {
+            controller.customDetailGetBack();
+          },
+          title: state.customDTO?.customType == CustomType.CUSTOM.value
+              ? '客户资料'
+              : '供应商资料',
+          actionWidget:
             Row(children: [
               Padding(
                 padding: const EdgeInsets.only(right: 25.0),
@@ -59,7 +49,7 @@ class CustomDetailView extends StatelessWidget {
                                 'edit',
                                 width: 40.w,
                                 height: 40.w,
-                                color: Colors.white,
+                                color: Colors.black54,
                               ),
                               SizedBox(width: 8),
                               GestureDetector(
@@ -67,7 +57,7 @@ class CustomDetailView extends StatelessWidget {
                                 child: Text(
                                   '编辑',
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: Colors.black54,
                                     fontSize: 16,
                                   ),
                                 ),
@@ -79,7 +69,6 @@ class CustomDetailView extends StatelessWidget {
                 ),
               ),
             ])
-          ],
         ),
         body: MyWillPop(
             onWillPop: () async {

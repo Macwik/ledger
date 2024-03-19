@@ -6,6 +6,7 @@ import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/enum/is_deleted.dart';
 import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/res/colors.dart';
+import 'package:ledger/res/export.dart';
 import 'package:ledger/util/date_util.dart';
 import 'package:ledger/util/decimal_util.dart';
 import 'package:ledger/util/share_utils.dart';
@@ -26,17 +27,9 @@ class AddStockDetailView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        leading: BackButton(
-          color: Colors.white,
-        ),
-        title: Text(
-          '入库单详情',
-          style: TextStyle(
-              fontWeight: FontWeight.w500,
-              color: Colors.white,
-        )),
-        actions: [
+      appBar: TitleBar(
+        title: '入库单详情',
+        actionWidget:
           GetBuilder<AddStockDetailController>(
               id: 'sale_detail_delete',
               builder: (_) {
@@ -45,7 +38,7 @@ class AddStockDetailView extends StatelessWidget {
                     child: Visibility(
                         visible: state.orderDetailDTO?.invalid == IsDeleted.NORMAL.value,
                         child: PopupMenuButton<String>(
-                          icon: Icon(Icons.more_vert, color: Colors.white),
+                          icon: Icon(Icons.more_vert, color: Colours.text_666),
                           onSelected: (String value) {
                             // 处理选择的菜单项
                             if (value == 'delete') {
@@ -65,7 +58,6 @@ class AddStockDetailView extends StatelessWidget {
                           ],
                         )));
               })
-        ],
       ),
       body: SingleChildScrollView(
           child: RepaintBoundary(

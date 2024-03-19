@@ -5,6 +5,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:ledger/res/colors.dart';
 import 'package:ledger/widget/elevated_btn.dart';
+import 'package:ledger/widget/title_bar.dart';
 import 'package:ledger/widget/will_pop.dart';
 
 import 'add_account_controller.dart';
@@ -18,11 +19,10 @@ class AddAccountView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('新建账本',style: TextStyle(color: Colors.white),),
-        leading: BackButton(
-          onPressed: ()=> controller.addAccountGetBack(),
-          color: Colors.white,),),
+      appBar: TitleBar(
+        title: '新建账本',
+        backPressed: ()=> controller.addAccountGetBack() ,
+    ),
       body: MyWillPop(
           onWillPop: () async {
             controller.addAccountGetBack();

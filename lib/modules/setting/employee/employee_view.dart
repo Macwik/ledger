@@ -3,6 +3,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger/res/colors.dart';
+import 'package:ledger/res/export.dart';
 import 'package:ledger/util/date_util.dart';
 import 'package:ledger/widget/elevated_btn.dart';
 import 'package:ledger/widget/image.dart';
@@ -18,16 +19,10 @@ class EmployeeView extends StatelessWidget {
   Widget build(BuildContext context) {
     controller.initState();
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          '员工详情',
-          style: TextStyle(color: Colors.white),
-        ),
-        leading: BackButton(
-          color: Colors.white,
-          onPressed: () => controller.employeeGetBack(),
-        ),
-        actions: [
+      appBar: TitleBar(
+        title: '员工详情',
+        backPressed: () => controller.employeeGetBack() ,
+        actionWidget:
           GetBuilder<EmployeeController>(
               id: 'employee_edit',
               builder: (_) {
@@ -39,7 +34,7 @@ class EmployeeView extends StatelessWidget {
                         'edit',
                         width: 40.w,
                         height: 40.w,
-                        color: Colors.white,
+                        color: Colors.black54,
                       ),
                       SizedBox(width: 8),
                       GestureDetector(
@@ -47,7 +42,7 @@ class EmployeeView extends StatelessWidget {
                         child: Text(
                           '编辑',
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Colors.black54,
                             fontSize: 16,
                           ),
                         ),
@@ -59,7 +54,6 @@ class EmployeeView extends StatelessWidget {
                   ),
                 );
               })
-        ],
       ),
       body: MyWillPop(
           onWillPop: () async {

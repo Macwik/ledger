@@ -5,6 +5,7 @@ import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/enum/order_state_type.dart';
 import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/res/colors.dart';
+import 'package:ledger/res/export.dart';
 import 'package:ledger/route/route_config.dart';
 import 'package:ledger/util/date_util.dart';
 import 'package:ledger/util/picker_date_utils.dart';
@@ -25,26 +26,18 @@ class SaleRecordView extends StatelessWidget {
   Widget build(BuildContext context) {
     controller.initState();
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 100.w,
-        leading: BackButton(
-            onPressed: () {
+      appBar: TitleBar(
+        backPressed: () {
               Get.until((route) {
                 return (route.settings.name == RouteConfig.purchase) ||
                     (route.settings.name == RouteConfig.sale) ||
                     (route.settings.name == RouteConfig.main);
               });
             },
-            color: Colors.white),
-        backgroundColor: Colours.primary,
-        title: Text(
-          (controller.state.orderType == OrderType.SALE) ||
+        title: (controller.state.orderType == OrderType.SALE) ||
                   (controller.state.orderType == OrderType.SALE_RETURN)
               ? '销售记录'
               : '采购记录',
-          style: TextStyle(color: Colors.white, fontSize: 42.sp),
-        ),
-        actionsIconTheme: IconThemeData(color: Colors.white),
       ),
       endDrawer: Drawer(
         width: MediaQuery.of(context).size.width * 0.8,
@@ -416,121 +409,6 @@ class SaleRecordView extends StatelessWidget {
                   SizedBox(
                     height: 20.w,
                   ),
-                  // GetBuilder<SaleRecordController>(
-                  //   id: 'sale_record_order_type',
-                  //   init: controller,
-                  //   global: false,
-                  //   builder: (controller) => Wrap(
-                  //     children: [
-                  //       TextButton(
-                  //         style: ElevatedButton.styleFrom(
-                  //           backgroundColor: SalesRecordSelectType.ALL ==
-                  //                   controller.checkSelectOrderType()
-                  //               ? Colours.primary
-                  //               : Colors.white,
-                  //           foregroundColor: SalesRecordSelectType.ALL ==
-                  //                   controller.checkSelectOrderType()
-                  //               ? Colors.white
-                  //               : Colours.text_333,
-                  //           side: BorderSide(
-                  //             color: Colours.primary, // 添加边框颜色，此处为灰色
-                  //             width: 1.0, // 设置边框宽度
-                  //           ),
-                  //         ),
-                  //         onPressed: () {
-                  //           (controller.state.orderType == OrderType.SALE)
-                  //               ? controller.state.typeList = [
-                  //                   OrderType.SALE_RETURN.value,
-                  //                   OrderType.SALE.value
-                  //                 ]
-                  //               : controller.state.typeList = [
-                  //                   OrderType.PURCHASE_RETURN.value,
-                  //                   OrderType.PURCHASE.value
-                  //                 ];
-                  //           controller.update(['sale_record_order_type']);
-                  //         },
-                  //         child: Text(
-                  //           '全部',
-                  //           style: TextStyle(
-                  //             fontSize: 30.sp,
-                  //           ),
-                  //         ),
-                  //       ),
-                  //       SizedBox(
-                  //         width: 10.w,
-                  //       ),
-                  //       TextButton(
-                  //         onPressed: () {
-                  //           (controller.state.orderType == OrderType.SALE)
-                  //               ? controller.state.typeList = [
-                  //                   OrderType.SALE.value
-                  //                 ]
-                  //               : controller.state.typeList = [
-                  //                   OrderType.PURCHASE.value
-                  //                 ];
-                  //           controller.update(['sale_record_order_type']);
-                  //         },
-                  //         child: Text(
-                  //           controller.state.orderType == OrderType.SALE
-                  //               ? '销售单'
-                  //               : '采购单',
-                  //           style: TextStyle(
-                  //             fontSize: 30.sp,
-                  //           ),
-                  //         ),
-                  //         style: ElevatedButton.styleFrom(
-                  //           backgroundColor: SalesRecordSelectType.COMMON ==
-                  //                   controller.checkSelectOrderType()
-                  //               ? Colours.primary
-                  //               : Colors.white,
-                  //           foregroundColor: SalesRecordSelectType.COMMON ==
-                  //                   controller.checkSelectOrderType()
-                  //               ? Colors.white
-                  //               : Colours.text_333,
-                  //           side: BorderSide(
-                  //             color: Colours.primary, // 添加边框颜色，此处为灰色
-                  //             width: 1.0, // 设置边框宽度
-                  //           ),
-                  //         ),
-                  //       ),
-                  //       SizedBox(
-                  //         width: 10.w,
-                  //       ),
-                  //       TextButton(
-                  //         onPressed: () {
-                  //           (controller.state.orderType == OrderType.SALE)
-                  //               ? controller.state.typeList = [
-                  //                   OrderType.SALE_RETURN.value
-                  //                 ]
-                  //               : controller.state.typeList = [
-                  //                   OrderType.PURCHASE_RETURN.value
-                  //                 ];
-                  //           controller.update(['sale_record_order_type']);
-                  //         },
-                  //         child: Text(
-                  //           '退货单',
-                  //           style: TextStyle(
-                  //             fontSize: 30.sp,
-                  //           ),
-                  //         ),
-                  //         style: ElevatedButton.styleFrom(
-                  //           backgroundColor: SalesRecordSelectType.RETURN ==
-                  //                   controller.checkSelectOrderType()
-                  //               ? Colours.primary
-                  //               : Colors.white,
-                  //           foregroundColor: SalesRecordSelectType.RETURN ==
-                  //                   controller.checkSelectOrderType()
-                  //               ? Colors.white
-                  //               : Colours.text_333,
-                  //           side: BorderSide(
-                  //             color: Colours.primary, // 添加边框颜色，此处为灰色
-                  //             width: 1.0, // 设置边框宽度
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
                   SizedBox(
                     height: 40.w,
                   ),

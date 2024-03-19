@@ -8,6 +8,7 @@ import 'package:ledger/entity/home/sales_repayment_statistics_dto.dart';
 import 'package:ledger/enum/custom_type.dart';
 import 'package:ledger/enum/is_select.dart';
 import 'package:ledger/enum/order_type.dart';
+import 'package:ledger/enum/stock_list_type.dart';
 import 'package:ledger/enum/unit_type.dart';
 import 'package:ledger/modules/home/home_controller.dart';
 import 'package:ledger/res/export.dart';
@@ -1025,13 +1026,14 @@ const List<String> gridItemPaths = [
   'zhangmu'
 ];
 
-const List<String> gridItemRoutes = [
-  RouteConfig.sale,
-  RouteConfig.purchase,
-  RouteConfig.stockList,
-  RouteConfig.funds,
-  RouteConfig.dailyAccount
+final List<Function()> gridItemRoutes = [
+      ()=>Get.toNamed(RouteConfig.saleRecord,arguments: {'orderType': OrderType.SALE}),
+      ()=>Get.toNamed(RouteConfig.saleRecord,arguments: {'orderType': OrderType.PURCHASE}),
+      ()=>Get.toNamed(RouteConfig.stockList,arguments: {'select': StockListType.DETAIL}),
+      ()=>Get.toNamed(RouteConfig.funds),
+      ()=>Get.toNamed(RouteConfig.dailyAccount),
 ];
+
 
 const List<String> gridItemPermission = [
   PermissionCode.sales_page_permission,
@@ -1045,7 +1047,7 @@ Widget gridItem(int index) {
   return PermissionWidget(
     permissionCode: gridItemPermission[index],
     child: InkWell(
-        onTap: (){Get.toNamed(gridItemRoutes[index]);},
+        onTap: gridItemRoutes[index],
       child: Flex(
         direction: Axis.vertical,
         mainAxisSize: MainAxisSize.min,

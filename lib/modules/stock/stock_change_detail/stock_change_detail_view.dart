@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger/res/colors.dart';
+import 'package:ledger/res/export.dart';
 
 import 'stock_change_detail_controller.dart';
 
@@ -16,9 +17,8 @@ class StockChangeDetailView extends StatelessWidget {
     controller.initState();
     return  Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: Text('库存调整详情',style: TextStyle(color: Colors.white),),
-      leading: BackButton(color: Colors.white,),),
+      appBar: TitleBar(
+        title:'库存调整详情'),
       body:
       //第一部分:此单合计
       GetBuilder<StockChangeDetailController>(

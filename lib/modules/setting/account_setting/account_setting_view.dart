@@ -5,6 +5,7 @@ import 'package:ledger/enum/is_select.dart';
 import 'package:ledger/res/colors.dart';
 import 'package:ledger/route/route_config.dart';
 import 'package:ledger/widget/image.dart';
+import 'package:ledger/widget/title_bar.dart';
 
 import 'account_setting_controller.dart';
 
@@ -17,14 +18,8 @@ class AccountSettingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          '记账设置',
-          style: TextStyle(color: Colors.white),
-        ),
-        leading: BackButton(
-          color: Colors.white,
-        ),
+      appBar: TitleBar(
+        title: '记账设置',
       ),
       body: Container(
         width: double.infinity,

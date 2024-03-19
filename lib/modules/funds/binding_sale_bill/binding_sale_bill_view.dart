@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger/enum/order_state_type.dart';
 import 'package:ledger/res/colors.dart';
+import 'package:ledger/res/export.dart';
 import 'package:ledger/util/date_util.dart';
 import 'package:ledger/util/decimal_util.dart';
 import 'package:ledger/util/picker_date_utils.dart';
@@ -25,11 +26,7 @@ class BindingSaleBillView extends StatelessWidget {
   Widget build(BuildContext context) {
     controller.initState();
     return Scaffold(
-        appBar: AppBar(
-          leading: BackButton(color: Colors.white,),
-          title: Text('绑定采购单'.tr,style: TextStyle(color: Colors.white),),
-          actionsIconTheme: IconThemeData(color: Colors.white),
-        ),
+        appBar: TitleBar(title:'绑定采购单'),
         endDrawer: Drawer(
           width:  MediaQuery.of(context).size.width * 0.8,
           backgroundColor: Colours.bg,

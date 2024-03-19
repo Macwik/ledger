@@ -22,30 +22,21 @@ class MultiUnitNumView extends StatelessWidget {
       length: 2,
       child: Scaffold(
           resizeToAvoidBottomInset: false,
-          appBar: AppBar(
-              centerTitle: true,
-              toolbarHeight: 90.w,
-              title: Text('多单位选择'),
-              titleTextStyle: TextStyle(
-                color: Colors.white,
-                fontSize: 36.sp,
-                fontWeight: FontWeight.w500,
-              ),
-              leading: BackButton(color: Colors.white,),
-              //title: Text('Tab栏切换示例'),
-              bottom: TabBar(
+          appBar: TitleBar(
+            backPressed: ()=>Get.back(),
+              bottomWidget: TabBar(
                 onTap: (index) => controller.switchTab(index),
-                indicatorColor: Colors.orange,
+                indicatorColor: Colours.primary,
                 tabs: [
                   Tab(
                       child: Text(
                     '计重单位',
-                    style: TextStyle(color: Colors.white, fontSize: 28.w),
+                    style: TextStyle(color: Colours.text_333, fontSize: 30.w),
                   )),
                   Tab(
                       child: Text(
                     '计件单位',
-                    style: TextStyle(color: Colors.white, fontSize: 28.w),
+                    style: TextStyle(color: Colours.text_333, fontSize: 30.w),
                   )),
                 ],
               )),

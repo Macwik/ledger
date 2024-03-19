@@ -5,6 +5,7 @@ import 'package:ledger/entity/product/product_classify_dto.dart';
 import 'package:ledger/entity/product/product_dto.dart';
 import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/res/colors.dart';
+import 'package:ledger/res/export.dart';
 import 'package:ledger/route/route_config.dart';
 import 'package:ledger/util/date_util.dart';
 import 'package:ledger/util/image_util.dart';
@@ -29,19 +30,9 @@ class PendingRetailBillView extends StatelessWidget {
     controller.initState();
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          toolbarHeight: 100.w,
-          title: Text(
-            '${state.ledgerName ?? ''} 开单',
-            style: TextStyle(color: Colors.white, fontSize: 40.sp),
-          ),
-          leading: BackButton(
-            onPressed: () {
-              Get.back();
-            },
-            color: Colors.white,
-          ),
-          actions:[PermissionOwnerWidget(
+        appBar: TitleBar(
+          title: '${state.ledgerName ?? ''} 开单',
+          actionWidget:PermissionOwnerWidget(
               widgetType: LedgerWidgetType.Disable,
               child: InkWell(
                 onTap: () => controller.pickerDate(context),
@@ -56,14 +47,14 @@ class PendingRetailBillView extends StatelessWidget {
                           DateUtil.formatDayMonthDate(
                               controller.state.date),
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Colors.black54,
                             fontSize: 28.sp,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
                       );
                     }),
-              ))],
+              )),
         ),
     body: MyWillPop(
         onWillPop: () async {

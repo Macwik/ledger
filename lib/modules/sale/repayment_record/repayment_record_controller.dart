@@ -31,7 +31,6 @@ class RepaymentRecordController extends GetxController {
   void switchIndex(int tabIndex) {
     state.searchContent = '';
     state.initialIndex = tabIndex;
-    update(['title']);
     onRefresh();
   }
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger/res/colors.dart';
+import 'package:ledger/res/export.dart';
 import 'package:ledger/widget/image.dart';
 
 import 'about_us_controller.dart';
@@ -15,9 +16,8 @@ class AboutUsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('关于我们',style: TextStyle(color: Colors.white),),
-        leading: BackButton(color: Colors.white,),),
+      appBar: TitleBar(
+        title: '关于我们',),
       body: Container(
         width: double.infinity,
         child: Column(

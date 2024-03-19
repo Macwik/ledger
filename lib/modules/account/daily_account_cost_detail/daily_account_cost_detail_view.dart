@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:ledger/res/colors.dart';
 import 'package:ledger/res/export.dart';
 import 'package:ledger/util/decimal_util.dart';
-import 'package:ledger/widget/empty_layout.dart';
 
 import 'daily_account_cost_detail_controller.dart';
 
@@ -18,12 +15,8 @@ class DailyAccountCostDetailView extends StatelessWidget {
   Widget build(BuildContext context) {
     controller.initState();
     return Scaffold(
-      appBar: AppBar(
-      centerTitle:true,
-      title: Text('费用详情',style: TextStyle(color: Colors.white),),
-      leading: BackButton(
-       onPressed: ()=>  Get.back(),
-        color: Colors.white,),),
+      appBar: TitleBar(
+      title: '费用详情'),
       body:  Column(
             children: [
               Expanded(

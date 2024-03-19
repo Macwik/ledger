@@ -9,6 +9,7 @@ import 'package:ledger/util/share_utils.dart';
 import 'package:ledger/util/text_util.dart';
 import 'package:ledger/widget/elevated_btn.dart';
 import 'package:ledger/widget/permission/permission_widget.dart';
+import 'package:ledger/widget/title_bar.dart';
 
 import 'remittance_detail_controller.dart';
 
@@ -24,11 +25,9 @@ class RemittanceDetailView extends StatelessWidget {
   Widget build(BuildContext context) {
     controller.initState();
     return Scaffold(
-      appBar: AppBar(
-        leading: BackButton(color: Colors.white,),
-        title: Text('汇款详情'.tr,
-        style: TextStyle(color: Colors.white)),
-        actions:[GetBuilder<RemittanceDetailController>(
+      appBar: TitleBar(
+        title: '汇款详情'.tr,
+        actionWidget: GetBuilder<RemittanceDetailController>(
           id: 'remittance_detail_title',
           builder: (_){
           return PermissionWidget(
@@ -36,7 +35,7 @@ class RemittanceDetailView extends StatelessWidget {
               child:Visibility(
               visible: state.remittanceDetailDTO?.invalid == IsDeleted.NORMAL.value,
               child: PopupMenuButton<String>(
-            icon: Icon(Icons.more_vert, color: Colors.white),
+            icon: Icon(Icons.more_vert, color: Colours.text_666),
             onSelected: (String value) {
               // 处理选择的菜单项
               if (value == 'delete') {
@@ -55,7 +54,7 @@ class RemittanceDetailView extends StatelessWidget {
             ],
           )))
             ;
-        },)],
+        },),
       ),
       body:  RepaintBoundary(
           key: remittanceDetailKey,

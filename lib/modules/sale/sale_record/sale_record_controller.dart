@@ -47,10 +47,6 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
     var arguments = Get.arguments;
     if (arguments != null && arguments['orderType'] != null) {
       state.orderType = arguments['orderType'];
-      // state.typeList = ((state.orderType == OrderType.SALE) ||
-      //         ((state.orderType == OrderType.SALE_RETURN)))
-      //     ? [OrderType.SALE.value, OrderType.SALE_RETURN.value]
-      //     : [OrderType.PURCHASE.value, OrderType.PURCHASE_RETURN.value];
     }
     if (arguments != null && arguments['index'] != null) {
       state.index =arguments['index'];
@@ -63,9 +59,7 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
   Future<BasePageEntity<OrderDTO>> _queryData(int currentPage) async {
     return await Http().networkPage<OrderDTO>(Method.post, OrderApi.order_page, data: {
       'page': currentPage,
-      'orderTypeList': state.index == 0
-          ?[OrderType.SALE.value]
-          : state.index == 1 ?[OrderType.SALE_RETURN.value] : [OrderType.REFUND.value ],
+      'orderTypeList': orderTypes,
       'userIdList': state.selectEmployeeIdList,
       'orderStatus': state.orderStatus,
       'invalid': state.invalid,
@@ -73,6 +67,28 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
       'startDate': DateUtil.formatDefaultDate(state.startDate),
       'endDate': DateUtil.formatDefaultDate(state.endDate),
     });
+  }
+
+  orderTypes(){
+    if (state.orderType == OrderType.SALE) {
+      if (state.index == 0) {
+        return [OrderType.SALE.value];
+      } else if (state.index == 1) {
+        return [OrderType.SALE_RETURN.value];
+      }
+      // else {
+      //   OrderType.REFUND.value;
+      //}
+    }else{
+      if (state.index == 0) {
+        return [OrderType.PURCHASE.value];
+      } else if (state.index == 1) {
+       return [OrderType.PURCHASE_RETURN.value];
+      }
+      // else {
+      //   OrderType.ADD_STOCK.value;
+      // }
+    }
   }
 
   //收款状态
@@ -248,12 +264,10 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
 
   void toAddBill() {
     if((state.orderType == OrderType.PURCHASE)||(state.orderType == OrderType.PURCHASE_RETURN)){
-      Get.toNamed(RouteConfig.saleBill, arguments: {
       if(state.index == 0){
-        'orderType': OrderType.PURCHASE
+        Get.toNamed(RouteConfig.saleBill, arguments: {'orderType': OrderType.PURCHASE});
       }else{
-        'orderType': OrderType.PURCHASE_RETURN}
-      });
+        Get.toNamed(RouteConfig.saleBill, arguments: {'orderType': OrderType.PURCHASE_RETURN});}
     }else{
         if(state.index == 0){
           Get.toNamed(RouteConfig.retailBill, arguments: {'orderType': OrderType.SALE});

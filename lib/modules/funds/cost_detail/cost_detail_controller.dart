@@ -27,7 +27,7 @@ class CostDetailController extends GetxController {
         queryParameters: {'id': state.id}).then((result) {
       if (result.success) {
         state.costIncomeDetailDTO = result.d;
-        update(['cost_detail', 'cost_detail_title', 'cost_detail_title_name']);
+        update(['cost_detail', 'cost_detail_title']);
       } else {
         Toast.show(result.m.toString());
       }

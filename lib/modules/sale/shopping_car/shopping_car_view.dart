@@ -7,6 +7,7 @@ import 'package:ledger/entity/product/product_dto.dart';
 import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/enum/page_to_type.dart';
 import 'package:ledger/res/colors.dart';
+import 'package:ledger/res/export.dart';
 import 'package:ledger/widget/custom_easy_refresh.dart';
 import 'package:ledger/widget/empty_layout.dart';
 import 'package:ledger/widget/image.dart';
@@ -26,15 +27,9 @@ class ShoppingCarView extends StatelessWidget {
     controller.initState();
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: Text('货物列表'.tr,style: TextStyle(color: Colors.white),),
-        leading: BackButton(
-          onPressed: (){
-            Get.back();
-          },
-          color: Colors.white,
-        ),
-        actions:[ Row(children: [
+      appBar: TitleBar(
+        title: '货物列表'.tr,
+        actionWidget: Row(children: [
           Padding(
             padding: const EdgeInsets.only(right: 25.0),
             child: InkWell(
@@ -43,11 +38,11 @@ class ShoppingCarView extends StatelessWidget {
                 permissionCode: PermissionCode.stock_list_add_product_permission,
                 child:Icon(
                 Icons.add,
-                color: Colors.white,
+                color: Colors.black54,
               )),
             ),
           ),
-        ])],
+        ]),
       ),
       body: Column(
         children: [

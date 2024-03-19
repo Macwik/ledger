@@ -4,8 +4,9 @@ import 'package:get/get.dart';
 import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/entity/product/product_classify_dto.dart';
 import 'package:ledger/entity/product/product_dto.dart';
-import 'package:ledger/modules/purchase/stock_list/stock_list_state.dart';
+import 'package:ledger/enum/stock_list_type.dart';
 import 'package:ledger/res/colors.dart';
+import 'package:ledger/res/export.dart';
 import 'package:ledger/widget/custom_easy_refresh.dart';
 import 'package:ledger/widget/elevated_btn.dart';
 import 'package:ledger/widget/empty_layout.dart';
@@ -23,22 +24,8 @@ class StockListView extends StatelessWidget {
   Widget build(BuildContext context) {
     controller.initState();
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight:85.w,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            Get.back();
-          },
-        ),
-        title: Text(
-          '货物列表'.tr,
-          style: TextStyle(color: Colors.white,fontSize: 42.sp),
-        ),
-        actionsIconTheme: IconThemeData(color: Colors.white),
+      appBar: TitleBar(
+        title: '货物列表'.tr,
       ),
       endDrawer: Drawer(
         width: MediaQuery.of(context).size.width * 0.8,

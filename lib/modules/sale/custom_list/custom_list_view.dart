@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger/entity/contact/contact_dto.dart';
 import 'package:ledger/res/colors.dart';
+import 'package:ledger/res/export.dart';
 import 'package:ledger/widget/empty_layout.dart';
 
 import 'custom_list_controller.dart';
@@ -17,19 +18,8 @@ class CustomListView extends StatelessWidget {
   Widget build(BuildContext context) {
     controller.initState();
     return Scaffold(
-      appBar: AppBar(
-        leading: BackButton(color: Colors.white),
-        backgroundColor: Colours.primary,
-        title: GetBuilder<CustomListController>(
-          id: 'contact_list_title',
-          builder: (_) {
-            return Text(
-              '请选要导入的内容',
-              style: TextStyle(color: Colors.white),
-            );
-          },
-        ),
-        actionsIconTheme: IconThemeData(color: Colors.white),
+      appBar: TitleBar(
+        title:  '请选要导入的内容',
       ),
       body: Column(
         children: [

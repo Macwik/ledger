@@ -106,8 +106,8 @@ class TitleBar extends StatelessWidget implements PreferredSizeWidget {
                   if (bottomWidget != null)
                     Positioned(
                       bottom: 0,
-                      left: 0,
-                      right: 0,
+                      left: 100.w,
+                      right: 100.w,
                       child: bottomWidget!,
                     ),
                   if (hideBottomLine)

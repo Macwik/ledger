@@ -13,15 +13,9 @@ class AddProductView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          '添加货物'.tr,
-          style: TextStyle(color: Colors.white),
-        ),
-        leading: BackButton(
-          onPressed: () => controller.addProductGetBack(),
-          color: Colors.white,
-        ),
+      appBar: TitleBar(
+        title: '添加货物'.tr,
+        backPressed: () => controller.addProductGetBack() ,
       ),
       body: MyWillPop(
           onWillPop: () async {

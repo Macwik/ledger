@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:ledger/res/colors.dart';
+import 'package:ledger/res/export.dart';
 import 'package:ledger/widget/custom_textfield.dart';
 import 'package:ledger/widget/elevated_btn.dart';
 
@@ -20,15 +21,8 @@ class LogoutAppView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-          appBar: AppBar(
-            title: Text(
-              '确认注销重要提示',
-              style: TextStyle(color: Colors.white),
-            ),
-            leading: BackButton(
-              color: Colors.white,
-            ),
-
+          appBar: TitleBar(
+            title: '确认注销重要提示',
           ),
           body:FormBuilder(
               key: state.formKey,

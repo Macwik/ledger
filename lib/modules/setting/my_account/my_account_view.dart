@@ -4,6 +4,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:ledger/enum/is_select.dart';
 import 'package:ledger/res/colors.dart';
+import 'package:ledger/res/export.dart';
 import 'package:ledger/widget/empty_layout.dart';
 import 'package:ledger/widget/image.dart';
 
@@ -17,17 +18,12 @@ class MyAccountView extends StatelessWidget {
   Widget build(BuildContext context) {
     controller.initState();
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
+      appBar: TitleBar(
+        title:
           state.isSelect == IsSelectType.FALSE.value
               ? '账本管理'
               :'请选择账本',
-          style: TextStyle(color: Colors.white),
-        ),
-        leading: BackButton(
-          color: Colors.white,
-        ),
-        actions: [
+        actionWidget:
           Row(children: [
             Padding(
                 padding: const EdgeInsets.only(right: 25.0),
@@ -36,10 +32,9 @@ class MyAccountView extends StatelessWidget {
                     controller.toAddAccount();
                   },
                   icon: Icon(Icons.add),
-                  color: Colors.white,
+                  color: Colors.black54,
                 )),
           ])
-        ],
       ),
       body: CustomScrollView(
         slivers: [

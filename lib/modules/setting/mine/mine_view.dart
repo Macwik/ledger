@@ -17,14 +17,8 @@ class MineView extends StatelessWidget {
   Widget build(BuildContext context) {
     controller.initState();
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          '我的',
-          style: TextStyle(color: Colors.white),
-        ),
-        leading: BackButton(
-          color: Colors.white,
-        ),
+      appBar: TitleBar(
+        title: '我的',
       ),
       body: Container(
         width: double.infinity,

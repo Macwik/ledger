@@ -23,22 +23,11 @@ class CostDetailView extends StatelessWidget {
     controller.initState();
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: GetBuilder<CostDetailController>(
-            id: 'cost_detail_title_name',
-            builder: (_) {
-              return Text(
-                state.costIncomeDetailDTO?.orderType == CostOrderType.COST.value
-                    ? '费用详情'
-                    : '收入详情',
-                style: TextStyle(color: Colors.white),
-              );
-            }),
-        leading: BackButton(
-          color: Colors.white,
-        ),
-        actions: [
-          GetBuilder<CostDetailController>(
+      appBar: TitleBar(
+        title: state.costIncomeDetailDTO?.orderType == CostOrderType.COST.value
+            ? '费用详情'
+            : '收入详情',
+        actionWidget: GetBuilder<CostDetailController>(
             id: 'cost_detail_title',
             builder: (_) {
               return PermissionWidget(
@@ -47,7 +36,7 @@ class CostDetailView extends StatelessWidget {
                       visible: state.costIncomeDetailDTO?.invalid ==
                           IsDeleted.NORMAL.value,
                       child: PopupMenuButton<String>(
-                        icon: Icon(Icons.more_vert, color: Colors.white),
+                        icon: Icon(Icons.more_vert, color: Colours.text_666),
                         onSelected: (String value) {
                           // 处理选择的菜单项
                           if (value == 'delete') {
@@ -67,8 +56,7 @@ class CostDetailView extends StatelessWidget {
                         ],
                       )));
             },
-          )
-        ],
+          ),
       ),
       body:
           //第一部分:此单合计

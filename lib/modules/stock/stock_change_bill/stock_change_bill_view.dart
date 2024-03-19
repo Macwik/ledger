@@ -4,6 +4,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:ledger/entity/product/product_stock_adjust_request.dart';
 import 'package:ledger/res/colors.dart';
+import 'package:ledger/res/export.dart';
 import 'package:ledger/widget/empty_layout.dart';
 import 'package:ledger/widget/will_pop.dart';
 
@@ -21,16 +22,9 @@ class StockChangeBillView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        leading: BackButton(
-            onPressed: () {
-              controller.stockChangeGetBack();
-            },
-            color: Colors.white),
-        title: Text('新增盘点单'.tr,
-          style: TextStyle(color: Colors.white),),
-
-      ),
+      appBar: TitleBar(
+        backPressed: ()=> controller.stockChangeGetBack(),
+        title: '新增盘点单'.tr,),
       body: MyWillPop(
           onWillPop: () async {
             controller.stockChangeGetBack();

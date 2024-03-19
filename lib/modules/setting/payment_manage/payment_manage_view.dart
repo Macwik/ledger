@@ -4,6 +4,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:ledger/enum/is_select.dart';
 import 'package:ledger/res/colors.dart';
+import 'package:ledger/res/export.dart';
 import 'package:ledger/util/image_util.dart';
 import 'package:ledger/widget/image.dart';
 
@@ -19,12 +20,10 @@ class PaymentManageView extends StatelessWidget {
   Widget build(BuildContext context) {
     controller.initState();
     return Scaffold(
-        appBar: AppBar(
-          title: Text( state.select == IsSelectType.TRUE
+        appBar: TitleBar(
+          title:  state.select == IsSelectType.TRUE
               ? '选择支付方式'
-              :'支付方式管理',
-            style: TextStyle(color: Colors.white),),
-          leading: BackButton(color: Colors.white,),),
+              :'支付方式管理',),
         body: Column(
           children: [
             GetBuilder<PaymentManageController>(

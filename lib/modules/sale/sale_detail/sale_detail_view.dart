@@ -48,7 +48,7 @@ class SaleDetailView extends StatelessWidget {
                         visible: state.orderDetailDTO?.invalid ==
                             IsDeleted.NORMAL.value,
                         child: PopupMenuButton<String>(
-                          icon: Icon(Icons.more_vert, color: Colors.white),
+                          icon: Icon(Icons.more_vert, color: Colours.text_666),
                           onSelected: (String value) {
                             // 处理选择的菜单项
                             if (value == 'delete') {

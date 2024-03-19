@@ -19,7 +19,7 @@ class CostBillController extends GetxController {
     if (arguments != null && arguments['costOrderType'] != null) {
       state.costOrderType = arguments['costOrderType'];
     }
-    update(['bill_title']);
+  //  update(['bill_title']);
   }
 
   Future<void> toCheckPayWay() async {

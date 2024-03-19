@@ -19,14 +19,9 @@ class RemittanceView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: BackButton(
-          onPressed: ()=> controller.remittanceGetBack(),
-          color: Colors.white,
-        ),
-        title: Text('新增汇款'.tr,
-        style: TextStyle(color: Colors.white,),
-      )),
+      appBar: TitleBar(
+        backPressed: ()=> controller.remittanceGetBack(),
+        title:'新增汇款'.tr,),
       body: MyWillPop(
           onWillPop: () async {
             controller.remittanceGetBack();
