@@ -18,26 +18,8 @@ class ForgetPasswordView extends StatelessWidget {
     return Scaffold(
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          backgroundColor: Colours.primary,
-          title: GetBuilder<ForgetPasswordController>(
-            id: 'bill_title',
-            builder: (_) {
-              return Text(
-                state.type == 1 ? '修改密码' : '忘记密码',
-                style: TextStyle(color: Colors.white),
-              );
-            },
-          ),
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            color: Colors.white,
-            onPressed: () {
-              // 在此处添加返回按钮的点击事件
-              Get.back();
-            },
-          ),
-        ),
+        appBar: TitleBar(
+          title:   state.type == 1 ? '修改密码' : '忘记密码'),
         body: Stack(
           children: [
             FormBuilder(

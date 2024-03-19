@@ -5,6 +5,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:ledger/modules/login/login_verify/login_verify_state.dart';
 import 'package:ledger/res/colors.dart';
+import 'package:ledger/res/export.dart';
 import 'package:ledger/route/route_config.dart';
 import 'package:ledger/util/image_util.dart';
 import 'package:ledger/widget/custom_textfield.dart';
@@ -22,9 +23,8 @@ class LoginVerifyView extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        actions: [
+      appBar: TitleBar(
+        actionWidget:
           GetBuilder<LoginVerifyController>(
               id: LoginVerifyController.GET_VAR_ID_PAGE_TITLE,
               builder: (_) {
@@ -35,14 +35,13 @@ class LoginVerifyView extends StatelessWidget {
                         ? '验证码登录'
                         : '密码登录',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Colors.black54,
                       fontSize: 32.sp,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                 );
               })
-        ],
       ),
       body: FormBuilder(
         key: state.formKey,

@@ -23,26 +23,6 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
 
   late TabController tabController;
 
-
-  @override
-  void onInit() {
-    tabController = TabController(length: 3, vsync: this);
-    tabController.addListener(() {
-      var index = tabController.index;
-      state.index = index;
-      update(['sale_record_add_bill']);
-      clearCondition();
-      onRefresh();
-    });
-    super.onInit();
-  }
-
-  // @override
-  // void onClose() {
-  //   tabController.dispose(); // 清理操作
-  //   super.onClose();
-  // }
-
   Future<void> initState() async {
     var arguments = Get.arguments;
     if (arguments != null && arguments['orderType'] != null) {
@@ -52,14 +32,48 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
       state.index =arguments['index'];
     }
     onRefresh();
+  //  update(['sale_record_tab']);
     _queryLedgerUserList();
   }
 
 
+  @override
+  void onInit() {
+    tabController = TabController(length: 3, vsync: this);
+    tabController.addListener(() {
+      var index = tabController.index;
+      state.index = index;
+      update(['sale_record_add_bill']);
+      clearCondition();
+      checkOrderType();
+      onRefresh();
+    });
+    super.onInit();
+  }
+
+  void checkOrderType(){
+    switch (state.index) {
+      case 0:
+         state.orderType = OrderType.PURCHASE;
+      case 1:
+        state.orderType = OrderType.PURCHASE_RETURN;
+      case 2:
+        state.orderType = OrderType.ADD_STOCK;
+      default:
+        throw Exception('Unsupported ChangePasswordType');
+    }
+  }
+
+  // @override
+  // void onClose() {
+  //   tabController.dispose(); // 清理操作
+  //   super.onClose();
+  // }
+
   Future<BasePageEntity<OrderDTO>> _queryData(int currentPage) async {
     return await Http().networkPage<OrderDTO>(Method.post, OrderApi.order_page, data: {
       'page': currentPage,
-      'orderTypeList': orderTypes,
+      'orderTypeList': [orderTypes()],
       'userIdList': state.selectEmployeeIdList,
       'orderStatus': state.orderStatus,
       'invalid': state.invalid,
@@ -69,25 +83,29 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
     });
   }
 
-  orderTypes(){
+ int? orderTypes(){
     if (state.orderType == OrderType.SALE) {
-      if (state.index == 0) {
-        return [OrderType.SALE.value];
-      } else if (state.index == 1) {
-        return [OrderType.SALE_RETURN.value];
+      switch(state.index){
+        case 0:
+      return OrderType.SALE.value;
+        case 1:
+          return OrderType.SALE_RETURN.value;
+        case 2:
+          return OrderType.REFUND.value;
+        default:
+          throw Exception('无此项');
       }
-      // else {
-      //   OrderType.REFUND.value;
-      //}
     }else{
-      if (state.index == 0) {
-        return [OrderType.PURCHASE.value];
-      } else if (state.index == 1) {
-       return [OrderType.PURCHASE_RETURN.value];
+      switch(state.index){
+        case 0:
+          return OrderType.PURCHASE.value;
+        case 1:
+          return OrderType.PURCHASE_RETURN.value;
+        case 2:
+          return OrderType.ADD_STOCK.value;
+        default:
+          throw Exception('无此项');
       }
-      // else {
-      //   OrderType.ADD_STOCK.value;
-      // }
     }
   }
 
@@ -102,8 +120,7 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
   // }
 
   String getOrderStatusDesc(int? orderStatus) {
-    if((state.orderType == OrderType.SALE)
-        ||(state.orderType == OrderType.PURCHASE)){
+    if((state.orderType == OrderType.SALE) ||(state.orderType == OrderType.PURCHASE)){
       var list = OrderStateType.values;
       for (var value in list) {
         if (value.value == orderStatus) {
@@ -173,10 +190,6 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
     state.endDate = DateTime.now();
     state.selectEmployeeIdList = null;
     state.orderStatus = null;
-    // state.typeList = ((state.orderType == OrderType.SALE) ||
-    //         ((state.orderType == OrderType.SALE_RETURN)))
-    //     ? [OrderType.SALE.value, OrderType.SALE_RETURN.value]
-    //     : [OrderType.PURCHASE.value, OrderType.PURCHASE_RETURN.value];
     state.invalid = 0;
     update([
       'screen_btn',
@@ -215,14 +228,25 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
   }
 
   void toSalesDetail(OrderDTO? salePurchaseOrderDTO) {
-    Get.toNamed(RouteConfig.saleDetail, arguments: {
-      'id': salePurchaseOrderDTO?.id,
-      'orderType': orderType(salePurchaseOrderDTO?.orderType)
-    })?.then((value) {
-      if (ProcessStatus.OK == value) {
-        onRefresh();
-      }
-    });
+    if(state.orderType == OrderType.ADD_STOCK){
+      Get.toNamed(RouteConfig.addStockDetail, arguments: {
+        'id': salePurchaseOrderDTO?.id,
+      })?.then((value) {
+        if (ProcessStatus.OK == value) {
+          onRefresh();
+        }
+      });
+    }else{
+      Get.toNamed(RouteConfig.saleDetail, arguments: {
+        'id': salePurchaseOrderDTO?.id,
+        'orderType': orderType(salePurchaseOrderDTO?.orderType)
+      })?.then((value) {
+        if (ProcessStatus.OK == value) {
+          onRefresh();
+        }
+      });
+    }
+
   }
 
   OrderType orderType(int? orderType) {
@@ -235,21 +259,14 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
         return OrderType.SALE_RETURN;
       case 3:
         return OrderType.PURCHASE_RETURN;
+      case 9:
+        return OrderType.ADD_STOCK;
+      case 10:
+        return OrderType.REFUND;
       default:
-        throw Exception('销售单');
+        throw Exception('销售记录页无此OrderType');
     }
   }
-
-  // SalesRecordSelectType checkSelectOrderType() {
-  //   if (state.typeList.length == 2) {
-  //     return SalesRecordSelectType.ALL;
-  //   } else if (state.typeList.contains(OrderType.SALE.value) ||
-  //       state.typeList.contains(OrderType.PURCHASE.value)) {
-  //     return SalesRecordSelectType.COMMON;
-  //   } else {
-  //     return SalesRecordSelectType.RETURN;
-  //   }
-  // }
 
   String totalAmount(OrderDTO salePurchaseOrderDTO) {
     if ((salePurchaseOrderDTO.orderType == OrderType.SALE_RETURN.value) ||
@@ -263,11 +280,14 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
   }
 
   void toAddBill() {
-    if((state.orderType == OrderType.PURCHASE)||(state.orderType == OrderType.PURCHASE_RETURN)){
+    if((state.orderType == OrderType.PURCHASE)||(state.orderType == OrderType.PURCHASE_RETURN)||(state.orderType == OrderType.ADD_STOCK)){
       if(state.index == 0){
         Get.toNamed(RouteConfig.saleBill, arguments: {'orderType': OrderType.PURCHASE});
-      }else{
+      }else if(state.index == 1){
         Get.toNamed(RouteConfig.saleBill, arguments: {'orderType': OrderType.PURCHASE_RETURN});}
+      else{
+        Get.toNamed(RouteConfig.saleBill, arguments: {'orderType': OrderType.ADD_STOCK});
+      }
     }else{
         if(state.index == 0){
           Get.toNamed(RouteConfig.retailBill, arguments: {'orderType': OrderType.SALE});
@@ -280,17 +300,30 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
   }
 
   String toAddBillsName(){
-    switch(state.index){
-      case 0:
-        return '+ 销售';
-      case 1:
-        return '+ 退货';
-      case 2:
-        return '+ 退款';
-      default:
-        throw Exception('此项不存在');
+    if(state.orderType==OrderType.SALE){
+      switch(state.index){
+        case 0:
+          return '+ 销售';
+        case 1:
+          return '+ 退货';
+        case 2:
+          return '+ 退款';
+        default:
+          throw Exception('此项不存在');
+      }
+    }else{
+      switch(state.index){
+        case 0:
+          return '+ 采购';
+        case 1:
+          return '+ 退货';
+        case 2:
+          return '+ 入库';
+        default:
+          throw Exception('此项不存在');
+      }
     }
   }
 }
 
-enum SalesRecordSelectType { ALL, COMMON, RETURN }
+//enum SalesRecordSelectType { ALL, COMMON, RETURN }

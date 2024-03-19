@@ -101,8 +101,7 @@ class SaleBillController extends GetxController {
       }
     }
     if(state.orderType ==OrderType.ADD_STOCK){
-      //执行保存入库命令代码
-      Toast.show('入库成功'); //ToDo 需要加入库后推数据，及页面跳转
+      saveAddStoreOrder();
     }else{
       Get.bottomSheet(
           isScrollControlled: true,
@@ -116,10 +115,31 @@ class SaleBillController extends GetxController {
                 if (null != result?.customDTO) {
                   state.customDTO = result?.customDTO;
                 }
-                return await saveOrder();
+                return await  saveOrder();
               }),
           backgroundColor: Colors.white);
     }
+  }
+
+  void saveAddStoreOrder()  {
+    String batchNumber = state.textEditingController.text;
+    Loading.showDuration();
+    Http().network(Method.post, OrderApi.add_add_store_order, data: {
+      'customId': state.customDTO?.id,
+      'batchNo': batchNumber,
+      'orderProductRequest': state.shoppingCarList,
+      'remark': state.orderPayDialogResult?.remark,
+      'orderDate': DateUtil.formatDefaultDate(state.date),
+      'orderType': state.orderType.value,
+    }).then((result) {
+      Loading.dismiss();
+      if (result.success) {
+        Get.back();
+        Toast.show('入库成功');
+      } else {
+        Toast.show(result.m.toString());
+      }
+    });
   }
 
   void toDeleteOrder(ProductShoppingCarDTO productShoppingCarDTO) {
@@ -166,7 +186,8 @@ class SaleBillController extends GetxController {
     }).then((result) {
       Loading.dismiss();
       if (result.success) {
-        Get.offNamed(RouteConfig.saleRecord, arguments: {'orderType': state.orderType});
+        Get.back();
+       // Get.offNamed(RouteConfig.saleRecord, arguments: {'orderType': state.orderType});
         return true;
       } else {
         Toast.show(result.m.toString());

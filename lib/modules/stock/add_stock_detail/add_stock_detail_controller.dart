@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:ledger/config/api/order_api.dart';
+import 'package:ledger/entity/order/order_detail_dto.dart';
 import 'package:ledger/enum/process_status.dart';
 import 'package:ledger/http/http_util.dart';
 import 'package:ledger/util/toast_util.dart';
@@ -9,6 +10,24 @@ import 'add_stock_detail_state.dart';
 
 class AddStockDetailController extends GetxController {
   final AddStockDetailState state = AddStockDetailState();
+
+  Future<void> initState() async {
+    var arguments = Get.arguments;
+    if ((arguments != null) && arguments['id'] != null) {
+      state.id = arguments['id'];
+    }
+    await Http().network<OrderDetailDTO>(Method.get, OrderApi.order_detail,
+        queryParameters: {'id': state.id}).then((result) {
+      if (result.success) {
+        state.orderDetailDTO = result.d;
+        update([
+          'sale_detail_delete','sale_detail_title','sale_detail_product','sale_detail_other'
+        ]);
+      } else {
+        Toast.show(result.m.toString());
+      }
+    });
+  }
 
   void toDeleteOrder() {
     Get.dialog(

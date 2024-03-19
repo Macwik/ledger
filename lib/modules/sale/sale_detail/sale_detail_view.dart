@@ -23,20 +23,13 @@ class SaleDetailView extends StatelessWidget {
     controller.initState();
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        leading: BackButton(
-          color: Colors.white,
-        ),
-        title: Text(
-          controller.title(),
-          style: TextStyle(
-              fontWeight: FontWeight.w500,
-              color: (state.orderType == OrderType.SALE) ||
-                      (state.orderType == OrderType.PURCHASE)
-                  ? Colors.white
-                  : Colors.red[700]),
-        ),
-        actions: [
+      appBar: TitleBar(
+        title: controller.title(),
+        titleColor:  (state.orderType == OrderType.SALE) ||
+          (state.orderType == OrderType.PURCHASE)
+          ? Colors.black87
+          : Colors.red,
+        actionWidget:
           GetBuilder<SaleDetailController>(
               id: 'sale_detail_delete',
               builder: (_) {
@@ -68,7 +61,6 @@ class SaleDetailView extends StatelessWidget {
                           ],
                         )));
               })
-        ],
       ),
       body: SingleChildScrollView(
           child: RepaintBoundary(

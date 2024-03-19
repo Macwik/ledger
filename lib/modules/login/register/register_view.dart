@@ -15,15 +15,9 @@ class RegisterView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          title: Text(
+        appBar: TitleBar(
+          title:
             '注册'.tr,
-            style: TextStyle(color: Colors.white),
-          ),
-          leading: BackButton(
-            onPressed: Get.back,
-            color: Colors.white,
-          ),
         ),
         backgroundColor: Colors.white,
         body: Column(

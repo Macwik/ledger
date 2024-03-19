@@ -53,14 +53,14 @@ class RefundDialog extends StatelessWidget {
                           decoration: InputDecoration(
                               counterText: '',
                               hintText: '0.00',
-                              border: InputBorder.none),
+                            ),
                           keyboardType: TextInputType.number,
                           validator: (value) {
-                            var stockStr = controller.refundAmountController.text;
-                            if (stockStr.isEmpty) {
+                            var amount = controller.refundAmountController.text;
+                            if (amount.isEmpty) {
                               return '请输入退款金额';
                             }
-                            Decimal? masterStock = Decimal.tryParse(stockStr);
+                            Decimal? masterStock = Decimal.tryParse(amount);
                             if (masterStock == null ||
                                 (masterStock < Decimal.zero)) {
                               return '金额不能小于0';
@@ -138,7 +138,10 @@ class RefundDialog extends StatelessWidget {
 
   ProductShoppingCarDTO buildProductShoppingCarDTO() {
     return ProductShoppingCarDTO(
+        productId: productDTO.id,
         productName: productDTO.productName,
+        productPlace: productDTO.productPlace,
+        productStandard: productDTO.productStandard,
         unitDetailDTO: getUnitDetailDTO());
   }
 

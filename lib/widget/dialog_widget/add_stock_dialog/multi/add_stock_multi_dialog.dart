@@ -48,7 +48,7 @@ class AddStockMultiDialog extends StatelessWidget {
                       Expanded(
                         flex: 1,
                         child: TextFormField(
-                          controller: controller.slaveStockController,
+                          controller: controller.slaveNumberController,
                           onTap: () {
                             controller
                                 .updateSlaveStock(productDTO.unitDetailDTO);
@@ -63,7 +63,7 @@ class AddStockMultiDialog extends StatelessWidget {
                           keyboardType: TextInputType.number,
                           validator: (value) {
                             var slaveStockStr =
-                                controller.slaveStockController.text;
+                                controller.slaveNumberController.text;
                             if (slaveStockStr.isEmpty) {
                               return '请输入入库商品数量';
                             }
@@ -105,10 +105,9 @@ class AddStockMultiDialog extends StatelessWidget {
                         flex: 1,
                         child: TextFormField(
                           onTap: () {
-                            controller
-                                .updateMasterStock(productDTO.unitDetailDTO);
+                            controller.updateMasterStock(productDTO.unitDetailDTO);
                           },
-                          controller: controller.masterStockController,
+                          controller: controller.masterNumberController,
                           textAlign: TextAlign.center,
                           maxLength: 10,
                           style: TextStyle(fontSize: 32.sp),
@@ -119,7 +118,7 @@ class AddStockMultiDialog extends StatelessWidget {
                           keyboardType: TextInputType.number,
                           validator: (value) {
                             var masterStockStr =
-                                controller.masterStockController.text;
+                                controller.masterNumberController.text;
                             if (masterStockStr.isEmpty) {
                               return '请输入入库数量';
                             }
@@ -219,14 +218,14 @@ class AddStockMultiDialog extends StatelessWidget {
   }
 
   UnitDetailDTO? getUnitDetailDTO() {
-    String? masterStock = controller.masterStockController.text;
-    String? slaveStock = controller.slaveStockController.text;
+    String? masterNumber = controller.masterNumberController.text;
+    String? slaveNumber = controller.slaveNumberController.text;
     var selectMasterUnit = productDTO.unitDetailDTO?.selectMasterUnit ?? true;
     return productDTO.unitDetailDTO?.copyWith(
         selectMasterUnit: selectMasterUnit,
         masterUnitId: productDTO.unitDetailDTO?.masterUnitId,
         slaveUnitId: productDTO.unitDetailDTO?.slaveUnitId,
-        masterStock: Decimal.tryParse(masterStock),
-        slaveStock: Decimal.tryParse(slaveStock));
+        masterNumber: Decimal.tryParse(masterNumber),
+        slaveNumber: Decimal.tryParse(slaveNumber));
   }
 }

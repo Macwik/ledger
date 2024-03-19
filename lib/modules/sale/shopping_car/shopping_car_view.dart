@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/entity/product/product_classify_dto.dart';
 import 'package:ledger/entity/product/product_dto.dart';
 import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/enum/page_to_type.dart';
-import 'package:ledger/res/colors.dart';
 import 'package:ledger/res/export.dart';
-import 'package:ledger/widget/custom_easy_refresh.dart';
-import 'package:ledger/widget/empty_layout.dart';
-import 'package:ledger/widget/image.dart';
-import 'package:ledger/widget/lottie_indicator.dart';
 import 'package:ledger/widget/permission/permission_widget.dart';
 
 import 'shopping_car_controller.dart';
@@ -139,21 +133,10 @@ class ShoppingCarView extends StatelessWidget {
                         )),
                     Align(
                         alignment: Alignment.bottomCenter,
-                        child: InkWell(
-                          onTap: () => controller.toProductClassify(),
-                          child: Container(
-                            margin:
-                            EdgeInsets.only(bottom: 8.w, left: 8.w),
-                            decoration: (BoxDecoration(
-                              borderRadius: BorderRadius.circular((12)),
-                              border: Border.all(
-                                  color: Colours.text_ccc, width: 3.w),
-                            )),
-                            alignment: Alignment.center,
-                            height: 120.w,
-                            child: Text('分类管理'),
-                          ),
-                        )),
+                        child:IconButton(
+                           onPressed: () => controller.toProductClassify(),
+                           icon: Icon(Icons.settings,size: 50.w,color: Colours.text_999),
+                    )),
                   ],
                 ),
               ),

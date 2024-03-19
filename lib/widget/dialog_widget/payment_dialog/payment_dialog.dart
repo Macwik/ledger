@@ -636,9 +636,14 @@ class PaymentDialog extends StatelessWidget {
                             if (!value) {
                               return;
                             }
-                            await onClick(controller.result)
-                                .then((value) async {
-                              Get.back();
+                            await onClick(controller.result).then((value) async {
+                                  if((orderType == OrderType.SALE)||(orderType == OrderType.SALE_RETURN)||(orderType == OrderType.REFUND)){
+                                    Get.back();
+                                   // Get.offNamed(RouteConfig.retailBill,arguments: {'orderType':orderType});///ToDo 或者不跳转页面，原地不动并清除原来开单数据
+                                  }else if((orderType == OrderType.PURCHASE)||(orderType == OrderType.PURCHASE_RETURN)){
+                                    Get.back();
+                                   // Get.offNamed(RouteConfig.saleRecord,arguments: {'orderType':orderType});
+                                  }
                             });
                           });
                         }else {

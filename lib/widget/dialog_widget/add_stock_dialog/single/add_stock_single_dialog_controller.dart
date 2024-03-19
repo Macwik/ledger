@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 
 class AddStockSingleDialogController extends GetxController {
-  final TextEditingController stockController = TextEditingController();
+  final TextEditingController numberController = TextEditingController();
 
   //String ? masterNum;
 }

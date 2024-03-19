@@ -5,6 +5,7 @@ import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/enum/stock_list_type.dart';
 import 'package:ledger/res/colors.dart';
+import 'package:ledger/res/export.dart';
 import 'package:ledger/route/route_config.dart';
 import 'package:ledger/widget/image.dart';
 import 'package:ledger/widget/permission/permission_widget.dart';
@@ -20,15 +21,8 @@ class StockView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          '库存',
-          style: TextStyle(color: Colors.white),
-        ),
-        leading: BackButton(
-            color: Colors.white,
-           ),
+      appBar: TitleBar(
+        title: '库存',
       ),
       body: SingleChildScrollView(
         child: Column(children: [

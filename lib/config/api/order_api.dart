@@ -7,6 +7,10 @@ class OrderApi{
   static const String order_page ='/api/erp/v2/sales/order/page';
   //新增采购销售单
   static const String add_order_page ='/api/erp/v2/sales/order';
+  //新增直接入库
+  static const String add_add_store_order ='/api/erp/v2/sales/add-stock';
+  //新增仅退款单
+  static const String add_refund_order_page ='/api/erp/v2/sales/refund';
   //挂单开单
   static const String add_pending_order ='/api/erp/v2/draft/order/save';
   //拉取挂单列表

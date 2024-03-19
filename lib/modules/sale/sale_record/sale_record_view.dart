@@ -29,9 +29,7 @@ class SaleRecordView extends StatelessWidget {
       appBar: TitleBar(
         backPressed: () {
               Get.until((route) {
-                return (route.settings.name == RouteConfig.purchase) ||
-                    (route.settings.name == RouteConfig.sale) ||
-                    (route.settings.name == RouteConfig.main);
+                return (route.settings.name == RouteConfig.main);
               });
             },
         title: (controller.state.orderType == OrderType.SALE) ||
@@ -516,55 +514,61 @@ class SaleRecordView extends StatelessWidget {
       body: MyWillPop(
           onWillPop: () async {
             Get.until((route) {
-              return ((route.settings.name == RouteConfig.sale) ||
-                  (route.settings.name == RouteConfig.purchase) ||
-                  (route.settings.name == RouteConfig.main));
+              return (route.settings.name == RouteConfig.main);
             });
             return Future(() => true);
           },
           child: DefaultTabController(
             initialIndex: 0,
-            length: controller.state.orderType == OrderType.PURCHASE ? 2 : 3,
+            length:  3,
             child: Column(
               children: [
-                Container(
-                    color: Colors.white,
-                    height: 90.w, // 调整TabBar高度
-                    child: TabBar(
-                      controller: controller.tabController,
-                      tabs: [
-                        Tab(
-                          text: controller.state.orderType == OrderType.PURCHASE
-                              ? '采购'
-                              : '销售',
-                        ),
-                        Tab(
-                          text: controller.state.orderType == OrderType.PURCHASE
-                              ? '采购退货'
-                              : '销售退货',
-                        ),
-                        if (controller.state.orderType == OrderType.SALE)
-                          Tab(text: '仅退款'),
-                      ],
-                      indicatorWeight: 3.w,
-                      indicatorPadding: EdgeInsets.all(0),
-                      labelPadding: EdgeInsets.all(0),
-                      isScrollable: false,
-                      indicatorColor: Colours.primary,
-                      unselectedLabelColor: Colours.text_999,
-                      unselectedLabelStyle:
-                          const TextStyle(fontWeight: FontWeight.w500),
-                      labelStyle: TextStyle(fontWeight: FontWeight.w500),
-                      labelColor: Colours.primary,
-                    )),
+                // GetBuilder<SaleRecordController>(
+                //     id: 'sale_record_tab',
+                //     init: controller,
+                //     global: false,
+                //     builder: (_){
+                //   return
+                    Container(
+                      color: Colors.white,
+                      height: 90.w, // 调整TabBar高度
+                      child: TabBar(
+                        controller: controller.tabController,
+                        tabs: [
+                          Tab(
+                            text: controller.state.orderType == OrderType.PURCHASE
+                                ? '采购'
+                                : '销售',
+                          ),
+                          Tab(
+                            text: controller.state.orderType == OrderType.PURCHASE
+                                ? '采购退货'
+                                : '销售退货',
+                          ),
+
+                          Tab(  text: controller.state.orderType == OrderType.PURCHASE
+                              ? '直接入库'
+                              : '仅退款',),
+                        ],
+                        indicatorWeight: 3.w,
+                        indicatorPadding: EdgeInsets.all(0),
+                        labelPadding: EdgeInsets.all(0),
+                        isScrollable: false,
+                        indicatorColor: Colours.primary,
+                        unselectedLabelColor: Colours.text_999,
+                        unselectedLabelStyle:
+                        const TextStyle(fontWeight: FontWeight.w500),
+                        labelStyle: TextStyle(fontWeight: FontWeight.w500),
+                        labelColor: Colours.primary,
+                      )),
+              //  }),
                 Expanded(
                     child: TabBarView(
                         controller: controller.tabController,
                         children: [
                       widgetSaleRecord(),
                       widgetSaleRecord(),
-                      if (controller.state.orderType == OrderType.SALE)
-                        widgetSaleRecord(),
+                      widgetSaleRecord(),
                     ]))
               ],
             ),
@@ -587,8 +591,7 @@ class SaleRecordView extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
-                           controller.toAddBillsName(),
+                          Text(controller.toAddBillsName(),
                             style: TextStyle(fontSize: 32.sp),
                           ),
                         ],
@@ -637,8 +640,7 @@ class SaleRecordView extends StatelessWidget {
                     itemBuilder: (context, index) {
                       var salePurchaseOrderDTO = controller.state.list![index];
                       return InkWell(
-                        onTap: () =>
-                            controller.toSalesDetail(salePurchaseOrderDTO),
+                        onTap: () => controller.toSalesDetail(salePurchaseOrderDTO),
                         child: Column(
                           children: [
                             Container(
@@ -670,40 +672,11 @@ class SaleRecordView extends StatelessWidget {
                                   Flex(
                                     direction: Axis.horizontal,
                                     children: [
-                                      Visibility(
-                                          visible: (salePurchaseOrderDTO
-                                                      .orderType ==
-                                                  OrderType
-                                                      .SALE_RETURN.value) ||
-                                              (salePurchaseOrderDTO.orderType ==
-                                                  OrderType
-                                                      .PURCHASE_RETURN.value),
-                                          child: Container(
-                                            margin: EdgeInsets.symmetric(
-                                                horizontal: 16.w),
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 8.w, vertical: 4.w),
-                                            decoration: (BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular((36)),
-                                                border: Border.all(
-                                                    color: Colors.orange,
-                                                    width: 3.w),
-                                                color: Colors.white)),
-                                            child: Text(
-                                              '退',
-                                              style: TextStyle(
-                                                fontSize: 28.sp,
-                                                color: Colors.orange,
-                                              ),
-                                            ),
-                                          )),
                                       Expanded(
                                         flex: 3,
                                         child: Text(
                                             TextUtil.listToStr(
-                                                salePurchaseOrderDTO
-                                                    .productNameList),
+                                                salePurchaseOrderDTO.productNameList),
                                             style: TextStyle(
                                               color: salePurchaseOrderDTO
                                                           .invalid ==
@@ -742,8 +715,7 @@ class SaleRecordView extends StatelessWidget {
                                         child: Text(
                                             textAlign: TextAlign.right,
                                             controller.getOrderStatusDesc(
-                                                salePurchaseOrderDTO
-                                                    .orderStatus),
+                                                salePurchaseOrderDTO.orderStatus),
                                             style: TextStyle(
                                               color: salePurchaseOrderDTO.invalid == 1
                                                   ? Colours.text_ccc

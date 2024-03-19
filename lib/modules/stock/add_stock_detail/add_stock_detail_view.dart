@@ -1,16 +1,10 @@
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/enum/is_deleted.dart';
 import 'package:ledger/enum/order_type.dart';
-import 'package:ledger/res/colors.dart';
 import 'package:ledger/res/export.dart';
-import 'package:ledger/util/date_util.dart';
-import 'package:ledger/util/decimal_util.dart';
 import 'package:ledger/util/share_utils.dart';
-import 'package:ledger/widget/elevated_btn.dart';
 import 'package:ledger/widget/permission/permission_widget.dart';
 
 import 'add_stock_detail_controller.dart';
@@ -115,7 +109,7 @@ class AddStockDetailView extends StatelessWidget {
                       );
                     }),
                 GetBuilder<AddStockDetailController>(
-                    id: '',
+                    id: 'sale_detail_product',
                     builder: (_) {
                       return ListView.separated(
                         shrinkWrap: true,
@@ -174,138 +168,6 @@ class AddStockDetailView extends StatelessWidget {
                       );
                     }),
 
-                //收款情况
-                Container(
-                    padding: EdgeInsets.only(
-                        right: 40.w, left: 40.w, top: 30.w, bottom: 20.w),
-                    color: Colors.white,
-                    child: GetBuilder<AddStockDetailController>(
-                        id: '',
-                        builder: (_) {
-                          return Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    color: Colours.primary,
-                                    height: 38.w,
-                                    width: 8.w,
-                                  ),
-                                  Container(
-                                    color: Colors.white,
-                                    margin: EdgeInsets.only(left: 6),
-                                    child: Text(
-                                      '付款信息',
-                                      style: TextStyle(
-                                          color: Colours.text_666,
-                                          fontSize: 36.sp,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 32.w,
-                              ),
-                              Flex(
-                                direction: Axis.horizontal,
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      '实付金额',
-                                      style: TextStyle(
-                                        color: Colours.text_666,
-                                        fontSize: 32.sp,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    flex: 3,
-                                    child: Text(
-                                      textAlign: TextAlign.right,
-                                      '',
-                                      style: TextStyle(
-                                        color: Colours.text_333,
-                                        fontSize: 30.sp,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                              Container(
-                                color: Colours.divider,
-                                height: 1.w,
-                                margin: EdgeInsets.only(top: 16, bottom: 16),
-                                width: double.infinity,
-                              ),
-                              Visibility(
-                                  visible: state.orderDetailDTO?.creditAmount !=
-                                      Decimal.zero,
-                                  child: Container(
-                                      width: double.infinity,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.end,
-                                        children: [
-                                          Text(
-                                            '赊账：',
-                                            style: TextStyle(
-                                              color: Colors.redAccent,
-                                              fontSize: 32.sp,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                          const Spacer(),
-                                          Text(
-                                            '',
-                                            // DecimalUtil.formatAmount(state.orderDetailDTO?.creditAmount),
-                                            style: TextStyle(
-                                              color: Colors.redAccent,
-                                              fontSize: 32.sp,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          )
-                                        ],
-                                      ))),
-                              Visibility(
-                                  visible: state.orderDetailDTO?.creditAmount !=
-                                      Decimal.zero,
-                                  child: Container(
-                                    color: Colours.divider,
-                                    height: 1.w,
-                                    margin:
-                                    EdgeInsets.only(top: 16, bottom: 16),
-                                    width: double.infinity,
-                                  )),
-                              Flex(
-                                direction: Axis.horizontal,
-                                children: [
-                                  Text(
-                                    '抹零金额',
-                                    style: TextStyle(
-                                      color: Colours.text_666,
-                                      fontSize: 32.sp,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                  Expanded(
-                                      child: Text(
-                                        textAlign: TextAlign.right,
-                                        DecimalUtil.formatAmount(
-                                            state.orderDetailDTO?.discountAmount),
-                                        style: TextStyle(
-                                          color: Colours.text_333,
-                                          fontSize: 32.sp,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ))
-                                ],
-                              ),
-                            ],
-                          );
-                        })),
                 Column(
                   children: [
                     Container(
@@ -313,7 +175,7 @@ class AddStockDetailView extends StatelessWidget {
                       color: Colors.white12,
                     ),
                     GetBuilder<AddStockDetailController>(
-                        id: '',
+                        id: 'sale_detail_other',
                         builder: (_) {
                           return Container(
                               color: Colors.white,

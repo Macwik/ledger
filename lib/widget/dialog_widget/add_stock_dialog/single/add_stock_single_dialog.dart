@@ -48,7 +48,7 @@ class AddStockSingleDialog extends StatelessWidget {
                       Expanded(
                         flex: 1,
                         child: TextFormField(
-                          controller: controller.stockController,
+                          controller: controller.numberController,
                           textAlign: TextAlign.center,
                           maxLength: 10,
                           style: TextStyle(fontSize: 32.sp),
@@ -58,7 +58,7 @@ class AddStockSingleDialog extends StatelessWidget {
                               border: InputBorder.none),
                           keyboardType: TextInputType.number,
                           validator: (value) {
-                            var stockStr = controller.stockController.text;
+                            var stockStr = controller.numberController.text;
                             if (stockStr.isEmpty) {
                               return '请输入入库数量';
                             }
@@ -157,9 +157,9 @@ class AddStockSingleDialog extends StatelessWidget {
   }
 
   UnitDetailDTO? getUnitDetailDTO() {
-    String? stock = controller.stockController.text;
+    String? number = controller.numberController.text;
     return productDTO.unitDetailDTO?.copyWith(
         unitId: productDTO.unitDetailDTO?.unitId,
-        stock: Decimal.tryParse(stock));
+        number: Decimal.tryParse(number));
   }
 }

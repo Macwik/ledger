@@ -109,6 +109,10 @@ class SaleDetailController extends GetxController {
         return '销售退货单';
       case OrderType.PURCHASE_RETURN:
         return '采购退货单';
+      case OrderType.REFUND:
+        return '仅退款';
+      case OrderType.ADD_STOCK:
+        return '直接入库';
       default:
         throw Exception('销售单');
     }

@@ -20,7 +20,6 @@ import 'package:ledger/route/route_config.dart';
 import 'package:ledger/util/date_util.dart';
 import 'package:ledger/util/decimal_util.dart';
 import 'package:ledger/util/toast_util.dart';
-import 'package:ledger/widget/dialog_widget/add_stock_dialog/multi/add_stock_multi_dialog.dart';
 import 'package:ledger/widget/dialog_widget/payment_dialog/payment_dialog.dart';
 import 'package:ledger/widget/dialog_widget/product_unit_dialog/product_unit_dialog.dart';
 import 'package:ledger/widget/dialog_widget/refund_dialog/refund_dialog.dart';
@@ -121,40 +120,41 @@ class RetailBillController extends GetxController {
   }
 
   Future<void> addToShoppingCar(ProductDTO productDTO) async {
-    if (state.orderType == OrderType.ADD_STOCK) {
-      var unitDetailDTO = productDTO.unitDetailDTO;
-      if (UnitType.SINGLE.value == unitDetailDTO?.unitType) {
-        await Get.dialog(AlertDialog(
-          title: Text(productDTO.productName ?? ''),
-          content: SingleChildScrollView(
-            child: AddStockMultiDialog(
-              productDTO: productDTO,
-              onClick: (result) {
-                state.productAddStockRequest = result;
-                update(['shopping_car_box']);
-                return true;
-              },
-            ),
-          ),
-        ));
-      } else {
-        await Get.dialog(AlertDialog(
-          title: Text(
-            productDTO.productName ?? '',
-          ),
-          content: SingleChildScrollView(
-            child: AddStockMultiDialog(
-              productDTO: productDTO,
-              onClick: (result) {
-                state.productAddStockRequest = result;
-                update(['shopping_car_box']);
-                return true;
-              },
-            ),
-          ),
-        ));
-      }
-    } else if (state.orderType == OrderType.REFUND) {
+    // if (state.orderType == OrderType.ADD_STOCK) {
+    //   var unitDetailDTO = productDTO.unitDetailDTO;
+    //   if (UnitType.SINGLE.value == unitDetailDTO?.unitType) {
+    //     await Get.dialog(AlertDialog(
+    //       title: Text(productDTO.productName ?? ''),
+    //       content: SingleChildScrollView(
+    //         child: AddStockMultiDialog(
+    //           productDTO: productDTO,
+    //           onClick: (result) {
+    //             state.productAddStockRequest = result;
+    //             update(['shopping_car_box']);
+    //             return true;
+    //           },
+    //         ),
+    //       ),
+    //     ));
+    //   } else {
+    //     await Get.dialog(AlertDialog(
+    //       title: Text(
+    //         productDTO.productName ?? '',
+    //       ),
+    //       content: SingleChildScrollView(
+    //         child: AddStockMultiDialog(
+    //           productDTO: productDTO,
+    //           onClick: (result) {
+    //             state.productAddStockRequest = result;
+    //             update(['shopping_car_box']);
+    //             return true;
+    //           },
+    //         ),
+    //       ),
+    //     ));
+    //   }
+    // } else
+      if (state.orderType == OrderType.REFUND) {
       Get.dialog(AlertDialog(
         title: Text(
           productDTO.productName ?? '',
@@ -1023,9 +1023,39 @@ class RetailBillController extends GetxController {
               if (null != result?.customDTO) {
                 state.customDTO = result?.customDTO;
               }
-              return await saveOrder();
+              if(state.orderType == OrderType.REFUND){
+                return await saveRefundOrder();
+              }else{
+                return await saveOrder();
+              }
+
             }),
         backgroundColor: Colors.white);
+  }
+
+
+  Future<bool> saveRefundOrder() async {
+    Loading.showDuration();
+    return await Http().network(Method.post, OrderApi.add_refund_order_page, data: {
+      'customId': state.customDTO?.id,
+      'creditAmount': state.orderPayDialogResult?.creditAmount,
+      'discountAmount': state.orderPayDialogResult?.discountAmount,
+      'orderProductRequest': state.shoppingCarList,
+      'orderPaymentRequest': state.orderPayDialogResult?.orderPaymentRequest,
+      'remark': state.orderPayDialogResult?.remark,
+      'orderDate': DateUtil.formatDefaultDate(state.date),
+      'orderType': OrderType.REFUND.value,
+    }).then((result) {
+      Loading.dismiss();
+      if (result.success) {
+        Get.back();
+        // Get.offNamed(RouteConfig.retailBill, arguments: {'orderType': state.orderType});
+        return true;
+      } else {
+        Toast.show(result.m.toString());
+        return false;
+      }
+    });
   }
 
   Future<bool> saveOrder() async {
@@ -1044,7 +1074,7 @@ class RetailBillController extends GetxController {
       if (result.success) {
         Get.back();
        // Get.toNamed(RouteConfig.retailBill, arguments: {'orderType': state.orderType});
-        ///TODO 打的弹框
+        ///TODO 开单详情的弹框
         Toast.showSuccess('开单成功');
         return true;
       } else {
