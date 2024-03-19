@@ -26,16 +26,48 @@ class SaleRecordView extends StatelessWidget {
   Widget build(BuildContext context) {
     controller.initState();
     return Scaffold(
-      appBar: TitleBar(
-        backPressed: () {
-              Get.until((route) {
-                return (route.settings.name == RouteConfig.main);
-              });
-            },
-        title: (controller.state.orderType == OrderType.SALE) ||
+      appBar: AppBar(
+          centerTitle:true,
+          toolbarHeight:98.w,
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(1.0),
+          child: Container(
+            color: Colours.divider, // 设置底部线条颜色
+            height: 1.0,
+          ),
+        ),
+        leading: InkWell(
+          onTap: () {
+            Get.until((route) {
+              return (route.settings.name == RouteConfig.main);
+            });
+          },
+          child: Container(
+            height: double.infinity,
+            padding: EdgeInsets.symmetric(horizontal: 45.w),
+            child: LoadAssetImage(
+              'get_back',
+              width: 40.w,
+              height: 40.w,
+              color: Colors.black87,
+            ),
+          ),
+        ),
+        actions: [
+          Builder(
+            builder: (context) => IconButton(
+              icon: Icon(Icons.filter_alt_outlined,color: Colours.text_666),
+              onPressed: () => Scaffold.of(context).openEndDrawer(),
+              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+            ),
+          ),
+        ],
+        title: Text((controller.state.orderType == OrderType.SALE) ||
                   (controller.state.orderType == OrderType.SALE_RETURN)
               ? '销售记录'
               : '采购记录',
+          style: TextStyle(fontSize: 34.sp),
+        ),
       ),
       endDrawer: Drawer(
         width: MediaQuery.of(context).size.width * 0.8,

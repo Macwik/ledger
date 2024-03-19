@@ -43,7 +43,7 @@ class ThemeUtil {
         hintColor: Colours.text_ccc,
         appBarTheme: AppBarTheme(
           elevation: 0.0,
-          color: Colours.primary,
+          color: Colours.white,
         ),
         searchBarTheme: SearchBarThemeData().copyWith(
           hintStyle: MaterialStateProperty.all(TextStyle(
