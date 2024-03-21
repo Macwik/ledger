@@ -15,6 +15,7 @@ import 'package:ledger/res/export.dart';
 import 'package:flutter/material.dart';
 import 'package:ledger/util/decimal_util.dart';
 import 'package:ledger/util/image_util.dart';
+import 'package:ledger/widget/number_privacy_text.dart';
 import 'package:ledger/widget/permission/permission_owner_widget.dart';
 import 'package:ledger/widget/permission/permission_widget.dart';
 
@@ -37,7 +38,9 @@ class HomeView extends StatelessWidget {
               delegate: _MySliverPersistentHeaderDelegate(),
             ),
             SliverToBoxAdapter(
-              child: SizedBox(height: 32.w,),
+              child: SizedBox(
+                height: 32.w,
+              ),
             ),
             GetBuilder<HomeController>(
                 id: 'home_head_function',
@@ -68,7 +71,7 @@ class HomeView extends StatelessWidget {
                 ),
                 delegate: SliverChildBuilderDelegate((context, index) {
                   return InkWell(
-                    onTap: ()=>Get.toNamed(RouteConfig.more),
+                    onTap: () => Get.toNamed(RouteConfig.more),
                     child: Flex(
                       direction: Axis.vertical,
                       mainAxisSize: MainAxisSize.min,
@@ -76,22 +79,22 @@ class HomeView extends StatelessWidget {
                       children: [
                         Expanded(
                             child: AspectRatio(
-                              aspectRatio: 1,
-                              child: ClipOval(
-                                child: Container(
-                                  width: double.infinity,
-                                  color: Color(0x4C04BFB3),
-                                  child: Center(
-                                    child: LoadAssetImage(
-                                      'more',
-                                      width: 66.w,
-                                      height: 66.w,
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),
+                          aspectRatio: 1,
+                          child: ClipOval(
+                            child: Container(
+                              width: double.infinity,
+                              color: Color(0x4C04BFB3),
+                              child: Center(
+                                child: LoadAssetImage(
+                                  'more',
+                                  width: 66.w,
+                                  height: 66.w,
+                                  fit: BoxFit.fill,
                                 ),
                               ),
-                            )),
+                            ),
+                          ),
+                        )),
                         Padding(
                           padding: const EdgeInsets.only(top: 13),
                           child: Text(
@@ -659,7 +662,9 @@ class HomeView extends StatelessWidget {
                   builder: (_) {
                     return InkWell(
                         onTap: () => Get.toNamed(RouteConfig.repaymentRecord,
-                                arguments: {'customType': CustomType.CUSTOM.value,}),
+                                arguments: {
+                                  'customType': CustomType.CUSTOM.value,
+                                }),
                         child: Column(
                           children: [
                             Container(
@@ -709,7 +714,8 @@ class HomeView extends StatelessWidget {
                             MediaQuery.removeViewPadding(
                               context: context,
                               removeTop: true,
-                              child: state.salesRepaymentStatisticsDTO?.isEmpty ??
+                              child: state.salesRepaymentStatisticsDTO
+                                          ?.isEmpty ??
                                       true
                                   ? EmptyLayout(hintText: '什么都没有')
                                   : ListView.builder(
@@ -1014,13 +1020,13 @@ const List<String> gridItemPaths = [
 ];
 
 final List<Function()> gridItemRoutes = [
-      ()=>Get.toNamed(RouteConfig.saleRecord,arguments: {'index':0}),
-      ()=>Get.toNamed(RouteConfig.purchaseRecord,arguments: {'index':0}),
-      ()=>Get.toNamed(RouteConfig.stockList,arguments: {'select': StockListType.DETAIL}),
-      ()=>Get.toNamed(RouteConfig.funds),
-      ()=>Get.toNamed(RouteConfig.dailyAccount),
+  () => Get.toNamed(RouteConfig.saleRecord, arguments: {'index': 0}),
+  () => Get.toNamed(RouteConfig.purchaseRecord, arguments: {'index': 0}),
+  () => Get.toNamed(RouteConfig.stockList,
+      arguments: {'select': StockListType.DETAIL}),
+  () => Get.toNamed(RouteConfig.funds),
+  () => Get.toNamed(RouteConfig.dailyAccount),
 ];
-
 
 const List<String> gridItemPermission = [
   PermissionCode.sales_page_permission,
@@ -1034,7 +1040,7 @@ Widget gridItem(int index) {
   return PermissionWidget(
     permissionCode: gridItemPermission[index],
     child: InkWell(
-        onTap: gridItemRoutes[index],
+      onTap: gridItemRoutes[index],
       child: Flex(
         direction: Axis.vertical,
         mainAxisSize: MainAxisSize.min,
@@ -1076,8 +1082,10 @@ Widget gridItem(int index) {
 }
 
 class _MySliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
-  final double _minExtent = (ScreenUtil().screenWidth - 53.0) * 2.w * 0.47 + 134.w;
-  final double _maxExtent = (ScreenUtil().screenWidth - 53.0) * 2.w * 0.47 + 134.w;
+  final double _minExtent =
+      (ScreenUtil().screenWidth - 53.0) * 2.w * 0.47 + 134.w;
+  final double _maxExtent =
+      (ScreenUtil().screenWidth - 53.0) * 2.w * 0.47 + 134.w;
 
   final controller = Get.find<HomeController>();
   final state = Get.find<HomeController>().state;
@@ -1277,9 +1285,10 @@ class _MySliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
                                           flex: 2,
                                           child: Container(
                                               alignment: Alignment.center,
-                                              child: Text(
+                                              child: NumberPrivacyText(
+                                                number:
+                                                    '￥${state.homeStatisticsDTO?.totalCreditAmount ?? '0'}',
                                                 textAlign: TextAlign.left,
-                                                '￥${state.homeStatisticsDTO?.totalCreditAmount ?? '0'}',
                                                 style: TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 38.sp,

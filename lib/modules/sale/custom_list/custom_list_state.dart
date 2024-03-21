@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:ledger/entity/contact/contact_dto.dart';
 
 class CustomListState {
@@ -7,4 +8,7 @@ class CustomListState {
 
   List<ContactDTO>? contactList;
 
+  Set<String> customNameSet = <String>{};
+
+  RxBool batch = RxBool(false);
 }

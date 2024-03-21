@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger/entity/contact/contact_dto.dart';
-import 'package:ledger/res/colors.dart';
 import 'package:ledger/res/export.dart';
-import 'package:ledger/widget/empty_layout.dart';
 
 import 'custom_list_controller.dart';
 
@@ -19,7 +16,11 @@ class CustomListView extends StatelessWidget {
     controller.initState();
     return Scaffold(
       appBar: TitleBar(
-        title:  '请选要导入的内容',
+        title: '请选要导入的内容',
+        actionName: '批量导入',
+        actionPressed: () {
+          state.batch.value = !state.batch.value;
+        },
       ),
       body: Column(
         children: [
@@ -32,55 +33,66 @@ class CustomListView extends StatelessWidget {
                       : ListView.separated(
                           itemBuilder: (context, index) {
                             ContactDTO contactDTO = state.contactList![index];
-                            return InkWell(
-                              onTap: () => Get.back(result: contactDTO),
-                              child: Container(
-                                color: Colors.white,
-                                padding: EdgeInsets.only(
-                                    left: 20, right: 20, top: 10, bottom: 10),
-                                child: Column(
-                                  children: [
-                                    Container(
-                                        margin: EdgeInsets.only(bottom: 10.w),
-                                        alignment: Alignment.centerLeft,
-                                        child: Row(
-                                          children: [
-                                            Text(contactDTO.name ?? '',
-                                                style: TextStyle(
-                                                  color: Colours.text_333,
-                                                  fontSize: 32.sp,
-                                                  fontWeight: FontWeight.w500,
-                                                )),
-                                            SizedBox(
-                                              width: 15.w,
-                                            ),
-                                            Container(
-                                                padding: EdgeInsets.only(
-                                                    top: 2.w,
-                                                    bottom: 2.w,
-                                                    left: 4.w,
-                                                    right: 4.w),
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                    color: Colours.text_ccc,
-                                                    width: 1.0,
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          8.0),
-                                                ),
-                                                child: Text('已停用',
+                            return Container(
+                              color: Colors.white,
+                              padding: EdgeInsets.only(
+                                  left: 20, right: 20, top: 10, bottom: 10),
+                              child: Column(
+                                children: [
+                                  Container(
+                                      margin: EdgeInsets.only(bottom: 10.w),
+                                      alignment: Alignment.centerLeft,
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: ButtonBar(
+                                              alignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Obx(() => Visibility(
+                                                    visible: state.batch.value,
+                                                    child: Checkbox(
+                                                      value: false,
+                                                      onChanged:
+                                                          (bool? selected) {},
+                                                      activeColor:
+                                                          Colours.primary,
+                                                    ))),
+                                                Text(contactDTO.name ?? '',
                                                     style: TextStyle(
-                                                      color: Colours.text_999,
-                                                      fontSize: 26.sp,
+                                                      color: Colours.text_333,
+                                                      fontSize: 32.sp,
                                                       fontWeight:
                                                           FontWeight.w500,
                                                     )),
-                                              ),
-                                          ],
-                                        )),
-                                  ],
-                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: ButtonBar(
+                                              alignment: MainAxisAlignment.end,
+                                              children: [
+                                                state.customNameSet.contains(
+                                                        contactDTO.name ?? '')
+                                                    ? ElevatedButton(
+                                                        onPressed: () {},
+                                                        child: Text('已导入'))
+                                                    : ElevatedButton(
+                                                        onPressed: () {
+                                                          controller.addCustom(
+                                                              contactDTO.name ??
+                                                                  '',
+                                                              contactDTO
+                                                                      .phone ??
+                                                                  '');
+                                                        },
+                                                        child: Text('导入'))
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      )),
+                                ],
                               ),
                             );
                           },
