@@ -32,6 +32,13 @@ class SupplierDetailView extends StatelessWidget {
         title:state.customDTO?.customType == CustomType.CUSTOM.value
               ?'客户详情'
               :'供应商详情',
+        actionWidget:Builder(
+          builder: (context) => IconButton(
+            icon: Icon(Icons.filter_alt_outlined,color: Colours.text_666),
+            onPressed: () => Scaffold.of(context).openEndDrawer(),
+            tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+          ),
+        ),
       ),
       endDrawer: Drawer(
         width: MediaQuery.of(context).size.width * 0.8,

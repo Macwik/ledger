@@ -19,6 +19,7 @@ class AddStockDetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    controller.initState();
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: TitleBar(
@@ -109,7 +110,7 @@ class AddStockDetailView extends StatelessWidget {
                       );
                     }),
                 GetBuilder<AddStockDetailController>(
-                    id: 'sale_detail_product',
+                    id: 'add_stock_detail_product',
                     builder: (_) {
                       return ListView.separated(
                         shrinkWrap: true,
@@ -123,8 +124,7 @@ class AddStockDetailView extends StatelessWidget {
                             ?.length ??
                             0,
                         itemBuilder: (BuildContext context, int index) {
-                          var orderProductDetail = state
-                              .orderDetailDTO?.orderProductDetailList![index];
+                          var orderProductDetail = state.orderDetailDTO?.orderProductDetailList![index];
                           return Container(
                             color: Colors.white,
                             padding: EdgeInsets.only(
@@ -149,7 +149,7 @@ class AddStockDetailView extends StatelessWidget {
                                             ))),
                                     Expanded(
                                       child: Text(
-                                         '',
+                                         controller.judgeUnit(orderProductDetail),
                                           textAlign: TextAlign.right,
                                           style: TextStyle(
                                             color: Colours.text_333,

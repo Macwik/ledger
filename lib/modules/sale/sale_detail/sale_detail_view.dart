@@ -26,7 +26,7 @@ class SaleDetailView extends StatelessWidget {
       appBar: TitleBar(
         title: controller.title(),
         titleColor:  (state.orderType == OrderType.SALE) ||
-          (state.orderType == OrderType.PURCHASE)
+          (state.orderType == OrderType.PURCHASE)|| (state.orderType == OrderType.ADD_STOCK)
           ? Colors.black87
           : Colors.red,
         actionWidget:

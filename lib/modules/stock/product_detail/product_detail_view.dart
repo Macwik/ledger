@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/enum/is_deleted.dart';
-import 'package:ledger/res/colors.dart';
 import 'package:ledger/res/export.dart';
-import 'package:ledger/widget/elevated_btn.dart';
-import 'package:ledger/widget/image.dart';
 import 'package:ledger/widget/permission/permission_widget.dart';
 import 'package:ledger/widget/will_pop.dart';
 

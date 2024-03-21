@@ -44,6 +44,8 @@ import 'package:ledger/modules/purchase/multi_unit_num/multi_unit_num_binding.da
 import 'package:ledger/modules/purchase/multi_unit_num/multi_unit_num_view.dart';
 import 'package:ledger/modules/purchase/purchase/purchase_binding.dart';
 import 'package:ledger/modules/purchase/purchase/purchase_view.dart';
+import 'package:ledger/modules/purchase/purchase_record/purchase_record_binding.dart';
+import 'package:ledger/modules/purchase/purchase_record/purchase_record_view.dart';
 import 'package:ledger/modules/purchase/remittance/remittance_binding.dart';
 import 'package:ledger/modules/purchase/remittance/remittance_view.dart';
 import 'package:ledger/modules/purchase/remittance_detail/remittance_detail_binding.dart';
@@ -215,6 +217,7 @@ class RouteConfig {
   static const String retailBill = '/page/retail/bill';
   static const String shoppingCarList = '/page/shopping/car/list';
   static const String pendingRetailBill = '/page/pending/retail/bill';
+  static const String purchaseRecord = '/page/purchase/record';
 
 
   static final List<GetPage> getPages = [
@@ -457,5 +460,9 @@ class RouteConfig {
         name: pendingRetailBill,
         page: () => PendingRetailBillView(),
         binding: PendingRetailBillBinding()),
+    GetPage(
+        name: purchaseRecord,
+        page: () => PurchaseRecordView(),
+        binding: PurchaseRecordBinding()),
   ];
 }

@@ -1,16 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger/enum/order_type.dart';
-import 'package:ledger/res/colors.dart';
 import 'package:ledger/res/export.dart';
-import 'package:ledger/util/date_util.dart';
 import 'package:ledger/util/decimal_util.dart';
-import 'package:ledger/widget/custom_easy_refresh.dart';
-import 'package:ledger/widget/empty_layout.dart';
-import 'package:ledger/widget/image.dart';
-import 'package:ledger/widget/lottie_indicator.dart';
-
 import 'product_credit_controller.dart';
 
 class ProductCreditView extends StatelessWidget {

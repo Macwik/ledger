@@ -109,19 +109,6 @@ class HomeView extends StatelessWidget {
                 }, childCount: 1),
               ),
             ),
-            // SliverToBoxAdapter(
-            //   child: Container(
-            //     alignment: Alignment.centerLeft,
-            //     padding: EdgeInsets.only(left: 52.w, top: 24.w),
-            //     child: Text(
-            //       '今日交易情况：',
-            //       style: TextStyle(
-            //           fontSize: 28.sp,
-            //           color: Colours.text_ccc,
-            //           fontWeight: FontWeight.w500),
-            //     ),
-            //   ),
-            // ),
 
             //picture
             SliverToBoxAdapter(
@@ -1027,8 +1014,8 @@ const List<String> gridItemPaths = [
 ];
 
 final List<Function()> gridItemRoutes = [
-      ()=>Get.toNamed(RouteConfig.saleRecord,arguments: {'orderType': OrderType.SALE}),
-      ()=>Get.toNamed(RouteConfig.saleRecord,arguments: {'orderType': OrderType.PURCHASE}),
+      ()=>Get.toNamed(RouteConfig.saleRecord,arguments: {'index':0}),
+      ()=>Get.toNamed(RouteConfig.purchaseRecord,arguments: {'index':0}),
       ()=>Get.toNamed(RouteConfig.stockList,arguments: {'select': StockListType.DETAIL}),
       ()=>Get.toNamed(RouteConfig.funds),
       ()=>Get.toNamed(RouteConfig.dailyAccount),

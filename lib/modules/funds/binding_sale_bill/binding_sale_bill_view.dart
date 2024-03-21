@@ -26,7 +26,14 @@ class BindingSaleBillView extends StatelessWidget {
   Widget build(BuildContext context) {
     controller.initState();
     return Scaffold(
-        appBar: TitleBar(title:'绑定采购单'),
+        appBar: TitleBar(title:'绑定采购单',
+          actionWidget:Builder(
+            builder: (context) => IconButton(
+              icon: Icon(Icons.filter_alt_outlined,color: Colours.text_666),
+              onPressed: () => Scaffold.of(context).openEndDrawer(),
+              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+            ),
+          ),),
         endDrawer: Drawer(
           width:  MediaQuery.of(context).size.width * 0.8,
           backgroundColor: Colours.bg,

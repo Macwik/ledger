@@ -18,6 +18,14 @@ class CostRecordView extends StatelessWidget {
     controller.initState();
     return Scaffold(
         appBar: TitleBar(
+          actionWidget:
+            Builder(
+              builder: (context) => IconButton(
+                icon: Icon(Icons.filter_alt_outlined,color: Colours.text_666),
+                onPressed: () => Scaffold.of(context).openEndDrawer(),
+                tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+              ),
+            ),
           title:'费用收入记录',
         ),
         endDrawer: Drawer(

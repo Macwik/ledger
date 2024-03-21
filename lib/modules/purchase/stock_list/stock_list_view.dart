@@ -20,6 +20,13 @@ class StockListView extends StatelessWidget {
     return Scaffold(
       appBar: TitleBar(
         title: '货物列表'.tr,
+        actionWidget:Builder(
+          builder: (context) => IconButton(
+            icon: Icon(Icons.filter_alt_outlined,color: Colours.text_666),
+            onPressed: () => Scaffold.of(context).openEndDrawer(),
+            tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+          ),
+        ),
       ),
       endDrawer: Drawer(
         width: MediaQuery.of(context).size.width * 0.8,
@@ -537,13 +544,13 @@ class StockListView extends StatelessWidget {
                                     LoadSvg(
                                       'svg/ic_stock_list_add_stock',
                                       width: 40.w,
-                                      color: Colours.text_999,
+                                      color: Colors.blue[200],
                                     ),
                                     Text(
                                       '直接入库',
                                       style: TextStyle(
                                           fontSize: 28.sp,
-                                          color: Colours.text_333),
+                                          color:Colors.blue[200],),
                                     )
                                   ],
                                 ))))),
@@ -559,15 +566,15 @@ class StockListView extends StatelessWidget {
                                   child: Column(
                                     children: [
                                       LoadSvg(
-                                        'svg/ic_stock_list_change_stock',
-                                        width: 40.w,
-                                        color: Colours.text_999,
+                                        'svg/ic_to_stock_change',
+                                       width: 40.w,
+                                       color: Colors.blue[200],
                                       ),
                                       Text(
                                         '调整库存',
                                         style: TextStyle(
                                             fontSize: 28.sp,
-                                            color: Colours.text_333),
+                                            color: Colors.blue[200],),
                                       )
                                     ],
                                   ),

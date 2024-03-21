@@ -18,6 +18,13 @@ class RemittanceRecordView extends StatelessWidget {
     return Scaffold(
         appBar: TitleBar(
           title:'汇款记录'.tr,
+          actionWidget: Builder(
+            builder: (context) => IconButton(
+              icon: Icon(Icons.filter_alt_outlined,color: Colours.text_666),
+              onPressed: () => Scaffold.of(context).openEndDrawer(),
+              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+            ),
+          ),
         ),
         endDrawer: Drawer(
           width:  MediaQuery.of(context).size.width * 0.8,

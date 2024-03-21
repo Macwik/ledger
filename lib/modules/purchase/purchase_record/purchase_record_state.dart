@@ -1,45 +1,46 @@
+import 'package:decimal/decimal.dart';
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:ledger/entity/order/order_dto.dart';
 import 'package:ledger/entity/user/user_base_dto.dart';
 import 'package:ledger/enum/order_type.dart';
 
-class SaleRecordState{
+class PurchaseRecordState {
+  PurchaseRecordState() {
+    ///Initialize variables
+  }
   final refreshController = EasyRefreshController(
     controlFinishRefresh: true,
     controlFinishLoad: true,
   );
 
-  int currentPage = 1;
-
-
   bool? hasMore;
+
+  int currentPage = 1;
 
   DateTime startDate = DateTime.now().subtract(Duration(days: 7));
   DateTime endDate = DateTime.now();
 
-  //收款状态
-  int? orderStatus;
-
-  List<OrderDTO>? list;
-
-  int? id;
-
   List<UserBaseDTO>? employeeList;
-
-  OrderType? orderType ;
-
-  //已作废单据选择
-  int? invalid = 0;
-
-  String? searchContent = '';
 
   //业务员选择
   List<int>? selectEmployeeIdList;
 
   int? get itemCount => employeeList?.length; //筛选里chip的数量
 
-  SaleRecordState();
+  //收款状态
+  int? orderStatus;
 
-  int? index = 0;
+  //已作废单据选择
+  int? invalid = 0;
+
+  OrderType? orderType ;
+
+  int? index;
+
+  List<OrderDTO>? list;
+
+  String? searchContent = '';
+
+  Decimal? totalNumber;
 
 }

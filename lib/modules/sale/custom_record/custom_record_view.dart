@@ -19,6 +19,13 @@ class CustomRecordView extends StatelessWidget {
       appBar: TitleBar(
         title: controller.state.initialIndex == 0 ? '客户列表' : '供应商列表',
         backPressed: () {controller.customRecordGetBack();},
+        actionWidget: Builder(
+          builder: (context) => IconButton(
+            icon: Icon(Icons.filter_alt_outlined,color: Colours.text_666),
+            onPressed: () => Scaffold.of(context).openEndDrawer(),
+            tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+          ),
+        ),
       ),
       endDrawer: Drawer(
         width: MediaQuery.of(context).size.width * 0.8,
