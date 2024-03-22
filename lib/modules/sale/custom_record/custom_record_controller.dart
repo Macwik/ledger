@@ -260,7 +260,11 @@ class CustomRecordController extends GetxController {
     actions.add(CupertinoActionSheetAction(
       onPressed: () {
         Get.back();
-        Get.toNamed(RouteConfig.customList);
+        Get.toNamed(RouteConfig.customList,arguments: {'isAddressList': IsSelectType.TRUE.value})?.then((value) {
+          if (ProcessStatus.OK == value) {
+            queryCustom();
+          }
+        });
       },
       child: Text('通讯录导入'),
     ));

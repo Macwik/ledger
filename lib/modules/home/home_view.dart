@@ -50,68 +50,68 @@ class HomeView extends StatelessWidget {
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 5,
                         crossAxisSpacing: 36.w,
-                        mainAxisSpacing: 0,
+                        mainAxisSpacing: 24.w,
                         childAspectRatio: 0.639,
                       ),
                       delegate: SliverChildBuilderDelegate((context, index) {
                         return gridItem(index);
-                      }, childCount: 5),
+                      }, childCount: 7),
                     ),
                   );
                 }),
-            SliverPadding(
-              padding: EdgeInsets.all(8),
-              sliver: SliverGrid(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 5,
-                  crossAxisSpacing: 36.w,
-                  mainAxisSpacing: 0,
-                  childAspectRatio: 0.639,
-                ),
-                delegate: SliverChildBuilderDelegate((context, index) {
-                  return InkWell(
-                    onTap: () => Get.toNamed(RouteConfig.more),
-                    child: Flex(
-                      direction: Axis.vertical,
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                            child: AspectRatio(
-                          aspectRatio: 1,
-                          child: ClipOval(
-                            child: Container(
-                              width: double.infinity,
-                              color: Color(0x4C04BFB3),
-                              child: Center(
-                                child: LoadAssetImage(
-                                  'more',
-                                  width: 66.w,
-                                  height: 66.w,
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                            ),
-                          ),
-                        )),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 13),
-                          child: Text(
-                            '更多',
-                            style: TextStyle(
-                              fontSize: 28.sp,
-                              fontWeight: FontWeight.w700,
-                              color: Colours.text_999,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                }, childCount: 1),
-              ),
-            ),
-
+            // SliverPadding(
+            //   padding: EdgeInsets.all(8),
+            //   sliver: SliverGrid(
+            //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            //       crossAxisCount: 5,
+            //       crossAxisSpacing: 36.w,
+            //       mainAxisSpacing: 0,
+            //       childAspectRatio: 0.639,
+            //     ),
+            //     delegate: SliverChildBuilderDelegate((context, index) {
+            //       return
+            //           InkWell(
+            //             onTap: () => Get.toNamed(RouteConfig.more),
+            //             child: Flex(
+            //               direction: Axis.vertical,
+            //               mainAxisSize: MainAxisSize.min,
+            //               crossAxisAlignment: CrossAxisAlignment.center,
+            //               children: [
+            //                 Expanded(
+            //                     child: AspectRatio(
+            //                       aspectRatio: 1,
+            //                       child: ClipOval(
+            //                         child: Container(
+            //                           width: double.infinity,
+            //                           color: Color(0x4C04BFB3),
+            //                           child: Center(
+            //                             child: LoadAssetImage(
+            //                               'more',
+            //                               width: 66.w,
+            //                               height: 66.w,
+            //                               fit: BoxFit.fill,
+            //                             ),
+            //                           ),
+            //                         ),
+            //                       ),
+            //                     )),
+            //                 Padding(
+            //                   padding: const EdgeInsets.only(top: 13),
+            //                   child: Text(
+            //                     '更多',
+            //                     style: TextStyle(
+            //                       fontSize: 28.sp,
+            //                       fontWeight: FontWeight.w700,
+            //                       color: Colours.text_999,
+            //                     ),
+            //                   ),
+            //                 ),
+            //               ],
+            //             ),
+            //           );
+            //     }, childCount: 1),
+            //   ),
+            // ),
             //picture
             SliverToBoxAdapter(
               child: Container(
@@ -1002,37 +1002,44 @@ class HomeView extends StatelessWidget {
   }
 }
 
-const List<String> gridItemNames = ['销售', '采购', '库存', '资金', '账目'];
+const List<String> gridItemNames = ['销售', '采购', '库存', '收支', '还款','账目', '更多'];
 const List<int> gridItemColors = [
   0x7C9BA9FA,
   0xFFFCEAF4,
   0x60FF8D1A,
+  0x529BD4FA,
   0x4C04BFB3,
-  0xFFFAD984
+  0xFFFAD984,
+  0x4C04BFB3
 ];
 const List<String> gridItemPaths = [
   'xiaoshou',
   'caigou',
   'kucun',
-  'zijin',
-  'zhangmu'
+  'home_cost',
+  'home_repayment',
+  'zhangmu',
+  'more'
 ];
 
 final List<Function()> gridItemRoutes = [
   () => Get.toNamed(RouteConfig.saleRecord, arguments: {'index': 0}),
   () => Get.toNamed(RouteConfig.purchaseRecord, arguments: {'index': 0}),
-  () => Get.toNamed(RouteConfig.stockList,
-      arguments: {'select': StockListType.DETAIL}),
-  () => Get.toNamed(RouteConfig.funds),
+  () => Get.toNamed(RouteConfig.stockList, arguments: {'select': StockListType.DETAIL}),
+  () => Get.toNamed(RouteConfig.costRecord, arguments: {'index': 0}),
+  () => Get.toNamed(RouteConfig.repaymentRecord, arguments: {'customType': CustomType.CUSTOM.value}),
   () => Get.toNamed(RouteConfig.dailyAccount),
+  () => Get.toNamed(RouteConfig.more),
 ];
 
 const List<String> gridItemPermission = [
   PermissionCode.sales_page_permission,
   PermissionCode.purchase_page_permission,
   PermissionCode.stock_page_permission,
-  PermissionCode.funds_page_permission,
+  PermissionCode.stock_page_permission,
+  PermissionCode.funds_page_permission,//ToDO 此处不需要限制
   PermissionCode.account_page_permission,
+  PermissionCode.account_page_permission,//ToDO 此处不需要限制
 ];
 
 Widget gridItem(int index) {

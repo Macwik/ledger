@@ -44,6 +44,8 @@ class CostRecordState {
   //业务员选择
   List<int>? selectEmployeeIdList ;
 
-  int? get itemCount => employeeList?.length; //筛选里chip的数量
+  int? get itemCount => employeeList?.length;
+
+  int? index;
 
 }

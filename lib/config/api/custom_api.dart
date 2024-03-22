@@ -4,6 +4,8 @@ class CustomApi{
   static const String getCustomDetail = '/api/erp/v2/custom/detail';
   //拉取客户详情列表
   static const String getCustomList = '/api/erp/v2/custom/list';
+  //批量导入客户--从其他账本
+  static const String batchImportCustom = '/api/erp/v2/custom/list/for-import';
   //修改客户详情
   static const String updateCustom = '/api/erp/v2/custom/update';
   //supplierDetail拉取详情下面部分

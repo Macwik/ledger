@@ -5,6 +5,7 @@ import 'package:ledger/config/api/cost_income_api.dart';
 import 'package:ledger/config/api/ledger_api.dart';
 import 'package:ledger/entity/costIncome/cost_income_order_dto.dart';
 import 'package:ledger/entity/user/user_base_dto.dart';
+import 'package:ledger/enum/cost_order_type.dart';
 import 'package:ledger/enum/process_status.dart';
 import 'package:ledger/http/base_page_entity.dart';
 import 'package:ledger/http/http_util.dart';
@@ -14,12 +15,27 @@ import 'package:ledger/util/toast_util.dart';
 
 import 'cost_record_state.dart';
 
-class CostRecordController extends GetxController {
+class CostRecordController extends GetxController with GetSingleTickerProviderStateMixin implements DisposableInterface {
   final CostRecordState state = CostRecordState();
+
+  late TabController tabController;
 
   Future<void> initState() async {
     onRefresh();
     _queryLedgerUserList();
+  }
+
+  @override
+  void onInit() {
+    tabController = TabController(length: 2, vsync: this);
+    tabController.addListener(() {
+      var index = tabController.index;
+      state.index = index;
+      update(['cost_record_add_bill']);
+      clearCondition();
+      onRefresh();
+    });
+    super.onInit();
   }
 
   Future<void> selectDateRange(BuildContext context) async {
@@ -58,6 +74,7 @@ class CostRecordController extends GetxController {
           'searchContent': state.searchContent,
           'discount': state.orderStatus,
           'invalid': state.invalid,
+          'orderType':state.index,
           'userIdList': state.selectEmployeeIdList,
           'labelList': state.costLabel == null ? null : [state.costLabel?.id],
           'bindProduct':state.bindProduct,
@@ -177,10 +194,26 @@ class CostRecordController extends GetxController {
   }
 
   Future<void> selectCostType() async {
-    var result = await Get.toNamed(RouteConfig.costType);
-    if (result != null) {
-      state.costLabel = result;
-      update(['costType']);
+    if (state.index == 0) {
+      var result = await Get.toNamed(RouteConfig.costType,arguments: {'costOrderType':CostOrderType.COST});
+      if (result != null) {
+        state.costLabel = result;
+        update(['costType']);
+      }
+    } else {
+      var result = await Get.toNamed(RouteConfig.costType,arguments: {'costOrderType':CostOrderType.INCOME});
+      if (result != null) {
+        state.costLabel = result;
+        update(['costType']);
+      }
+    }
+  }
+
+  void toAddBill() {
+    if (state.index == 0) {
+      Get.toNamed(RouteConfig.costBill, arguments: {'costOrderType': CostOrderType.COST});
+    } else {
+      Get.toNamed(RouteConfig.costBill, arguments: {'costOrderType': CostOrderType.INCOME});
     }
   }
 }

@@ -213,8 +213,7 @@ class ChooseRepaymentOrderView extends StatelessWidget {
                                     Center(
                                       child: Container(
                                         child: Checkbox(
-                                          value: controller.judgeIsSelect(
-                                              customCreditDTO.id!),
+                                          value: controller.judgeIsSelect(customCreditDTO.id!),
                                           onChanged: (bool? selected) {
                                             controller.addToSelected(
                                                 selected, customCreditDTO);

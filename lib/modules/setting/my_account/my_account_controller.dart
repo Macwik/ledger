@@ -43,7 +43,7 @@ class MyAccountController extends GetxController {
         cancel: '取消',
         confirm: '确定',
         content: '确认切换账本吗',
-        onCancel: () => Get.back(),
+        onCancel: (){},
         onConfirm: () async {
           Loading.showDuration(status: '账本切换中...');
           await Http()
@@ -123,7 +123,7 @@ class MyAccountController extends GetxController {
         }
       });
     } else {
-      Get.back(result: id);
+      Get.offNamed(RouteConfig.customList, arguments: {'ledgerId': id});
     }
   }
 

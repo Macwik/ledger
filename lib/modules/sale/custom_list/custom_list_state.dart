@@ -1,5 +1,5 @@
-import 'package:get/get.dart';
 import 'package:ledger/entity/contact/contact_dto.dart';
+import 'package:ledger/enum/is_select.dart';
 
 class CustomListState {
   CustomListState() {
@@ -10,5 +10,12 @@ class CustomListState {
 
   Set<String> customNameSet = <String>{};
 
-  RxBool batch = RxBool(false);
+  int? ledgerId;
+
+  int? isAddressList = IsSelectType.FALSE.value;
+
+  // RxBool batch = RxBool(false);
+
+  // List<ContactDTO> selected = [];
+
 }

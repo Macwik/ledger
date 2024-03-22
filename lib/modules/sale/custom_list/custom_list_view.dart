@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ledger/entity/contact/contact_dto.dart';
+import 'package:ledger/enum/process_status.dart';
 import 'package:ledger/res/export.dart';
 
 import 'custom_list_controller.dart';
@@ -16,11 +17,12 @@ class CustomListView extends StatelessWidget {
     controller.initState();
     return Scaffold(
       appBar: TitleBar(
-        title: '请选要导入的内容',
-        actionName: '批量导入',
-        actionPressed: () {
-          state.batch.value = !state.batch.value;
-        },
+        title: '添加客户',
+        backPressed: () => Get.back(result: ProcessStatus.OK),
+        // actionName: '批量导入',
+        // actionPressed: () {
+        //   state.batch.value = !state.batch.value;
+        // },
       ),
       body: Column(
         children: [
@@ -35,35 +37,30 @@ class CustomListView extends StatelessWidget {
                             ContactDTO contactDTO = state.contactList![index];
                             return Container(
                               color: Colors.white,
-                              padding: EdgeInsets.only(
-                                  left: 20, right: 20, top: 10, bottom: 10),
-                              child: Column(
-                                children: [
-                                  Container(
-                                      margin: EdgeInsets.only(bottom: 10.w),
-                                      alignment: Alignment.centerLeft,
-                                      child: Row(
+                              padding: EdgeInsets.symmetric(horizontal:40.w),
+                              child: Row(
                                         children: [
                                           Expanded(
+                                            flex:2,
                                             child: ButtonBar(
-                                              alignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                Obx(() => Visibility(
-                                                    visible: state.batch.value,
-                                                    child: Checkbox(
-                                                      value: false,
-                                                      onChanged:
-                                                          (bool? selected) {},
-                                                      activeColor:
-                                                          Colours.primary,
-                                                    ))),
+                                              alignment: MainAxisAlignment.start,
+                                              children: [///批量导入选择框
+                                                // Obx(() => Visibility(
+                                                //     visible: state.batch.value,
+                                                //     child: Checkbox(
+                                                //       value: controller.judgeIsSelect(contactDTO),
+                                                //       onChanged: (bool? selected) {
+                                                //         controller.addToSelected(selected, contactDTO);
+                                                //       },
+                                                //       activeColor: Colours.primary,
+                                                //     ),
+                                                // )),
                                                 Text(contactDTO.name ?? '',
                                                     style: TextStyle(
                                                       color: Colours.text_333,
-                                                      fontSize: 32.sp,
+                                                      fontSize: 36.sp,
                                                       fontWeight:
-                                                          FontWeight.w500,
+                                                          FontWeight.w400,
                                                     )),
                                               ],
                                             ),
@@ -73,11 +70,33 @@ class CustomListView extends StatelessWidget {
                                               alignment: MainAxisAlignment.end,
                                               children: [
                                                 state.customNameSet.contains(
-                                                        contactDTO.name ?? '')
+                                                    contactDTO.name ?? '')
                                                     ? ElevatedButton(
-                                                        onPressed: () {},
-                                                        child: Text('已导入'))
+                                                    style: ButtonStyle(
+                                                      elevation: MaterialStateProperty.all(0), // 将阴影值设置为0
+                                                      minimumSize: MaterialStateProperty.all(Size(200.w, 80.w)),
+                                                      padding: MaterialStateProperty.all(EdgeInsets.zero),
+                                                    ),
+                                                        onPressed: (){},
+                                                        child: Text('已导入',
+                                                        style: TextStyle(fontSize: 30.sp,
+                                                        color: Colours.text_666),
+                                                        ))
                                                     : ElevatedButton(
+                                                    style: ButtonStyle(
+                                                      elevation: MaterialStateProperty.all(0), // 将阴影值设置为0
+                                                      minimumSize: MaterialStateProperty.all(Size(200.w, 80.w)),
+                                                      padding: MaterialStateProperty.all(EdgeInsets.zero),
+                                                      shape: MaterialStateProperty.all(
+                                                        RoundedRectangleBorder(
+                                                          borderRadius: BorderRadius.circular(8.0),
+                                                          side: BorderSide(
+                                                            width: 1.0,
+                                                            color: Colours.text_ccc,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
                                                         onPressed: () {
                                                           controller.addCustom(
                                                               contactDTO.name ??
@@ -86,14 +105,15 @@ class CustomListView extends StatelessWidget {
                                                                       .phone ??
                                                                   '');
                                                         },
-                                                        child: Text('导入'))
+                                                        child: Text('导入',
+                                                          style: TextStyle(fontSize: 32.sp,
+                                                              color: Colours.text_666),
+                                                        ))
                                               ],
                                             ),
                                           ),
                                         ],
-                                      )),
-                                ],
-                              ),
+                                      ),
                             );
                           },
                           separatorBuilder: (context, index) => Container(

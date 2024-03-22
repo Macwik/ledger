@@ -25,6 +25,8 @@ class RepaymentRecordView extends StatelessWidget {
       child: Scaffold(
           appBar: TitleBar(
               title: '还款列表',
+            actionName:'录入欠款' ,
+            actionPressed: ()=> Get.toNamed(RouteConfig.addDebt),
              ),
           endDrawer: Drawer(
             width:  MediaQuery.of(context).size.width * 0.8,
@@ -596,10 +598,13 @@ class RepaymentRecordView extends StatelessWidget {
                           child: PermissionWidget(
                               permissionCode: PermissionCode.supplier_detail_repayment_order_permission,
                               child:Container(
-                                  width: 90.0,
-                                  height: 66.0,
-                                  margin: EdgeInsets.all(30.w),
+                                  width: 210.w,
+                                  height:110.w,
+                                  margin: EdgeInsets.only(bottom:30.w),
                                   child: FloatingActionButton(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30), // 设置圆角大小
+                                    ),
                                     onPressed: () => Get.toNamed(RouteConfig.repaymentBill,arguments: {'customType':CustomType.CUSTOM.value}),
                                     child: Container(
                                         child: Row(
@@ -931,10 +936,13 @@ class RepaymentRecordView extends StatelessWidget {
                           child: PermissionWidget(
                               permissionCode: PermissionCode.supplier_detail_repayment_order_permission,
                               child:Container(
-                                  width: 90.0,
-                                  height: 66.0,
-                                  margin: EdgeInsets.all(30.w),
+                                  width: 210.w,
+                                  height:110.w,
+                                  margin: EdgeInsets.only(bottom:30.w),
                                   child: FloatingActionButton(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30), // 设置圆角大小
+                                    ),
                                     onPressed: () => Get.toNamed(RouteConfig.repaymentBill,arguments: {'customType':CustomType.SUPPLIER.value}),
                                     child: Container(
                                         child: Row(

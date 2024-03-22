@@ -130,8 +130,7 @@ class MyAccountView extends StatelessWidget {
                                               width: 15.w,
                                             ),
                                             Text(
-                                              userRelationDetailDTO?.active ??
-                                                      false
+                                              userRelationDetailDTO?.active ?? false
                                                   ? '当前账本'
                                                   : '进入账本',
                                               style: TextStyle(

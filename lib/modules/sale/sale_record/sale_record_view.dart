@@ -559,10 +559,13 @@ class SaleRecordView extends StatelessWidget {
               global: false,
               builder: (_) {
                 return Container(
-                    width: 90.0,
-                    height: 66.0,
-                    margin: EdgeInsets.all(30.w),
+                    width: 210.w,
+                    height:110.w,
+                    margin: EdgeInsets.only(bottom:30.w),
                     child: FloatingActionButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30), // 设置圆角大小
+                      ),
                       onPressed: () => controller.toAddBill(),
                       child: Container(
                           child: Row(

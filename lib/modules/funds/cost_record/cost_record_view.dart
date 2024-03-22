@@ -342,7 +342,7 @@ class CostRecordView extends StatelessWidget {
                       child: Row(
                         children: [
                           Text(
-                            '费用类型',
+                            state.index == 0?'费用类型':'收入类型',
                             style: TextStyle(
                               color: Colours.text_333,
                               fontSize: 30.sp,
@@ -511,210 +511,280 @@ class CostRecordView extends StatelessWidget {
                 )
               ])),
         ),
-        body: Column(
-          children: [
-            Flex(
-              direction: Axis.horizontal,
-              children: [
-              Expanded(child:  Container(
-                  height: 100.w,
-                  padding: EdgeInsets.only(top:10.w,left: 10.w, right: 10.w),
-                  child: SearchBar(
-                      onChanged: (value){
-                        controller.searchCostRecord(value);
-                      },
-                      leading: Icon(
-                        Icons.search,
-                        color: Colors.grey,
-                        size: 40.w,
-                      ),
-                    hintStyle: MaterialStatePropertyAll<TextStyle>(
-                        TextStyle(fontSize: 34.sp,  color: Colors.black26)),
-                    shadowColor:MaterialStatePropertyAll<Color>(Colors.black26),
-                      hintText: '请输入费用、收入名称',
-
-                  )), ),
-                Builder(
-                  builder: (context) => GestureDetector(
-                    onTap: () {
-                      Scaffold.of(context).openEndDrawer();
-                    },
-                    child:  Row(
-                      mainAxisSize: MainAxisSize.min,
+        body: DefaultTabController(
+          initialIndex: 0,
+          length:  2,
+          child: Column(
+            children: [
+              Container(
+                  color: Colors.white,
+                  height: 90.w, // 调整TabBar高度
+                  child: TabBar(
+                    controller: controller.tabController,
+                    tabs: [
+                      Tab(text:'费用',),
+                      Tab(text:'收入',),
+                    ],
+                    indicatorWeight: 3.w,
+                    indicatorPadding: EdgeInsets.all(0),
+                    labelPadding: EdgeInsets.all(0),
+                    isScrollable: false,
+                    indicatorColor: Colours.primary,
+                    unselectedLabelColor: Colours.text_999,
+                    unselectedLabelStyle:
+                    const TextStyle(fontWeight: FontWeight.w500),
+                    labelStyle: TextStyle(fontWeight: FontWeight.w500),
+                    labelColor: Colours.primary,
+                  )),
+              //  }),
+              Expanded(
+                  child: TabBarView(
+                      controller: controller.tabController,
                       children: [
-                        LoadAssetImage(
-                          'screen',
-                          format: ImageFormat.png,
-                          color: Colours.text_999,
-                          height: 40.w,
-                          width: 40.w,
-                        ),// 导入的图像
-                        SizedBox(width: 8.w), // 图像和文字之间的间距
-                        Text('筛选',
-                          style: TextStyle(fontSize: 32.sp,
-                              color: Colours.text_666),),
-                        SizedBox(width: 24.w,),
-                      ],
-                    ),
+                        widgetSaleRecord(),
+                        widgetSaleRecord(),
+                      ]))
+            ],
+          ),
+        ),
+      floatingActionButton:PermissionWidget(
+          permissionCode: PermissionCode.funds_cost_order_permission,
+          child:GetBuilder<CostRecordController>(
+              id:'cost_record_add_bill',
+              builder: (_){
+            return Container(
+                width: 210.w,
+                height:110.w,
+                margin: EdgeInsets.only(bottom:30.w),
+                child: FloatingActionButton(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30), // 设置圆角大小
                   ),
+                  onPressed:()=> controller.toAddBill(),
+                  child: Container(
+                      child:
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(Icons.add,
+                            size: 34.w,),
+                          Text(state.index == 0?'费用':'收入',
+                            style: TextStyle(
+                                fontSize: 34.sp
+                            ),),
+                        ],)
+                  ), // 按钮上显示的图标
+                ));
+          })),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endContained ,);
+  }
+
+  widgetSaleRecord() {
+    return Column(
+      children: [
+        Flex(
+          direction: Axis.horizontal,
+          children: [
+            Expanded(child:  Container(
+                height: 100.w,
+                padding: EdgeInsets.only(top:10.w,left: 10.w, right: 10.w),
+                child: SearchBar(
+                  onChanged: (value){
+                    controller.searchCostRecord(value);
+                  },
+                  leading: Icon(
+                    Icons.search,
+                    color: Colors.grey,
+                    size: 40.w,
+                  ),
+                  hintStyle: MaterialStatePropertyAll<TextStyle>(
+                      TextStyle(fontSize: 34.sp,  color: Colors.black26)),
+                  shadowColor:MaterialStatePropertyAll<Color>(Colors.black26),
+                  hintText: '请输入费用、收入名称',
+
+                )), ),
+            Builder(
+              builder: (context) => GestureDetector(
+                onTap: () {
+                  Scaffold.of(context).openEndDrawer();
+                },
+                child:  Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    LoadAssetImage(
+                      'screen',
+                      format: ImageFormat.png,
+                      color: Colours.text_999,
+                      height: 40.w,
+                      width: 40.w,
+                    ),// 导入的图像
+                    SizedBox(width: 8.w), // 图像和文字之间的间距
+                    Text('筛选',
+                      style: TextStyle(fontSize: 32.sp,
+                          color: Colours.text_666),),
+                    SizedBox(width: 24.w,),
+                  ],
                 ),
-            ],),
-            Expanded(
-              child: GetBuilder<CostRecordController>(
-                  id: 'costRecord',
-                  builder: (_) {
-                    return CustomEasyRefresh(
-                        controller: state.refreshController,
-                        onLoad: controller.onLoad,
-                        onRefresh: controller.onRefresh,
-                        emptyWidget: state.items == null
-                            ? LottieIndicator()
-                            : state.items!.isEmpty
-                                ? EmptyLayout(hintText: '什么都没有'.tr)
-                                : null,
-                        child: ListView.separated(
-                          //shrinkWrap: true,
-                          itemBuilder: (context, index) {
-                            var costIncomeOrderDTO = state.items![index];
-                            return InkWell(
-                                onTap: () {controller.toCostDetail(costIncomeOrderDTO.id);},
+              ),
+            ),
+          ],),
+        Expanded(
+          child: GetBuilder<CostRecordController>(
+              id: 'costRecord',
+              builder: (_) {
+                return CustomEasyRefresh(
+                    controller: state.refreshController,
+                    onLoad: controller.onLoad,
+                    onRefresh: controller.onRefresh,
+                    emptyWidget: state.items == null
+                        ? LottieIndicator()
+                        : state.items!.isEmpty
+                        ? EmptyLayout(hintText: '什么都没有'.tr)
+                        : null,
+                    child: ListView.separated(
+                      //shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        var costIncomeOrderDTO = state.items![index];
+                        return InkWell(
+                          onTap: () {controller.toCostDetail(costIncomeOrderDTO.id);},
+                          child: Column(
+                            children: [
+                              Container(
+                                width: double.infinity,
+                                padding: EdgeInsets.only(
+                                    left: 40.w, top: 10.w, bottom: 10.w),
+                                color: Colors.white12,
+                                child: Text(
+                                  DateUtil.formatDefaultDate2(
+                                      costIncomeOrderDTO.orderDate),
+                                  style: TextStyle(
+                                    color: Colours.text_ccc,
+                                    fontSize: 24.sp,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                color: Colors.white,
+                                padding: EdgeInsets.only(left: 40.w, right: 40.w,top: 20.w,bottom: 20.w),
                                 child: Column(
-                                    children: [
-                                      Container(
-                                        width: double.infinity,
-                                        padding: EdgeInsets.only(
-                                            left: 40.w, top: 10.w, bottom: 10.w),
-                                        color: Colors.white12,
-                                        child: Text(
-                                          DateUtil.formatDefaultDate2(
-                                              costIncomeOrderDTO.orderDate),
-                                          style: TextStyle(
-                                            color: Colours.text_ccc,
-                                            fontSize: 24.sp,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                        color: Colors.white,
-                                        padding: EdgeInsets.only(left: 40.w, right: 40.w,top: 20.w,bottom: 20.w),
-                                        child: Column(
-                                          children: [
-                                            Flex(
-                                              direction: Axis.horizontal,
-                                              children: [
-                                                Expanded(child:
-                                                Text(
-                                                costIncomeOrderDTO
+                                  children: [
+                                    Flex(
+                                      direction: Axis.horizontal,
+                                      children: [
+                                        Expanded(child:
+                                        Text(
+                                            costIncomeOrderDTO
                                                 .costIncomeName ?? '',
+                                            style: TextStyle(
+                                              color: costIncomeOrderDTO.invalid == 0 ?  Colours.text_333 : Colours.text_ccc,
+                                              fontSize: 32.sp,
+                                              fontWeight:
+                                              FontWeight.w500,
+                                            ))),
+                                        Visibility(
+                                            visible: costIncomeOrderDTO.invalid == 0 ? false :true,
+                                            child:Container(
+                                              padding: EdgeInsets.only(top:2.w,bottom:2.w,left: 4.w,right: 4.w),
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: Colours.text_ccc,
+                                                  width: 1.0,
+                                                ),
+                                                borderRadius: BorderRadius.circular(8.0),
+                                              ),
+                                              child: Text(
+                                                  '已作废',
+                                                  style: TextStyle(
+                                                    color: Colours
+                                                        .text_666,
+                                                    fontSize: 26.sp,
+                                                    fontWeight: FontWeight.w500,
+                                                  )),
+                                            ) ),
+                                        Expanded(
+                                            child:
+                                            Row(
+                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                children:[
+                                                  Text( costIncomeOrderDTO.orderType ==CostOrderType.COST.value ?  '（费）':'（收）',
+                                                      style: TextStyle(
+                                                        color: costIncomeOrderDTO.invalid == 0
+                                                            ?  costIncomeOrderDTO.orderType == CostOrderType.COST.value ? Colours.primary :Colors.orange
+                                                            : Colours.text_ccc,
+                                                        fontSize: 28.sp,
+                                                        fontWeight:
+                                                        FontWeight.w500,
+                                                      )),
+                                                ])
+                                        ),
+                                      ],
+                                    ),
+                                    Container(
+                                      height: 1.w,
+                                      margin: EdgeInsets.only(top: 16.w,bottom: 16.w),
+                                      width: double.infinity,
+                                      color: Colours.divider,
+                                    ),
+                                    Flex(
+                                      direction: Axis.horizontal,
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                              '￥${costIncomeOrderDTO.totalAmount??''}',
+                                              style: TextStyle(
+                                                color: costIncomeOrderDTO.invalid == 0 ?  Colors.red[600] : Colours.text_999,
+                                                fontSize: 30.sp,
+                                                fontWeight:
+                                                FontWeight.w500,
+                                              )),),
+                                        Expanded(child:
+                                        Row(
+                                          children: [
+                                            Text(
+                                              '业务员：',
+                                              style: TextStyle(
+                                                color: Colours
+                                                    .text_ccc,
+                                                fontSize: 26.sp,
+                                                fontWeight:
+                                                FontWeight.w400,
+                                              ),
+                                            ),
+                                            Expanded(child:
+                                            Text(
+                                                costIncomeOrderDTO
+                                                    .creatorName ??
+                                                    '',
                                                 style: TextStyle(
-                                                  color: costIncomeOrderDTO.invalid == 0 ?  Colours.text_333 : Colours.text_ccc,
-                                                  fontSize: 32.sp,
+                                                  color: Colours.text_999,
+                                                  fontSize: 26.sp,
                                                   fontWeight:
                                                   FontWeight.w500,
                                                 ))),
-                                                Visibility(
-                                                  visible: costIncomeOrderDTO.invalid == 0 ? false :true,
-                                                  child:Container(
-                                                    padding: EdgeInsets.only(top:2.w,bottom:2.w,left: 4.w,right: 4.w),
-                                                    decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                        color: Colours.text_ccc,
-                                                        width: 1.0,
-                                                      ),
-                                                      borderRadius: BorderRadius.circular(8.0),
-                                                    ),
-                                                    child: Text(
-                                                        '已作废',
-                                                        style: TextStyle(
-                                                          color: Colours
-                                                              .text_666,
-                                                          fontSize: 26.sp,
-                                                          fontWeight: FontWeight.w500,
-                                                        )),
-                                                  ) ),
-                                                Expanded(
-                                                    child:
-                                                    Row(
-                                                        mainAxisAlignment: MainAxisAlignment.end,
-                                                        children:[
-                                                          Text( costIncomeOrderDTO.orderType ==CostOrderType.COST.value ?  '（费）':'（收）',
-                                                              style: TextStyle(
-                                                                color: costIncomeOrderDTO.invalid == 0
-                                                                    ?  costIncomeOrderDTO.orderType == CostOrderType.COST.value ? Colours.primary :Colors.orange
-                                                                    : Colours.text_ccc,
-                                                                fontSize: 28.sp,
-                                                                fontWeight:
-                                                                FontWeight.w500,
-                                                              )),
-                                                        ])
-                                                ),
-                                              ],
-                                            ),
-                                            Container(
-                                              height: 1.w,
-                                              margin: EdgeInsets.only(top: 16.w,bottom: 16.w),
-                                              width: double.infinity,
-                                              color: Colours.divider,
-                                            ),
-                                            Flex(
-                                              direction: Axis.horizontal,
-                                              children: [
-                                                Expanded(
-                                                  child: Text(
-                                                      '￥${costIncomeOrderDTO.totalAmount??''}',
-                                                      style: TextStyle(
-                                                        color: costIncomeOrderDTO.invalid == 0 ?  Colors.red[600] : Colours.text_999,
-                                                        fontSize: 30.sp,
-                                                        fontWeight:
-                                                        FontWeight.w500,
-                                                      )),),
-                                                Expanded(child:
-                                                    Row(
-                                                      children: [
-                                                        Text(
-                                                          '业务员：',
-                                                          style: TextStyle(
-                                                            color: Colours
-                                                                .text_ccc,
-                                                            fontSize: 26.sp,
-                                                            fontWeight:
-                                                            FontWeight.w400,
-                                                          ),
-                                                        ),
-                                                        Expanded(child:
-                                                        Text(
-                                                            costIncomeOrderDTO
-                                                                .creatorName ??
-                                                                '',
-                                                            style: TextStyle(
-                                                              color: Colours.text_999,
-                                                              fontSize: 26.sp,
-                                                              fontWeight:
-                                                              FontWeight.w500,
-                                                            ))),
-                                                      ],
-                                                    )
+                                          ],
+                                        )
 
-                                                ),
-                                              ],
-                                            ),
-                                            SizedBox(height: 16.w,),
-                                            Flex(direction: Axis.horizontal,
-                                              children: [
-                                                Expanded(child:
-                                                  Text(
-                                                      DateUtil.formatDefaultDateTimeMinute(
-                                                          costIncomeOrderDTO.gmtCreate),
-                                                      style: TextStyle(
-                                                        color: Colours.text_ccc,
-                                                        fontSize: 26.sp,
-                                                        fontWeight: FontWeight.w400,
-                                                      )),
-                                                 ),
-                                          Visibility(
-                                            visible:costIncomeOrderDTO.productNameList?.isNotEmpty??false ,
-                                            child:  Expanded(
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 16.w,),
+                                    Flex(direction: Axis.horizontal,
+                                      children: [
+                                        Expanded(child:
+                                        Text(
+                                            DateUtil.formatDefaultDateTimeMinute(
+                                                costIncomeOrderDTO.gmtCreate),
+                                            style: TextStyle(
+                                              color: Colours.text_ccc,
+                                              fontSize: 26.sp,
+                                              fontWeight: FontWeight.w400,
+                                            )),
+                                        ),
+                                        Visibility(
+                                          visible:costIncomeOrderDTO.productNameList?.isNotEmpty??false ,
+                                          child:  Expanded(
                                               child: Row(children: [
                                                 Text(
                                                     '绑定：',
@@ -737,48 +807,24 @@ class CostRecordView extends StatelessWidget {
 
                                           ),)
 
-                                              ],)
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                );
-                          },
-                          separatorBuilder: (context, index) => Container(
-                            height: 2.w,
-                            color: Colors.white12,
-                            width: double.infinity,
+                                      ],)
+                                  ],
+                                ),
+                              )
+                            ],
                           ),
-                          itemCount: state.items?.length ?? 0,
-                        ));
-                  }),
-            )
-          ],
-        ),
-      floatingActionButton:PermissionWidget(
-          permissionCode: PermissionCode.funds_cost_order_permission,
-          child:Container(
-          width: 90.0,
-          height: 66.0,
-          margin: EdgeInsets.all(30.w),
-          child: FloatingActionButton(
-            onPressed:()=> Get.offNamed(RouteConfig.costBill, arguments:{'costOrderType': CostOrderType.COST} ),
-            child: Container(
-                child:
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(Icons.add,
-                      size: 30.w,),
-                    Text('费用',
-                      style: TextStyle(
-                          fontSize: 32.sp
-                      ),),
-                  ],)
-            ), // 按钮上显示的图标
-          ))),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endContained ,);
+                        );
+                      },
+                      separatorBuilder: (context, index) => Container(
+                        height: 2.w,
+                        color: Colors.white12,
+                        width: double.infinity,
+                      ),
+                      itemCount: state.items?.length ?? 0,
+                    ));
+              }),
+        )
+      ],
+    );
   }
 }

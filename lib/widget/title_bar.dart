@@ -98,8 +98,9 @@ class TitleBar extends StatelessWidget implements PreferredSizeWidget {
                             actionName,
                             key: const Key('actionName'),
                             style: TextStyle(
-                              fontSize: 26.sp,
-                              color: Colors.black87,
+                              fontSize: 28.sp,
+                              color: Colors.black54,
+                              fontWeight: FontWeight.w500
                             ),
                           ),
                         ),
