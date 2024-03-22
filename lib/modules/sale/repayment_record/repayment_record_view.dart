@@ -4,6 +4,7 @@ import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/enum/custom_type.dart';
 import 'package:ledger/res/export.dart';
 import 'package:ledger/util/decimal_util.dart';
+import 'package:ledger/util/image_util.dart';
 import 'package:ledger/util/picker_date_utils.dart';
 import 'package:ledger/widget/permission/permission_widget.dart';
 
@@ -24,13 +25,6 @@ class RepaymentRecordView extends StatelessWidget {
       child: Scaffold(
           appBar: TitleBar(
               title: '还款列表',
-            actionWidget:Builder(
-              builder: (context) => IconButton(
-                icon: Icon(Icons.filter_alt_outlined,color: Colours.text_666),
-                onPressed: () => Scaffold.of(context).openEndDrawer(),
-                tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-              ),
-            ),
              ),
           endDrawer: Drawer(
             width:  MediaQuery.of(context).size.width * 0.8,
@@ -313,20 +307,50 @@ class RepaymentRecordView extends StatelessWidget {
                     children: [
                       Column(
                         children: [
-                          Container(
-                              color: Colors.white60,
-                              height: 120.w,
-                              padding: EdgeInsets.all(10.w),
-                              child: SearchBar(
-                                onChanged: (value) {
-                                  controller.searchRepaymentRecord(value);
+                          Flex(direction: Axis.horizontal,
+                          children: [
+                            Expanded(child: Container(
+                                height: 100.w,
+                                padding: EdgeInsets.only(top:10.w,left: 10.w, right: 10.w),
+                                child: SearchBar(
+                                  leading: Icon(
+                                    Icons.search,
+                                    color: Colors.grey,
+                                    size: 40.w,
+                                  ),
+                                  shadowColor:MaterialStatePropertyAll<Color>(Colors.black26),
+                                  hintStyle: MaterialStatePropertyAll<TextStyle>(
+                                      TextStyle(fontSize: 34.sp,  color: Colors.black26)),
+                                  onChanged: (value) {
+                                    controller.searchRepaymentRecord(value);
+                                  },
+                                  hintText: '请输入客户名称',
+                                )) ),
+                            Builder(
+                              builder: (context) => GestureDetector(
+                                onTap: () {
+                                  Scaffold.of(context).openEndDrawer();
                                 },
-                                leading: Icon(
-                                  Icons.search,
-                                  color: Colors.grey,
+                                child:  Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    LoadAssetImage(
+                                      'screen',
+                                      format: ImageFormat.png,
+                                      color: Colours.text_999,
+                                      height: 40.w,
+                                      width: 40.w,
+                                    ),// 导入的图像
+                                    SizedBox(width: 8.w), // 图像和文字之间的间距
+                                    Text('筛选',
+                                      style: TextStyle(fontSize: 30.sp,
+                                          color: Colours.text_666),),
+                                    SizedBox(width: 24.w,),
+                                  ],
                                 ),
-                                hintText: '请输入客户名称',
-                              )),
+                              ),
+                            ),
+                          ],),
                           //搜索框
                           Expanded(
                               child: GetBuilder<RepaymentRecordController>(
@@ -601,21 +625,51 @@ class RepaymentRecordView extends StatelessWidget {
                       //搜索框
                       Column(
                         children: [
-                          Container(
-                              color: Colors.white60,
-                              height: 120.w,
-                              padding:
-                              EdgeInsets.all(10.w),
-                              child: SearchBar(
-                                onChanged: (value) {
-                                  controller.searchRepaymentRecord(value);
+                          Flex(direction: Axis.horizontal,
+                          children: [
+                            Expanded(child:
+                            Container(
+                                height: 100.w,
+                                padding: EdgeInsets.only(top:10.w,left: 10.w, right: 10.w),
+                                child: SearchBar(
+                                  leading: Icon(
+                                    Icons.search,
+                                    color: Colors.grey,
+                                    size: 40.w,
+                                  ),
+                                  shadowColor:MaterialStatePropertyAll<Color>(Colors.black26),
+                                  hintStyle: MaterialStatePropertyAll<TextStyle>(
+                                      TextStyle(fontSize: 34.sp,  color: Colors.black26)),
+                                  onChanged: (value) {
+                                    controller.searchRepaymentRecord(value);
+                                  },
+                                  hintText: '请输入供应商名称',
+                                ))),
+                            Builder(
+                              builder: (context) => GestureDetector(
+                                onTap: () {
+                                  Scaffold.of(context).openEndDrawer();
                                 },
-                                leading: Icon(
-                                  Icons.search,
-                                  color: Colors.grey,
+                                child:  Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    LoadAssetImage(
+                                      'screen',
+                                      format: ImageFormat.png,
+                                      color: Colours.text_999,
+                                      height: 40.w,
+                                      width: 40.w,
+                                    ),// 导入的图像
+                                    SizedBox(width: 8.w), // 图像和文字之间的间距
+                                    Text('筛选',
+                                      style: TextStyle(fontSize: 30.sp,
+                                          color: Colours.text_666),),
+                                    SizedBox(width: 24.w,),
+                                  ],
                                 ),
-                                hintText: '请输入供应商名称',
-                              )),
+                              ),
+                            ),
+                          ],),
                           Expanded(
                               child: GetBuilder<RepaymentRecordController>(
                                   id: 'supplier_detail',

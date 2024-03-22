@@ -34,5 +34,6 @@ class BindingSaleBillState {
     ///Initialize variables
   }
 
+  String? searchContent = '';
 
 }

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/enum/cost_order_type.dart';
 import 'package:ledger/res/export.dart';
+import 'package:ledger/util/image_util.dart';
 import 'package:ledger/util/picker_date_utils.dart';
 import 'package:ledger/widget/permission/permission_widget.dart';
 import 'cost_record_controller.dart';
@@ -18,14 +19,6 @@ class CostRecordView extends StatelessWidget {
     controller.initState();
     return Scaffold(
         appBar: TitleBar(
-          actionWidget:
-            Builder(
-              builder: (context) => IconButton(
-                icon: Icon(Icons.filter_alt_outlined,color: Colours.text_666),
-                onPressed: () => Scaffold.of(context).openEndDrawer(),
-                tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-              ),
-            ),
           title:'费用收入记录',
         ),
         endDrawer: Drawer(
@@ -520,19 +513,52 @@ class CostRecordView extends StatelessWidget {
         ),
         body: Column(
           children: [
-            Container(
-                height: 120.w,
-                padding: EdgeInsets.only(top: 10.w, left: 10.w, right: 10.w),
-                margin: EdgeInsets.only(bottom: 20.w),
-                child: SearchBar(
-                    onChanged: (value){
-                      controller.searchCostRecord(value);
+            Flex(
+              direction: Axis.horizontal,
+              children: [
+              Expanded(child:  Container(
+                  height: 100.w,
+                  padding: EdgeInsets.only(top:10.w,left: 10.w, right: 10.w),
+                  child: SearchBar(
+                      onChanged: (value){
+                        controller.searchCostRecord(value);
+                      },
+                      leading: Icon(
+                        Icons.search,
+                        color: Colors.grey,
+                        size: 40.w,
+                      ),
+                    hintStyle: MaterialStatePropertyAll<TextStyle>(
+                        TextStyle(fontSize: 34.sp,  color: Colors.black26)),
+                    shadowColor:MaterialStatePropertyAll<Color>(Colors.black26),
+                      hintText: '请输入费用、收入名称',
+
+                  )), ),
+                Builder(
+                  builder: (context) => GestureDetector(
+                    onTap: () {
+                      Scaffold.of(context).openEndDrawer();
                     },
-                    leading: Icon(
-                      Icons.search,
-                      color: Colors.grey,
+                    child:  Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        LoadAssetImage(
+                          'screen',
+                          format: ImageFormat.png,
+                          color: Colours.text_999,
+                          height: 40.w,
+                          width: 40.w,
+                        ),// 导入的图像
+                        SizedBox(width: 8.w), // 图像和文字之间的间距
+                        Text('筛选',
+                          style: TextStyle(fontSize: 32.sp,
+                              color: Colours.text_666),),
+                        SizedBox(width: 24.w,),
+                      ],
                     ),
-                    hintText: '请输入费用、收入名称')),
+                  ),
+                ),
+            ],),
             Expanded(
               child: GetBuilder<CostRecordController>(
                   id: 'costRecord',

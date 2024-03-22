@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ledger/res/export.dart';
 import 'package:ledger/util/decimal_util.dart';
+import 'package:ledger/util/image_util.dart';
 import 'package:ledger/util/picker_date_utils.dart';
 
 import 'remittance_record_controller.dart';
@@ -18,13 +19,6 @@ class RemittanceRecordView extends StatelessWidget {
     return Scaffold(
         appBar: TitleBar(
           title:'汇款记录'.tr,
-          actionWidget: Builder(
-            builder: (context) => IconButton(
-              icon: Icon(Icons.filter_alt_outlined,color: Colours.text_666),
-              onPressed: () => Scaffold.of(context).openEndDrawer(),
-              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-            ),
-          ),
         ),
         endDrawer: Drawer(
           width:  MediaQuery.of(context).size.width * 0.8,
@@ -401,8 +395,8 @@ class RemittanceRecordView extends StatelessWidget {
               children: [
                 Expanded(
                   child: Container(
-                      height: 120.w,
-                      padding: EdgeInsets.only(top: 20.w, left: 20.w, right: 20.w),
+                      height: 100.w,
+                      padding: EdgeInsets.only(top:10.w,left: 10.w, right: 10.w),
                       child: SearchBar(
                           onChanged: (value){
                             controller.searchRemittanceRecord(value);
@@ -410,41 +404,69 @@ class RemittanceRecordView extends StatelessWidget {
                           leading: Icon(
                             Icons.search,
                             color: Colors.grey,
+                            size: 40.w,
                           ),
+                          shadowColor:MaterialStatePropertyAll<Color>(Colors.black26),
+                          hintStyle: MaterialStatePropertyAll<TextStyle>(
+                              TextStyle(fontSize: 34.sp,
+                                color: Colors.black26
+                              )),
                           hintText: '请输入汇款人姓名')),
                 ),
-                  GetBuilder<RemittanceRecordController>(
-                        id: 'remittance_record_total_amount',
-                        builder: (_){
-                          return Column(
-                            children: [
-                              Text(
-                                '所选日期合计:',
-                                style: TextStyle(
-                                  color: Colours.text_999,
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                DecimalUtil.formatAmount(state.totalRemittanceAmount),
-                                style: TextStyle(
-                                  color: Colours.primary,
-                                  fontSize: 32.sp,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
-                          );
-                        }),
-                SizedBox(
-                  width: 16.w,
-                )
+                Builder(
+                  builder: (context) => GestureDetector(
+                    onTap: () {
+                      Scaffold.of(context).openEndDrawer();
+                    },
+                    child:  Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        LoadAssetImage(
+                          'screen',
+                          format: ImageFormat.png,
+                          color: Colours.text_999,
+                          height: 40.w,
+                          width: 40.w,
+                        ),// 导入的图像
+                        SizedBox(width: 8.w), // 图像和文字之间的间距
+                        Text('筛选',
+                          style: TextStyle(fontSize: 30.sp,
+                              color: Colours.text_666),),
+                        SizedBox(width: 24.w,),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
-            SizedBox(
-              height: 16.w,
-            ),
+            GetBuilder<RemittanceRecordController>(
+                id: 'remittance_record_total_amount',
+                builder: (_){
+                  return Container(
+                    margin: EdgeInsets.symmetric(vertical: 16.w,horizontal: 40.w),
+                    child:  Row(
+                      children: [
+                        Text(
+                          '所选日期合计：',
+                          style: TextStyle(
+                            color: Colours.text_999,
+                            fontSize: 30.sp,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        SizedBox(width: 16.w,),
+                        Text(
+                          DecimalUtil.formatAmount(state.totalRemittanceAmount),
+                          style: TextStyle(
+                            color: Colours.primary,
+                            fontSize: 32.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }),
             Expanded(
               child: GetBuilder<RemittanceRecordController>(
                   id: 'remittance_record',

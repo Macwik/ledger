@@ -52,6 +52,7 @@ class BindingSaleBillController extends GetxController {
       'orderTypeList': [
         OrderType.PURCHASE.value,
       ],
+      'searchContent': state.searchContent,
       'userIdList': state.selectEmployeeIdList,
       'orderStatus': state.orderStatus,
       'startDate': DateUtil.formatDefaultDate(state.startDate),
@@ -147,5 +148,10 @@ class BindingSaleBillController extends GetxController {
       state.selectEmployeeIdList!.add(id!);
     }
     update(['employee_button']);
+  }
+
+  void searchCustom(String searchValue) {
+    state.searchContent = searchValue;
+    onRefresh();
   }
 }

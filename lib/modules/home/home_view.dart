@@ -15,7 +15,6 @@ import 'package:ledger/res/export.dart';
 import 'package:flutter/material.dart';
 import 'package:ledger/util/decimal_util.dart';
 import 'package:ledger/util/image_util.dart';
-import 'package:ledger/widget/number_privacy_text.dart';
 import 'package:ledger/widget/permission/permission_owner_widget.dart';
 import 'package:ledger/widget/permission/permission_widget.dart';
 
@@ -1137,7 +1136,9 @@ class _MySliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
                                         alignment: Alignment.center,
                                         child: Text(
                                           textAlign: TextAlign.left,
-                                          '￥${state.homeStatisticsDTO?.totalSalesAmount ?? '0'}',
+                                          state.privacyText
+                                              ?'***'
+                                              :'￥${state.homeStatisticsDTO?.totalSalesAmount ?? '0'}',
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 38.sp,
@@ -1170,7 +1171,9 @@ class _MySliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
                                         alignment: Alignment.center,
                                         child: Text(
                                           textAlign: TextAlign.left,
-                                          '￥${state.homeStatisticsDTO?.totalCostAmount ?? '0'}',
+                                          state.privacyText
+                                              ?'***'
+                                              :'￥${state.homeStatisticsDTO?.totalCostAmount ?? '0'}',
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 38.sp,
@@ -1206,7 +1209,9 @@ class _MySliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
                                           alignment: Alignment.center,
                                           child: Text(
                                             textAlign: TextAlign.left,
-                                            '￥${state.homeStatisticsDTO?.totalIncomeAmount ?? '0'}',
+                                            state.privacyText
+                                                ?'***'
+                                                :'￥${state.homeStatisticsDTO?.totalIncomeAmount ?? '0'}',
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 38.sp,
@@ -1253,8 +1258,9 @@ class _MySliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
                                           flex: 2,
                                           child: Container(
                                               alignment: Alignment.center,
-                                              child: Text(
-                                                '￥${state.homeStatisticsDTO?.totalRepaymentAmount ?? '0'}',
+                                              child: Text(state.privacyText
+                                                ?'***'
+                                                :'￥${state.homeStatisticsDTO?.totalRepaymentAmount ?? '0'}',
                                                 textAlign: TextAlign.left,
                                                 style: TextStyle(
                                                   color: Colors.white,
@@ -1285,9 +1291,9 @@ class _MySliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
                                           flex: 2,
                                           child: Container(
                                               alignment: Alignment.center,
-                                              child: NumberPrivacyText(
-                                                number:
-                                                    '￥${state.homeStatisticsDTO?.totalCreditAmount ?? '0'}',
+                                              child: Text(state.privacyText
+                                                      ?'***'
+                                                      : '￥${state.homeStatisticsDTO?.totalCreditAmount ?? '0'}',
                                                 textAlign: TextAlign.left,
                                                 style: TextStyle(
                                                   color: Colors.white,
@@ -1297,7 +1303,17 @@ class _MySliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
                                               )))
                                     ],
                                   ))),
-                          Expanded(child: Container())
+                          Expanded(child:InkWell(
+                            onTap: (){ state.privacyText = !state.privacyText;
+                              controller.update(['home_sum']);
+                            },
+                            child: LoadSvg(
+                              state.privacyText
+                              ?'svg/ic_home_eye_close'
+                            :'svg/ic_home_eye_open',
+                            width: 50.w,
+                              color: Colors.white,
+                          ),))
                         ],
                       ),
                     )),

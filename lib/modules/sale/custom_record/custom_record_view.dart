@@ -4,6 +4,7 @@ import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/entity/custom/custom_dto.dart';
 import 'package:ledger/res/export.dart';
 import 'package:ledger/util/decimal_util.dart';
+import 'package:ledger/util/image_util.dart';
 import 'package:ledger/widget/permission/permission_widget.dart';
 import 'package:ledger/widget/will_pop.dart';
 
@@ -19,13 +20,16 @@ class CustomRecordView extends StatelessWidget {
       appBar: TitleBar(
         title: controller.state.initialIndex == 0 ? '客户列表' : '供应商列表',
         backPressed: () {controller.customRecordGetBack();},
-        actionWidget: Builder(
-          builder: (context) => IconButton(
-            icon: Icon(Icons.filter_alt_outlined,color: Colours.text_666),
-            onPressed: () => Scaffold.of(context).openEndDrawer(),
-            tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-          ),
-        ),
+        actionWidget: PermissionWidget(
+            permissionCode:
+                PermissionCode.custom_record_add_custom_permission,
+            child:  IconButton(
+                  onPressed: () {
+                    controller.toAddCustom(context);
+                  },
+                  icon: Icon(Icons.add),
+                  color: Colours.primary,
+                ))
       ),
       endDrawer: Drawer(
         width: MediaQuery.of(context).size.width * 0.8,
@@ -263,32 +267,46 @@ class CustomRecordView extends StatelessWidget {
                   Expanded(
                     flex: 1,
                     child: Container(
-                      height: 120.w,
-                      color: Colors.white60,
-                      padding: EdgeInsets.all(10.w),
+                      height: 100.w,
+                      padding: EdgeInsets.only(top:10.w,left: 10.w, right: 10.w),
                       child: SearchBar(
                         leading: Icon(
                           Icons.search,
                           color: Colors.grey,
+                          size: 40.w,
                         ),
+                        shadowColor:MaterialStatePropertyAll<Color>(Colors.black26),
+                        hintStyle: MaterialStatePropertyAll<TextStyle>(
+                            TextStyle(fontSize: 34.sp,  color: Colors.black26)),
                         hintText: '请输入客户名称',
                         onChanged: (value) => controller.searchCustom(value),
                       ),
                     ),
                   ),
-                  PermissionWidget(
-                      permissionCode:
-                          PermissionCode.custom_record_add_custom_permission,
-                      child: Container(
-                          color: Colors.white60,
-                          height: 120.w,
-                          child: IconButton(
-                            onPressed: () {
-                              controller.toAddCustom(context);
-                            },
-                            icon: Icon(Icons.add),
-                            color: Colors.redAccent,
-                          )))
+                  Builder(
+                    builder: (context) => GestureDetector(
+                      onTap: () {
+                        Scaffold.of(context).openEndDrawer();
+                      },
+                      child:  Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          LoadAssetImage(
+                            'screen',
+                            format: ImageFormat.png,
+                            color: Colours.text_999,
+                            height: 40.w,
+                            width: 40.w,
+                          ),// 导入的图像
+                          SizedBox(width: 8.w), // 图像和文字之间的间距
+                          Text('筛选',
+                            style: TextStyle(fontSize: 30.sp,
+                                color: Colours.text_666),),
+                          SizedBox(width: 24.w,),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
               GetBuilder<CustomRecordController>(

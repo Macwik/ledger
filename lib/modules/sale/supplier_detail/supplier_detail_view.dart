@@ -1,19 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/enum/custom_type.dart';
 import 'package:ledger/enum/process_status.dart';
-import 'package:ledger/res/colors.dart';
 import 'package:ledger/res/export.dart';
-import 'package:ledger/util/date_util.dart';
+import 'package:ledger/util/image_util.dart';
 import 'package:ledger/util/picker_date_utils.dart';
-import 'package:ledger/util/text_util.dart';
-import 'package:ledger/util/toast_util.dart';
-import 'package:ledger/widget/custom_easy_refresh.dart';
-import 'package:ledger/widget/elevated_btn.dart';
-import 'package:ledger/widget/empty_layout.dart';
-import 'package:ledger/widget/lottie_indicator.dart';
 import 'package:ledger/widget/permission/permission_widget.dart';
 import 'supplier_detail_controller.dart';
 
@@ -32,13 +24,6 @@ class SupplierDetailView extends StatelessWidget {
         title:state.customDTO?.customType == CustomType.CUSTOM.value
               ?'客户详情'
               :'供应商详情',
-        actionWidget:Builder(
-          builder: (context) => IconButton(
-            icon: Icon(Icons.filter_alt_outlined,color: Colours.text_666),
-            onPressed: () => Scaffold.of(context).openEndDrawer(),
-            tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-          ),
-        ),
       ),
       endDrawer: Drawer(
         width: MediaQuery.of(context).size.width * 0.8,
@@ -467,8 +452,7 @@ class SupplierDetailView extends StatelessWidget {
       body: Column(
         children: [
           Container(
-              padding:
-                  EdgeInsets.only(top: 20, right: 20, left: 40.w, bottom: 32.w),
+              padding: EdgeInsets.only(top: 20, right: 20, left: 40.w, bottom: 32.w),
               width: double.infinity,
               color: Colors.white,
               child: Column(
@@ -562,7 +546,7 @@ class SupplierDetailView extends StatelessWidget {
                       }),
                 ],
               )),
-          SizedBox(height: 32.w),
+          SizedBox(height: 16.w),
           Container(
             padding: EdgeInsets.only(left: 20, top: 20.w,bottom: 20.w),
             width: double.infinity,
@@ -585,6 +569,31 @@ class SupplierDetailView extends StatelessWidget {
                         color: Colours.text_666,
                         fontSize: 36.sp,
                         fontWeight: FontWeight.w600),
+                  ),
+                ),
+                const Spacer(),
+                Builder(
+                  builder: (context) => GestureDetector(
+                    onTap: () {
+                      Scaffold.of(context).openEndDrawer();
+                    },
+                    child:  Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        LoadAssetImage(
+                          'screen',
+                          format: ImageFormat.png,
+                          color: Colours.text_999,
+                          height: 40.w,
+                          width: 40.w,
+                        ),// 导入的图像
+                        SizedBox(width: 8.w), // 图像和文字之间的间距
+                        Text('筛选',
+                          style: TextStyle(fontSize: 30.sp,
+                              color: Colours.text_666),),
+                        SizedBox(width: 24.w,),
+                      ],
+                    ),
                   ),
                 ),
               ],

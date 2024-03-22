@@ -29,4 +29,6 @@ class HomeState {
   }
 
   final formKey = GlobalKey<FormBuilderState>();
+
+  bool privacyText = true;
 }

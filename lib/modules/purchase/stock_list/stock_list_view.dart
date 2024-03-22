@@ -5,6 +5,7 @@ import 'package:ledger/entity/product/product_classify_dto.dart';
 import 'package:ledger/entity/product/product_dto.dart';
 import 'package:ledger/enum/stock_list_type.dart';
 import 'package:ledger/res/export.dart';
+import 'package:ledger/util/image_util.dart';
 import 'package:ledger/widget/permission/permission_widget.dart';
 
 import 'stock_list_controller.dart';
@@ -20,13 +21,16 @@ class StockListView extends StatelessWidget {
     return Scaffold(
       appBar: TitleBar(
         title: '货物列表'.tr,
-        actionWidget:Builder(
-          builder: (context) => IconButton(
-            icon: Icon(Icons.filter_alt_outlined,color: Colours.text_666),
-            onPressed: () => Scaffold.of(context).openEndDrawer(),
-            tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-          ),
-        ),
+        actionWidget:  PermissionWidget(
+              permissionCode: PermissionCode.stock_list_add_product_permission,
+              child: Container(
+                  margin: EdgeInsets.only(right: 32.w),
+                  child:Icon(
+                Icons.add,
+                color: Colours.primary,
+              )),
+            ),
+        actionPressed: () {controller.toAddProduct();},
       ),
       endDrawer: Drawer(
         width: MediaQuery.of(context).size.width * 0.8,
@@ -165,38 +169,48 @@ class StockListView extends StatelessWidget {
                 flex: 1,
                 child: Container(
                     height: 100.w,
-                    padding:
-                        EdgeInsets.only(top: 20.w, left: 20.w, right: 20.w),
-                    margin: EdgeInsets.only(bottom: 20.w),
+                    padding: EdgeInsets.only(top:10.w,left: 10.w, right: 10.w),
                     child: SearchBar(
-                        onChanged: (value) {
-                          controller.searchStockList(value);
-                        },
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.white),
                         leading: Icon(
                           Icons.search,
                           color: Colors.grey,
+                          size: 40.w,
                         ),
+                        shadowColor:MaterialStatePropertyAll<Color>(Colors.black26),
+                        hintStyle: MaterialStatePropertyAll<TextStyle>(
+                            TextStyle(fontSize: 34.sp,  color: Colors.black26)),
+                        onChanged: (value) {
+                          controller.searchStockList(value);
+                        },
                         hintText: '请输入货物或供应商名称')),
               ),
-
-             InkWell(
-                      onTap: () {
-                        controller.toAddProduct();
-                      },
-                      child: PermissionWidget(
-                          permissionCode: PermissionCode
-                              .stock_list_add_product_permission,
-                          child:
-                              Icon(
-                                Icons.add,
-                                color: Colors.red[600],
-                              ),
-                            )),
-              SizedBox(width: 16.w,)
+              Builder(
+                builder: (context) => GestureDetector(
+                  onTap: () {
+                    Scaffold.of(context).openEndDrawer();
+                  },
+                  child:  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      LoadAssetImage(
+                        'screen',
+                        format: ImageFormat.png,
+                        color: Colours.text_999,
+                        height: 40.w,
+                        width: 40.w,
+                      ),// 导入的图像
+                      SizedBox(width: 8.w), // 图像和文字之间的间距
+                      Text('筛选',
+                        style: TextStyle(fontSize: 30.sp,
+                            color: Colours.text_666),),
+                      SizedBox(width: 24.w,),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
+          SizedBox(height: 16.w,),
           Expanded(
             child: GetBuilder<StockListController>(
                 id: 'product_classify_list',
