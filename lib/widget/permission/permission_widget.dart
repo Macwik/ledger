@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/store/store_controller.dart';
 
 import 'ledger_widget_type.dart';
@@ -29,6 +30,9 @@ class PermissionWidget extends StatelessWidget {
   }
 
   bool permissionCheck() {
+    if(PermissionCode.common_permission == permissionCode){
+      return true;
+    }
     List<String>? permissionList = StoreController.to.getPermissionCode();
     if(permissionList.isEmpty){
       return false;

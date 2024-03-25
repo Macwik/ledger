@@ -1,4 +1,8 @@
 class PermissionCode{
+
+  //公共权限
+  static const String common_permission = 'COMMON_PERMISSION';
+
   //营业员管理
   static const String employee_manage_permission = 'PAGE_EMPLOYEE_MANAGE';
 

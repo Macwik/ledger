@@ -59,60 +59,6 @@ class HomeView extends StatelessWidget {
                     ),
                   );
                 }),
-            // SliverPadding(
-            //   padding: EdgeInsets.all(8),
-            //   sliver: SliverGrid(
-            //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            //       crossAxisCount: 5,
-            //       crossAxisSpacing: 36.w,
-            //       mainAxisSpacing: 0,
-            //       childAspectRatio: 0.639,
-            //     ),
-            //     delegate: SliverChildBuilderDelegate((context, index) {
-            //       return
-            //           InkWell(
-            //             onTap: () => Get.toNamed(RouteConfig.more),
-            //             child: Flex(
-            //               direction: Axis.vertical,
-            //               mainAxisSize: MainAxisSize.min,
-            //               crossAxisAlignment: CrossAxisAlignment.center,
-            //               children: [
-            //                 Expanded(
-            //                     child: AspectRatio(
-            //                       aspectRatio: 1,
-            //                       child: ClipOval(
-            //                         child: Container(
-            //                           width: double.infinity,
-            //                           color: Color(0x4C04BFB3),
-            //                           child: Center(
-            //                             child: LoadAssetImage(
-            //                               'more',
-            //                               width: 66.w,
-            //                               height: 66.w,
-            //                               fit: BoxFit.fill,
-            //                             ),
-            //                           ),
-            //                         ),
-            //                       ),
-            //                     )),
-            //                 Padding(
-            //                   padding: const EdgeInsets.only(top: 13),
-            //                   child: Text(
-            //                     '更多',
-            //                     style: TextStyle(
-            //                       fontSize: 28.sp,
-            //                       fontWeight: FontWeight.w700,
-            //                       color: Colours.text_999,
-            //                     ),
-            //                   ),
-            //                 ),
-            //               ],
-            //             ),
-            //           );
-            //     }, childCount: 1),
-            //   ),
-            // ),
-            //picture
             SliverToBoxAdapter(
               child: Container(
                 alignment: Alignment.centerLeft,
