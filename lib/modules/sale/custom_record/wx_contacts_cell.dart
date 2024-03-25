@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:ledger/entity/custom/custom_dto.dart';
+import 'package:ledger/modules/sale/custom_record/custom_record_controller.dart';
 import 'package:ledger/res/colors.dart';
 import 'package:ledger/util/image_util.dart';
 import 'package:ledger/widget/image.dart';
@@ -26,13 +27,15 @@ class WxContactsCell extends StatelessWidget {
     required this.bottomContactsCountText,
     this.onClickCell,
     this.onClickTopCell,
+    required this.controller,
   });
 
+  final CustomRecordController controller;
   final CustomDTO model;
   final int index;
   final List dataArr;
   final String bottomContactsCountText;
-  final Function(dynamic model)? onClickCell;
+  final Function(CustomDTO model)? onClickCell;
   final Function(dynamic model)? onClickTopCell;
 
   @override
@@ -44,36 +47,8 @@ class WxContactsCell extends StatelessWidget {
   // 头部：新的朋友、群聊、标签、公众号
   Widget _buildHeader(context) {
 
-    // Widget topCell(context, itemData) {
-    //   double cellH = 55.0;
-    //   double leftSpace = 65.0;
-    //   double imgWH = 40;
-    //
-    //   return JhSetCell(
-    //     leftImgWH: imgWH,
-    //     cellHeight: cellH,
-    //     lineLeftEdge: leftSpace,
-    //     title: itemData['title'],
-    //     hiddenArrow: true,
-    //     leftWidget: Container(
-    //       height: imgWH,
-    //       width: imgWH,
-    //       decoration: BoxDecoration(
-    //         borderRadius: BorderRadius.circular(3),
-    //         image: DecorationImage(
-    //           fit: BoxFit.fitHeight,
-    //           image: AssetImage(
-    //             itemData['imgUrl'],
-    //           ),
-    //         ),
-    //       ),
-    //     ),
-    //     clickCallBack: () => onClickTopCell?.call(itemData),
-    //   );
-    // }
-
-
-    Widget searchBar = Flex(
+    Widget searchBar = Column(children: [
+      Flex(
       direction: Axis.horizontal,
       children: [
         Expanded(
@@ -119,8 +94,64 @@ class WxContactsCell extends StatelessWidget {
             ),
           ),
         ),
-      ],
-    );
+      ]),
+      Container(
+              padding: EdgeInsets.symmetric(vertical: 8.w),
+              width: double.infinity,
+              color: Colors.white12,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      //height: 90.w,
+                        padding: EdgeInsets.only(left: 40.w),
+                        child: Row(children: [
+                          Text(
+                            '欠款人数： ',
+                            style: TextStyle(
+                              color: Colours.text_ccc,
+                              fontSize: 26.w,
+                            ),
+                          ),
+                          Expanded(
+                            child: Text(
+                              '1213',
+                              // controller.state.totalCreditCustom
+                              //     .toString(),
+                              style: TextStyle(
+                                  color: Colours.primary,
+                                  fontSize: 28.w,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          )
+                        ])),
+                  ),
+                  Expanded(
+                    child: Container(
+                        child: Row(children: [
+                          Text(
+                            '欠款金额： ',
+                            style: TextStyle(
+                                color: Colours.text_ccc, fontSize: 24.w),
+                          ),
+                          Expanded(
+                            child: Text(
+                          '1000',
+                              // DecimalUtil.formatDecimal(
+                              //     controller.state.totalCreditAmount,
+                              //     scale: 0),
+                              style: TextStyle(
+                                  color: Colours.primary,
+                                  fontSize: 28.w,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          )
+                        ])),
+                  ),
+                ],
+              ),
+            ),
+    ]);
 
 
     List<Widget> topWidgetList = [searchBar];
@@ -139,8 +170,8 @@ class WxContactsCell extends StatelessWidget {
       leftImgWH: imgWH,
       cellHeight: cellH,
       lineLeftEdge: leftSpace,
-      title: model.customName ?? '',
-      hiddenArrow: true,
+      customDTO: model,
+      controller: controller,
       leftWidget: Container(
         height: imgWH,
         width: imgWH,
@@ -152,15 +183,11 @@ class WxContactsCell extends StatelessWidget {
           child: Text(susTag.substring(0, 1), style: const TextStyle(color: Colors.purple, fontSize: 20)),
         ),
       ),
-      clickCallBack: () => onClickCell?.call(model.toJson()),
+      clickCallBack: () => onClickCell?.call(model),
     );
 
     return Column(
       children: <Widget>[
-//        Offstage(
-//          offstage: !model.isShowSuspension,
-//          child: _buildSusWidget(susTag),
-//        ),
         Slidable(
           endActionPane: ActionPane(
             motion: const ScrollMotion(),

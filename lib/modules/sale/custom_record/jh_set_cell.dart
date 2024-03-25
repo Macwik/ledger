@@ -6,6 +6,11 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ledger/entity/custom/custom_dto.dart';
+import 'package:ledger/modules/sale/custom_record/custom_record_controller.dart';
+import 'package:ledger/res/colors.dart';
+import 'package:ledger/util/decimal_util.dart';
 
 const double _imgWH = 22.0; // 左侧图片宽高
 const double _titleSpace = 100.0; // 左侧title默认宽
@@ -23,12 +28,8 @@ typedef _ClickCallBack = void Function();
 class JhSetCell extends StatefulWidget {
   const JhSetCell({
     super.key,
-    this.title = '',
-    this.leftImgPath,
     this.leftWidget,
     this.text = '',
-    this.hiddenArrow = false,
-    this.rightWidget,
     this.clickCallBack,
     this.titleWidth = _titleSpace,
     this.titleStyle,
@@ -40,14 +41,13 @@ class JhSetCell extends StatefulWidget {
     this.cellHeight = _cellHeight,
     this.leftImgWH = _imgWH,
     this.textAlign = TextAlign.right,
+    this.customDTO,
+    this.controller,
   });
 
-  final String title;
-  final String? leftImgPath; // 左侧图片路径 ，默认隐藏 ,设置leftImgPath则 leftWidget失效
   final Widget? leftWidget; // 左侧widget ，默认隐藏
   final String? text;
-  final Widget? rightWidget; // 右侧widget ，默认隐藏
-  final bool hiddenArrow; // 隐藏箭头，默认不隐藏
+  final CustomDTO? customDTO;
   final _ClickCallBack? clickCallBack;
   final double titleWidth; // 标题宽度
   final TextStyle? titleStyle;
@@ -59,20 +59,16 @@ class JhSetCell extends StatefulWidget {
   final double cellHeight; // cell高度 默认_cellHeight
   final double leftImgWH; // 左侧图片宽高，默认_imgWH
   final TextAlign textAlign; // 默认靠右
+  final CustomRecordController? controller;
 
   @override
   _JhSetCellState createState() => _JhSetCellState();
 }
 
 class _JhSetCellState extends State<JhSetCell> {
-  bool _hiddenArrow = false;
-
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-
-    _hiddenArrow = widget.hiddenArrow;
   }
 
   @override
@@ -116,35 +112,129 @@ class _JhSetCellState extends State<JhSetCell> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               widget.leftWidget ?? Container(),
-              SizedBox(
-                  width:
-                      (widget.leftImgPath != null || widget.leftWidget != null)
-                          ? 10
-                          : 0),
+              SizedBox(width: 10),
               Offstage(
-                offstage: widget.title.isEmpty ? true : false,
+                offstage: widget.customDTO?.customName?.isEmpty ?? false,
                 child: SizedBox(
                     width: widget.titleWidth,
-                    child: Text(widget.title, style: titleStyle)),
+                    child: Text(widget.customDTO?.customName ?? '',
+                        style: titleStyle)),
               ),
-              Expanded(
-                child: TextFormField(
-                  controller: TextEditingController(text: widget.text),
-                  //text: ,
-                  decoration: InputDecoration(
-                    hintText: '',
-                    enabled: false,
-                    border: InputBorder.none,
-                  ),
-                  textAlign: widget.textAlign,
-                ),
-              ),
-              widget.rightWidget ?? Container(),
-              Offstage(
-                offstage: _hiddenArrow,
-                child: const Icon(Icons.arrow_forward_ios,
-                    size: 18, color: Color(0xFFC8C8C8)),
-              ),
+              // Container(
+              //   color: Colors.white,
+              //   padding: EdgeInsets.symmetric(
+              //       horizontal: 40.w, vertical: 20.w),
+              //   child: Flex(
+              //     direction: Axis.horizontal,
+              //     children: [
+              //       Expanded(
+              //         child: Column(
+              //           children: [
+              //             Container(
+              //                 margin: EdgeInsets.only(
+              //                     bottom: 10.w),
+              //                 alignment:
+              //                 Alignment.centerLeft,
+              //                 child: Row(
+              //                   children: [
+              //                     Text(
+              //                         widget.customDTO
+              //                             ?.customName ??
+              //                             '',
+              //                         style: TextStyle(
+              //                           color: widget.customDTO
+              //                               ?.invalid ==
+              //                               1
+              //                               ? Colours
+              //                               .text_ccc
+              //                               : Colours
+              //                               .text_333,
+              //                           fontSize: 32.sp,
+              //                           fontWeight:
+              //                           FontWeight.w500,
+              //                         )),
+              //                     SizedBox(
+              //                       width: 15.w,
+              //                     ),
+              //                     Visibility(
+              //                       visible:
+              //                       widget.customDTO?.invalid ==
+              //                           1,
+              //                       child: Container(
+              //                         padding:
+              //                         EdgeInsets.only(
+              //                             top: 2.w,
+              //                             bottom: 2.w,
+              //                             left: 4.w,
+              //                             right: 4.w),
+              //                         decoration:
+              //                         BoxDecoration(
+              //                           border: Border.all(
+              //                             color: Colours
+              //                                 .text_ccc,
+              //                             width: 1.0,
+              //                           ),
+              //                           borderRadius:
+              //                           BorderRadius
+              //                               .circular(
+              //                               8.0),
+              //                         ),
+              //                         child: Text('已停用',
+              //                             style: TextStyle(
+              //                               color: Colours
+              //                                   .text_999,
+              //                               fontSize: 26.sp,
+              //                               fontWeight:
+              //                               FontWeight
+              //                                   .w500,
+              //                             )),
+              //                       ),
+              //                     )
+              //                   ],
+              //                 )),
+              //             Row(
+              //               children: [
+              //                 Text(
+              //                   '欠款：',
+              //                   style: TextStyle(
+              //                     color: Colours.text_ccc,
+              //                     fontSize: 26.sp,
+              //                     fontWeight:
+              //                     FontWeight.w500,
+              //                   ),
+              //                 ),
+              //                 Text(
+              //                   DecimalUtil.formatAmount(
+              //                       widget.customDTO?.creditAmount),
+              //                   style: TextStyle(
+              //                     color:
+              //                     widget.customDTO?.invalid == 1
+              //                         ? Colours.text_ccc
+              //                         : Colours
+              //                         .text_666,
+              //                     fontSize: 26.sp,
+              //                     fontWeight:
+              //                     FontWeight.w500,
+              //                   ),
+              //                 ),
+              //               ],
+              //             ),
+              //           ],
+              //         ),
+              //       ),
+              //       Visibility(
+              //           visible: widget.controller
+              //               ?.state.isSelectCustom !=
+              //               true,
+              //           child: IconButton(
+              //               onPressed: () =>
+              //                   widget.controller?.showBottomSheet(
+              //                       context, widget.customDTO),
+              //               icon: Icon(Icons.more_vert,
+              //                   color: Colors.grey)))
+              //     ],
+              //   ),
+              // ),
             ],
           ),
         ),

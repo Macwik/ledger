@@ -376,12 +376,12 @@ class CustomRecordView_ extends StatelessWidget {
                   init: controller,
                   builder: (_) {
                     return Flexible(
-                      child: controller.state.customList?.isEmpty ?? true
+                      child: controller.state.customList.isEmpty ?? true
                           ? EmptyLayout(hintText: '什么都没有'.tr)
                           : ListView.separated(
                               shrinkWrap: true,
                               itemBuilder: (context, index) {
-                                CustomDTO customDTO = controller.state.customList![index];
+                                CustomDTO customDTO = controller.state.customList[index];
                                 return InkWell(
                                   onTap: () => controller.onClick(customDTO),
                                   child: Container(
@@ -507,7 +507,7 @@ class CustomRecordView_ extends StatelessWidget {
                                 width: double.infinity,
                               ),
                               itemCount:
-                                  controller.state.customList?.length ?? 0,
+                                  controller.state.customList.length ?? 0,
                             ),
                     );
                   }),

@@ -259,10 +259,10 @@ class CustomRecordView extends StatelessWidget {
               ])),
         ),
         body: GetBuilder<CustomRecordController>(
-            id: 'custom_list',
-            init: controller,
-            global: false,
-            builder: (_) => SlidableAutoCloseBehavior(child: _body())));
+                id: 'custom_list',
+                init: controller,
+                global: false,
+                builder: (_) => SlidableAutoCloseBehavior(child: _body())));
   }
 
   // body
@@ -271,15 +271,17 @@ class CustomRecordView extends StatelessWidget {
       data: controller.state.customList,
       itemCount: controller.state.customList.length,
       itemBuilder: (BuildContext context, int index) {
-        CustomDTO model = controller.state.customList[index];
+        CustomDTO customDTO = controller.state.customList[index];
         return WxContactsCell(
-          model: model,
+          model: customDTO,
           index: index,
+          controller: controller,
           dataArr: controller.state.customList,
           bottomContactsCountText:
               controller.state.customList.length.toString(),
           onClickCell: (model) {
             // 跳转个人信息页
+            controller.onClick(model);
           },
           onClickTopCell: (itemData) {},
         );
@@ -301,7 +303,7 @@ class CustomRecordView extends StatelessWidget {
         selectTextStyle: TextStyle(
             fontSize: 12, color: Colors.white, fontWeight: FontWeight.w500),
         selectItemDecoration:
-            BoxDecoration(shape: BoxShape.circle, color: Colors.green),
+            BoxDecoration(shape: BoxShape.circle, color: Colours.primary),
         indexHintWidth: 120 / 2,
         indexHintHeight: 100 / 2,
         indexHintDecoration: BoxDecoration(
@@ -333,7 +335,7 @@ class CustomRecordView extends StatelessWidget {
       ),
       alignment: Alignment.centerLeft,
       child: Text(
-        susTag == '★' ? '★ 星标朋友' : susTag,
+        susTag,
         softWrap: false,
         style: TextStyle(
           fontSize: 18,

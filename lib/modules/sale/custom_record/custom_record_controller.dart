@@ -64,7 +64,6 @@ class CustomRecordController extends GetxController {
           }
         }
 
-
         if ((state.customList.isNotEmpty)) {
           state.totalCreditAmount = state.customList
               .map((e) => e.creditAmount ?? Decimal.zero)
@@ -104,7 +103,8 @@ class CustomRecordController extends GetxController {
         SuspensionUtil.setShowSuspensionStatus(state.customList);
 
         // add header.
-        state.customList.insert(0, CustomDTO(customName: 'header', tagIndex: '🔍'));
+        state.customList
+            .insert(0, CustomDTO(customName: 'header', tagIndex: '🔍'));
 
         state.contactsCount = '${state.customList.length} 位朋友及联系人';
 
@@ -121,8 +121,10 @@ class CustomRecordController extends GetxController {
   void onClick(CustomDTO customDTO) {
     if (!state.isSelectCustom) {
       //正常客户列表
-      Get.toNamed(RouteConfig.supplierDetail,
-          arguments: {'customDTO': customDTO,'customType':CustomType.CUSTOM.value})?.then((value) {
+      Get.toNamed(RouteConfig.supplierDetail, arguments: {
+        'customDTO': customDTO,
+        'customType': CustomType.CUSTOM.value
+      })?.then((value) {
         initState();
       });
     } else {
@@ -289,7 +291,9 @@ class CustomRecordController extends GetxController {
     actions.add(CupertinoActionSheetAction(
       onPressed: () {
         Get.back();
-        Get.toNamed(RouteConfig.customList,arguments: {'isAddressList': IsSelectType.TRUE.value})?.then((value) {
+        Get.toNamed(RouteConfig.customList,
+                arguments: {'isAddressList': IsSelectType.TRUE.value})
+            ?.then((value) {
           if (ProcessStatus.OK == value) {
             queryCustom();
           }
@@ -301,7 +305,8 @@ class CustomRecordController extends GetxController {
     actions.add(CupertinoActionSheetAction(
       onPressed: () {
         Get.back();
-        Get.toNamed(RouteConfig.myAccount,arguments: {'isSelect': IsSelectType.TRUE.value});
+        Get.toNamed(RouteConfig.myAccount,
+            arguments: {'isSelect': IsSelectType.TRUE.value});
       },
       child: Text('其他账本导入'),
     ));
@@ -309,7 +314,8 @@ class CustomRecordController extends GetxController {
     actions.add(CupertinoActionSheetAction(
       onPressed: () {
         Get.back();
-        Get.toNamed(RouteConfig.addCustom, arguments: {'customType': state.initialIndex})?.then((value) {
+        Get.toNamed(RouteConfig.addCustom,
+            arguments: {'customType': state.initialIndex})?.then((value) {
           if (ProcessStatus.OK == value) {
             queryCustom();
           }
@@ -332,7 +338,6 @@ class CustomRecordController extends GetxController {
         );
       },
     );
-
   }
 
   void customRecordGetBack() {
