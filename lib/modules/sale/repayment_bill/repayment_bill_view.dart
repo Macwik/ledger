@@ -286,8 +286,10 @@ class RepaymentBillView extends StatelessWidget {
                                 Expanded(
                                   flex: 1,
                                   child: TextFormField(
-                                      onTap: () =>
-                                          controller.repaymentAmountUpdate(),
+                                      onTap: () {
+                                          controller.repaymentAmountUpdate();
+
+                                      },
                                       decoration: InputDecoration(
                                         counterText: '',
                                         border: InputBorder.none,

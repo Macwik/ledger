@@ -21,7 +21,7 @@ class RepaymentRecordView extends StatelessWidget {
     controller.initState();
     return DefaultTabController(
       length: 2,
-      initialIndex: state.initialIndex,
+      initialIndex: state.index,
       child: Scaffold(
           appBar: TitleBar(
               title: '还款列表',
@@ -303,7 +303,6 @@ class RepaymentRecordView extends StatelessWidget {
                   )),
               Expanded(
                   child: TabBarView(
-                physics: NeverScrollableScrollPhysics(), // 禁用左右滑动
                 children: [
                   Stack(
                     children: [

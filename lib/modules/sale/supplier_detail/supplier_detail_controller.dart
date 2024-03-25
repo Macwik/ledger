@@ -23,6 +23,9 @@ class SupplierDetailController extends GetxController {
       state.custom = arguments['customDTO'];
       update(['supplier_name']);
     }
+    if ((arguments != null) && arguments['customType'] != null) {
+      state.customType = arguments['customType'];
+    }
     _queryData();
     onRefresh();
   }
@@ -162,6 +165,48 @@ class SupplierDetailController extends GetxController {
             _queryData();
           }
         });
+      case 5:
+        (){};
+      case 6:
+        Get.toNamed(RouteConfig.costDetail, arguments: {
+          'id': salesOrderAccounts.orderId,
+          //'orderType':
+        })?.then((value) {
+          if (ProcessStatus.OK == value) {
+            onRefresh();
+            _queryData();
+          }
+        });
+      case 7:
+        Get.toNamed(RouteConfig.costDetail, arguments: {
+          'id': salesOrderAccounts.orderId,
+        })?.then((value) {
+          if (ProcessStatus.OK == value) {
+            onRefresh();
+            _queryData();
+          }
+        });
+      case 8:
+        (){};
+      case 9:
+        Get.toNamed(RouteConfig.addStockDetail, arguments: {
+          'id': salesOrderAccounts.orderId,
+        })?.then((value) {
+          if (ProcessStatus.OK == value) {
+            onRefresh();
+            _queryData();
+          }
+        });
+      case 10:
+        Get.toNamed(RouteConfig.saleDetail, arguments: {
+          'id': salesOrderAccounts.orderId,
+          'orderType':OrderType.REFUND
+        })?.then((value) {
+          if (ProcessStatus.OK == value) {
+            onRefresh();
+            _queryData();
+          }
+        });
       default:
         throw Exception('网络错误');
     }
@@ -224,6 +269,11 @@ class SupplierDetailController extends GetxController {
       case 3: return '实退：';
       case 4: return '还款：';
       case 5:return '赊账：';
+      case 6:return '收入：';
+      case 7:return '费用：';
+      case 8:return '汇款：';
+      case 9:return '入库：';
+      case 10:return '退款：';
       default:
         throw Exception('网络错误');
     }
@@ -237,6 +287,11 @@ class SupplierDetailController extends GetxController {
       case 3: return '赊账：';
       case 4: return '剩余欠款：';
       case 5:return'';
+      case 6:return '收入：';
+      case 7:return '费用：';
+      case 8:return '汇款：';
+      case 9:return '入库：';
+      case 10:return '退赊账：';
       default:
         throw Exception('网络错误');
     }

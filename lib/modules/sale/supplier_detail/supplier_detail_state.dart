@@ -32,4 +32,6 @@ class SupplierDetailState {
   SupplierDetailState() {
     ///Initialize variables
   }
+
+  int? customType;
 }
