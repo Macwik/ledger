@@ -1,4 +1,5 @@
 import 'package:easy_refresh/easy_refresh.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/api/repayment_api.dart';
 import 'package:ledger/entity/repayment/repayment_dto.dart';
@@ -12,8 +13,10 @@ import 'package:ledger/util/toast_util.dart';
 
 import 'repayment_record_state.dart';
 
-class RepaymentRecordController extends GetxController {
+class RepaymentRecordController extends GetxController  with GetSingleTickerProviderStateMixin implements DisposableInterface {
   final RepaymentRecordState state = RepaymentRecordState();
+
+  late TabController tabController;
 
   Future<void> initState() async {
     var arguments = Get.arguments;
@@ -21,16 +24,29 @@ class RepaymentRecordController extends GetxController {
       state.customType = arguments['customType'];
     }
     if (CustomType.CUSTOM.value == state.customType) {
-      state.initialIndex = 0;
+      state.index = 0;
     } else {
-      state.initialIndex = 1;
+      state.index = 1;
     }
     onRefresh();
   }
 
+  @override
+  void onInit() {
+    tabController = TabController(length: 2, vsync: this);
+    tabController.addListener(() {
+      var index = tabController.index;
+      state.index = index;
+      //update(['']);
+      clearCondition();
+      onRefresh();
+    });
+    super.onInit();
+  }
+
   void switchIndex(int tabIndex) {
     state.searchContent = '';
-    state.initialIndex = tabIndex;
+    state.index = tabIndex;
     onRefresh();
   }
 
@@ -41,7 +57,7 @@ class RepaymentRecordController extends GetxController {
         Method.post, RepaymentApi.repayment_record,
         data: {
           'page': currentPage,
-          'customType': state.initialIndex,
+          'customType': state.index,
           'searchContent': state.searchContent,
           'startDate': DateUtil.formatDefaultDate(state.startDate),
           'endDate': DateUtil.formatDefaultDate(state.endDate),

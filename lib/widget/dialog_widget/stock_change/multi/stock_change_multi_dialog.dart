@@ -91,17 +91,11 @@ class StockChangeMultiDialog extends StatelessWidget {
                             },
                           controller: controller.slaveStockController,
                           onTap: () {
-                            controller
-                                .updateSlaveStock(productDTO.unitDetailDTO);
-                            controller
-                                    .slaveStockController.selection =
-                                TextSelection(
+                            controller.updateSlaveStock(productDTO.unitDetailDTO);
+                            controller.slaveStockController.selection = TextSelection(
                                     baseOffset: 0,
-                                    extentOffset: controller
-                                        .slaveStockController
-                                        .value
-                                        .text
-                                        .length);
+                                    extentOffset: controller.slaveStockController
+                                        .value.text.length);
                           },
                           textAlign: TextAlign.center,
                           maxLength: 10,

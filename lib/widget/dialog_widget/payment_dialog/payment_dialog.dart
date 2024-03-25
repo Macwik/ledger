@@ -233,8 +233,7 @@ class PaymentDialog extends StatelessWidget {
                                 ),
                                 Expanded(
                                   child: TextFormField(
-                                    controller:
-                                        controller.firstAmountController,
+                                    controller: controller.firstAmountController,
                                     autofocus: true,
                                     maxLength: 13,
                                     decoration: InputDecoration(
@@ -515,9 +514,7 @@ class PaymentDialog extends StatelessWidget {
                                       Expanded(
                                         child: TextFormField(
                                           onTap: () {
-                                            controller.creditInputUpdate(
-                                                totalAmount,
-                                                controller.discountAmount);
+                                            controller.creditInputUpdate(totalAmount, controller.discountAmount);
                                           },
                                           controller:
                                               controller.textEditingController,

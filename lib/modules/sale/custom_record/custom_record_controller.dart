@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:ledger/config/api/custom_api.dart';
 import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/entity/custom/custom_dto.dart';
+import 'package:ledger/enum/custom_type.dart';
 import 'package:ledger/enum/is_select.dart';
 import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/enum/process_status.dart';
@@ -93,7 +94,7 @@ class CustomRecordController extends GetxController {
     if (!state.isSelectCustom) {
       //正常客户列表
       Get.toNamed(RouteConfig.supplierDetail,
-          arguments: {'customDTO': customDTO})?.then((value) {
+          arguments: {'customDTO': customDTO,'customType':CustomType.CUSTOM.value})?.then((value) {
         initState();
       });
     } else {

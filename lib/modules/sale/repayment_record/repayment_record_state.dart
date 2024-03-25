@@ -14,7 +14,7 @@ class RepaymentRecordState {
   DateTime startDate = DateTime.now().subtract(Duration(days: 7));
   DateTime endDate = DateTime.now();
 
-  int initialIndex = 0;
+  int index = 0;
 
   String? dateRange;
 
@@ -28,4 +28,5 @@ class RepaymentRecordState {
   RepaymentRecordState() {
     ///Initialize variables
   }
+
 }

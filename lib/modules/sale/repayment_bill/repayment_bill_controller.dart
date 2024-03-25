@@ -263,6 +263,10 @@ class RepaymentBillController extends GetxController {
         state.repaymentController.text = DecimalUtil.formatDecimalDefault(
             state.repaymentTotalAmount - discountAmount);
       }
+      state.repaymentController.selection = TextSelection(
+          baseOffset: 0,
+          extentOffset: state.repaymentController
+              .value.text.length);
     }
   }
 

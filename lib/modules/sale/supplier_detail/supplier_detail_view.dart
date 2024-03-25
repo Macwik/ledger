@@ -21,7 +21,7 @@ class SupplierDetailView extends StatelessWidget {
     return Scaffold(
       appBar: TitleBar(
         backPressed:() => Get.back(result: ProcessStatus.OK),
-        title:state.customDTO?.customType == CustomType.CUSTOM.value
+        title:state.customType == CustomType.CUSTOM.value
               ?'客户详情'
               :'供应商详情',
       ),
@@ -214,49 +214,33 @@ class SupplierDetailView extends StatelessWidget {
                               ),
                               TextButton(
                                   onPressed: () {
-                                    state.orderType = 1;
-                                    controller
-                                        .update(['supplier_detail_order_type']);
+                                    state.customDTO?.customType == CustomType.CUSTOM.value
+                                    ?state.orderType = 1
+                                    :state.orderType = 0;
+                                    controller.update(['supplier_detail_order_type']);
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                        controller.checkOrderStatus(1)
+                                    backgroundColor: state.customDTO?.customType == CustomType.CUSTOM.value
+                                        ? controller.checkOrderStatus(1)
+                                            ? Colours.primary
+                                            : Colors.white
+                                        : controller.checkOrderStatus(0)
                                             ? Colours.primary
                                             : Colors.white,
-                                    foregroundColor:
-                                        controller.checkOrderStatus(1)
+                                    foregroundColor: state.customDTO?.customType == CustomType.CUSTOM.value
+                                      ?controller.checkOrderStatus(1)
                                             ? Colors.white
-                                            : Colours.text_333,
+                                            : Colours.text_333
+                                      :controller.checkOrderStatus(0)
+                                          ? Colors.white
+                                          : Colours.text_333,
                                     side: BorderSide(
                                       color: Colours.primary, // 添加边框颜色，此处为灰色
                                       width: 1.0, // 设置边框宽度
                                     ),
                                   ),
-                                  child: Text('销售单')),
-                              SizedBox(
-                                width: 10.w,
-                              ),
-                              TextButton(
-                                  onPressed: () {
-                                    state.orderType = 0;
-                                    controller
-                                        .update(['supplier_detail_order_type']);
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                        controller.checkOrderStatus(0)
-                                            ? Colours.primary
-                                            : Colors.white,
-                                    foregroundColor:
-                                        controller.checkOrderStatus(0)
-                                            ? Colors.white
-                                            : Colours.text_333,
-                                    side: BorderSide(
-                                      color: Colours.primary, // 添加边框颜色，此处为灰色
-                                      width: 1.0, // 设置边框宽度
-                                    ),
-                                  ),
-                                  child: Text('采购单')),
+                                  child: Text( state.customDTO?.customType == CustomType.CUSTOM.value
+                                      ?'销售单':'采购单')),
                               SizedBox(
                                 width: 10.w,
                               ),
@@ -310,17 +294,24 @@ class SupplierDetailView extends StatelessWidget {
                               ),
                               TextButton(
                                   onPressed: () {
-                                    state.orderType = 2;
+                                    state.customDTO?.customType == CustomType.CUSTOM.value
+                                        ?state.orderType = 2:state.orderType = 3;
                                     controller
                                         .update(['supplier_detail_order_type']);
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                        controller.checkOrderStatus(2)
+                                    backgroundColor:state.customDTO?.customType == CustomType.CUSTOM.value
+                                        ? controller.checkOrderStatus(2)
+                                            ? Colours.primary
+                                            : Colors.white
+                                        : controller.checkOrderStatus(3)
                                             ? Colours.primary
                                             : Colors.white,
-                                    foregroundColor:
-                                        controller.checkOrderStatus(2)
+                                    foregroundColor:state.customDTO?.customType == CustomType.CUSTOM.value
+                                        ? controller.checkOrderStatus(2)
+                                            ? Colors.white
+                                            : Colours.text_333
+                                        : controller.checkOrderStatus(3)
                                             ? Colors.white
                                             : Colours.text_333,
                                     side: BorderSide(
@@ -328,31 +319,8 @@ class SupplierDetailView extends StatelessWidget {
                                       width: 1.0, // 设置边框宽度
                                     ),
                                   ),
-                                  child: Text('销售退货单')),
-                              SizedBox(
-                                width: 10.w,
-                              ),
-                              TextButton(
-                                  onPressed: () {
-                                    state.orderType = 3;
-                                    controller
-                                        .update(['supplier_detail_order_type']);
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                        controller.checkOrderStatus(3)
-                                            ? Colours.primary
-                                            : Colors.white,
-                                    foregroundColor:
-                                        controller.checkOrderStatus(3)
-                                            ? Colors.white
-                                            : Colours.text_333,
-                                    side: BorderSide(
-                                      color: Colours.primary, // 添加边框颜色，此处为灰色
-                                      width: 1.0, // 设置边框宽度
-                                    ),
-                                  ),
-                                  child: Text('采购退货单')),
+                                  child: Text( state.customDTO?.customType == CustomType.CUSTOM.value
+                                      ?'销售退货单':'采购退货单')),
                             ],
                           )),
                   SizedBox(height: 40.w),
@@ -562,7 +530,7 @@ class SupplierDetailView extends StatelessWidget {
                   color: Colors.white,
                   margin: EdgeInsets.only(left: 6),
                   child: Text(
-                    state.customDTO?.customType == CustomType.CUSTOM.value
+                    state.customType == CustomType.CUSTOM.value
                         ?'客户对账'
                         :'供应商对账',
                     style: TextStyle(
@@ -708,7 +676,6 @@ class SupplierDetailView extends StatelessWidget {
                                                   Expanded(
                                                     child: Text(
                                                       controller.totalAmount(statisticsCustomOrderDTO),
-                                                       // '￥${statisticsCustomOrderDTO.totalAmount ?? ''}',
                                                         style: TextStyle(
                                                           color:statisticsCustomOrderDTO.invalid == 0
                                                           ?Colours.text_333
@@ -782,9 +749,7 @@ class SupplierDetailView extends StatelessWidget {
                                                   child: Expanded(
                                                       child: Row(
                                                         children: [
-                                                          Text(state.customDTO?.customType == 0
-                                                              ? '客   户：'
-                                                              : '供应商：',
+                                                          Text('货  物：',
                                                               style: TextStyle(
                                                                 color: Colours.text_ccc,
                                                                 fontSize: 26.sp,
