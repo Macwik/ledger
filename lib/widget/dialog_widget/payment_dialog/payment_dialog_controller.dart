@@ -27,8 +27,7 @@ class PaymentDialogController extends GetxController {
 
   void creditInputUpdate(Decimal totalAmount, Decimal discountAmount) {
     String paymentMethodSecond = secondAmountController.text;
-    Decimal paymentSecond =
-        Decimal.tryParse(paymentMethodSecond) ?? Decimal.zero;
+    Decimal paymentSecond = Decimal.tryParse(paymentMethodSecond) ?? Decimal.zero;
     String? paymentMethodFirst = firstAmountController.text;
     Decimal paymentFirst = Decimal.tryParse(paymentMethodFirst) ?? Decimal.zero;
     textEditingController.text = DecimalUtil.formatDecimalDefault(
@@ -37,8 +36,7 @@ class PaymentDialogController extends GetxController {
 
   void paymentTwoUpdate(Decimal totalAmount, Decimal discountAmount) {
     String paymentMethodSecond = firstAmountController.text;
-    Decimal paymentSecond =
-        Decimal.tryParse(paymentMethodSecond) ?? Decimal.zero;
+    Decimal paymentSecond = Decimal.tryParse(paymentMethodSecond) ?? Decimal.zero;
     String? creditAmount = textEditingController.text;
     Decimal creditAmounts = Decimal.tryParse(creditAmount) ?? Decimal.zero;
     secondAmountController.text = DecimalUtil.formatDecimalDefault(

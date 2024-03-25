@@ -266,8 +266,8 @@ class PaymentDialog extends StatelessWidget {
                                       LengthLimitingTextInputFormatter(10),
                                     ],
                                     onTap: () {
-                                      controller.paymentFirstUpdate(totalAmount,
-                                          controller.discountAmount);
+                                      controller.paymentFirstUpdate(totalAmount, controller.discountAmount);
+                                      controller.firstAmountController.selection = TextSelection(baseOffset: 0, extentOffset: controller.firstAmountController.value.text.length);
                                     },
                                   ),
                                 ),
@@ -389,9 +389,8 @@ class PaymentDialog extends StatelessWidget {
                                           LengthLimitingTextInputFormatter(10),
                                         ],
                                         onTap: () {
-                                          controller.paymentTwoUpdate(
-                                              totalAmount,
-                                              controller.discountAmount);
+                                          controller.paymentTwoUpdate(totalAmount, controller.discountAmount);
+                                          controller.secondAmountController.selection = TextSelection(baseOffset: 0, extentOffset: controller.secondAmountController.value.text.length);
                                         },
                                       ),
                                     ),
@@ -515,6 +514,7 @@ class PaymentDialog extends StatelessWidget {
                                         child: TextFormField(
                                           onTap: () {
                                             controller.creditInputUpdate(totalAmount, controller.discountAmount);
+                                            controller.textEditingController.selection = TextSelection(baseOffset: 0, extentOffset: controller.textEditingController.value.text.length);
                                           },
                                           controller:
                                               controller.textEditingController,
@@ -668,10 +668,15 @@ class PaymentDialog extends StatelessWidget {
 
   void inputDiscountDialog() {
     var roundToZero = DecimalUtil.roundToZero(totalAmount);
+    TextEditingController textEditingController = TextEditingController(
+        text: DecimalUtil.formatDecimalDefault(roundToZero));
+
     SingleInputDialog().singleInputDialog(
       title: '请输入抹零金额',
-      controller: TextEditingController(
-          text: DecimalUtil.formatDecimalDefault(roundToZero)),
+      onTap: (){
+        textEditingController.selection = TextSelection(baseOffset: 0, extentOffset: textEditingController.value.text.length);
+      },
+      controller: textEditingController,
       keyboardType: TextInputType.number,
       validator: FormBuilderValidators.required(errorText: '抹零金额不能为空'.tr),
       onOkPressed: (value) {

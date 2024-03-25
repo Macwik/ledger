@@ -113,128 +113,92 @@ class _JhSetCellState extends State<JhSetCell> {
             children: <Widget>[
               widget.leftWidget ?? Container(),
               SizedBox(width: 10),
-              Offstage(
-                offstage: widget.customDTO?.customName?.isEmpty ?? false,
-                child: SizedBox(
-                    width: widget.titleWidth,
-                    child: Text(widget.customDTO?.customName ?? '',
-                        style: titleStyle)),
-              ),
-              // Container(
-              //   color: Colors.white,
-              //   padding: EdgeInsets.symmetric(
-              //       horizontal: 40.w, vertical: 20.w),
-              //   child: Flex(
-              //     direction: Axis.horizontal,
-              //     children: [
-              //       Expanded(
-              //         child: Column(
-              //           children: [
-              //             Container(
-              //                 margin: EdgeInsets.only(
-              //                     bottom: 10.w),
-              //                 alignment:
-              //                 Alignment.centerLeft,
-              //                 child: Row(
-              //                   children: [
-              //                     Text(
-              //                         widget.customDTO
-              //                             ?.customName ??
-              //                             '',
-              //                         style: TextStyle(
-              //                           color: widget.customDTO
-              //                               ?.invalid ==
-              //                               1
-              //                               ? Colours
-              //                               .text_ccc
-              //                               : Colours
-              //                               .text_333,
-              //                           fontSize: 32.sp,
-              //                           fontWeight:
-              //                           FontWeight.w500,
-              //                         )),
-              //                     SizedBox(
-              //                       width: 15.w,
-              //                     ),
-              //                     Visibility(
-              //                       visible:
-              //                       widget.customDTO?.invalid ==
-              //                           1,
-              //                       child: Container(
-              //                         padding:
-              //                         EdgeInsets.only(
-              //                             top: 2.w,
-              //                             bottom: 2.w,
-              //                             left: 4.w,
-              //                             right: 4.w),
-              //                         decoration:
-              //                         BoxDecoration(
-              //                           border: Border.all(
-              //                             color: Colours
-              //                                 .text_ccc,
-              //                             width: 1.0,
-              //                           ),
-              //                           borderRadius:
-              //                           BorderRadius
-              //                               .circular(
-              //                               8.0),
-              //                         ),
-              //                         child: Text('已停用',
-              //                             style: TextStyle(
-              //                               color: Colours
-              //                                   .text_999,
-              //                               fontSize: 26.sp,
-              //                               fontWeight:
-              //                               FontWeight
-              //                                   .w500,
-              //                             )),
-              //                       ),
-              //                     )
-              //                   ],
-              //                 )),
-              //             Row(
-              //               children: [
-              //                 Text(
-              //                   '欠款：',
-              //                   style: TextStyle(
-              //                     color: Colours.text_ccc,
-              //                     fontSize: 26.sp,
-              //                     fontWeight:
-              //                     FontWeight.w500,
-              //                   ),
-              //                 ),
-              //                 Text(
-              //                   DecimalUtil.formatAmount(
-              //                       widget.customDTO?.creditAmount),
-              //                   style: TextStyle(
-              //                     color:
-              //                     widget.customDTO?.invalid == 1
-              //                         ? Colours.text_ccc
-              //                         : Colours
-              //                         .text_666,
-              //                     fontSize: 26.sp,
-              //                     fontWeight:
-              //                     FontWeight.w500,
-              //                   ),
-              //                 ),
-              //               ],
-              //             ),
-              //           ],
-              //         ),
-              //       ),
-              //       Visibility(
-              //           visible: widget.controller
-              //               ?.state.isSelectCustom !=
-              //               true,
-              //           child: IconButton(
-              //               onPressed: () =>
-              //                   widget.controller?.showBottomSheet(
-              //                       context, widget.customDTO),
-              //               icon: Icon(Icons.more_vert,
-              //                   color: Colors.grey)))
-              //     ],
-              //   ),
-              // ),
+              Expanded(child:
+              Column(children: [
+                Row(
+                  children: [
+                    Expanded(child:
+                    Offstage(
+                      offstage: widget.customDTO?.customName?.isEmpty ?? false,
+                      child: SizedBox(
+                         // width: widget.titleWidth,
+                          child: Text(widget.customDTO?.customName ?? '',
+                              style: TextStyle(fontWeight: FontWeight.w500,
+                              fontSize: 34.sp,
+                              color:  widget.customDTO?.invalid == 1?Colours.text_ccc:Colours.text_333,))),
+                    )),
+                    Visibility(
+                      visible:
+                      widget.customDTO?.invalid == 1,
+                      child: Container(
+                        padding:
+                        EdgeInsets.only(
+                            top: 2.w,
+                            bottom: 2.w,
+                            left: 4.w,
+                            right: 4.w),
+                        decoration:
+                        BoxDecoration(
+                          border: Border.all(
+                            color: Colours
+                                .text_ccc,
+                            width: 1.0,
+                          ),
+                          borderRadius:
+                          BorderRadius
+                              .circular(
+                              8.0),
+                        ),
+                        child: Text('停',
+                            style: TextStyle(
+                              color: Colours
+                                  .text_999,
+                              fontSize: 26.sp,
+                              fontWeight:
+                              FontWeight
+                                  .w500,
+                            )),
+                      ),
+                    )
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text(
+                      '欠款：',
+                      style: TextStyle(
+                        color: Colours.text_ccc,
+                        fontSize: 26.sp,
+                        fontWeight:
+                        FontWeight.w500,
+                      ),
+                    ),
+                    Text(
+                      DecimalUtil.formatAmount(
+                          widget.customDTO?.creditAmount),
+                      style: TextStyle(
+                        color:
+                        widget.customDTO?.invalid == 1
+                            ? Colours.text_ccc
+                            : Colours
+                            .text_666,
+                        fontSize: 26.sp,
+                        fontWeight:
+                        FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+              ],)),
+              Visibility(
+                  visible: widget.controller
+                      ?.state.isSelectCustom != true,
+                  child: IconButton(
+                      onPressed: () =>
+                          widget.controller?.showBottomSheet(
+                              context, widget.customDTO),
+                      icon: Icon(Icons.more_vert,
+                          color: Colors.grey))),
             ],
           ),
         ),

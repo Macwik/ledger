@@ -10,6 +10,7 @@ class SingleInputDialog {
     String? hintText,
     String? okLabel,
     String? cancelLabel,
+    GestureTapCallback? onTap,
     TextEditingController? controller,
     TextInputType? keyboardType,
     final FormFieldValidator<String>? validator,
@@ -22,6 +23,7 @@ class SingleInputDialog {
       content: FormBuilder(
         key: formKey,
         child: TextFormField(
+          onTap: onTap,
           decoration: InputDecoration(
             hintText: hintText ?? '请输入',
             border: UnderlineInputBorder(),
