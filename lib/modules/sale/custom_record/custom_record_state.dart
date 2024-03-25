@@ -7,10 +7,15 @@ class CustomRecordState {
   int initialIndex = 0;
   String? customName ='';
 
+  // 联系人总数
+  String contactsCount = '';
+
+  final double suspensionHeight = 40;
+
 //按钮选项
   var selectedStore = 0;
 
-  List<CustomDTO>? customList;
+  List<CustomDTO> customList = [];
 
   bool isSelectCustom = false;
 

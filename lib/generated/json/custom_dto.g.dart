@@ -2,6 +2,8 @@ import 'package:ledger/generated/json/base/json_convert_content.dart';
 import 'package:ledger/entity/custom/custom_dto.dart';
 import 'package:decimal/decimal.dart';
 
+import 'package:azlistview_plus/azlistview_plus.dart';
+
 
 CustomDTO $CustomDTOFromJson(Map<String, dynamic> json) {
   final CustomDTO customDTO = CustomDTO();
@@ -55,6 +57,14 @@ CustomDTO $CustomDTOFromJson(Map<String, dynamic> json) {
   if (customType != null) {
     customDTO.customType = customType;
   }
+  final String? tagIndex = jsonConvert.convert<String>(json['tagIndex']);
+  if (tagIndex != null) {
+    customDTO.tagIndex = tagIndex;
+  }
+  final String? namePinyin = jsonConvert.convert<String>(json['namePinyin']);
+  if (namePinyin != null) {
+    customDTO.namePinyin = namePinyin;
+  }
   return customDTO;
 }
 
@@ -72,6 +82,8 @@ Map<String, dynamic> $CustomDTOToJson(CustomDTO entity) {
   data['used'] = entity.used;
   data['remark'] = entity.remark;
   data['customType'] = entity.customType;
+  data['tagIndex'] = entity.tagIndex;
+  data['namePinyin'] = entity.namePinyin;
   return data;
 }
 
@@ -89,6 +101,8 @@ extension CustomDTOExtension on CustomDTO {
     int? used,
     String? remark,
     int? customType,
+    String? tagIndex,
+    String? namePinyin,
   }) {
     return CustomDTO()
       ..id = id ?? this.id
@@ -102,6 +116,8 @@ extension CustomDTOExtension on CustomDTO {
       ..invalid = invalid ?? this.invalid
       ..used = used ?? this.used
       ..remark = remark ?? this.remark
-      ..customType = customType ?? this.customType;
+      ..customType = customType ?? this.customType
+      ..tagIndex = tagIndex ?? this.tagIndex
+      ..namePinyin = namePinyin ?? this.namePinyin;
   }
 }

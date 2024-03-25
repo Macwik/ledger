@@ -65,6 +65,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.11.0"
+  azlistview_plus:
+    dependency: "direct main"
+    description:
+      name: azlistview_plus
+      sha256: bbf08532db8ba2b9054100f68829e1841b23f3244e54712934f0f192651d8319
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "3.0.0"
   bindings_compatible:
     dependency: transitive
     description:
@@ -726,7 +734,7 @@ packages:
     source: hosted
     version: "3.1.0"
   lpinyin:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: lpinyin
       sha256: "0bb843363f1f65170efd09fbdfc760c7ec34fc6354f9fcb2f89e74866a0d814a"
@@ -1021,6 +1029,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.0.1"
+  scrollable_positioned_list:
+    dependency: transitive
+    description:
+      name: scrollable_positioned_list
+      sha256: "1b54d5f1329a1e263269abc9e2543d90806131aa14fe7c6062a8054d57249287"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.3.8"
   sensors_plus:
     dependency: transitive
     description:

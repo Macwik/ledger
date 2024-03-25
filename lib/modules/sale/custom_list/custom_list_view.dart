@@ -19,10 +19,6 @@ class CustomListView extends StatelessWidget {
       appBar: TitleBar(
         title: '添加客户',
         backPressed: () => Get.back(result: ProcessStatus.OK),
-        // actionName: '批量导入',
-        // actionPressed: () {
-        //   state.batch.value = !state.batch.value;
-        // },
       ),
       body: Column(
         children: [
@@ -45,16 +41,6 @@ class CustomListView extends StatelessWidget {
                                             child: ButtonBar(
                                               alignment: MainAxisAlignment.start,
                                               children: [///批量导入选择框
-                                                // Obx(() => Visibility(
-                                                //     visible: state.batch.value,
-                                                //     child: Checkbox(
-                                                //       value: controller.judgeIsSelect(contactDTO),
-                                                //       onChanged: (bool? selected) {
-                                                //         controller.addToSelected(selected, contactDTO);
-                                                //       },
-                                                //       activeColor: Colours.primary,
-                                                //     ),
-                                                // )),
                                                 Text(contactDTO.name ?? '',
                                                     style: TextStyle(
                                                       color: Colours.text_333,

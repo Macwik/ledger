@@ -1,3 +1,4 @@
+import 'package:azlistview_plus/azlistview_plus.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -12,6 +13,7 @@ import 'package:ledger/route/route_config.dart';
 import 'package:ledger/util/toast_util.dart';
 import 'package:ledger/widget/permission/permission_widget.dart';
 import 'package:ledger/widget/warning.dart';
+import 'package:lpinyin/lpinyin.dart';
 
 import 'custom_record_state.dart';
 
@@ -47,20 +49,34 @@ class CustomRecordController extends GetxController {
           'invalid': state.isSelectCustom == true ? 0 : state.invalid,
         }).then((result) {
       if (result.success) {
-        state.customList = result.d;
-        if ((state.customList?.isNotEmpty ?? false)) {
+        state.customList.clear();
+        state.customList.addAll(result.d!);
+
+        for (var element in state.customList) {
+          String pinyin = PinyinHelper.getPinyinE(element.customName!);
+          String tag = pinyin.substring(0, 1).toUpperCase();
+          element.namePinyin = pinyin;
+          if (RegExp('[A-Z]').hasMatch(tag)) {
+            element.tagIndex = tag;
+          } else {
+            element.tagIndex = '#';
+          }
+        }
+
+
+        if ((state.customList.isNotEmpty)) {
           state.totalCreditAmount = state.customList
-              ?.map((e) => e.creditAmount ?? Decimal.zero)
+              .map((e) => e.creditAmount ?? Decimal.zero)
               .reduce((value, element) => value + element);
           state.totalCreditCustom = state.customList
-              ?.where((e) => (e.creditAmount ?? Decimal.zero) > Decimal.zero)
+              .where((e) => (e.creditAmount ?? Decimal.zero) > Decimal.zero)
               .length;
         }
         if ((state.isSelectCustom == true) &&
             ((state.orderType == OrderType.SALE) ||
                 (state.orderType == OrderType.PURCHASE))) {
           if (state.initialIndex == 0) {
-            state.customList?.insert(
+            state.customList.insert(
                 0,
                 CustomDTO(
                     customName: '默认客户',
@@ -69,7 +85,7 @@ class CustomRecordController extends GetxController {
                     tradeAmount: Decimal.zero,
                     invalid: 0));
           } else {
-            state.customList?.insert(
+            state.customList.insert(
                 0,
                 CustomDTO(
                     customName: '默认供应商',
@@ -79,6 +95,18 @@ class CustomRecordController extends GetxController {
                     invalid: 0));
           }
         }
+
+        // 根据A-Z排序
+        SuspensionUtil.sortListBySuspensionTag(state.customList);
+
+        // show sus tag.
+        SuspensionUtil.setShowSuspensionStatus(state.customList);
+
+        // add header.
+        state.customList.insert(0, CustomDTO(customName: 'header', tagIndex: '🔍'));
+
+        state.contactsCount = '${state.customList.length} 位朋友及联系人';
+
         update(['custom_list', 'custom_custom_header']);
       }
     });
