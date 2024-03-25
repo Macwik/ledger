@@ -37,7 +37,6 @@ class RepaymentRecordController extends GetxController  with GetSingleTickerProv
     tabController.addListener(() {
       var index = tabController.index;
       state.index = index;
-      //update(['']);
       clearCondition();
       onRefresh();
     });
@@ -124,5 +123,14 @@ class RepaymentRecordController extends GetxController  with GetSingleTickerProv
   void searchRepaymentRecord(String value) {
     state.searchContent = value;
     onRefresh();
+  }
+
+  void toRepaymentBill() {
+    Get.toNamed(RouteConfig.repaymentBill,arguments: {'customType':CustomType.SUPPLIER.value})?.then((value) {
+      if(CustomType.SUPPLIER.value == value){
+        state.customType = value;
+      }
+      onRefresh();
+    });
   }
 }

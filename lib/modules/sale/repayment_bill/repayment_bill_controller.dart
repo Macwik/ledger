@@ -124,7 +124,7 @@ class RepaymentBillController extends GetxController {
       Loading.dismiss();
       if (result.success) {
         Toast.show('还款成功');
-        Get.back();
+        Get.back(result: state.customType);
       } else {
         Toast.show(result.m.toString());
       }

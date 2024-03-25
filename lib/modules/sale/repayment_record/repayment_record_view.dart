@@ -942,7 +942,9 @@ class RepaymentRecordView extends StatelessWidget {
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(30), // 设置圆角大小
                                     ),
-                                    onPressed: () => Get.toNamed(RouteConfig.repaymentBill,arguments: {'customType':CustomType.SUPPLIER.value}),
+                                    onPressed: (){
+                                      controller.toRepaymentBill();
+                                    },
                                     child: Container(
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment.center,
