@@ -16,6 +16,9 @@ class RepaymentDetailController extends GetxController {
     if ((arguments != null) && arguments['id'] != null) {
       state.id  = arguments['id'];
     }
+    if ((arguments != null) && arguments['index'] != null) {
+      state.index = arguments['index'];
+    }
     Http().network<RepaymentDetailDTO>(Method.get, RepaymentApi.repayment_detail,
         queryParameters: {'id': state.id}).then((result){
       if(result.success){

@@ -18,7 +18,7 @@ class RemittanceRecordState {
 
   String? dateRange;
 
-  DateTime startDate = DateTime.now().subtract(Duration(days: 7));
+  DateTime startDate = DateTime.now().subtract(Duration(days: 90));
   DateTime endDate = DateTime.now();
 
   List<PaymentMethodDTO>? paymentMethodList;

@@ -42,10 +42,14 @@ class MoreView extends StatelessWidget {
                       ),),
                   ),
                   Expanded(
-                      child: GridView.extent(
-                        physics: NeverScrollableScrollPhysics(),
-                        maxCrossAxisExtent: 80,
+                      child: GridView.count(
+                        crossAxisCount: 4,
+                        crossAxisSpacing: 36.w,
                         mainAxisSpacing: 24.w,
+                        childAspectRatio: 0.639,
+                        physics: NeverScrollableScrollPhysics(),
+                       // maxCrossAxisExtent: 80,
+                       // mainAxisSpacing: 24.w,
                         padding: EdgeInsets.all(16.w),
                         children: List.generate(5, (index) {
                           return PermissionWidget(
@@ -106,10 +110,12 @@ class MoreView extends StatelessWidget {
                       ),),
                   ),
                   Expanded(
-                      child: GridView.extent(
-                        physics: NeverScrollableScrollPhysics(),
-                        maxCrossAxisExtent: 80,
+                      child: GridView.count(
+                        crossAxisCount: 4,
+                        crossAxisSpacing: 36.w,
                         mainAxisSpacing: 24.w,
+                        childAspectRatio: 0.639,
+                        physics: NeverScrollableScrollPhysics(),
                         padding: EdgeInsets.all(16.w),
                         children: List.generate(4, (index) {
                           return PermissionWidget(
@@ -170,10 +176,12 @@ class MoreView extends StatelessWidget {
                       ),),
                   ),
                   Expanded(
-                      child: GridView.extent(
-                        physics: NeverScrollableScrollPhysics(),
-                        maxCrossAxisExtent: 80,
+                      child: GridView.count(
+                        crossAxisCount: 4,
+                        crossAxisSpacing: 36.w,
                         mainAxisSpacing: 24.w,
+                        childAspectRatio: 0.639,
+                        physics: NeverScrollableScrollPhysics(),
                         padding: EdgeInsets.all(16.w),
                         children: List.generate(4, (index) {
                           return  PermissionWidget(
@@ -234,11 +242,13 @@ class MoreView extends StatelessWidget {
                       ),),
                   ),
                   Expanded(
-                      child: GridView.extent(
-                        physics: NeverScrollableScrollPhysics(),
+                      child: GridView.count(
+                        crossAxisCount: 4,
+                        crossAxisSpacing: 36.w,
                         mainAxisSpacing: 24.w,
+                        childAspectRatio: 0.639,
+                        physics: NeverScrollableScrollPhysics(),
                         padding: EdgeInsets.all(16.w),
-                        maxCrossAxisExtent: 80,
                         children: List.generate(7, (index) {
                           return PermissionWidget(
                               permissionCode: gridItemFundPermission[index],
@@ -298,10 +308,12 @@ class MoreView extends StatelessWidget {
                       ),),
                   ),
                   Expanded(
-                      child: GridView.extent(
-                        physics: NeverScrollableScrollPhysics(),
-                        maxCrossAxisExtent: 80,
+                      child: GridView.count(
+                        crossAxisCount: 4,
+                        crossAxisSpacing: 36.w,
                         mainAxisSpacing: 24.w,
+                        childAspectRatio: 0.639,
+                        physics: NeverScrollableScrollPhysics(),
                         padding: EdgeInsets.all(16.w),
                         children: List.generate(1, (index) {
                           return  PermissionWidget(

@@ -43,14 +43,6 @@ class RepaymentRecordController extends GetxController  with GetSingleTickerProv
     super.onInit();
   }
 
-  void switchIndex(int tabIndex) {
-    state.searchContent = '';
-    state.index = tabIndex;
-    onRefresh();
-  }
-
-  void searchCustom(String searchValue) {}
-
   Future<BasePageEntity<RepaymentDTO>> _queryData(int currentPage) async {
     return await Http().networkPage<RepaymentDTO>(
         Method.post, RepaymentApi.repayment_record,
@@ -99,7 +91,7 @@ class RepaymentRecordController extends GetxController  with GetSingleTickerProv
 
   //筛选里清空条件
   void clearCondition() {
-    state.startDate = DateTime.now().subtract(Duration(days: 7));
+    state.startDate = DateTime.now().subtract(Duration(days: 90));
     state.endDate = DateTime.now();
     state.invalid = 0;
     update(['date_range', 'switch']);
@@ -112,7 +104,7 @@ class RepaymentRecordController extends GetxController  with GetSingleTickerProv
   }
 
   void toRepaymentDetail(int? id) {
-    Get.toNamed(RouteConfig.repaymentDetail, arguments: {'id': id})
+    Get.toNamed(RouteConfig.repaymentDetail, arguments: {'id': id,'index':state.index})
         ?.then((value) {
       if (ProcessStatus.OK == value) {
         onRefresh();

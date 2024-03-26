@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:ledger/entity/product/product_shopping_car_dto.dart';
-import 'package:ledger/res/colors.dart';
 import 'package:ledger/res/export.dart';
 import 'package:ledger/util/decimal_util.dart';
-import 'package:ledger/widget/elevated_btn.dart';
-import 'package:ledger/widget/empty_layout.dart';
 
 import 'shopping_car_list_controller.dart';
 
@@ -175,7 +171,7 @@ class ShoppingCarListView extends StatelessWidget {
                   child: ElevatedBtn(
                     margin: EdgeInsets.only(top: 80.w),
                     size: Size(double.infinity, 90.w),
-                    onPressed: (){},
+                    onPressed:() =>Get.back(),
                     radius: 15.w,
                     backgroundColor: Colors.white,
                     text: '继续添加',

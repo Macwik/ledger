@@ -375,15 +375,14 @@ class RetailBillView extends StatelessWidget {
                                                                 Expanded(child:
                                                                 Visibility(
                                                                     maintainSize: false,
-                                                                    visible:(( (stockDTO.productPlace !=null))&&( (stockDTO.productStandard!=null))) ,
+                                                                    visible:(((stockDTO.productPlace !=null))&&( (stockDTO.productStandard!=null))),
                                                                     child:
                                                                     Container(
                                                                       padding: EdgeInsets.only(top: 16.w),
                                                                       child:  Flex(direction: Axis.horizontal,
                                                                         children: [
                                                                           Text(
-                                                                              stockDTO.productPlace ??
-                                                                                  '',
+                                                                              stockDTO.productPlace ?? '',
                                                                               style:
                                                                               TextStyle(
                                                                                 color: stockDTO.invalid == 1

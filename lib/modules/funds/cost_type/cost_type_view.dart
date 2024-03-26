@@ -68,14 +68,14 @@ class CostTypeView extends StatelessWidget {
                                           color: Colors.white,
                                         ),
                                         padding: EdgeInsets.symmetric(
-                                            horizontal: 40.w, vertical: 40.w),
+                                            horizontal: 40.w, vertical: 32.w),
                                         child: Row(
                                           children: [
                                             Text(
                                               costLabel?.labelName ?? '',
                                               style: TextStyle(
                                                 color: Colours.text_333,
-                                                fontSize: 28.sp,
+                                                fontSize: 32.sp,
                                                 fontWeight: FontWeight.w500,
                                               ),
                                             ),
@@ -175,14 +175,14 @@ class CostTypeView extends StatelessWidget {
                                           color: Colors.white,
                                         ),
                                         padding: EdgeInsets.symmetric(
-                                            horizontal: 40.w, vertical: 40.w),
+                                            horizontal: 40.w, vertical: 32.w),
                                         child: Row(
                                           children: [
                                             Text(
                                               dailyLabel?.labelName ?? '',
                                               style: TextStyle(
                                                 color: Colours.text_333,
-                                                fontSize: 28.sp,
+                                                fontSize: 32.sp,
                                                 fontWeight: FontWeight.w500,
                                               ),
                                             ),

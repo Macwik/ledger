@@ -36,7 +36,7 @@ class CostRecordState {
   //订单状态
   int? orderStatus;
 
-  DateTime startDate = DateTime.now().subtract(Duration(days: 7));
+  DateTime startDate = DateTime.now().subtract(Duration(days: 90));
   DateTime endDate = DateTime.now();
 
   List<UserBaseDTO>? employeeList;

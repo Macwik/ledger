@@ -14,7 +14,7 @@ class SaleRecordState{
 
   bool? hasMore;
 
-  DateTime startDate = DateTime.now().subtract(Duration(days: 7));
+  DateTime startDate = DateTime.now().subtract(Duration(days: 90));
   DateTime endDate = DateTime.now();
 
   //收款状态

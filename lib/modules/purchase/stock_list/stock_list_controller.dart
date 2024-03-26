@@ -6,7 +6,6 @@ import 'package:ledger/config/api/product_api.dart';
 import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/entity/product/product_classify_list_dto.dart';
 import 'package:ledger/entity/product/product_dto.dart';
-import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/enum/process_status.dart';
 import 'package:ledger/enum/sales_channel.dart';
 import 'package:ledger/enum/stock_list_type.dart';
@@ -25,6 +24,10 @@ class StockListController extends GetxController {
     var arguments = Get.arguments;
     if ((arguments != null) && arguments['select'] != null) {
       state.select = arguments['select'];
+    }
+    if ((arguments != null) && arguments['bottomShow'] != null) {
+      state.bottomShow = arguments['bottomShow'];
+      update(['stock_list_bottom_show']);
     }
     _queryProductClassifyList();
     onRefresh();
@@ -219,8 +222,7 @@ class StockListController extends GetxController {
   }
 
   void toAddProduct() {
-    Get.toNamed(RouteConfig.saleBill,arguments: {'orderType': OrderType.ADD_STOCK
-    })?.then((result) {
+    Get.toNamed(RouteConfig.addProduct)?.then((result) {
       if (ProcessStatus.OK == result) {
         onRefresh();
       }

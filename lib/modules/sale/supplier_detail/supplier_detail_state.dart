@@ -25,7 +25,7 @@ class SupplierDetailState {
 
   int? orderType;//账单类型
 
-  DateTime startDate = DateTime.now().subtract(Duration(days: 7));
+  DateTime startDate = DateTime.now().subtract(Duration(days: 90));
   DateTime endDate = DateTime.now();
 
 

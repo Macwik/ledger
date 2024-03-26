@@ -17,7 +17,7 @@ class PurchaseRecordState {
 
   int currentPage = 1;
 
-  DateTime startDate = DateTime.now().subtract(Duration(days: 7));
+  DateTime startDate = DateTime.now().subtract(Duration(days: 90));
   DateTime endDate = DateTime.now();
 
   List<UserBaseDTO>? employeeList;

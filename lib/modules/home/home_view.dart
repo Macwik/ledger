@@ -8,6 +8,7 @@ import 'package:ledger/entity/home/sales_repayment_statistics_dto.dart';
 import 'package:ledger/enum/custom_type.dart';
 import 'package:ledger/enum/is_select.dart';
 import 'package:ledger/enum/order_type.dart';
+import 'package:ledger/enum/process_status.dart';
 import 'package:ledger/enum/stock_list_type.dart';
 import 'package:ledger/enum/unit_type.dart';
 import 'package:ledger/modules/home/home_controller.dart';
@@ -971,7 +972,7 @@ const List<String> gridItemPaths = [
 final List<Function()> gridItemRoutes = [
   () => Get.toNamed(RouteConfig.saleRecord, arguments: {'index': 0}),
   () => Get.toNamed(RouteConfig.purchaseRecord, arguments: {'index': 0}),
-  () => Get.toNamed(RouteConfig.stockList, arguments: {'select': StockListType.DETAIL}),
+  () => Get.toNamed(RouteConfig.stockList, arguments: {'select': StockListType.DETAIL,'bottomShow':ProcessStatus.OK}),
   () => Get.toNamed(RouteConfig.costRecord, arguments: {'index': 0}),
   () => Get.toNamed(RouteConfig.repaymentRecord, arguments: {'customType': CustomType.CUSTOM.value}),
   () => Get.toNamed(RouteConfig.dailyAccount),

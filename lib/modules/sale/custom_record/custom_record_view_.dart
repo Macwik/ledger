@@ -152,7 +152,7 @@ class CustomRecordView_ extends StatelessWidget {
                     height: 40.w,
                   ),
                   Visibility(
-                      visible: controller.state.isSelectCustom != true,
+                      visible: controller.state.isSelectCustom = true,
                       child: GetBuilder<CustomRecordController>(
                           id: 'switch',
                           init: controller,
@@ -376,7 +376,7 @@ class CustomRecordView_ extends StatelessWidget {
                   init: controller,
                   builder: (_) {
                     return Flexible(
-                      child: controller.state.customList.isEmpty ?? true
+                      child: controller.state.customList.isEmpty
                           ? EmptyLayout(hintText: '什么都没有'.tr)
                           : ListView.separated(
                               shrinkWrap: true,
@@ -487,9 +487,7 @@ class CustomRecordView_ extends StatelessWidget {
                                           ),
                                         ),
                                         Visibility(
-                                            visible: controller
-                                                    .state.isSelectCustom !=
-                                                true,
+                                            visible: controller.state.isSelectCustom = true,
                                             child: IconButton(
                                                 onPressed: () =>
                                                     controller.showBottomSheet(
@@ -507,7 +505,7 @@ class CustomRecordView_ extends StatelessWidget {
                                 width: double.infinity,
                               ),
                               itemCount:
-                                  controller.state.customList.length ?? 0,
+                                  controller.state.customList.length,
                             ),
                     );
                   }),

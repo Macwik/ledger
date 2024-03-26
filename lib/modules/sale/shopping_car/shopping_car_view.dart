@@ -32,7 +32,7 @@ class ShoppingCarView extends StatelessWidget {
                 permissionCode: PermissionCode.stock_list_add_product_permission,
                 child:Icon(
                 Icons.add,
-                color: Colors.black54,
+                color: Colours.primary,
               )),
             ),
           ),

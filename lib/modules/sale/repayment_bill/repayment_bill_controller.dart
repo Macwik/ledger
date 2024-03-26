@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/api/repayment_api.dart';
 import 'package:ledger/entity/repayment/custom_credit_dto.dart';
+import 'package:ledger/enum/custom_type.dart';
 import 'package:ledger/enum/is_select.dart';
 import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/res/export.dart';
@@ -19,8 +20,13 @@ class RepaymentBillController extends GetxController {
       state.customDTO = arguments['customDTO'];
       state.customType = state.customDTO?.customType;
     }
-    if ((arguments != null) && arguments['customType'] != null) {
-      state.customType = arguments['customType'];
+    if ((arguments != null) && arguments['index'] != null) {
+      state.index = arguments['index'];
+      if( state.index== 0){
+        state.customType = CustomType.CUSTOM.value;
+      }else{
+        state.customType = CustomType.SUPPLIER.value;
+      }
     }
     update(['repayment_custom']);
   }

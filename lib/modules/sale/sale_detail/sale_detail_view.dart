@@ -66,54 +66,6 @@ class SaleDetailView extends StatelessWidget {
           child: RepaintBoundary(
               key: salesDetailKey,
               child: Column(children: [
-                // GetBuilder<SaleDetailController>(
-                //     id: 'sale_detail_title',
-                //     builder: (_) {
-                //       return Container(
-                //           color: Colors.white,
-                //           padding: EdgeInsets.only(
-                //               left: 20, right: 20, top: 16, bottom: 10),
-                //           child: Flex(
-                //             direction: Axis.horizontal,
-                //             children: [
-                //               Text(
-                //                 '合计：',
-                //                 style: TextStyle(
-                //                   color: Colours.text_999,
-                //                   fontSize: 30.sp,
-                //                   fontWeight: FontWeight.w500,
-                //                 ),
-                //               ),
-                //
-                //               Expanded(
-                //                 child: Row(
-                //                   mainAxisAlignment: MainAxisAlignment.end,
-                //                   children: [
-                //                     Text(controller.buildTotalAmount(),
-                //                         style: TextStyle(
-                //                           color:
-                //                               state.orderDetailDTO?.invalid ==
-                //                                       IsDeleted.DELETED.value
-                //                                   ? Colours.text_ccc
-                //                                   : Colors.orange,
-                //                           fontSize: 38.sp,
-                //                           fontWeight: FontWeight.w400,
-                //                         )),
-                //                   ],
-                //                 ),
-                //               ),
-                //             ],
-                //           ));
-                //     }),
-                // Container(
-                //   color:
-                //       state.orderDetailDTO?.invalid == IsDeleted.DELETED.value
-                //           ? Colours.text_ccc
-                //           : Colors.orange,
-                //   height: 2.w,
-                //   width: double.infinity,
-                // ),
-                //货物详情
                 GetBuilder<SaleDetailController>(
                     id: 'sale_detail_title',
                     builder: (_){
@@ -621,7 +573,7 @@ class SaleDetailView extends StatelessWidget {
                                           child: Text(
                                         textAlign: TextAlign.right,
                                         DateUtil.formatDefaultDate2(
-                                            state.orderDetailDTO?.gmtCreate),
+                                            state.orderDetailDTO?.orderDate),
                                         style: TextStyle(
                                           color: Colours.text_333,
                                           fontSize: 32.sp,
@@ -640,7 +592,7 @@ class SaleDetailView extends StatelessWidget {
                                   Row(
                                     children: [
                                       Text(
-                                        state.orderType == OrderType.SALE
+                                        (state.orderType == OrderType.SALE)||(state.orderType == OrderType.SALE_RETURN)||(state.orderType == OrderType.REFUND)
                                             ? '客户'
                                             : '供应商',
                                         style: TextStyle(

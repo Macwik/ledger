@@ -21,6 +21,10 @@ class CostRecordController extends GetxController with GetSingleTickerProviderSt
   late TabController tabController;
 
   Future<void> initState() async {
+    var arguments = Get.arguments;
+    if ((arguments != null) && arguments['index'] != null) {
+      state.index = arguments['index'];
+    }
     onRefresh();
     _queryLedgerUserList();
   }
@@ -141,7 +145,7 @@ class CostRecordController extends GetxController with GetSingleTickerProviderSt
 
   //筛选里清空条件
   void clearCondition() {
-    state.startDate = DateTime.now().subtract(Duration(days: 7));
+    state.startDate = DateTime.now().subtract(Duration(days: 90));
     state.endDate = DateTime.now();
     state.selectEmployeeIdList = null;
     state.orderStatus = null;

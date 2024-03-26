@@ -121,7 +121,7 @@ class BindingSaleBillController extends GetxController {
 
   //筛选里清空条件
   void clearCondition() {
-    state.startDate = DateTime.now().subtract(Duration(days: 7));
+    state.startDate = DateTime.now().subtract(Duration(days: 90));
     state.endDate = DateTime.now();
     state.selectEmployeeIdList = null;
     state.orderStatus = null;

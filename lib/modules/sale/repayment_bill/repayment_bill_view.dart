@@ -2,6 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
+import 'package:ledger/enum/custom_type.dart';
 import 'package:ledger/enum/is_select.dart';
 import 'package:ledger/res/export.dart';
 import 'package:ledger/widget/permission/ledger_widget_type.dart';
@@ -93,7 +94,7 @@ class RepaymentBillView extends StatelessWidget {
                                   style: TextStyle(color: Colors.red),
                                 ),
                                 Text(
-                                  '客户',
+                                  state.customType == CustomType.CUSTOM.value?'客户':'供应商',
                                   style: TextStyle(
                                     color: Colours.text_666,
                                     fontSize: 32.sp,

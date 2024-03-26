@@ -2,6 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/permission_code.dart';
+import 'package:ledger/enum/custom_type.dart';
 import 'package:ledger/enum/is_deleted.dart';
 import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/res/export.dart';
@@ -78,7 +79,7 @@ class RepaymentDetailView extends StatelessWidget {
                                         style: TextStyle(color: Colors.red),
                                       ),
                                       Text(
-                                         '客户',
+                                         state.index == CustomType.CUSTOM?'客户':'供应商',
                                         style: TextStyle(
                                           color: Colours.text_666,
                                           fontSize: 32.sp,

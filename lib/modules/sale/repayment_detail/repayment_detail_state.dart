@@ -8,4 +8,6 @@ class RepaymentDetailState {
   RepaymentDetailState() {
     ///Initialize variables
   }
+
+  int? index;
 }

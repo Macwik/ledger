@@ -3,7 +3,7 @@ import 'package:ledger/entity/order/order_dto.dart';
 import 'package:ledger/entity/user/user_base_dto.dart';
 
 class BindingSaleBillState {
-  DateTime startDate = DateTime.now().subtract(Duration(days: 30));
+  DateTime startDate = DateTime.now().subtract(Duration(days: 90));
   DateTime endDate = DateTime.now();
 
 

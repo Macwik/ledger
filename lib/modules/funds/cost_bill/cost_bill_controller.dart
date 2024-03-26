@@ -69,7 +69,7 @@ class CostBillController extends GetxController {
       Loading.dismiss();
       if (result.success) {
         Toast.show('费用开单成功');
-        Get.offNamed(RouteConfig.costRecord);
+        Get.back();
       } else {
         Toast.show(result.m.toString());
       }

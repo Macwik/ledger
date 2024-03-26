@@ -5,7 +5,7 @@ class DataExportState {
   DataExportState() {
     ///Initialize variables
   }
-  DateTime startDate = DateTime.now().subtract(Duration(days: 7));
+  DateTime startDate = DateTime.now().subtract(Duration(days: 90));
   DateTime endDate = DateTime.now();
 
   final formKey = GlobalKey<FormBuilderState>();
