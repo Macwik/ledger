@@ -4,7 +4,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/entity/custom/custom_dto.dart';
-import 'package:ledger/modules/sale/custom_record/wx_contacts_cell.dart';
+import 'package:ledger/modules/sale/custom_record/ledger_contacts_cell.dart';
 import 'package:ledger/res/export.dart';
 import 'package:ledger/widget/permission/permission_widget.dart';
 
@@ -259,10 +259,10 @@ class CustomRecordView extends StatelessWidget {
               ])),
         ),
         body: GetBuilder<CustomRecordController>(
-                id: 'custom_list',
-                init: controller,
-                global: false,
-                builder: (_) => SlidableAutoCloseBehavior(child: _body())));
+            id: 'custom_list',
+            init: controller,
+            global: false,
+            builder: (_) => SlidableAutoCloseBehavior(child: _body())));
   }
 
   // body
@@ -272,13 +272,13 @@ class CustomRecordView extends StatelessWidget {
       itemCount: controller.state.customList.length,
       itemBuilder: (BuildContext context, int index) {
         CustomDTO customDTO = controller.state.customList[index];
-        return WxContactsCell(
+        return LedgerContactsCell(
           model: customDTO,
           index: index,
           controller: controller,
           dataArr: controller.state.customList,
           bottomContactsCountText:
-              controller.state.customList.length.toString(),
+              '共 ${controller.state.customList.length} 位联系人',
           onClickCell: (model) {
             // 跳转个人信息页
             controller.onClick(model);

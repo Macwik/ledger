@@ -1,10 +1,3 @@
-///  jh_set_cell.dart
-///
-///  Created by iotjin on 2020/04/14.
-///  description:  设置页的cell ，左侧图片，title, 右侧text ,箭头 , Edge 左15，右10
-
-// ignore_for_file: library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ledger/entity/custom/custom_dto.dart';
@@ -25,8 +18,8 @@ const double _textFontSize = 15.0;
 
 typedef _ClickCallBack = void Function();
 
-class JhSetCell extends StatefulWidget {
-  const JhSetCell({
+class CustomCell extends StatefulWidget {
+  const CustomCell({
     super.key,
     this.leftWidget,
     this.text = '',
@@ -62,10 +55,10 @@ class JhSetCell extends StatefulWidget {
   final CustomRecordController? controller;
 
   @override
-  _JhSetCellState createState() => _JhSetCellState();
+  _CustomCellState createState() => _CustomCellState();
 }
 
-class _JhSetCellState extends State<JhSetCell> {
+class _CustomCellState extends State<CustomCell> {
   @override
   void initState() {
     super.initState();
@@ -113,92 +106,79 @@ class _JhSetCellState extends State<JhSetCell> {
             children: <Widget>[
               widget.leftWidget ?? Container(),
               SizedBox(width: 10),
-              Expanded(child:
-              Column(children: [
-                Row(
-                  children: [
-                    Expanded(child:
-                    Offstage(
-                      offstage: widget.customDTO?.customName?.isEmpty ?? false,
-                      child: SizedBox(
-                         // width: widget.titleWidth,
-                          child: Text(widget.customDTO?.customName ?? '',
-                              style: TextStyle(fontWeight: FontWeight.w500,
-                              fontSize: 34.sp,
-                              color:  widget.customDTO?.invalid == 1?Colours.text_ccc:Colours.text_333,))),
-                    )),
-                    Visibility(
-                      visible:
-                      widget.customDTO?.invalid == 1,
-                      child: Container(
-                        padding:
-                        EdgeInsets.only(
-                            top: 2.w,
-                            bottom: 2.w,
-                            left: 4.w,
-                            right: 4.w),
-                        decoration:
-                        BoxDecoration(
-                          border: Border.all(
-                            color: Colours
-                                .text_ccc,
-                            width: 1.0,
+              Expanded(
+                  child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                          child: Offstage(
+                        offstage:
+                            widget.customDTO?.customName?.isEmpty ?? false,
+                        child: SizedBox(
+                            // width: widget.titleWidth,
+                            child: Text(widget.customDTO?.customName ?? '',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 34.sp,
+                                  color: widget.customDTO?.invalid == 1
+                                      ? Colours.text_ccc
+                                      : Colours.text_333,
+                                ))),
+                      )),
+                      Visibility(
+                        visible: widget.customDTO?.invalid == 1,
+                        child: Container(
+                          padding: EdgeInsets.only(
+                              top: 2.w, bottom: 2.w, left: 4.w, right: 4.w),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colours.text_ccc,
+                              width: 1.0,
+                            ),
+                            borderRadius: BorderRadius.circular(8.0),
                           ),
-                          borderRadius:
-                          BorderRadius
-                              .circular(
-                              8.0),
+                          child: Text('停',
+                              style: TextStyle(
+                                color: Colours.text_999,
+                                fontSize: 26.sp,
+                                fontWeight: FontWeight.w500,
+                              )),
                         ),
-                        child: Text('停',
-                            style: TextStyle(
-                              color: Colours
-                                  .text_999,
-                              fontSize: 26.sp,
-                              fontWeight:
-                              FontWeight
-                                  .w500,
-                            )),
+                      )
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        '欠款：',
+                        style: TextStyle(
+                          color: Colours.text_ccc,
+                          fontSize: 26.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    )
-                  ],
-                ),
-                Row(
-                  children: [
-                    Text(
-                      '欠款：',
-                      style: TextStyle(
-                        color: Colours.text_ccc,
-                        fontSize: 26.sp,
-                        fontWeight:
-                        FontWeight.w500,
+                      Text(
+                        DecimalUtil.formatAmount(
+                            widget.customDTO?.creditAmount),
+                        style: TextStyle(
+                          color: widget.customDTO?.invalid == 1
+                              ? Colours.text_ccc
+                              : Colours.text_666,
+                          fontSize: 26.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    ),
-                    Text(
-                      DecimalUtil.formatAmount(
-                          widget.customDTO?.creditAmount),
-                      style: TextStyle(
-                        color:
-                        widget.customDTO?.invalid == 1
-                            ? Colours.text_ccc
-                            : Colours
-                            .text_666,
-                        fontSize: 26.sp,
-                        fontWeight:
-                        FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-              ],)),
+                    ],
+                  ),
+                ],
+              )),
               Visibility(
-                  visible: widget.controller
-                      ?.state.isSelectCustom != true,
+                  visible: widget.controller?.state.isSelectCustom != true,
                   child: IconButton(
-                      onPressed: () =>
-                          widget.controller?.showBottomSheet(
-                              context, widget.customDTO),
-                      icon: Icon(Icons.more_vert,
-                          color: Colors.grey))),
+                      onPressed: () => widget.controller
+                          ?.showBottomSheet(context, widget.customDTO),
+                      icon: Icon(Icons.more_vert, color: Colors.grey))),
             ],
           ),
         ),
