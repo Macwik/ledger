@@ -6,16 +6,12 @@ class CustomListState {
     ///Initialize variables
   }
 
-  List<ContactDTO>? contactList;
+  List<ContactDTO> contactList = [];
 
   Set<String> customNameSet = <String>{};
 
   int? ledgerId;
 
   int? isAddressList = IsSelectType.FALSE.value;
-
-  // RxBool batch = RxBool(false);
-
-  // List<ContactDTO> selected = [];
 
 }

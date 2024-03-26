@@ -26,11 +26,11 @@ class CustomListView extends StatelessWidget {
               id: 'contact_list',
               builder: (_) {
                 return Flexible(
-                  child: state.contactList?.isEmpty ?? true
+                  child: state.contactList.isEmpty ?? true
                       ? EmptyLayout(hintText: '什么都没有'.tr)
                       : ListView.separated(
                           itemBuilder: (context, index) {
-                            ContactDTO contactDTO = state.contactList![index];
+                            ContactDTO contactDTO = state.contactList[index];
                             return Container(
                               color: Colors.white,
                               padding: EdgeInsets.symmetric(horizontal:40.w),

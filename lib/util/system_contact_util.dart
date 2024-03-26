@@ -17,15 +17,14 @@ class SystemContactUtil {
         }
         List<ContactDTO> result = [];
         for (var contact in contacts) {
-          var phones = contact.phones;
-          if (phones.isNotEmpty) {
-            for (var phone in phones) {
-              result.add(
-                  ContactDTO(name: contact.displayName, phone: phone.number));
-            }
-          } else {
-            result.add(ContactDTO(name: contact.displayName, phone: ''));
+          var displayName = contact.displayName;
+          if (displayName.isEmpty) {
+            continue;
           }
+          var phones = contact.phones;
+          result.add(ContactDTO(
+              name: contact.displayName,
+              phone: phones.isEmpty ? '' : phones.first.number));
         }
         return result;
       } else {

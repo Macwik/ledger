@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:ledger/config/api/custom_api.dart';
+import 'package:ledger/entity/contact/contact_dto.dart';
 import 'package:ledger/entity/custom/custom_dto.dart';
 import 'package:ledger/enum/custom_type.dart';
 import 'package:ledger/enum/is_select.dart';
@@ -20,13 +21,12 @@ class CustomListController extends GetxController {
       state.isAddressList = arguments['isAddressList'];
     }
 
-    if(state.isAddressList ==  IsSelectType.TRUE.value){
+    if (state.isAddressList == IsSelectType.TRUE.value) {
       await queryCustom();
       queryContact();
-    }else{
+    } else {
       queryImportCustom();
     }
-
   }
 
   //拉数据--通讯录
@@ -39,16 +39,18 @@ class CustomListController extends GetxController {
 
   //拉数据--其他账本
   Future<void> queryImportCustom() async {
-    await Http().network<List<CustomDTO>>(Method.post, CustomApi.batchImportCustom,
+    await Http().network<List<CustomDTO>>(
+        Method.post, CustomApi.batchImportCustom,
         queryParameters: {
           'ledgerId': state.ledgerId,
           'customType': CustomType.CUSTOM.value,
         }).then((result) {
       if (result.success) {
-        if (null != result.d && (result.d!.isNotEmpty)) {
-          for (var element in result.d!) {
-            state.customNameSet.add(element.customName ?? '');
-          }
+        if (result.d?.isNotEmpty ?? false) {
+          result.d?.forEach((element) {
+            state.contactList.add(
+                ContactDTO(name: element.customName, phone: element.phone));
+          });
         }
       }
     });
@@ -62,10 +64,12 @@ class CustomListController extends GetxController {
           'customType': CustomType.CUSTOM.value,
         }).then((result) {
       if (result.success) {
-        if (null != result.d && (result.d!.isNotEmpty)) {
-          for (var element in result.d!) {
-            state.customNameSet.add(element.customName ?? '');
-          }
+        if (result.d?.isNotEmpty ?? false) {
+          result.d?.forEach((element) {
+            if (element.customName?.isNotEmpty ?? false) {
+              state.customNameSet.add(element.customName!);
+            }
+          });
         }
       }
     });
@@ -86,24 +90,4 @@ class CustomListController extends GetxController {
       }
     });
   }
-
-  //批量导入选择导入客户
-  // bool? judgeIsSelect(ContactDTO contactDTO) {
-  //   for (var value in state.selected) {
-  //     if (contactDTO == value) {
-  //       return true;
-  //     }
-  //   }
-  //   return false;
-  // }
-
-  //批量导入checkBox选择的控制
-  // void addToSelected(bool? selected, ContactDTO contactDTO) {
-  //   if (true == selected) {
-  //       state.selected.add(contactDTO);
-  //   } else {
-  //       state.selected.remove(contactDTO);
-  //   }
-  //   update(['contact_list',]);
-  // }
 }
