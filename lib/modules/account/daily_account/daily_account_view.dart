@@ -32,7 +32,7 @@ class DailyAccountView extends StatelessWidget {
                     color: Colors.white,
                     height: 90.w, // 调整TabBar高度
                     child: TabBar(
-                     // controller: controller.tabController,
+                      controller: controller.tabController,
                       tabs: [
                         Tab(text:'交易资金'),
                         Tab(text: '销售货物',
@@ -51,7 +51,7 @@ class DailyAccountView extends StatelessWidget {
                       labelColor: Colours.primary,
                     )),
                 Expanded(child: TabBarView(
-                  physics: NeverScrollableScrollPhysics(), // 禁止滑动
+                  controller: controller.tabController,
                   children: [
                     ///交易资金
                     Column(

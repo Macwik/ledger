@@ -575,7 +575,7 @@ class RetailBillView extends StatelessWidget {
                             flex: 3,
                             child: ElevatedButton(
                               onPressed: (){
-                                 controller.showPaymentDialog(context);
+                                 controller.showPaymentDialog();
                               },
                               style: ButtonStyle(
                                 maximumSize: MaterialStateProperty.all(

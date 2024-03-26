@@ -56,7 +56,8 @@ class PendingOrderView extends StatelessWidget {
                         itemBuilder: (context, index) {
                           OrderDraftDTO orderDraftDTO = controller.state.list![index];
                           return InkWell(
-                            onTap: () => Get.toNamed(RouteConfig.pendingRetailBill,arguments: {'draftId':orderDraftDTO.id}),
+                            onTap: () => Get.toNamed(RouteConfig.pendingRetailBill,arguments: {'draftId':orderDraftDTO.id})
+                            ?.then((value) => controller.onRefresh()),
                             child: Slidable(
                                 endActionPane: ActionPane(
                                   motion: const ScrollMotion(),

@@ -281,7 +281,7 @@ class PendingRetailBillController extends GetxController {
   }
 
   //Dialog
-  void showPaymentDialog(BuildContext context) {
+  Future<void> showPaymentDialog(BuildContext context) async {
     if (state.shoppingCarList?.isEmpty??false) {
       Toast.show('请添加货物后再试');
       return;

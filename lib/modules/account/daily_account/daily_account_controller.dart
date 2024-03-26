@@ -15,8 +15,23 @@ import 'package:ledger/util/decimal_util.dart';
 
 import 'daily_account_state.dart';
 
-class DailyAccountController extends GetxController {
+class DailyAccountController extends GetxController
+    with GetSingleTickerProviderStateMixin
+    implements DisposableInterface {
   final DailyAccountState state = DailyAccountState();
+
+  late TabController tabController;
+
+  @override
+  void onInit() {
+    tabController = TabController(length: 3, vsync: this);
+    tabController.addListener(() {
+      var index = tabController.index;
+      state.initialIndex = index;
+      switchDailyAccountIndex(index);
+    });
+    super.onInit();
+  }
 
   void initState() {
     var arguments = Get.arguments;
@@ -26,16 +41,7 @@ class DailyAccountController extends GetxController {
     if ((arguments != null) && arguments['startDateSalesProduct'] != null) {
       state.startDateSalesProduct = arguments['startDateSalesProduct'];
     }
-    switch (state.initialIndex) {
-      case 0:
-        return querySalesMoneyStatistics();
-      case 1:
-        return querySalesProductStatistics();
-      case 2:
-        return queryCreditMoneyStatistics();
-      default:
-        throw Exception('无此精确度');
-    }
+    switchDailyAccountIndex(state.initialIndex);
   }
 
   //销售资金情况统计
@@ -76,7 +82,7 @@ class DailyAccountController extends GetxController {
         }).then((result) {
       if (result.success) {
         state.salesProductStatisticsDTO = result.d;
-        update(['daily_sales_product_statistics','sales_product_data_range']);
+        update(['daily_sales_product_statistics', 'sales_product_data_range']);
       } else {
         Toast.show(result.m.toString());
       }
@@ -184,7 +190,7 @@ class DailyAccountController extends GetxController {
       return '-';
     }
     if (salesProductStatisticsDTO.unitType == UnitType.SINGLE.value) {
-      return '${DecimalUtil.formatDecimalNumber(salesProductStatisticsDTO.number) } ${salesProductStatisticsDTO.unitName}';
+      return '${DecimalUtil.formatDecimalNumber(salesProductStatisticsDTO.number)} ${salesProductStatisticsDTO.unitName}';
     } else {
       return '${DecimalUtil.formatDecimalNumber(salesProductStatisticsDTO.masterNumber)} ${salesProductStatisticsDTO.masterUnitName} | ${DecimalUtil.formatDecimalNumber(salesProductStatisticsDTO.slaveNumber)} ${salesProductStatisticsDTO.slaveUnitName}';
     }
@@ -260,12 +266,12 @@ class DailyAccountController extends GetxController {
     }
   }
 
-  // void toPurchaseDetail(PurchaseMoneyStatisticsDTO purchaseMoneyStatistics) {
-  //   Get.toNamed(RouteConfig.saleDetail, arguments: {
-  //     'orderType': purchaseMoneyStatistics.orderDTO?.orderType == 0
-  //         ? OrderType.PURCHASE
-  //         : OrderType.PURCHASE_RETURN,
-  //     'id': purchaseMoneyStatistics.orderDTO?.id
-  //   });
-  // }
+// void toPurchaseDetail(PurchaseMoneyStatisticsDTO purchaseMoneyStatistics) {
+//   Get.toNamed(RouteConfig.saleDetail, arguments: {
+//     'orderType': purchaseMoneyStatistics.orderDTO?.orderType == 0
+//         ? OrderType.PURCHASE
+//         : OrderType.PURCHASE_RETURN,
+//     'id': purchaseMoneyStatistics.orderDTO?.id
+//   });
+// }
 }

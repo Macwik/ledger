@@ -14,16 +14,20 @@ import 'package:ledger/http/http_util.dart';
 import 'package:ledger/route/route_config.dart';
 import 'package:ledger/util/date_util.dart';
 import 'package:ledger/util/decimal_util.dart';
+import 'package:ledger/util/logger_util.dart';
 import 'package:ledger/util/toast_util.dart';
 
 import 'sale_record_state.dart';
 
-class SaleRecordController extends GetxController with GetSingleTickerProviderStateMixin implements DisposableInterface {
+class SaleRecordController extends GetxController
+    with GetSingleTickerProviderStateMixin
+    implements DisposableInterface {
   final SaleRecordState state = SaleRecordState();
 
   late TabController tabController;
 
   Future<void> initState() async {
+    LoggerUtil.e('-------------------------');
     var arguments = Get.arguments;
     if (arguments != null && arguments['index'] != null) {
       state.index = arguments['index'];
@@ -46,8 +50,8 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
   }
 
   Future<BasePageEntity<OrderDTO>> _queryData(int currentPage) async {
-    return await Http().networkPage<OrderDTO>(
-        Method.post, OrderApi.order_page, data: {
+    return await Http()
+        .networkPage<OrderDTO>(Method.post, OrderApi.order_page, data: {
       'page': currentPage,
       'orderTypeList': [orderTypes()],
       'userIdList': state.selectEmployeeIdList,
@@ -76,7 +80,6 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
   bool checkOrderStatus(int? orderStatus) {
     return state.orderStatus == orderStatus;
   }
-
 
   String getOrderStatusDesc(int? orderStatus) {
     if (state.index == 0) {
@@ -224,18 +227,33 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
           (salePurchaseOrderDTO.totalAmount ?? Decimal.zero) -
               (salePurchaseOrderDTO.discountAmount ?? Decimal.zero));
     } else {
-      return '￥- ${(salePurchaseOrderDTO.totalAmount ?? Decimal.zero) -
-          (salePurchaseOrderDTO.discountAmount ?? Decimal.zero)}';
+      return '￥- ${(salePurchaseOrderDTO.totalAmount ?? Decimal.zero) - (salePurchaseOrderDTO.discountAmount ?? Decimal.zero)}';
     }
   }
 
-  void toAddBill() {
+  Future<void> toAddBill() async {
     if (state.index == 0) {
-      Get.toNamed(RouteConfig.retailBill, arguments: {'orderType': OrderType.SALE});
+      await Get.toNamed(RouteConfig.retailBill,
+              arguments: {'orderType': OrderType.SALE})
+          ?.then((value) {
+        state.index = 0;
+        onRefresh();
+      });
     } else if (state.index == 1) {
-      Get.toNamed(RouteConfig.retailBill, arguments: {'orderType': OrderType.SALE_RETURN});
+      await Get.toNamed(RouteConfig.retailBill,
+              arguments: {'orderType': OrderType.SALE_RETURN})
+          ?.then((value) async {
+            state.index = 1;
+            await onRefresh();
+      });
     } else {
-      Get.toNamed(RouteConfig.retailBill, arguments: {'orderType': OrderType.REFUND});
+      await Get.toNamed(RouteConfig.retailBill,
+              arguments: {'orderType': OrderType.REFUND})
+          ?.then((value) {
+        state.index = 2;
+        onRefresh();
+      });
+      ;
     }
   }
 
@@ -251,6 +269,4 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
         throw Exception('此项不存在');
     }
   }
-
 }
-

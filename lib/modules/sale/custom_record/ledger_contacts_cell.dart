@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ledger/entity/custom/custom_dto.dart';
 import 'package:ledger/modules/sale/custom_record/custom_record_controller.dart';
-import 'package:ledger/res/colors.dart';
+import 'package:ledger/res/export.dart';
+import 'package:ledger/util/decimal_util.dart';
 import 'package:ledger/util/image_util.dart';
-import 'package:ledger/widget/image.dart';
 
 import 'custom_cell.dart';
 
@@ -107,9 +106,8 @@ class LedgerContactsCell extends StatelessWidget {
                     ),
                     Expanded(
                       child: Text(
-                        '1213',
-                        // controller.state.totalCreditCustom
-                        //     .toString(),
+                        controller.state.totalCreditCustom
+                            .toString(),
                         style: TextStyle(
                             color: Colours.primary,
                             fontSize: 28.w,
@@ -127,10 +125,9 @@ class LedgerContactsCell extends StatelessWidget {
                 ),
                 Expanded(
                   child: Text(
-                    '1000',
-                    // DecimalUtil.formatDecimal(
-                    //     controller.state.totalCreditAmount,
-                    //     scale: 0),
+                    DecimalUtil.formatDecimal(
+                        controller.state.totalCreditAmount,
+                        scale: 0),
                     style: TextStyle(
                         color: Colours.primary,
                         fontSize: 28.w,
@@ -151,7 +148,6 @@ class LedgerContactsCell extends StatelessWidget {
 
   // Cell
   Widget _buildCell() {
-    String susTag = model.getSuspensionTag();
     double cellH = _cellHeight;
     double leftSpace = 65.0;
     double imgWH = 40;
@@ -173,8 +169,8 @@ class LedgerContactsCell extends StatelessWidget {
               borderRadius: BorderRadius.circular(3),
             ),
             child: Center(
-              child: Text(susTag.substring(0, 1),
-                  style: const TextStyle(color: Colors.purple, fontSize: 20)),
+              child: Text(model.customName!.substring(0, 1),
+                  style: const TextStyle(color: Colours.primary, fontSize: 20)),
             ),
           ),
           clickCallBack: () => onClickCell?.call(model),

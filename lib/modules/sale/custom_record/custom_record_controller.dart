@@ -8,7 +8,6 @@ import 'package:ledger/entity/custom/custom_dto.dart';
 import 'package:ledger/enum/custom_type.dart';
 import 'package:ledger/enum/is_select.dart';
 import 'package:ledger/enum/order_type.dart';
-import 'package:ledger/enum/process_status.dart';
 import 'package:ledger/http/http_util.dart';
 import 'package:ledger/route/route_config.dart';
 import 'package:ledger/util/toast_util.dart';
@@ -294,9 +293,7 @@ class CustomRecordController extends GetxController {
         Get.toNamed(RouteConfig.customList,
                 arguments: {'isAddressList': IsSelectType.TRUE.value})
             ?.then((value) {
-          if (ProcessStatus.OK == value) {
             queryCustom();
-          }
         });
       },
       child: Text('通讯录导入'),
@@ -306,7 +303,8 @@ class CustomRecordController extends GetxController {
       onPressed: () {
         Get.back();
         Get.toNamed(RouteConfig.myAccount,
-            arguments: {'isSelect': IsSelectType.TRUE.value});
+            arguments: {'isSelect': IsSelectType.TRUE.value})
+        ?.then((value) => queryCustom());
       },
       child: Text('其他账本导入'),
     ));
@@ -316,9 +314,7 @@ class CustomRecordController extends GetxController {
         Get.back();
         Get.toNamed(RouteConfig.addCustom,
             arguments: {'customType': state.initialIndex})?.then((value) {
-          if (ProcessStatus.OK == value) {
             queryCustom();
-          }
         });
       },
       child: Text('手动输入'),

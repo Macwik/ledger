@@ -171,7 +171,7 @@ class RetailBillController extends GetxController {
         ),
       ));
     } else {
-      Get.dialog(AlertDialog(
+      await Get.dialog(AlertDialog(
         title: null, // 设置标题为null，
         content: SingleChildScrollView(
           child: ProductUnitDialog(
@@ -999,7 +999,7 @@ class RetailBillController extends GetxController {
   }
 
   //Dialog
-  void showPaymentDialog(BuildContext context) {
+  Future<void> showPaymentDialog() async {
     if (state.shoppingCarList?.isEmpty ?? false) {
       Toast.show('请添加货物后再试');
       return;
@@ -1011,26 +1011,27 @@ class RetailBillController extends GetxController {
         return;
       }
     }
-    Get.bottomSheet(
+    await Get.bottomSheet(
         isScrollControlled: true,
         PaymentDialog(
-            paymentMethods: state.paymentMethods!,
-            customDTO: state.customDTO,
-            orderType: state.orderType,
-            totalAmount: state.totalAmount,
-            onClick: (result) async {
-              state.orderPayDialogResult = result;
-              if (null != result?.customDTO) {
-                state.customDTO = result?.customDTO;
-              }
-              if(state.orderType == OrderType.REFUND){
-                return await saveRefundOrder();
-              }else{
-                return await saveOrder();
-              }
-
-            }),
+                paymentMethods: state.paymentMethods!,
+                customDTO: state.customDTO,
+                orderType: state.orderType,
+                totalAmount: state.totalAmount,
+                onClick: (result) async {
+                  state.orderPayDialogResult = result;
+                  if (null != result?.customDTO) {
+                    state.customDTO = result?.customDTO;
+                  }
+                  if (state.orderType == OrderType.REFUND) {
+                    return await saveRefundOrder();
+                  } else {
+                    return await saveOrder();
+                  }
+                }
+        ),
         backgroundColor: Colors.white);
+    Get.back();
   }
 
 
@@ -1072,8 +1073,6 @@ class RetailBillController extends GetxController {
     }).then((result) {
       Loading.dismiss();
       if (result.success) {
-        Get.back();
-       // Get.toNamed(RouteConfig.retailBill, arguments: {'orderType': state.orderType});
         ///TODO 开单详情的弹框
         Toast.showSuccess('开单成功');
         return true;

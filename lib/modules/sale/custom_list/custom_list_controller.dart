@@ -25,6 +25,7 @@ class CustomListController extends GetxController {
       await queryCustom();
       queryContact();
     } else {
+      await queryCustom();
       queryImportCustom();
     }
   }
@@ -75,12 +76,12 @@ class CustomListController extends GetxController {
     });
   }
 
-  void addCustom(String name, String phone) {
+  void addCustom(String name, String phone, remark) {
     Loading.showDuration();
     Http().network(Method.post, CustomApi.addCustom, data: {
       'customName': name,
       'phone': phone,
-      'remark': '通讯录导入',
+      'remark': remark,
       'customType': CustomType.CUSTOM.value,
     }).then((result) {
       Loading.dismiss();

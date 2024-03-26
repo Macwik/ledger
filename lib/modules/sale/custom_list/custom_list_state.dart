@@ -12,6 +12,7 @@ class CustomListState {
 
   int? ledgerId;
 
+  /// TRUE  通讯录导入  | FALSE  其他账本导入
   int? isAddressList = IsSelectType.FALSE.value;
 
 }
