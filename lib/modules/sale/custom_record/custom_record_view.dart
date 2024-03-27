@@ -325,22 +325,21 @@ class CustomRecordView extends StatelessWidget {
   // 吸顶组件
   Widget _buildSusWidget(String susTag, BuildContext context) {
     return Container(
-      height: controller.state.suspensionHeight,
+      height: controller.state.suspensionHeight*0.5,
       width: MediaQuery.of(context).size.width,
       padding: const EdgeInsets.only(left: 15),
       decoration: BoxDecoration(
-        color: Colors.white,
-        border: const Border(
-            bottom: BorderSide(color: Color(0xFFE6E6E6), width: 0.5)),
+        color: Colors.white30,
+       // border: const Border(bottom: BorderSide(color: Color(0xFFE6E6E6), width: 0.5)),
       ),
       alignment: Alignment.centerLeft,
       child: Text(
         susTag,
         softWrap: false,
         style: TextStyle(
-          fontSize: 18,
-          color: const Color(0xff777777),
-          fontWeight: FontWeight.bold,
+          fontSize: 26.sp,
+          color: const Color(0xFFCCCCCC),
+          fontWeight: FontWeight.w500,
         ),
       ),
     );

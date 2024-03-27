@@ -280,22 +280,32 @@ class SaleRecordView extends StatelessWidget {
                   SizedBox(
                     height: 40.w,
                   ),
-                  Text(
-                    '收款状态',
-                    style: TextStyle(
-                      color: Colours.text_333,
-                      fontSize: 30.sp,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20.w,
-                  ),
                   GetBuilder<SaleRecordController>(
                     id: 'sale_order_status',
                     init: controller,
                     global: false,
-                    builder: (controller) => Wrap(
+                    builder: (controller) =>
+                        Visibility(
+                    visible: controller.state.index == 0,
+                    child: Container(
+                      padding: EdgeInsets.only(bottom: 20.w),
+                      child: Text(
+                        '收款状态',
+                        style: TextStyle(
+                          color: Colours.text_333,
+                          fontSize: 30.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ) ,
+                    )
+                   )),
+               GetBuilder<SaleRecordController>(
+                    id: 'sale_order_status',
+                    init: controller,
+                    global: false,
+                    builder: (controller) => Visibility(
+                      visible: controller.state.index==0,
+                      child: Wrap(
                       children: [
                         TextButton(
                           style: ElevatedButton.styleFrom(
@@ -377,21 +387,7 @@ class SaleRecordView extends StatelessWidget {
                         ),
                       ],
                     ),
-                  ),
-                  SizedBox(
-                    height: 40.w,
-                  ),
-                  Text(
-                    '单据类型',
-                    style: TextStyle(
-                      color: Colours.text_333,
-                      fontSize: 30.sp,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20.w,
-                  ),
+                  )),
                   SizedBox(
                     height: 40.w,
                   ),

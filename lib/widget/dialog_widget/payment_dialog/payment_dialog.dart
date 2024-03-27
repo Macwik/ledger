@@ -68,7 +68,7 @@ class PaymentDialog extends StatelessWidget {
                                       (orderType == OrderType.SALE_RETURN)
                                   ? 0
                                   : 1,
-                              'isSelectCustom': true
+                              'isSelectCustom': true,
                             });
                         controller.customDTO = result;
                         controller.update(

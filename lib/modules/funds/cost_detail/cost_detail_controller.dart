@@ -15,8 +15,8 @@ class CostDetailController extends GetxController {
 
   Future<void> initState() async {
     var arguments = Get.arguments;
-    if ((arguments != null) && arguments['id'] != null) {
-      state.id = arguments['id'];
+    if ((arguments != null) && arguments['costIncomeOrder'] != null) {
+      state.costIncomeOrderDTO = arguments['costIncomeOrder'];
     }
     _queryData();
   }
@@ -24,7 +24,7 @@ class CostDetailController extends GetxController {
   _queryData() async {
     Http().network<CostIncomeDetailDTO>(
         Method.get, CostIncomeApi.cost_order_detail,
-        queryParameters: {'id': state.id}).then((result) {
+        queryParameters: {'id':state.costIncomeOrderDTO?.id}).then((result) {
       if (result.success) {
         state.costIncomeDetailDTO = result.d;
         update(['cost_detail', 'cost_detail_title']);
@@ -44,7 +44,7 @@ class CostDetailController extends GetxController {
         onConfirm: () {
           Http().network(Method.put, CostIncomeApi.cost_order_invalid,
               queryParameters: {
-                'id': state.id,
+                'id': state.costIncomeOrderDTO?.id,
               }).then((result) {
             if (result.success) {
               Toast.show('作废成功');

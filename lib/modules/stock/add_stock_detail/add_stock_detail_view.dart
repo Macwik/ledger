@@ -110,6 +110,126 @@ class AddStockDetailView extends StatelessWidget {
                       );
                     }),
                 GetBuilder<AddStockDetailController>(
+                    id: 'order_cost',
+                    builder: (_) {
+                      return Visibility(
+                          visible: controller.state.orderDetailDTO
+                              ?.externalOrderBaseDTOList?.isNotEmpty ??
+                              false,
+                          child: Column(
+                            children: [
+                              Container(
+                                height: 32.w,
+                                color: Colors.white12,
+                              ),
+                              Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 40.w,
+                                    vertical: 30.w,
+                                  ),
+                                  color: Colors.white,
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Container(
+                                            color: Colours.primary,
+                                            height: 38.w,
+                                            width: 8.w,
+                                          ),
+                                          Container(
+                                            color: Colors.white,
+                                            margin: EdgeInsets.only(left: 6),
+                                            child: Text(
+                                              '费用情况',
+                                              style: TextStyle(
+                                                  color: Colours.text_666,
+                                                  fontSize: 36.sp,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 32.w,
+                                      ),
+                                      InkWell(
+                                          onTap: () => Get.toNamed(
+                                              RouteConfig
+                                                  .dailyAccountCostDetail,
+                                              arguments: {
+                                                'externalOrderBase': controller
+                                                    .state
+                                                    .orderDetailDTO
+                                                    ?.externalOrderBaseDTOList
+                                              }),
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    '费用金额',
+                                                    style: TextStyle(
+                                                      color: Colours.text_666,
+                                                      fontSize: 32.sp,
+                                                      fontWeight:
+                                                      FontWeight.w400,
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: Text(
+                                                      controller.totalCostAmount(),
+                                                      textAlign:
+                                                      TextAlign.right,
+                                                      style: TextStyle(
+                                                        color: Colours
+                                                            .text_666,
+                                                        fontSize: 32.sp,
+                                                        fontWeight:
+                                                        FontWeight
+                                                            .w400,
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: 16.w,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                                children: [
+                                                  Text(
+                                                    '费用明细',
+                                                    style: TextStyle(
+                                                      color: Colours.text_999,
+                                                      fontSize: 30.sp,
+                                                      fontWeight:
+                                                      FontWeight.w400,
+                                                    ),
+                                                  ),
+                                                  const Spacer(),
+                                                  Padding(
+                                                    padding:
+                                                    EdgeInsets.symmetric(
+                                                        horizontal: 8.w),
+                                                    child: LoadAssetImage(
+                                                      'common/arrow_right',
+                                                      width: 25.w,
+                                                      color: Colours.text_999,
+                                                    ),
+                                                  )
+                                                ],
+                                              )
+                                            ],
+                                          ))
+                                    ],
+                                  ))
+                            ],
+                          ));
+                    }),
+                GetBuilder<AddStockDetailController>(
                     id: 'add_stock_detail_product',
                     builder: (_) {
                       return ListView.separated(

@@ -647,7 +647,7 @@ class CostRecordView extends StatelessWidget {
                       itemBuilder: (context, index) {
                         var costIncomeOrderDTO = state.items![index];
                         return InkWell(
-                          onTap: () {controller.toCostDetail(costIncomeOrderDTO.id);},
+                          onTap: () {controller.toCostDetail(costIncomeOrderDTO);},
                           child: Column(
                             children: [
                               Container(

@@ -15,8 +15,7 @@ import 'package:ledger/util/decimal_util.dart';
 
 import 'daily_account_state.dart';
 
-class DailyAccountController extends GetxController
-    with GetSingleTickerProviderStateMixin
+class DailyAccountController extends GetxController with GetSingleTickerProviderStateMixin
     implements DisposableInterface {
   final DailyAccountState state = DailyAccountState();
 
@@ -60,17 +59,6 @@ class DailyAccountController extends GetxController
     });
   }
 
-  //采购情况统计
-  // Future<BasePageEntity<PurchaseMoneyStatisticsDTO>>
-  //     queryPurchaseMoneyStatistics(int currentPage) async {
-  //   return await Http().networkPage<PurchaseMoneyStatisticsDTO>(
-  //       Method.post, StatisticsApi.purchase_money_statistics,
-  //       data: {
-  //         'page': currentPage,
-  //         'startDate': DateUtil.formatDefaultDate(state.startDatePurchaseMoney),
-  //         'endDate': DateUtil.formatDefaultDate(state.endDatePurchaseMoney),
-  //       });
-  // }
 
   //销售情况统计
   void querySalesProductStatistics() {
@@ -111,39 +99,6 @@ class DailyAccountController extends GetxController
       }
     });
   }
-
-  // Future<void> onLoad() async {
-  //   state.currentPage += 1;
-  //   await queryPurchaseMoneyStatistics(state.currentPage).then((result) {
-  //     if (result.success) {
-  //       state.purchaseMoneyStatistics?.addAll(result.d!.result!);
-  //       state.hasMore = result.d!.hasMore;
-  //       update(['daily_purchase_money']);
-  //       state.refreshController.finishLoad(state.hasMore ?? false
-  //           ? IndicatorResult.success
-  //           : IndicatorResult.noMore);
-  //     } else {
-  //       Toast.show(result.m.toString());
-  //       state.refreshController.finishLoad(IndicatorResult.fail);
-  //     }
-  //   });
-  // }
-
-  // Future<void> onRefresh() async {
-  //   state.currentPage = 1;
-  //   await queryPurchaseMoneyStatistics(state.currentPage).then((result) {
-  //     if (result.success) {
-  //       state.purchaseMoneyStatistics = result.d?.result;
-  //       state.hasMore = result.d?.hasMore;
-  //       update(['daily_purchase_money']);
-  //       state.refreshController.finishRefresh();
-  //       state.refreshController.resetFooter();
-  //     } else {
-  //       Toast.show(result.m.toString());
-  //       state.refreshController.finishRefresh();
-  //     }
-  //   });
-  // }
 
   //销售资金拉取日期
   Future<void> pickerSaleMoneyDate(BuildContext context) async {
@@ -210,9 +165,6 @@ class DailyAccountController extends GetxController
     }
   }
 
-  // void changeDatePurchaseMoney() {
-  //   onRefresh();
-  // }
 
   void changeDateSaleProduct() {
     querySalesProductStatistics();
@@ -266,12 +218,4 @@ class DailyAccountController extends GetxController
     }
   }
 
-// void toPurchaseDetail(PurchaseMoneyStatisticsDTO purchaseMoneyStatistics) {
-//   Get.toNamed(RouteConfig.saleDetail, arguments: {
-//     'orderType': purchaseMoneyStatistics.orderDTO?.orderType == 0
-//         ? OrderType.PURCHASE
-//         : OrderType.PURCHASE_RETURN,
-//     'id': purchaseMoneyStatistics.orderDTO?.id
-//   });
-// }
 }

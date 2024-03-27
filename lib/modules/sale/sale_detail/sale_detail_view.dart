@@ -359,7 +359,7 @@ class SaleDetailView extends StatelessWidget {
                                           Text(
                                             '赊账：',
                                             style: TextStyle(
-                                              color: Colors.redAccent,
+                                              color: Colors.red[600],
                                               fontSize: 32.sp,
                                               fontWeight: FontWeight.w500,
                                             ),
@@ -369,7 +369,7 @@ class SaleDetailView extends StatelessWidget {
                                             controller.productCreditAmount(),
                                             // DecimalUtil.formatAmount(state.orderDetailDTO?.creditAmount),
                                             style: TextStyle(
-                                              color: Colors.redAccent,
+                                              color: Colors.red[600],
                                               fontSize: 32.sp,
                                               fontWeight: FontWeight.w500,
                                             ),
@@ -480,27 +480,28 @@ class SaleDetailView extends StatelessWidget {
                                                           FontWeight.w400,
                                                     ),
                                                   ),
-                                                  GetBuilder<
-                                                          SaleDetailController>(
-                                                      id: 'sales_detail_purchase_cost',
-                                                      builder: (_) {
-                                                        return Expanded(
-                                                          child: Text(
-                                                            controller
-                                                                .totalCostAmount(),
-                                                            textAlign:
-                                                                TextAlign.right,
-                                                            style: TextStyle(
-                                                              color: Colours
-                                                                  .text_666,
-                                                              fontSize: 32.sp,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                            ),
-                                                          ),
-                                                        );
-                                                      }),
+                                                  // GetBuilder<
+                                                  //         SaleDetailController>(
+                                                  //     id: 'sales_detail_purchase_cost',
+                                                  //     builder: (_) {
+                                                  //       return ;
+                                                  //     }),
+                                                  Expanded(
+                                                    child: Text(
+                                                      controller
+                                                          .totalCostAmount(),
+                                                      textAlign:
+                                                      TextAlign.right,
+                                                      style: TextStyle(
+                                                        color: Colours
+                                                            .text_666,
+                                                        fontSize: 32.sp,
+                                                        fontWeight:
+                                                        FontWeight
+                                                            .w400,
+                                                      ),
+                                                    ),
+                                                  )
                                                 ],
                                               ),
                                               SizedBox(

@@ -51,6 +51,7 @@ class BindingSaleBillController extends GetxController {
       'page': currentPage,
       'orderTypeList': [
         OrderType.PURCHASE.value,
+        OrderType.ADD_STOCK.value,
       ],
       'searchContent': state.searchContent,
       'userIdList': state.selectEmployeeIdList,

@@ -68,6 +68,8 @@ class RepaymentDetailController extends GetxController {
         Get.toNamed(RouteConfig.saleDetail, arguments: {'id': repaymentBindOrder.salesOrderId,'orderType':OrderType.PURCHASE_RETURN});
       case 5://欠款单
         Toast.show('此单是录入欠款');
+      case 10://欠款单
+      Get.toNamed(RouteConfig.saleDetail, arguments: {'id': repaymentBindOrder.salesOrderId,'orderType':OrderType.REFUND});
       default:
         throw Exception('暂无详情');
     }
@@ -83,6 +85,8 @@ class RepaymentDetailController extends GetxController {
         return OrderType.SALE_RETURN;
       case  3:
         return  OrderType.PURCHASE_RETURN;
+      case  10:
+        return  OrderType.REFUND;
       default:
         throw Exception('销售单');
     }
@@ -102,6 +106,8 @@ class RepaymentDetailController extends GetxController {
         return '还款单';
       case 5:
         return '欠款单';
+      case 10:
+        return '直接退款';
       default:
         throw Exception('-');
     }

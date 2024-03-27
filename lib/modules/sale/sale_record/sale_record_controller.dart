@@ -14,7 +14,6 @@ import 'package:ledger/http/http_util.dart';
 import 'package:ledger/route/route_config.dart';
 import 'package:ledger/util/date_util.dart';
 import 'package:ledger/util/decimal_util.dart';
-import 'package:ledger/util/logger_util.dart';
 import 'package:ledger/util/toast_util.dart';
 
 import 'sale_record_state.dart';
@@ -27,7 +26,6 @@ class SaleRecordController extends GetxController
   late TabController tabController;
 
   Future<void> initState() async {
-    LoggerUtil.e('-------------------------');
     var arguments = Get.arguments;
     if (arguments != null && arguments['index'] != null) {
       state.index = arguments['index'];
@@ -42,7 +40,7 @@ class SaleRecordController extends GetxController
     tabController.addListener(() {
       var index = tabController.index;
       state.index = index;
-      update(['sale_record_add_bill']);
+      update(['sale_record_add_bill','sale_order_status']);
       clearCondition();
       onRefresh();
     });

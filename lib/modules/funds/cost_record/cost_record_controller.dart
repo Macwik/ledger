@@ -184,8 +184,8 @@ class CostRecordController extends GetxController with GetSingleTickerProviderSt
     update(['employee_button']);
   }
 
-  void toCostDetail(int? id) {
-    Get.toNamed(RouteConfig.costDetail, arguments: {'id': id})?.then((result) {
+  void toCostDetail(CostIncomeOrderDTO? costIncomeOrderDTO) {
+    Get.toNamed(RouteConfig.costDetail, arguments: {'costIncomeOrder': costIncomeOrderDTO})?.then((result) {
       if (ProcessStatus.OK == result) {
         onRefresh();
       }

@@ -7,7 +7,6 @@ import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/entity/custom/custom_dto.dart';
 import 'package:ledger/enum/custom_type.dart';
 import 'package:ledger/enum/is_select.dart';
-import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/http/http_util.dart';
 import 'package:ledger/route/route_config.dart';
 import 'package:ledger/util/toast_util.dart';
@@ -71,29 +70,28 @@ class CustomRecordController extends GetxController {
               .where((e) => (e.creditAmount ?? Decimal.zero) > Decimal.zero)
               .length;
         }
-        if ((state.isSelectCustom == true) &&
-            ((state.orderType == OrderType.SALE) ||
-                (state.orderType == OrderType.PURCHASE))) {
-          if (state.initialIndex == 0) {
-            state.customList.insert(
-                0,
-                CustomDTO(
-                    customName: '默认客户',
-                    used: 1,
-                    creditAmount: Decimal.zero,
-                    tradeAmount: Decimal.zero,
-                    invalid: 0));
-          } else {
-            state.customList.insert(
-                0,
-                CustomDTO(
-                    customName: '默认供应商',
-                    used: 1,
-                    creditAmount: Decimal.zero,
-                    tradeAmount: Decimal.zero,
-                    invalid: 0));
-          }
-        }
+        // if ((state.isSelectCustom == true) && ((state.orderType == OrderType.SALE) ||
+        //         (state.orderType == OrderType.PURCHASE))) {
+        //   if (state.initialIndex == 0) {
+        //     state.customList.insert(
+        //         0,
+        //         CustomDTO(
+        //             customName: '默认客户',
+        //             used: 1,
+        //             creditAmount: Decimal.zero,
+        //             tradeAmount: Decimal.zero,
+        //             invalid: 0));
+        //   } else {
+        //     state.customList.insert(
+        //         0,
+        //         CustomDTO(
+        //             customName: '默认供应商',
+        //             used: 1,
+        //             creditAmount: Decimal.zero,
+        //             tradeAmount: Decimal.zero,
+        //             invalid: 0));
+        //   }
+        // }
 
         // 根据A-Z排序
         SuspensionUtil.sortListBySuspensionTag(state.customList);
@@ -115,6 +113,18 @@ class CustomRecordController extends GetxController {
   void searchCustom(String searchValue) {
     state.customName = searchValue;
     queryCustom();
+  }
+
+
+  void onClickDefaultCustom() {
+      //选择客户
+      Get.back(
+          result:CustomDTO(
+          customName: '默认客户',
+          used: 1,
+          creditAmount: Decimal.zero,
+          tradeAmount: Decimal.zero,
+          invalid: 0));
   }
 
   void onClick(CustomDTO customDTO) {

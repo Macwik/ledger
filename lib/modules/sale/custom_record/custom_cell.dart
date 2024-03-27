@@ -71,7 +71,7 @@ class _CustomCellState extends State<CustomCell> {
 
   _body() {
     // 默认颜色
-    var bgColor = Colors.transparent;
+    var bgColor = Colors.white;
     var titleColor = Colors.black;
     var titleStyle = TextStyle(fontSize: _titleFontSize, color: titleColor);
     var textColor = Colors.black;

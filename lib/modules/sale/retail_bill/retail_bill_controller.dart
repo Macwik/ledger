@@ -916,10 +916,7 @@ class RetailBillController extends GetxController {
 
   Future<void> pickerCustom() async {
     var result = await Get.toNamed(RouteConfig.customRecord, arguments: {
-      'initialIndex': (state.orderType == OrderType.SALE) ||
-              (state.orderType == OrderType.SALE_RETURN)
-          ? 0
-          : 1,
+      'initialIndex':  0,
       'isSelectCustom': true,
       'orderType': state.orderType
     });
@@ -1031,7 +1028,6 @@ class RetailBillController extends GetxController {
                 }
         ),
         backgroundColor: Colors.white);
-    Get.back();
   }
 
 
@@ -1050,7 +1046,6 @@ class RetailBillController extends GetxController {
       Loading.dismiss();
       if (result.success) {
         Get.back();
-        // Get.offNamed(RouteConfig.retailBill, arguments: {'orderType': state.orderType});
         return true;
       } else {
         Toast.show(result.m.toString());
@@ -1073,6 +1068,7 @@ class RetailBillController extends GetxController {
     }).then((result) {
       Loading.dismiss();
       if (result.success) {
+        Get.back();
         ///TODO 开单详情的弹框
         Toast.showSuccess('开单成功');
         return true;

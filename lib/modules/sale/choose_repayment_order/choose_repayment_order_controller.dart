@@ -171,6 +171,11 @@ class ChooseRepaymentOrderController extends GetxController {
         });
       case 5: //欠款单
         Toast.show('此单是录入欠款');
+      case 10: //直接退款
+        Get.toNamed(RouteConfig.saleDetail, arguments: {
+          'id': customCreditDTO.orderId,
+          'orderType': OrderType.REFUND
+        });
       default:
         throw Exception('暂无详情');
     }
@@ -190,6 +195,10 @@ class ChooseRepaymentOrderController extends GetxController {
         return '还款单';
       case 5:
         return '欠款单';
+      case 9:
+        return '直接入库';
+      case 10:
+        return '退款单';
       default:
         throw Exception('不支持的订单类型');
     }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ledger/entity/custom/custom_dto.dart';
+import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/modules/sale/custom_record/custom_record_controller.dart';
 import 'package:ledger/res/export.dart';
 import 'package:ledger/util/decimal_util.dart';
@@ -41,6 +42,7 @@ class LedgerContactsCell extends StatelessWidget {
         Expanded(
           flex: 1,
           child: Container(
+            color: Colors.white30,
             height: 100.w,
             padding: EdgeInsets.only(top: 10.w, left: 10.w, right: 10.w),
             child: SearchBar(
@@ -89,7 +91,7 @@ class LedgerContactsCell extends StatelessWidget {
       Container(
         padding: EdgeInsets.symmetric(vertical: 8.w),
         width: double.infinity,
-        color: Colors.white12,
+        color: Colors.white30,
         child: Row(
           children: [
             Expanded(
@@ -139,6 +141,21 @@ class LedgerContactsCell extends StatelessWidget {
           ],
         ),
       ),
+      Visibility(
+        visible: controller.state.isSelectCustom &&
+          ((controller.state.orderType==OrderType.SALE)
+            ||(controller.state.orderType==OrderType.PURCHASE)),
+          child:InkWell(
+            onTap: (){controller.onClickDefaultCustom();},
+              child:Container(
+            height: 90.w,
+            alignment: Alignment.centerLeft,
+            padding: EdgeInsets.symmetric(vertical: 8.w,horizontal: 40.w),
+            margin: EdgeInsets.only(bottom: 8.w),
+            width: double.infinity,
+            color: Colors.white,
+            child: Text(controller.state.initialIndex == 0?'默认客户':'默认供应商'))))
+
     ]);
 
     List<Widget> topWidgetList = [searchBar];

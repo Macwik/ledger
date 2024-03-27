@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/api/order_api.dart';
 import 'package:ledger/entity/order/order_detail_dto.dart';
@@ -24,7 +25,7 @@ class AddStockDetailController extends GetxController {
       if (result.success) {
         state.orderDetailDTO = result.d;
         update([
-          'sale_detail_delete','sale_detail_title','add_stock_detail_product','sale_detail_other'
+          'sale_detail_delete','sale_detail_title','add_stock_detail_product','sale_detail_other','order_cost'
         ]);
       } else {
         Toast.show(result.m.toString());
@@ -66,5 +67,15 @@ class AddStockDetailController extends GetxController {
       ),
       barrierDismissible: false,
     );
+  }
+
+  String totalCostAmount() {
+    if (state.orderDetailDTO?.externalOrderBaseDTOList?.isEmpty ?? true) {
+      return '0';
+    }
+    var totalCostAmount = state.orderDetailDTO!.externalOrderBaseDTOList!
+        .map((e) => (e.totalAmount ?? Decimal.zero))
+        .reduce((value, element) => value + element);
+    return DecimalUtil.formatAmount(totalCostAmount);
   }
 }

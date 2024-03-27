@@ -34,7 +34,7 @@ class SaleDetailController extends GetxController {
           'order_payment',
           'sale_detail_delete',
           'sale_detail_title',
-          'sales_detail_purchase_cost',
+         // 'sales_detail_purchase_cost',
           'order_cost'
         ]);
       } else {

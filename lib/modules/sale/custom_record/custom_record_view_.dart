@@ -370,6 +370,9 @@ class CustomRecordView_ extends StatelessWidget {
                     );
                   }),
               //合计欠款人数&金额
+              Container(
+                height: 90.w,
+                child: Text('默认客户'),),
               GetBuilder<CustomRecordController>(
                   id: 'custom_list',
                   global: false,
