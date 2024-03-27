@@ -18,13 +18,10 @@ class DailyAccountView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     controller.initState();
-    return DefaultTabController(
-      length: 3,
-      initialIndex: controller.state.initialIndex,
-      child: Scaffold(
+    return  Scaffold(
         appBar: TitleBar(title: '每日流水',),
         body: DefaultTabController(
-            initialIndex: 0,
+            initialIndex: controller.state.initialIndex,
             length: 3,
             child:Column(
               children: [
@@ -845,7 +842,6 @@ class DailyAccountView extends StatelessWidget {
             )
            ),
 
-      ),
-    );
+      );
   }
 }

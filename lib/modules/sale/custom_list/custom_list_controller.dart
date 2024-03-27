@@ -20,7 +20,10 @@ class CustomListController extends GetxController {
     if ((arguments != null) && arguments['isAddressList'] != null) {
       state.isAddressList = arguments['isAddressList'];
     }
+    queryData();
+  }
 
+  queryData() async {
     if (state.isAddressList == IsSelectType.TRUE.value) {
       await queryCustom();
       queryContact();
@@ -86,8 +89,8 @@ class CustomListController extends GetxController {
     }).then((result) {
       Loading.dismiss();
       if (result.success) {
+        queryData();
         Toast.showSuccess('导入成功');
-        initState();
       }
     });
   }

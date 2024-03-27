@@ -26,7 +26,7 @@ class SaleRecordView extends StatelessWidget {
         title:  '销售记录'
       ),
       endDrawer: Drawer(
-        width: MediaQuery.of(context).size.width * 0.8,
+        width: ScreenUtil().screenWidth * 0.8,
         child: Container(
             color: Colours.select_bg,
             alignment: Alignment.centerLeft,

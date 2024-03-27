@@ -33,7 +33,7 @@ class CustomRecordView extends StatelessWidget {
                   color: Colours.primary,
                 ))),
         endDrawer: Drawer(
-          width: MediaQuery.of(context).size.width * 0.8,
+          width: ScreenUtil().screenWidth * 0.8,
           backgroundColor: Colours.bg,
           child: Container(
               alignment: Alignment.centerLeft,
@@ -326,7 +326,7 @@ class CustomRecordView extends StatelessWidget {
   Widget _buildSusWidget(String susTag, BuildContext context) {
     return Container(
       height: controller.state.suspensionHeight*0.5,
-      width: MediaQuery.of(context).size.width,
+      width: ScreenUtil().screenWidth,
       padding: const EdgeInsets.only(left: 15),
       decoration: BoxDecoration(
         color: Colors.white30,

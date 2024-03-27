@@ -11,6 +11,7 @@ import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/enum/process_status.dart';
 import 'package:ledger/http/base_page_entity.dart';
 import 'package:ledger/http/http_util.dart';
+import 'package:ledger/res/export.dart';
 import 'package:ledger/route/route_config.dart';
 import 'package:ledger/util/date_util.dart';
 import 'package:ledger/util/decimal_util.dart';
@@ -38,8 +39,8 @@ class SaleRecordController extends GetxController
   void onInit() {
     tabController = TabController(length: 3, vsync: this);
     tabController.addListener(() {
-      var index = tabController.index;
-      state.index = index;
+      state.index = tabController.index;
+      tabController.animateTo(state.index ?? 0);
       update(['sale_record_add_bill','sale_order_status']);
       clearCondition();
       onRefresh();
@@ -111,6 +112,7 @@ class SaleRecordController extends GetxController
 
   Future<void> onRefresh() async {
     state.currentPage = 1;
+    Loading.showDuration();
     await _queryData(state.currentPage).then((result) {
       if (true == result.success) {
         state.list = result.d?.result;
@@ -122,6 +124,7 @@ class SaleRecordController extends GetxController
         Toast.show(result.m.toString());
         state.refreshController.finishRefresh();
       }
+      Loading.dismiss();
     });
   }
 

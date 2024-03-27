@@ -15,7 +15,8 @@ import 'package:ledger/util/decimal_util.dart';
 
 import 'daily_account_state.dart';
 
-class DailyAccountController extends GetxController with GetSingleTickerProviderStateMixin
+class DailyAccountController extends GetxController
+    with GetSingleTickerProviderStateMixin
     implements DisposableInterface {
   final DailyAccountState state = DailyAccountState();
 
@@ -40,6 +41,7 @@ class DailyAccountController extends GetxController with GetSingleTickerProvider
     if ((arguments != null) && arguments['startDateSalesProduct'] != null) {
       state.startDateSalesProduct = arguments['startDateSalesProduct'];
     }
+    tabController.index = state.initialIndex;
     switchDailyAccountIndex(state.initialIndex);
   }
 
@@ -58,7 +60,6 @@ class DailyAccountController extends GetxController with GetSingleTickerProvider
       }
     });
   }
-
 
   //销售情况统计
   void querySalesProductStatistics() {
@@ -165,7 +166,6 @@ class DailyAccountController extends GetxController with GetSingleTickerProvider
     }
   }
 
-
   void changeDateSaleProduct() {
     querySalesProductStatistics();
   }
@@ -217,5 +217,4 @@ class DailyAccountController extends GetxController with GetSingleTickerProvider
         throw Exception('销售单');
     }
   }
-
 }
