@@ -64,6 +64,7 @@ class RetailBillState {
   //调整库存
   ProductStockAdjustRequest? productStockAdjustRequest;
 
+  Decimal? totalNumber = Decimal.zero;
 
 // PageToType? pageToType;
 }

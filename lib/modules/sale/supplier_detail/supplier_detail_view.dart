@@ -26,7 +26,7 @@ class SupplierDetailView extends StatelessWidget {
               :'供应商详情',
       ),
       endDrawer: Drawer(
-        width: MediaQuery.of(context).size.width * 0.8,
+        width: ScreenUtil().screenWidth * 0.8,
         child: Container(
             alignment: Alignment.centerLeft,
             margin: EdgeInsets.only(top: 100.w, left: 20.w, right: 10.w),

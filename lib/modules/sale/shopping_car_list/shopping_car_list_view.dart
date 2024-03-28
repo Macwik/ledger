@@ -23,7 +23,6 @@ class ShoppingCarListView extends StatelessWidget {
       body: Column(
         children: [
           Container(
-            height: 160.w,
             color: Colors.white,
             padding: EdgeInsets.symmetric(vertical: 24.w),
             margin: EdgeInsets.only(bottom: 24.w),
@@ -38,19 +37,35 @@ class ShoppingCarListView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text('数量合计',
-                        style: TextStyle(color: Colours.text_666)),
-                    Text('999件',
-                        style: TextStyle(color:Colours.text_333)),
+                        style: TextStyle(
+                          color: Colours.text_666,
+                        fontSize: 32.w)),
+                    SizedBox(height: 16.w,),
+                    Text(DecimalUtil.formatDecimalNumber(state.totalNumber),
+                        style: TextStyle(color:Colours.text_333,
+                        fontSize: 36.w,
+                        fontWeight: FontWeight.w500)),
                   ],
                 ) ),
+                Container(
+                  color: Colours.divider,
+                  width: 2.w,
+                  height: 100.w,
+                ),
                 Expanded(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text('金额合计',
-                        style: TextStyle(color: Colours.text_666)),
-                    Text('888元',
-                        style: TextStyle(color: Colours.text_333)),
+                        style: TextStyle(
+                            color: Colours.text_666,
+                        fontSize: 32.w)),
+                    SizedBox(height: 16.w,),
+                    Text(DecimalUtil.formatDecimalNumber(state.totalAmount),
+                        style: TextStyle(
+                            color: Colours.text_333,
+                        fontSize: 36.w,
+                        fontWeight: FontWeight.w500)),
                   ],
                 ))
               ],
@@ -171,7 +186,7 @@ class ShoppingCarListView extends StatelessWidget {
                   child: ElevatedBtn(
                     margin: EdgeInsets.only(top: 80.w),
                     size: Size(double.infinity, 90.w),
-                    onPressed:() =>Get.back(),
+                    onPressed:() =>Get.back(result: state.shoppingCarList),
                     radius: 15.w,
                     backgroundColor: Colors.white,
                     text: '继续添加',
@@ -182,21 +197,21 @@ class ShoppingCarListView extends StatelessWidget {
                     ),
                   ),
                 ),
-                Expanded(
-                  child: ElevatedBtn(
-                    margin: EdgeInsets.only(top: 80.w),
-                    size: Size(double.infinity, 90.w),
-                    onPressed: () =>Get.back(),
-                    radius: 15.w,
-                    backgroundColor: Colours.primary,
-                    text: '选好了',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 30.sp,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                )
+                // Expanded(
+                //   child: ElevatedBtn(
+                //     margin: EdgeInsets.only(top: 80.w),
+                //     size: Size(double.infinity, 90.w),
+                //     onPressed: () =>Get.back(),
+                //     radius: 15.w,
+                //     backgroundColor: Colours.primary,
+                //     text: '选好了',
+                //     style: TextStyle(
+                //       color: Colors.white,
+                //       fontSize: 30.sp,
+                //       fontWeight: FontWeight.w500,
+                //     ),
+                //   ),
+                // )
               ],
             ),
           ),

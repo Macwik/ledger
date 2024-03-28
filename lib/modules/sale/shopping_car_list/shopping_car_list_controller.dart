@@ -42,7 +42,12 @@ class ShoppingCarListController extends GetxController {
                   .map((e) => (e.unitDetailDTO?.totalAmount ?? Decimal.zero))
                   .reduce((value, element) => value + element);
             }
-            update(['sale_bill_product_list', 'sale_bill_btn']);
+            if(productShoppingCarDTO.unitDetailDTO?.unitType == UnitType.SINGLE.value){
+              state.totalNumber =  state.totalNumber - (productShoppingCarDTO.unitDetailDTO?.number??Decimal.zero);
+            }else{
+              state.totalNumber =  state.totalNumber - (productShoppingCarDTO.unitDetailDTO?.slaveNumber??Decimal.zero);
+            }
+            update(['shopping_car_list_detail','shopping_car_list_title']);
             Toast.show('删除成功');
           }),
     );

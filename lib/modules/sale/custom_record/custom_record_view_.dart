@@ -32,7 +32,7 @@ class CustomRecordView_ extends StatelessWidget {
                 ))
       ),
       endDrawer: Drawer(
-        width: MediaQuery.of(context).size.width * 0.8,
+        width: ScreenUtil().screenWidth * 0.8,
         backgroundColor: Colours.bg,
         child: Container(
             alignment: Alignment.centerLeft,

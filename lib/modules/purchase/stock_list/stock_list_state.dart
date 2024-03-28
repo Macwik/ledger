@@ -2,7 +2,6 @@ import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:ledger/entity/product/product_classify_list_dto.dart';
 import 'package:ledger/entity/product/product_dto.dart';
-import 'package:ledger/enum/process_status.dart';
 import 'package:ledger/enum/stock_list_type.dart';
 
 class StockListState {
@@ -34,7 +33,7 @@ class StockListState {
 
   String? searchContent = '';
 
-  ProcessStatus? bottomShow = ProcessStatus.FAIL;
+ // ProcessStatus? bottomShow = ProcessStatus.FAIL;
 
 
 }

@@ -120,40 +120,6 @@ class RetailBillController extends GetxController {
   }
 
   Future<void> addToShoppingCar(ProductDTO productDTO) async {
-    // if (state.orderType == OrderType.ADD_STOCK) {
-    //   var unitDetailDTO = productDTO.unitDetailDTO;
-    //   if (UnitType.SINGLE.value == unitDetailDTO?.unitType) {
-    //     await Get.dialog(AlertDialog(
-    //       title: Text(productDTO.productName ?? ''),
-    //       content: SingleChildScrollView(
-    //         child: AddStockMultiDialog(
-    //           productDTO: productDTO,
-    //           onClick: (result) {
-    //             state.productAddStockRequest = result;
-    //             update(['shopping_car_box']);
-    //             return true;
-    //           },
-    //         ),
-    //       ),
-    //     ));
-    //   } else {
-    //     await Get.dialog(AlertDialog(
-    //       title: Text(
-    //         productDTO.productName ?? '',
-    //       ),
-    //       content: SingleChildScrollView(
-    //         child: AddStockMultiDialog(
-    //           productDTO: productDTO,
-    //           onClick: (result) {
-    //             state.productAddStockRequest = result;
-    //             update(['shopping_car_box']);
-    //             return true;
-    //           },
-    //         ),
-    //       ),
-    //     ));
-    //   }
-    // } else
       if (state.orderType == OrderType.REFUND) {
       Get.dialog(AlertDialog(
         title: Text(
@@ -179,7 +145,12 @@ class RetailBillController extends GetxController {
             orderType: state.orderType,
             onClick: (result) {
               state.shoppingCarList?.add(result);
-              update(['shopping_car_box']);
+
+              if(result.unitDetailDTO?.unitType == UnitType.SINGLE.value){
+                state.totalNumber =  state.totalNumber! + (result.unitDetailDTO?.number??Decimal.zero);
+              }else{
+                state.totalNumber =  state.totalNumber! + (result.unitDetailDTO?.slaveNumber??Decimal.zero);
+              } update(['shopping_car_box']);
               return true;
             },
           ),
@@ -238,7 +209,10 @@ class RetailBillController extends GetxController {
       Get.toNamed(RouteConfig.shoppingCarList, arguments: {
         'shoppingCar': state.shoppingCarList,
         'totalAmount': state.totalAmount,
-        'totalNumber': 0
+        'totalNumber': state.totalNumber,
+      })?.then((value){
+        state.shoppingCarList = value;
+        update(['shopping_car_box']);
       });
     }
   }
@@ -941,6 +915,7 @@ class RetailBillController extends GetxController {
       if (result.success) {
         Toast.show('挂单成功');
         state.totalAmount = Decimal.zero;
+        state.totalNumber = Decimal.zero;
         state.date = DateTime.now();
         state.shoppingCarList = [];
         state.customDTO = null;
@@ -1079,7 +1054,7 @@ class RetailBillController extends GetxController {
     });
   }
 
-  void saleBillGetBack() {
+  Future<void> saleBillGetBack() async {
     if ((state.customDTO != null) ||
         (state.shoppingCarList?.isNotEmpty ?? false)) {
       Get.dialog(AlertDialog(
@@ -1097,7 +1072,7 @@ class RetailBillController extends GetxController {
                 onPressed: () {
                   state.shoppingCarList?.clear();
                   Get.until((route) {
-                    return (route.settings.name == RouteConfig.sale) ||
+                    return (route.settings.name == RouteConfig.saleRecord) ||
                         (route.settings.name == RouteConfig.main);
                   });
                 }),

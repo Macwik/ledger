@@ -21,7 +21,7 @@ class RemittanceRecordView extends StatelessWidget {
           title:'汇款记录'.tr,
         ),
         endDrawer: Drawer(
-          width:  MediaQuery.of(context).size.width * 0.8,
+          width: ScreenUtil().screenWidth * 0.8,
           child: Container(
               color: Colours.select_bg,
               alignment: Alignment.centerLeft,

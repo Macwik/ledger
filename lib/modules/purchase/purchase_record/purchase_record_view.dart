@@ -38,11 +38,11 @@ class PurchaseRecordView extends StatelessWidget {
           });
         },
         title: '采购记录',
-        actionPressed: ()=>Get.toNamed(RouteConfig.remittanceRecord),
-        actionName: '汇款',
+        // actionPressed: ()=>Get.toNamed(RouteConfig.remittanceRecord),
+        // actionName: '汇款',
       ),
       endDrawer: Drawer(
-        width: MediaQuery.of(context).size.width * 0.8,
+        width: ScreenUtil().screenWidth * 0.8,
         child: Container(
             color: Colours.select_bg,
             alignment: Alignment.centerLeft,
@@ -553,7 +553,80 @@ class PurchaseRecordView extends StatelessWidget {
                           widgetPurchaseRecord(),
                           widgetPurchaseRecord(),
                           widgetPurchaseRecord(),
-                        ]))
+                        ])),
+                Align(
+                    child: Container(
+                        width: double.infinity,
+                        height: 120.w,
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.5),
+                              offset: Offset(1, 1),
+                              blurRadius: 3,
+                            ),
+                          ],
+                          //borderRadius: BorderRadius.circular(12.0),
+                          color: Colors.white,
+                        ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                                child: InkWell(
+                                    onTap: () => Get.toNamed(RouteConfig.customRecord,arguments: {'initialIndex': 1, 'isSelectCustom': false}),
+                                    child: PermissionWidget(
+                                        permissionCode: PermissionCode.stock_list_add_product_permission,
+                                        child: Container(
+                                            padding: EdgeInsets.only(top: 16.w),
+                                            alignment: Alignment.center,
+                                            child: Column(
+                                              children: [
+                                                LoadSvg(
+                                                  'svg/purchase_record_supplier',
+                                                  width: 40.w,
+                                                  color: Colors.blue[500],
+                                                ),
+                                                Text(
+                                                  '供应商',
+                                                  style: TextStyle(
+                                                    fontSize: 28.sp,
+                                                    color: Colors.blue[500],),
+                                                )
+                                              ],
+                                            ))))),
+                            Container(
+                              height: 100.w,
+                              width: 1.w,
+                              color: Colours.divider,
+                            ),
+                            Expanded(
+                                child: InkWell(
+                                    onTap: () => Get.toNamed(RouteConfig.remittanceRecord),
+                                    child: PermissionWidget(
+                                        permissionCode: PermissionCode.purchase_remittance_order_permission,
+                                        child: Container(
+                                          padding: EdgeInsets.only(top: 16.w),
+                                          alignment: Alignment.center,
+                                          child: Column(
+                                            children: [
+                                              LoadSvg(
+                                                'svg/purchase_record_remittance',
+                                                width: 40.w,
+                                                color: Colors.blue[500],
+                                              ),
+                                              Text(
+                                                '汇款',
+                                                style: TextStyle(
+                                                  fontSize: 28.sp,
+                                                  color: Colors.blue[500],),
+                                              )
+                                            ],
+                                          ),
+                                        )
+                                    )))
+                          ],
+                        ))
+                )
               ],
             ),
           )),
@@ -567,7 +640,7 @@ class PurchaseRecordView extends StatelessWidget {
                 return Container(
                     width: 210.w,
                     height:110.w,
-                    margin: EdgeInsets.only(bottom:30.w),
+                    margin: EdgeInsets.only(bottom:180.w),
                     child: FloatingActionButton(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30), // 设置圆角大小

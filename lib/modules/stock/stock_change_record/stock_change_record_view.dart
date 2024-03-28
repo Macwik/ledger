@@ -20,8 +20,7 @@ class StockChangeRecordView extends StatelessWidget {
           title: '库存调整记录'.tr,
         ),
         endDrawer: Drawer(
-          width:  MediaQuery.of(context).size.width * 0.8,
-          //width: (ScreenUtil().screenWidth - 16.0) * 2.w,
+          width: ScreenUtil().screenWidth * 0.8,
           child: Container(
               color: Colours.select_bg,
               alignment: Alignment.centerLeft,

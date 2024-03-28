@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/entity/product/product_classify_dto.dart';
 import 'package:ledger/entity/product/product_dto.dart';
-import 'package:ledger/enum/process_status.dart';
 import 'package:ledger/enum/stock_list_type.dart';
 import 'package:ledger/res/export.dart';
 import 'package:ledger/util/image_util.dart';
@@ -35,7 +34,7 @@ class StockListView extends StatelessWidget {
             ),
       ),
       endDrawer: Drawer(
-        width: MediaQuery.of(context).size.width * 0.8,
+        width: ScreenUtil().screenWidth * 0.8,
         backgroundColor: Colours.bg,
         child: Container(
             alignment: Alignment.centerLeft,
@@ -528,84 +527,82 @@ class StockListView extends StatelessWidget {
                   );
                 }),
           ),
-          GetBuilder<StockListController>(
-              id: 'stock_list_bottom_show',
-              builder: (_){
-            return Visibility(
-              visible: controller.state.bottomShow == ProcessStatus.OK,
-              child: Align(
-                  child: Container(
-                      width: double.infinity,
-                      height: 120.w,
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.5),
-                            offset: Offset(1, 1),
-                            blurRadius: 3,
-                          ),
-                        ],
-                        //borderRadius: BorderRadius.circular(12.0),
-                        color: Colors.white,
+          Align(
+              child: Container(
+                  width: double.infinity,
+                  height: 120.w,
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.5),
+                        offset: Offset(1, 1),
+                        blurRadius: 3,
                       ),
-                      child: Row(
-                        children: [
-                          Expanded(
-                              child: InkWell(
-                                  onTap: () {
-                                    controller.toAddProduct();
-                                  },
-                                  child: PermissionWidget(
-                                      permissionCode: PermissionCode.stock_list_add_product_permission,
-                                      child: Container(
-                                          padding: EdgeInsets.only(top: 16.w),
-                                          alignment: Alignment.center,
-                                          child: Column(
-                                            children: [
-                                              LoadSvg(
-                                                'svg/ic_stock_list_add_stock',
-                                                width: 40.w,
-                                                color: Colors.blue[200],
-                                              ),
-                                              Text(
-                                                '直接入库',
-                                                style: TextStyle(
-                                                  fontSize: 28.sp,
-                                                  color:Colors.blue[200],),
-                                              )
-                                            ],
-                                          ))))),
-                          Expanded(
-                              child: InkWell(
-                                  onTap: () => Get.toNamed(RouteConfig.stockChangeRecord),
-                                  child: PermissionWidget(
-                                      permissionCode: PermissionCode
-                                          .stock_stock_change_permission,
-                                      child: Container(
-                                        padding: EdgeInsets.only(top: 16.w),
-                                        alignment: Alignment.center,
-                                        child: Column(
-                                          children: [
-                                            LoadSvg(
-                                              'svg/ic_to_stock_change',
-                                              width: 40.w,
-                                              color: Colors.blue[200],
-                                            ),
-                                            Text(
-                                              '调整库存',
-                                              style: TextStyle(
-                                                fontSize: 28.sp,
-                                                color: Colors.blue[200],),
-                                            )
-                                          ],
+                    ],
+                    //borderRadius: BorderRadius.circular(12.0),
+                    color: Colors.white,
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                          child: InkWell(
+                              onTap: () {
+                                controller.toAddProduct();
+                              },
+                              child: PermissionWidget(
+                                  permissionCode: PermissionCode.stock_list_add_product_permission,
+                                  child: Container(
+                                      padding: EdgeInsets.only(top: 16.w),
+                                      alignment: Alignment.center,
+                                      child: Column(
+                                        children: [
+                                          LoadSvg(
+                                            'svg/ic_stock_list_add_stock',
+                                            width: 40.w,
+                                            color: Colors.blue[500],
+                                          ),
+                                          Text(
+                                            '直接入库',
+                                            style: TextStyle(
+                                              fontSize: 28.sp,
+                                              color:Colors.blue[500],),
+                                          )
+                                        ],
+                                      ))))),
+                      Container(
+                        height: 100.w,
+                        width: 1.w,
+                        color: Colours.divider,
+                      ),
+                      Expanded(
+                          child: InkWell(
+                              onTap: () => Get.toNamed(RouteConfig.stockChangeRecord),
+                              child: PermissionWidget(
+                                  permissionCode: PermissionCode
+                                      .stock_stock_change_permission,
+                                  child: Container(
+                                    padding: EdgeInsets.only(top: 16.w),
+                                    alignment: Alignment.center,
+                                    child: Column(
+                                      children: [
+                                        LoadSvg(
+                                          'svg/ic_to_stock_change',
+                                          width: 40.w,
+                                          color: Colors.blue[500],
                                         ),
-                                      )
-                                  )))
-                        ],
-                      ))
-              ),
-            );
-          })
+                                        Text(
+                                          '调整库存',
+                                          style: TextStyle(
+                                            fontSize: 28.sp,
+                                            color: Colors.blue[500],),
+                                        )
+                                      ],
+                                    ),
+                                  )
+                              )))
+                    ],
+                  ))
+          )
         ],
       ),
     );

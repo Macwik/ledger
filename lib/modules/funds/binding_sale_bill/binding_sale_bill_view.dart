@@ -30,7 +30,7 @@ class BindingSaleBillView extends StatelessWidget {
         appBar: TitleBar(title:'绑定采购单',
         ),
         endDrawer: Drawer(
-          width:  MediaQuery.of(context).size.width * 0.8,
+          width: ScreenUtil().screenWidth * 0.8,
           backgroundColor: Colours.bg,
           child: Container(
               color: Colours.select_bg,

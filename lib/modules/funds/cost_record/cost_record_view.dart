@@ -22,7 +22,7 @@ class CostRecordView extends StatelessWidget {
           title:'费用收入记录',
         ),
         endDrawer: Drawer(
-          width:  MediaQuery.of(context).size.width * 0.8,
+          width: ScreenUtil().screenWidth * 0.8,
           child: Container(
               color: Colours.select_bg,
               alignment: Alignment.centerLeft,

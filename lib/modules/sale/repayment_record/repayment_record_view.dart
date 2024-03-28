@@ -25,7 +25,7 @@ class RepaymentRecordView extends StatelessWidget {
             actionPressed: ()=> Get.toNamed(RouteConfig.addDebt),
              ),
           endDrawer: Drawer(
-            width:  MediaQuery.of(context).size.width * 0.8,
+            width: ScreenUtil().screenWidth * 0.8,
             child: Container(
                 color: Colours.select_bg,
                 alignment: Alignment.centerLeft,

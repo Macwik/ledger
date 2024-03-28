@@ -19,9 +19,7 @@ import 'package:ledger/util/toast_util.dart';
 
 import 'sale_record_state.dart';
 
-class SaleRecordController extends GetxController
-    with GetSingleTickerProviderStateMixin
-    implements DisposableInterface {
+class SaleRecordController extends GetxController with GetSingleTickerProviderStateMixin implements DisposableInterface {
   final SaleRecordState state = SaleRecordState();
 
   late TabController tabController;

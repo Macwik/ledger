@@ -4,9 +4,11 @@ import 'package:ledger/entity/product/product_classify_dto.dart';
 import 'package:ledger/entity/product/product_dto.dart';
 import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/res/export.dart';
+import 'package:ledger/util/decimal_util.dart';
 import 'package:ledger/util/image_util.dart';
 import 'package:ledger/widget/permission/ledger_widget_type.dart';
 import 'package:ledger/widget/permission/permission_owner_widget.dart';
+import 'package:ledger/widget/will_pop.dart';
 
 import 'retail_bill_controller.dart';
 
@@ -53,7 +55,12 @@ class RetailBillView extends StatelessWidget {
                   }),
             )),
       ),
-      body:  DefaultTabController(
+      body:MyWillPop(
+          onWillPop: () async {
+            controller.saleBillGetBack();
+            return true;
+          },
+          child: DefaultTabController(
         length: 3,
         child: Container(
           //color: Colors.white,
@@ -537,7 +544,6 @@ class RetailBillView extends StatelessWidget {
                             flex: 4,
                                 child: InkWell(
                                   onTap: () =>controller.toShoppingCarList(context),
-                                     // controller.showShoppingCarDialog(context),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: [
@@ -546,7 +552,9 @@ class RetailBillView extends StatelessWidget {
                                         color: Colours.primary,
                                       ),
                                       Expanded(child:
-                                      Text('${controller.state.shoppingCarList?.length ?? 0}',
+                                      Text(controller.state.orderType == OrderType.REFUND
+                                          ?controller.state.shoppingCarList?.length.toString()??'0'
+                                          :DecimalUtil.formatDecimalNumber(controller.state.totalNumber),
                                         style: TextStyle(
                                           color: Colors.red[600],
                                           fontSize: 32.sp,
@@ -554,8 +562,7 @@ class RetailBillView extends StatelessWidget {
                                         ),
                                         textAlign: TextAlign.center,
                                       )),
-                                      Text(
-                                        '种',
+                                      Text(controller.state.orderType == OrderType.REFUND?'种':'件',
                                         style: TextStyle(
                                           color: Colours.text_666,
                                           fontSize: 28.sp,
@@ -623,7 +630,7 @@ class RetailBillView extends StatelessWidget {
           ),
         ),
 
-      )
+      ))
     );
   }
 }
