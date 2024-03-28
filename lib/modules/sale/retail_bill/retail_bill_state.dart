@@ -59,12 +59,10 @@ class RetailBillState {
   ProductShoppingCarDTO? productAddStockRequest;
 
   //销售、退货开单购物车商品
-  List<ProductShoppingCarDTO>? shoppingCarList = [];
+  List<ProductShoppingCarDTO> shoppingCarList = [];
 
   //调整库存
   ProductStockAdjustRequest? productStockAdjustRequest;
 
-  Decimal? totalNumber = Decimal.zero;
 
-// PageToType? pageToType;
 }

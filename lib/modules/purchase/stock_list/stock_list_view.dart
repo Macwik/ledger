@@ -527,7 +527,9 @@ class StockListView extends StatelessWidget {
                   );
                 }),
           ),
-          Align(
+          Offstage(
+            offstage: Get.routing.current == RouteConfig.main,
+            child: Align(
               child: Container(
                   width: double.infinity,
                   height: 120.w,
@@ -603,6 +605,8 @@ class StockListView extends StatelessWidget {
                     ],
                   ))
           )
+          )
+
         ],
       ),
     );

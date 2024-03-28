@@ -54,9 +54,9 @@ class CustomListController extends GetxController {
         }).then((result) {
       if (result.success) {
         if (result.d?.isNotEmpty ?? false) {
+          state.contactList.clear();
           result.d?.forEach((element) {
-            state.contactList.add(
-                ContactDTO(name: element.customName, phone: element.phone));
+            state.contactList.add(ContactDTO(name: element.customName, phone: element.phone));
           });
         }
       }

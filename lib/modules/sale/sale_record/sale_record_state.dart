@@ -40,6 +40,8 @@ class SaleRecordState{
 
   SaleRecordState();
 
-  int? index = 0;
+  int index = 0;
+
+  List<OrderType> orderTypeList = [];
 
 }

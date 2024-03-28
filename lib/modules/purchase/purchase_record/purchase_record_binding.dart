@@ -5,6 +5,7 @@ import 'purchase_record_controller.dart';
 class PurchaseRecordBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => PurchaseRecordController());
+    Get.create<PurchaseRecordController>(() => PurchaseRecordController(),
+        permanent: false);
   }
 }

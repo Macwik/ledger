@@ -38,8 +38,6 @@ class PurchaseRecordView extends StatelessWidget {
           });
         },
         title: '采购记录',
-        // actionPressed: ()=>Get.toNamed(RouteConfig.remittanceRecord),
-        // actionName: '汇款',
       ),
       endDrawer: Drawer(
         width: ScreenUtil().screenWidth * 0.8,

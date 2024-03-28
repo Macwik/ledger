@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ledger/entity/contact/contact_dto.dart';
+import 'package:ledger/enum/custom_type.dart';
 import 'package:ledger/enum/is_select.dart';
 import 'package:ledger/enum/process_status.dart';
 import 'package:ledger/res/export.dart';
@@ -18,7 +19,7 @@ class CustomListView extends StatelessWidget {
     controller.initState();
     return Scaffold(
       appBar: TitleBar(
-        title: '添加客户',
+        title: state.customType== CustomType.CUSTOM ? '添加客户' :'添加供应商',
         backPressed: () => Get.back(result: ProcessStatus.OK),
       ),
       body: Column(
@@ -27,7 +28,7 @@ class CustomListView extends StatelessWidget {
               id: 'contact_list',
               builder: (_) {
                 return Flexible(
-                  child: state.contactList.isEmpty ?? true
+                  child: state.contactList.isEmpty
                       ? EmptyLayout(hintText: '什么都没有'.tr)
                       : ListView.separated(
                           itemBuilder: (context, index) {

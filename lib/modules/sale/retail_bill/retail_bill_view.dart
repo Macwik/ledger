@@ -553,8 +553,8 @@ class RetailBillView extends StatelessWidget {
                                       ),
                                       Expanded(child:
                                       Text(controller.state.orderType == OrderType.REFUND
-                                          ?controller.state.shoppingCarList?.length.toString()??'0'
-                                          :DecimalUtil.formatDecimalNumber(controller.state.totalNumber),
+                                          ?controller.state.shoppingCarList.length.toString()
+                                          :DecimalUtil.formatDecimalNumber(controller.getShoppingCarTotalNumber()),
                                         style: TextStyle(
                                           color: Colors.red[600],
                                           fontSize: 32.sp,

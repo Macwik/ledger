@@ -35,7 +35,7 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
 
   @override
   void onInit() {
-    tabController = TabController(length: 3, vsync: this);
+    tabController = TabController(length: 1, vsync: this);
     tabController.addListener(() {
       state.index = tabController.index;
       tabController.animateTo(state.index ?? 0);
@@ -60,17 +60,17 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
     });
   }
 
-  int? orderTypes() {
-    switch (state.index) {
-      case 0:
-        return OrderType.SALE.value;
-      case 1:
-        return OrderType.SALE_RETURN.value;
-      case 2:
-        return OrderType.REFUND.value;
-      default:
-        throw Exception('无此项');
-    }
+  int orderTypes() {
+    return state.orderTypeList[state.index].value;
+    // switch (state.index) {
+    //   case 0:
+    //     return OrderType.SALE.value;
+    //   case 1:
+    //     return OrderType.SALE_RETURN.value;
+    //   case 2:
+    //     return OrderType.REFUND.value;
+    //   default:
+    //     throw Exception('无此项')
   }
 
   //收款状态

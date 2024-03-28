@@ -10,6 +10,8 @@ import 'package:ledger/entity/unit/unit_detail_dto.dart';
 import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/enum/page_to_type.dart';
 import 'package:ledger/enum/unit_type.dart';
+import 'package:ledger/modules/purchase/purchase_record/purchase_record_binding.dart';
+import 'package:ledger/modules/purchase/purchase_record/purchase_record_controller.dart';
 import 'package:ledger/res/export.dart';
 import 'package:ledger/store/store_controller.dart';
 import 'package:ledger/util/decimal_util.dart';
@@ -135,7 +137,7 @@ class SaleBillController extends GetxController {
       Loading.dismiss();
       if (result.success) {
         Get.back();
-        Toast.show('入库成功');
+        Toast.showSuccess('入库成功');
       } else {
         Toast.show(result.m.toString());
       }

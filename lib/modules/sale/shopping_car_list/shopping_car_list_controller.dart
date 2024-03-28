@@ -17,12 +17,6 @@ class ShoppingCarListController extends GetxController {
     if ((arguments != null) && arguments['shoppingCar'] != null) {
       state.shoppingCarList = arguments['shoppingCar'];
     }
-    if ((arguments != null) && arguments['totalAmount'] != null) {
-      state.totalAmount = arguments['totalAmount'];
-    }
-    if ((arguments != null) && arguments['totalNumber'] != null) {
-      state.totalNumber = arguments['totalNumber'];
-    }
     update(['shopping_car_list_title','shopping_car_list_detail']);
   }
 

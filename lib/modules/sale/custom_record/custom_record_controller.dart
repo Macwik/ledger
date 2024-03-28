@@ -290,7 +290,7 @@ class CustomRecordController extends GetxController {
       onPressed: () {
         Get.back();
         Get.toNamed(RouteConfig.myAccount,
-            arguments: {'isSelect': IsSelectType.TRUE.value})
+            arguments: {'isSelect': IsSelectType.TRUE.value, 'customType': state.initialIndex==0? CustomType.CUSTOM: CustomType.SUPPLIER})
         ?.then((value) => queryCustom());
       },
       child: Text('其他账本导入'),

@@ -18,7 +18,9 @@ import 'package:ledger/util/toast_util.dart';
 
 import 'purchase_record_state.dart';
 
-class PurchaseRecordController extends GetxController with GetSingleTickerProviderStateMixin implements DisposableInterface{
+class PurchaseRecordController extends GetxController
+    with GetSingleTickerProviderStateMixin
+    implements DisposableInterface {
   final PurchaseRecordState state = PurchaseRecordState();
 
   late TabController tabController;
@@ -26,7 +28,7 @@ class PurchaseRecordController extends GetxController with GetSingleTickerProvid
   Future<void> initState() async {
     var arguments = Get.arguments;
     if (arguments != null && arguments['index'] != null) {
-      state.index =arguments['index'];
+      state.index = arguments['index'];
     }
     onRefresh();
     _queryLedgerUserList();
@@ -58,7 +60,8 @@ class PurchaseRecordController extends GetxController with GetSingleTickerProvid
   }
 
   Future<BasePageEntity<OrderDTO>> _queryData(int currentPage) async {
-    return await Http().networkPage<OrderDTO>(Method.post, OrderApi.order_page, data: {
+    return await Http()
+        .networkPage<OrderDTO>(Method.post, OrderApi.order_page, data: {
       'page': currentPage,
       'orderTypeList': [orderTypes()],
       'userIdList': state.selectEmployeeIdList,
@@ -70,17 +73,17 @@ class PurchaseRecordController extends GetxController with GetSingleTickerProvid
     });
   }
 
-  int? orderTypes(){
-      switch(state.index){
-        case 0:
-          return OrderType.PURCHASE.value;
-        case 1:
-          return OrderType.PURCHASE_RETURN.value;
-        case 2:
-          return OrderType.ADD_STOCK.value;
-        default:
-          throw Exception('无此项');
-      }
+  int? orderTypes() {
+    switch (state.index) {
+      case 0:
+        return OrderType.PURCHASE.value;
+      case 1:
+        return OrderType.PURCHASE_RETURN.value;
+      case 2:
+        return OrderType.ADD_STOCK.value;
+      default:
+        throw Exception('无此项');
+    }
   }
 
   Future<void> onLoad() async {
@@ -117,7 +120,7 @@ class PurchaseRecordController extends GetxController with GetSingleTickerProvid
   }
 
   void toPurchaseDetail(OrderDTO? purchasePurchaseOrderDTO) {
-    if(state.index == 2){
+    if (state.index == 2) {
       Get.toNamed(RouteConfig.addStockDetail, arguments: {
         'id': purchasePurchaseOrderDTO?.id,
       })?.then((value) {
@@ -125,7 +128,7 @@ class PurchaseRecordController extends GetxController with GetSingleTickerProvid
           onRefresh();
         }
       });
-    }else{
+    } else {
       Get.toNamed(RouteConfig.saleDetail, arguments: {
         'id': purchasePurchaseOrderDTO?.id,
         'orderType': orderType(purchasePurchaseOrderDTO?.orderType)
@@ -138,24 +141,26 @@ class PurchaseRecordController extends GetxController with GetSingleTickerProvid
   }
 
   String getOrderStatusDesc(int? orderStatus) {
-    if(state.index == 0){
+    if (state.index == 0) {
       var list = OrderStateType.values;
       for (var value in list) {
         if (value.value == orderStatus) {
           return value.desc;
         }
-      }return '';
-    }return '';
+      }
+      return '';
+    }
+    return '';
   }
 
   String totalAmountOrNumber(OrderDTO purchasePurchaseOrderDTO) {
     if (state.index == 1) {
       return '￥- ${(purchasePurchaseOrderDTO.totalAmount ?? Decimal.zero) - (purchasePurchaseOrderDTO.discountAmount ?? Decimal.zero)}';
-    } else if(state.index == 0){
+    } else if (state.index == 0) {
       return DecimalUtil.formatAmount(
           (purchasePurchaseOrderDTO.totalAmount ?? Decimal.zero) -
               (purchasePurchaseOrderDTO.discountAmount ?? Decimal.zero));
-    }else{
+    } else {
       return '${purchasePurchaseOrderDTO.productNameList?.length}种';
     }
   }
@@ -226,7 +231,6 @@ class PurchaseRecordController extends GetxController with GetSingleTickerProvid
     ]);
   }
 
-
   //筛选里‘确定’
   void confirmCondition() {
     onRefresh();
@@ -235,29 +239,31 @@ class PurchaseRecordController extends GetxController with GetSingleTickerProvid
 
   void toAddBill() {
     if (state.index == 0) {
-      Get.toNamed(
-          RouteConfig.saleBill, arguments: {'orderType': OrderType.PURCHASE});
+      Get.toNamed(RouteConfig.saleBill,
+              arguments: {'orderType': OrderType.PURCHASE})
+          ?.then((value) => onRefresh());
     } else if (state.index == 1) {
       Get.toNamed(RouteConfig.saleBill,
-          arguments: {'orderType': OrderType.PURCHASE_RETURN});
-    }
-    else {
-      Get.toNamed(
-          RouteConfig.saleBill, arguments: {'orderType': OrderType.ADD_STOCK});
+              arguments: {'orderType': OrderType.PURCHASE_RETURN})
+          ?.then((value) => onRefresh());
+    } else {
+      Get.toNamed(RouteConfig.saleBill,
+              arguments: {'orderType': OrderType.ADD_STOCK})
+          ?.then((value) => onRefresh());
     }
   }
 
-  String toAddBillsName(){
-      switch(state.index){
-        case 0:
-          return '+ 采购';
-        case 1:
-          return '+ 退货';
-        case 2:
-          return '+ 入库';
-        default:
-          throw Exception('此项不存在');
-      }
+  String toAddBillsName() {
+    switch (state.index) {
+      case 0:
+        return '+ 采购';
+      case 1:
+        return '+ 退货';
+      case 2:
+        return '+ 入库';
+      default:
+        throw Exception('此项不存在');
+    }
   }
 
   void searchPurchaseRecord(String value) {

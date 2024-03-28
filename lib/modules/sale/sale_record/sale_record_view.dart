@@ -4,6 +4,7 @@ import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/enum/order_state_type.dart';
 import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/res/export.dart';
+import 'package:ledger/store/store_controller.dart';
 import 'package:ledger/util/image_util.dart';
 import 'package:ledger/util/picker_date_utils.dart';
 import 'package:ledger/widget/permission/permission_widget.dart';
@@ -18,13 +19,12 @@ class SaleRecordView extends StatelessWidget {
     controller.initState();
     return Scaffold(
       appBar: TitleBar(
-      backPressed:() {
-        Get.until((route) {
-          return (route.settings.name == RouteConfig.main);
-        });
-      },
-        title:  '销售记录'
-      ),
+          backPressed: () {
+            Get.until((route) {
+              return (route.settings.name == RouteConfig.main);
+            });
+          },
+          title: '销售记录'),
       endDrawer: Drawer(
         width: ScreenUtil().screenWidth * 0.8,
         child: Container(
@@ -229,15 +229,18 @@ class SaleRecordView extends StatelessWidget {
                                               : Colours.text_333,
                                         ),
                                       ),
-                                      backgroundColor: controller.state.selectEmployeeIdList ==
+                                      backgroundColor: controller
+                                                  .state.selectEmployeeIdList ==
                                               null
                                           ? Colours.primary
                                           : Colors.white,
                                     )),
                                 ...List.generate(
-                                  controller.state.itemCount!, // itemCount 是标签的数量
+                                  controller
+                                      .state.itemCount!, // itemCount 是标签的数量
                                   (index) {
-                                    var employee = controller.state.employeeList![index];
+                                    var employee =
+                                        controller.state.employeeList![index];
                                     return Builder(
                                       builder: (BuildContext context) {
                                         return InkWell(
@@ -281,113 +284,117 @@ class SaleRecordView extends StatelessWidget {
                     height: 40.w,
                   ),
                   GetBuilder<SaleRecordController>(
-                    id: 'sale_order_status',
-                    init: controller,
-                    global: false,
-                    builder: (controller) =>
-                        Visibility(
-                    visible: controller.state.index == 0,
-                    child: Container(
-                      padding: EdgeInsets.only(bottom: 20.w),
-                      child: Text(
-                        '收款状态',
-                        style: TextStyle(
-                          color: Colours.text_333,
-                          fontSize: 30.sp,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ) ,
-                    )
-                   )),
-               GetBuilder<SaleRecordController>(
-                    id: 'sale_order_status',
-                    init: controller,
-                    global: false,
-                    builder: (controller) => Visibility(
-                      visible: controller.state.index==0,
-                      child: Wrap(
-                      children: [
-                        TextButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: controller.checkOrderStatus(null)
-                                ? Colours.primary
-                                : Colors.white,
-                            foregroundColor: controller.checkOrderStatus(null)
-                                ? Colors.white
-                                : Colours.text_333,
-                            side: BorderSide(
-                              color: Colours.primary, // 添加边框颜色，此处为灰色
-                              width: 1.0, // 设置边框宽度
+                      id: 'sale_order_status',
+                      init: controller,
+                      global: false,
+                      builder: (controller) => Visibility(
+                          visible: controller.state.index == 0,
+                          child: Container(
+                            padding: EdgeInsets.only(bottom: 20.w),
+                            child: Text(
+                              '收款状态',
+                              style: TextStyle(
+                                color: Colours.text_333,
+                                fontSize: 30.sp,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
-                          ),
-                          onPressed: () {
-                            controller.state.orderStatus = null;
-                            controller.update(['sale_order_status']);
-                          },
-                          child: Text(
-                            '全部',
-                            style: TextStyle(
-                              fontSize: 30.sp,
+                          ))),
+                  GetBuilder<SaleRecordController>(
+                      id: 'sale_order_status',
+                      init: controller,
+                      global: false,
+                      builder: (controller) => Visibility(
+                            visible: controller.state.index == 0,
+                            child: Wrap(
+                              children: [
+                                TextButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor:
+                                        controller.checkOrderStatus(null)
+                                            ? Colours.primary
+                                            : Colors.white,
+                                    foregroundColor:
+                                        controller.checkOrderStatus(null)
+                                            ? Colors.white
+                                            : Colours.text_333,
+                                    side: BorderSide(
+                                      color: Colours.primary, // 添加边框颜色，此处为灰色
+                                      width: 1.0, // 设置边框宽度
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    controller.state.orderStatus = null;
+                                    controller.update(['sale_order_status']);
+                                  },
+                                  child: Text(
+                                    '全部',
+                                    style: TextStyle(
+                                      fontSize: 30.sp,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10.w,
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    controller.state.orderStatus = 1;
+                                    controller.update(['sale_order_status']);
+                                  },
+                                  child: Text(
+                                    '已结清',
+                                    style: TextStyle(
+                                      fontSize: 30.sp,
+                                    ),
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor:
+                                        controller.checkOrderStatus(1)
+                                            ? Colours.primary
+                                            : Colors.white,
+                                    foregroundColor:
+                                        controller.checkOrderStatus(1)
+                                            ? Colors.white
+                                            : Colours.text_333,
+                                    side: BorderSide(
+                                      color: Colours.primary, // 添加边框颜色，此处为灰色
+                                      width: 1.0, // 设置边框宽度
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10.w,
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    controller.state.orderStatus = 0;
+                                    controller.update(['sale_order_status']);
+                                  },
+                                  child: Text(
+                                    '未结清',
+                                    style: TextStyle(
+                                      fontSize: 30.sp,
+                                    ),
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor:
+                                        controller.checkOrderStatus(0)
+                                            ? Colours.primary
+                                            : Colors.white,
+                                    foregroundColor:
+                                        controller.checkOrderStatus(0)
+                                            ? Colors.white
+                                            : Colours.text_333,
+                                    side: BorderSide(
+                                      color: Colours.primary, // 添加边框颜色，此处为灰色
+                                      width: 1.0, // 设置边框宽度
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10.w,
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            controller.state.orderStatus = 1;
-                            controller.update(['sale_order_status']);
-                          },
-                          child: Text(
-                            '已结清',
-                            style: TextStyle(
-                              fontSize: 30.sp,
-                            ),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: controller.checkOrderStatus(1)
-                                ? Colours.primary
-                                : Colors.white,
-                            foregroundColor: controller.checkOrderStatus(1)
-                                ? Colors.white
-                                : Colours.text_333,
-                            side: BorderSide(
-                              color: Colours.primary, // 添加边框颜色，此处为灰色
-                              width: 1.0, // 设置边框宽度
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10.w,
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            controller.state.orderStatus = 0;
-                            controller.update(['sale_order_status']);
-                          },
-                          child: Text(
-                            '未结清',
-                            style: TextStyle(
-                              fontSize: 30.sp,
-                            ),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: controller.checkOrderStatus(0)
-                                ? Colours.primary
-                                : Colors.white,
-                            foregroundColor: controller.checkOrderStatus(0)
-                                ? Colors.white
-                                : Colours.text_333,
-                            side: BorderSide(
-                              color: Colours.primary, // 添加边框颜色，此处为灰色
-                              width: 1.0, // 设置边框宽度
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  )),
+                          )),
                   SizedBox(
                     height: 40.w,
                   ),
@@ -501,39 +508,31 @@ class SaleRecordView extends StatelessWidget {
           },
           child: DefaultTabController(
             initialIndex: 0,
-            length:  3,
+            length: permissionCount(),
             child: Column(
               children: [
-                    Container(
-                      color: Colors.white,
-                      height: 90.w, // 调整TabBar高度
-                      child: TabBar(
-                        controller: controller.tabController,
-                        tabs: [
-                          Tab(text:  '销售',),
-                          Tab(text:'销售退货',),
-                          Tab(  text:'仅退款',),
-                        ],
-                        indicatorWeight: 3.w,
-                        indicatorPadding: EdgeInsets.all(0),
-                        labelPadding: EdgeInsets.all(0),
-                        isScrollable: false,
-                        indicatorColor: Colours.primary,
-                        unselectedLabelColor: Colours.text_999,
-                        unselectedLabelStyle:
-                        const TextStyle(fontWeight: FontWeight.w500),
-                        labelStyle: TextStyle(fontWeight: FontWeight.w500),
-                        labelColor: Colours.primary,
-                      )),
-              //  }),
+                Container(
+                    color: Colors.white,
+                    height: 90.w, // 调整TabBar高度
+                    child: TabBar(
+                      controller: controller.tabController,
+                      tabs: permissionWidget(),
+                      indicatorWeight: 3.w,
+                      indicatorPadding: EdgeInsets.all(0),
+                      labelPadding: EdgeInsets.all(0),
+                      isScrollable: false,
+                      indicatorColor: Colours.primary,
+                      unselectedLabelColor: Colours.text_999,
+                      unselectedLabelStyle:
+                          const TextStyle(fontWeight: FontWeight.w500),
+                      labelStyle: TextStyle(fontWeight: FontWeight.w500),
+                      labelColor: Colours.primary,
+                    )),
+                //  }),
                 Expanded(
                     child: TabBarView(
                         controller: controller.tabController,
-                        children: [
-                      widgetSaleRecord(),
-                      widgetSaleRecord(),
-                      widgetSaleRecord(),
-                    ]))
+                        children: widgetTabBarViews()))
               ],
             ),
           )),
@@ -546,8 +545,8 @@ class SaleRecordView extends StatelessWidget {
               builder: (_) {
                 return Container(
                     width: 210.w,
-                    height:110.w,
-                    margin: EdgeInsets.only(bottom:30.w),
+                    height: 110.w,
+                    margin: EdgeInsets.only(bottom: 30.w),
                     child: FloatingActionButton(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30), // 设置圆角大小
@@ -558,7 +557,8 @@ class SaleRecordView extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(controller.toAddBillsName(),
+                          Text(
+                            controller.toAddBillsName(),
                             style: TextStyle(fontSize: 32.sp),
                           ),
                         ],
@@ -569,55 +569,103 @@ class SaleRecordView extends StatelessWidget {
     );
   }
 
+  widgetTabBarViews() {
+    List<Widget> widgetList = [];
+    for (int i = 0; i < permissionCount(); i++) {
+      widgetList.add(widgetSaleRecord());
+    }
+    return widgetList;
+  }
+
+  permissionCount() {
+    int count = 0;
+    List<String>? permissionList = StoreController.to.getPermissionCode();
+    if (permissionList.contains(PermissionCode.sales_sale_order_permission)) {
+      controller.state.orderTypeList.add(OrderType.SALE);
+      count++;
+    }
+    if (permissionList.contains(PermissionCode.sales_sale_return_permission)) {
+      controller.state.orderTypeList.add(OrderType.SALE_RETURN);
+      count++;
+    }
+    if (permissionList.contains(PermissionCode.sales_sale_return_permission)) {
+      controller.state.orderTypeList.add(OrderType.REFUND);
+      count++;
+    }
+    return count;
+  }
+
+  permissionWidget() {
+    List<Widget> widgetList = [];
+    List<String>? permissionList = StoreController.to.getPermissionCode();
+    if (permissionList.contains(PermissionCode.sales_sale_order_permission)) {
+      widgetList.add(Tab(text: '销售'));
+    }
+    if (permissionList.contains(PermissionCode.sales_sale_return_permission)) {
+      widgetList.add(Tab(text: '销售退货'));
+    }
+    if (permissionList.contains(PermissionCode.sales_sale_return_permission)) {
+      widgetList.add(Tab(text: '仅退款'));
+    }
+    return widgetList;
+  }
+
   widgetSaleRecord() {
     return Flex(
       direction: Axis.vertical,
       children: [
-        Flex(direction: Axis.horizontal,
-        children: [
-          Expanded(child: Container(
-            height: 100.w,
-            padding: EdgeInsets.only(top:10.w,left: 10.w, right: 10.w),
-            child: SearchBar(
-              leading: Icon(
-                Icons.search,
-                color: Colors.grey,
-                size: 40.w,
+        Flex(
+          direction: Axis.horizontal,
+          children: [
+            Expanded(
+                child: Container(
+              height: 100.w,
+              padding: EdgeInsets.only(top: 10.w, left: 10.w, right: 10.w),
+              child: SearchBar(
+                leading: Icon(
+                  Icons.search,
+                  color: Colors.grey,
+                  size: 40.w,
+                ),
+                shadowColor: MaterialStatePropertyAll<Color>(Colors.black26),
+                hintStyle: MaterialStatePropertyAll<TextStyle>(
+                    TextStyle(fontSize: 34.sp, color: Colors.black26)),
+                onChanged: (value) {
+                  controller.searchSalesRecord(value);
+                },
+                hintText: '请输入货物名称',
               ),
-              shadowColor:MaterialStatePropertyAll<Color>(Colors.black26),
-              hintStyle: MaterialStatePropertyAll<TextStyle>(
-                  TextStyle(fontSize: 34.sp,  color: Colors.black26)),
-              onChanged: (value) {
-                controller.searchSalesRecord(value);
-              },
-              hintText: '请输入货物名称',
-            ),
-          )),
-          Builder(
-            builder: (context) => GestureDetector(
-              onTap: () {
-                Scaffold.of(context).openEndDrawer();
-              },
-              child:  Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  LoadAssetImage(
-                    'screen',
-                    format: ImageFormat.png,
-                    color: Colours.text_999,
-                    height: 40.w,
-                    width: 40.w,
-                  ),// 导入的图像
-                  SizedBox(width: 8.w), // 图像和文字之间的间距
-                  Text('筛选',
-                    style: TextStyle(fontSize: 30.sp,
-                        color: Colours.text_666),),
-                  SizedBox(width: 24.w,),
-                ],
+            )),
+            Builder(
+              builder: (context) => GestureDetector(
+                onTap: () {
+                  Scaffold.of(context).openEndDrawer();
+                },
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    LoadAssetImage(
+                      'screen',
+                      format: ImageFormat.png,
+                      color: Colours.text_999,
+                      height: 40.w,
+                      width: 40.w,
+                    ), // 导入的图像
+                    SizedBox(width: 8.w), // 图像和文字之间的间距
+                    Text(
+                      '筛选',
+                      style:
+                          TextStyle(fontSize: 30.sp, color: Colours.text_666),
+                    ),
+                    SizedBox(
+                      width: 24.w,
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],),
+          ],
+        ),
         Expanded(
           child: GetBuilder<SaleRecordController>(
               id: 'sales_order_list',
@@ -637,7 +685,8 @@ class SaleRecordView extends StatelessWidget {
                     itemBuilder: (context, index) {
                       var salePurchaseOrderDTO = controller.state.list![index];
                       return InkWell(
-                        onTap: () => controller.toSalesDetail(salePurchaseOrderDTO),
+                        onTap: () =>
+                            controller.toSalesDetail(salePurchaseOrderDTO),
                         child: Column(
                           children: [
                             Container(
@@ -673,7 +722,8 @@ class SaleRecordView extends StatelessWidget {
                                         flex: 3,
                                         child: Text(
                                             TextUtil.listToStr(
-                                                salePurchaseOrderDTO.productNameList),
+                                                salePurchaseOrderDTO
+                                                    .productNameList),
                                             style: TextStyle(
                                               color: salePurchaseOrderDTO
                                                           .invalid ==
@@ -712,9 +762,12 @@ class SaleRecordView extends StatelessWidget {
                                         child: Text(
                                             textAlign: TextAlign.right,
                                             controller.getOrderStatusDesc(
-                                                salePurchaseOrderDTO.orderStatus),
+                                                salePurchaseOrderDTO
+                                                    .orderStatus),
                                             style: TextStyle(
-                                              color: salePurchaseOrderDTO.invalid == 1
+                                              color: salePurchaseOrderDTO
+                                                          .invalid ==
+                                                      1
                                                   ? Colours.text_ccc
                                                   : OrderStateType.DEBT_ACCOUNT
                                                               .value ==

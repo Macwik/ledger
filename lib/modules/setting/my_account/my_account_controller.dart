@@ -23,6 +23,9 @@ class MyAccountController extends GetxController {
     if ((arguments != null) && arguments['isSelect'] != null) {
       state.isSelect = arguments['isSelect'];
     }
+    if ((arguments != null) && arguments['customType'] != null) {
+      state.customType = arguments['customType'];
+    }
     listLedger();
   }
 
@@ -123,7 +126,7 @@ class MyAccountController extends GetxController {
         }
       });
     } else {
-      Get.offNamed(RouteConfig.customList, arguments: {'ledgerId': id});
+      Get.offNamed(RouteConfig.customList, arguments: {'ledgerId': id,'customType':state.customType});
     }
   }
 

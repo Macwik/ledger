@@ -120,7 +120,7 @@ class RetailBillController extends GetxController {
   }
 
   Future<void> addToShoppingCar(ProductDTO productDTO) async {
-      if (state.orderType == OrderType.REFUND) {
+    if (state.orderType == OrderType.REFUND) {
       Get.dialog(AlertDialog(
         title: Text(
           productDTO.productName ?? '',
@@ -129,7 +129,7 @@ class RetailBillController extends GetxController {
           child: RefundDialog(
             productDTO: productDTO,
             onClick: (result) {
-              state.shoppingCarList?.add(result);
+              state.shoppingCarList.add(result);
               update(['shopping_car_box']);
               return true;
             },
@@ -144,19 +144,29 @@ class RetailBillController extends GetxController {
             productDTO: productDTO,
             orderType: state.orderType,
             onClick: (result) {
-              state.shoppingCarList?.add(result);
-
-              if(result.unitDetailDTO?.unitType == UnitType.SINGLE.value){
-                state.totalNumber =  state.totalNumber! + (result.unitDetailDTO?.number??Decimal.zero);
-              }else{
-                state.totalNumber =  state.totalNumber! + (result.unitDetailDTO?.slaveNumber??Decimal.zero);
-              } update(['shopping_car_box']);
+              state.shoppingCarList.add(result);
+              update(['shopping_car_box']);
               return true;
             },
           ),
         ),
       ));
     }
+  }
+
+  Decimal getShoppingCarTotalNumber() {
+    var shoppingCarList = state.shoppingCarList;
+    if (shoppingCarList.isEmpty) {
+      return Decimal.zero;
+    }
+    return shoppingCarList.fold(Decimal.zero, (previousValue, element) {
+      if (element.unitDetailDTO?.unitType == UnitType.SINGLE.value) {
+        return previousValue + (element.unitDetailDTO?.number ?? Decimal.zero);
+      } else {
+        return previousValue +
+            (element.unitDetailDTO?.slaveNumber ?? Decimal.zero);
+      }
+    });
   }
 
   String getSalesChannel(int? channel) {
@@ -167,6 +177,16 @@ class RetailBillController extends GetxController {
     }
     return '';
   }
+
+
+  ///判断是否已添加购物车
+  bool isInShoppingCar(int? productId){
+    if(productId == null){
+      return false;
+    }
+    return state.shoppingCarList.map((e) => e.productId).toSet().contains(productId);
+  }
+
 
   //选择日期
   Future<void> pickerDate(BuildContext context) async {
@@ -202,15 +222,13 @@ class RetailBillController extends GetxController {
     if (state.orderType == OrderType.REFUND) {
       showShoppingCarDialog(context);
     } else {
-      if (state.shoppingCarList?.isEmpty ?? false) {
+      if (state.shoppingCarList.isEmpty) {
         Toast.show('请先添加货物');
         return;
       }
       Get.toNamed(RouteConfig.shoppingCarList, arguments: {
-        'shoppingCar': state.shoppingCarList,
-        'totalAmount': state.totalAmount,
-        'totalNumber': state.totalNumber,
-      })?.then((value){
+        'shoppingCar': state.shoppingCarList
+      })?.then((value) {
         state.shoppingCarList = value;
         update(['shopping_car_box']);
       });
@@ -246,7 +264,7 @@ class RetailBillController extends GetxController {
                 ),
                 padding: EdgeInsets.only(left: 30.w, right: 30.w),
                 child: SingleChildScrollView(
-                  child: state.shoppingCarList?.isEmpty ?? true
+                  child: state.shoppingCarList.isEmpty
                       ? EmptyLayout(hintText: '什么都没有')
                       : Column(
                           children: [
@@ -297,7 +315,7 @@ class RetailBillController extends GetxController {
                                         ],
                                       ),
                                       // 根据动态数据创建行
-                                      for (var item in state.shoppingCarList!)
+                                      for (var item in state.shoppingCarList)
                                         TableRow(
                                           children: [
                                             TableCell(
@@ -309,7 +327,7 @@ class RetailBillController extends GetxController {
                                               child: InkWell(
                                                 onTap: () {
                                                   state.shoppingCarList
-                                                      ?.remove(item);
+                                                      .remove(item);
                                                   update([
                                                     'shopping_car_add_result',
                                                     'shopping_car_box'
@@ -611,7 +629,7 @@ class RetailBillController extends GetxController {
                                               child: InkWell(
                                                 onTap: () {
                                                   state.shoppingCarList
-                                                      ?.remove(item);
+                                                      .remove(item);
                                                   update([
                                                     'shopping_car_add_result',
                                                     'shopping_car_box'
@@ -881,7 +899,7 @@ class RetailBillController extends GetxController {
 
   String? getTotalAmount() {
     var totalAmount = Decimal.zero;
-    state.shoppingCarList?.forEach((element) {
+    state.shoppingCarList.forEach((element) {
       totalAmount = totalAmount + element.unitDetailDTO!.totalAmount!;
     });
     state.totalAmount = totalAmount;
@@ -890,7 +908,7 @@ class RetailBillController extends GetxController {
 
   Future<void> pickerCustom() async {
     var result = await Get.toNamed(RouteConfig.customRecord, arguments: {
-      'initialIndex':  0,
+      'initialIndex': 0,
       'isSelectCustom': true,
       'orderType': state.orderType
     });
@@ -915,7 +933,6 @@ class RetailBillController extends GetxController {
       if (result.success) {
         Toast.show('挂单成功');
         state.totalAmount = Decimal.zero;
-        state.totalNumber = Decimal.zero;
         state.date = DateTime.now();
         state.shoppingCarList = [];
         state.customDTO = null;
@@ -972,7 +989,7 @@ class RetailBillController extends GetxController {
 
   //Dialog
   Future<void> showPaymentDialog() async {
-    if (state.shoppingCarList?.isEmpty ?? false) {
+    if (state.shoppingCarList.isEmpty ?? false) {
       Toast.show('请添加货物后再试');
       return;
     }
@@ -986,29 +1003,28 @@ class RetailBillController extends GetxController {
     await Get.bottomSheet(
         isScrollControlled: true,
         PaymentDialog(
-                paymentMethods: state.paymentMethods!,
-                customDTO: state.customDTO,
-                orderType: state.orderType,
-                totalAmount: state.totalAmount,
-                onClick: (result) async {
-                  state.orderPayDialogResult = result;
-                  if (null != result?.customDTO) {
-                    state.customDTO = result?.customDTO;
-                  }
-                  if (state.orderType == OrderType.REFUND) {
-                    return await saveRefundOrder();
-                  } else {
-                    return await saveOrder();
-                  }
-                }
-        ),
+            paymentMethods: state.paymentMethods!,
+            customDTO: state.customDTO,
+            orderType: state.orderType,
+            totalAmount: state.totalAmount,
+            onClick: (result) async {
+              state.orderPayDialogResult = result;
+              if (null != result?.customDTO) {
+                state.customDTO = result?.customDTO;
+              }
+              if (state.orderType == OrderType.REFUND) {
+                return await saveRefundOrder();
+              } else {
+                return await saveOrder();
+              }
+            }),
         backgroundColor: Colors.white);
   }
 
-
   Future<bool> saveRefundOrder() async {
     Loading.showDuration();
-    return await Http().network(Method.post, OrderApi.add_refund_order_page, data: {
+    return await Http()
+        .network(Method.post, OrderApi.add_refund_order_page, data: {
       'customId': state.customDTO?.id,
       'creditAmount': state.orderPayDialogResult?.creditAmount,
       'discountAmount': state.orderPayDialogResult?.discountAmount,
@@ -1044,6 +1060,7 @@ class RetailBillController extends GetxController {
       Loading.dismiss();
       if (result.success) {
         Get.back();
+
         ///TODO 开单详情的弹框
         Toast.showSuccess('开单成功');
         return true;
@@ -1056,7 +1073,7 @@ class RetailBillController extends GetxController {
 
   Future<void> saleBillGetBack() async {
     if ((state.customDTO != null) ||
-        (state.shoppingCarList?.isNotEmpty ?? false)) {
+        (state.shoppingCarList.isNotEmpty ?? false)) {
       Get.dialog(AlertDialog(
           title: Text('是否确认退出'),
           content: Text('退出后将无法恢复'),
@@ -1070,7 +1087,7 @@ class RetailBillController extends GetxController {
             TextButton(
                 child: Text('确定'),
                 onPressed: () {
-                  state.shoppingCarList?.clear();
+                  state.shoppingCarList.clear();
                   Get.until((route) {
                     return (route.settings.name == RouteConfig.saleRecord) ||
                         (route.settings.name == RouteConfig.main);
