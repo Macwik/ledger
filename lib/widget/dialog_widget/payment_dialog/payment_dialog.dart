@@ -668,8 +668,7 @@ class PaymentDialog extends StatelessWidget {
 
   void inputDiscountDialog() {
     var roundToZero = DecimalUtil.roundToZero(totalAmount);
-    TextEditingController textEditingController = TextEditingController(
-        text: DecimalUtil.formatDecimalDefault(roundToZero));
+    TextEditingController textEditingController = TextEditingController(text: DecimalUtil.formatDecimalDefault(roundToZero));
 
     SingleInputDialog().singleInputDialog(
       title: '请输入抹零金额',

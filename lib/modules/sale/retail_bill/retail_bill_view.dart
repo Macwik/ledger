@@ -278,179 +278,194 @@ class RetailBillView extends StatelessWidget {
                                                   ProductDTO stockDTO = controller.state.productList![index];
                                                   return InkWell(
                                                       onTap: () => controller.addToShoppingCar(stockDTO),
-                                                      child: Container(
-                                                        width: double.infinity,
-                                                        color: Colors.white,
-                                                        padding: EdgeInsets.symmetric(
-                                                          vertical: 16.w,
-                                                          horizontal: 32.w,),
-                                                        child: Column(
-                                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                          children: [
-                                                            Container(
-                                                                padding: EdgeInsets.symmetric(vertical: 10.w),
-                                                                child: Flex(
-                                                                    direction: Axis.horizontal,
-                                                                    mainAxisAlignment:
-                                                                    MainAxisAlignment.start,
-                                                                    children: [
-                                                                      Expanded(
-                                                                        flex: 3,
-                                                                        child: Text(
-                                                                            stockDTO.productName ??
-                                                                                '',
-                                                                            style: TextStyle(
-                                                                              color: stockDTO
-                                                                                  .invalid ==
-                                                                                  1
-                                                                                  ? Colours.text_ccc
-                                                                                  : Colours.text_333,
-                                                                              fontSize: 32.sp,
-                                                                              fontWeight:
-                                                                              FontWeight.w500,
-                                                                            )),
-                                                                      ),
-                                                                      Visibility(
-                                                                          visible:
-                                                                          stockDTO.invalid == 1,
-                                                                          child: Container(
-                                                                            padding: EdgeInsets.only(
-                                                                                top: 2.w,
-                                                                                bottom: 2.w,
-                                                                                left: 4.w,
-                                                                                right: 4.w),
-                                                                            decoration: BoxDecoration(
-                                                                              border: Border.all(
-                                                                                color:
-                                                                                Colours.text_ccc,
-                                                                                width: 1.0,
-                                                                              ),
-                                                                              borderRadius:
-                                                                              BorderRadius
-                                                                                  .circular(8.0),
-                                                                            ),
-                                                                            child: Text('已停用',
+                                                      child: Stack(
+                                                        children: [
+                                                          Container(
+                                                            width: double.infinity,
+                                                            color: Colors.white,
+                                                            padding: EdgeInsets.symmetric(
+                                                              vertical: 16.w,
+                                                              horizontal: 32.w,),
+                                                            child: Column(
+                                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                              children: [
+                                                                Container(
+                                                                    padding: EdgeInsets.symmetric(vertical: 10.w),
+                                                                    child: Flex(
+                                                                        direction: Axis.horizontal,
+                                                                        mainAxisAlignment:
+                                                                        MainAxisAlignment.start,
+                                                                        children: [
+                                                                          Expanded(
+                                                                            flex: 3,
+                                                                            child: Text(
+                                                                                stockDTO.productName ??
+                                                                                    '',
                                                                                 style: TextStyle(
-                                                                                  color: Colours
-                                                                                      .text_999,
-                                                                                  fontSize: 26.sp,
+                                                                                  color: stockDTO
+                                                                                      .invalid ==
+                                                                                      1
+                                                                                      ? Colours.text_ccc
+                                                                                      : Colours.text_333,
+                                                                                  fontSize: 32.sp,
                                                                                   fontWeight:
                                                                                   FontWeight.w500,
                                                                                 )),
-                                                                          )),
-                                                                      Expanded(
-                                                                        child: Text(
-                                                                            textAlign: TextAlign.end,
-                                                                            controller.getSalesChannel(
-                                                                                stockDTO
-                                                                                    .salesChannel),
-                                                                            style: TextStyle(
-                                                                              color: stockDTO
-                                                                                  .invalid ==
-                                                                                  1
-                                                                                  ? Colours.text_ccc
-                                                                                  : Colours.text_999,
-                                                                              fontSize: 22.sp,
-                                                                              fontWeight:
-                                                                              FontWeight.w400,
-                                                                            )),
-                                                                      )
-                                                                    ])),
-                                                            Container(
-                                                              alignment:Alignment.centerLeft,
-                                                              child: Text(textAlign: TextAlign.left,
-                                                                  controller.judgeUnit(
-                                                                      stockDTO),
-                                                                  style: TextStyle(
-                                                                    color: stockDTO.invalid == 1
-                                                                        ? Colours.text_ccc
-                                                                        : Colours.text_999,
-                                                                    fontSize: 30.sp,
-                                                                    fontWeight:
-                                                                    FontWeight.w500,
-                                                                  )),
-                                                            ),
-                                                            Flex(direction: Axis.horizontal,
-                                                              children: [
-                                                                Expanded(child:
-                                                                Visibility(
-                                                                    maintainSize: false,
-                                                                    visible:(((stockDTO.productPlace !=null))&&( (stockDTO.productStandard!=null))),
-                                                                    child:
-                                                                    Container(
-                                                                      padding: EdgeInsets.only(top: 16.w),
-                                                                      child:  Flex(direction: Axis.horizontal,
-                                                                        children: [
-                                                                          Text(
-                                                                              stockDTO.productPlace ?? '',
-                                                                              style:
-                                                                              TextStyle(
-                                                                                color: stockDTO.invalid == 1
-                                                                                    ? Colours.text_ccc
-                                                                                    : Colours.text_999,
-                                                                                fontSize: 26.sp,
-                                                                                fontWeight:
-                                                                                FontWeight
-                                                                                    .w500,
+                                                                          ),
+                                                                          Visibility(
+                                                                              visible:
+                                                                              stockDTO.invalid == 1,
+                                                                              child: Container(
+                                                                                padding: EdgeInsets.only(
+                                                                                    top: 2.w,
+                                                                                    bottom: 2.w,
+                                                                                    left: 4.w,
+                                                                                    right: 4.w),
+                                                                                decoration: BoxDecoration(
+                                                                                  border: Border.all(
+                                                                                    color:
+                                                                                    Colours.text_ccc,
+                                                                                    width: 1.0,
+                                                                                  ),
+                                                                                  borderRadius:
+                                                                                  BorderRadius
+                                                                                      .circular(8.0),
+                                                                                ),
+                                                                                child: Text('已停用',
+                                                                                    style: TextStyle(
+                                                                                      color: Colours
+                                                                                          .text_999,
+                                                                                      fontSize: 26.sp,
+                                                                                      fontWeight:
+                                                                                      FontWeight.w500,
+                                                                                    )),
                                                                               )),
-                                                                          SizedBox(width: 32.w,),
-                                                                          Expanded(child:Text(
-                                                                              stockDTO.productStandard ?? '',
-                                                                              style:
-                                                                              TextStyle(
-                                                                                color: stockDTO
-                                                                                    .invalid ==
-                                                                                    1
-                                                                                    ? Colours
-                                                                                    .text_ccc
-                                                                                    : Colours
-                                                                                    .text_999,
-                                                                                fontSize:
-                                                                                26.sp,
-                                                                                fontWeight:
-                                                                                FontWeight
-                                                                                    .w500,
-                                                                              )) ),
-                                                                        ],
-                                                                      ),
-                                                                    )
-                                                                )
+                                                                          Expanded(
+                                                                            child: Text(
+                                                                                textAlign: TextAlign.end,
+                                                                                controller.getSalesChannel(
+                                                                                    stockDTO
+                                                                                        .salesChannel),
+                                                                                style: TextStyle(
+                                                                                  color: stockDTO
+                                                                                      .invalid ==
+                                                                                      1
+                                                                                      ? Colours.text_ccc
+                                                                                      : Colours.text_999,
+                                                                                  fontSize: 22.sp,
+                                                                                  fontWeight:
+                                                                                  FontWeight.w400,
+                                                                                )),
+                                                                          )
+                                                                        ])),
+                                                                Container(
+                                                                  alignment:Alignment.centerLeft,
+                                                                  child: Text(textAlign: TextAlign.left,
+                                                                      controller.judgeUnit(
+                                                                          stockDTO),
+                                                                      style: TextStyle(
+                                                                        color: stockDTO.invalid == 1
+                                                                            ? Colours.text_ccc
+                                                                            : Colours.text_999,
+                                                                        fontSize: 30.sp,
+                                                                        fontWeight:
+                                                                        FontWeight.w500,
+                                                                      )),
                                                                 ),
-                                                                Visibility(
-                                                                    visible: controller.state.orderType != OrderType.REFUND,
-                                                                    replacement: Container(
-                                                                      margin: EdgeInsets.symmetric(
-                                                                          horizontal: 16.w),
-                                                                      padding: EdgeInsets.symmetric(
-                                                                          horizontal: 8.w, vertical: 4.w),
-                                                                      decoration: (BoxDecoration(
-                                                                          borderRadius:
-                                                                          BorderRadius.circular((36)),
-                                                                          border: Border.all(
-                                                                              color: Colours.primary,
-                                                                              width: 3.w),
-                                                                          color: Colors.white)),
-                                                                      child: Text(
-                                                                        '+ 退款',
-                                                                        style: TextStyle(
-                                                                          fontSize: 28.sp,
-                                                                          color: Colours.primary,
-                                                                        ),
-                                                                      ),
+                                                                Flex(direction: Axis.horizontal,
+                                                                  children: [
+                                                                    Expanded(child:
+                                                                    Visibility(
+                                                                        maintainSize: false,
+                                                                        visible:(((stockDTO.productPlace !=null))&&( (stockDTO.productStandard!=null))),
+                                                                        child:
+                                                                        Container(
+                                                                          padding: EdgeInsets.only(top: 16.w),
+                                                                          child:  Flex(direction: Axis.horizontal,
+                                                                            children: [
+                                                                              Text(
+                                                                                  stockDTO.productPlace ?? '',
+                                                                                  style:
+                                                                                  TextStyle(
+                                                                                    color: stockDTO.invalid == 1
+                                                                                        ? Colours.text_ccc
+                                                                                        : Colours.text_999,
+                                                                                    fontSize: 26.sp,
+                                                                                    fontWeight:
+                                                                                    FontWeight
+                                                                                        .w500,
+                                                                                  )),
+                                                                              SizedBox(width: 32.w,),
+                                                                              Expanded(child:Text(
+                                                                                  stockDTO.productStandard ?? '',
+                                                                                  style:
+                                                                                  TextStyle(
+                                                                                    color: stockDTO
+                                                                                        .invalid ==
+                                                                                        1
+                                                                                        ? Colours
+                                                                                        .text_ccc
+                                                                                        : Colours
+                                                                                        .text_999,
+                                                                                    fontSize:
+                                                                                    26.sp,
+                                                                                    fontWeight:
+                                                                                    FontWeight
+                                                                                        .w500,
+                                                                                  )) ),
+                                                                            ],
+                                                                          ),
+                                                                        )
+                                                                    )
                                                                     ),
-                                                                    child:Container(
-                                                                  padding: EdgeInsets.only(left: 48.w),
-                                                                  child:  LoadAssetImage(
-                                                                    'add_goods',
-                                                                    width: 50.w,
-                                                                    height: 50.w,
-                                                                  ),
-                                                                ) )
+                                                                    Visibility(
+                                                                        visible: controller.state.orderType != OrderType.REFUND,
+                                                                        replacement: Container(
+                                                                          margin: EdgeInsets.symmetric(
+                                                                              horizontal: 16.w),
+                                                                          padding: EdgeInsets.symmetric(
+                                                                              horizontal: 8.w, vertical: 4.w),
+                                                                          decoration: (BoxDecoration(
+                                                                              borderRadius:
+                                                                              BorderRadius.circular((36)),
+                                                                              border: Border.all(
+                                                                                  color: Colours.primary,
+                                                                                  width: 3.w),
+                                                                              color: Colors.white)),
+                                                                          child: Text(
+                                                                            '+ 退款',
+                                                                            style: TextStyle(
+                                                                              fontSize: 28.sp,
+                                                                              color: Colours.primary,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        child:Container(
+                                                                          padding: EdgeInsets.only(left: 48.w),
+                                                                          child:  LoadAssetImage(
+                                                                            'add_goods',
+                                                                            width: 50.w,
+                                                                            height: 50.w,
+                                                                          ),
+                                                                        ) )
 
-                                                              ],)
-                                                          ],
-                                                        ),
-                                                      ));
+                                                                  ],)
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          Positioned(
+                                                            left: 8.w,
+                                                            bottom: 8.w,
+                                                            child:LoadAssetImage(
+                                                            'retail_bill_checked',
+                                                            format: ImageFormat.png,
+                                                            //color: Colors.orange,
+                                                            height: 50.w,
+                                                            width: 50.w,
+                                                          ),)
+                                                        ],
+                                                      )
+                                                  );
                                                 },
                                                 separatorBuilder: (context, index) => Container(
                                                   height: 2.w,

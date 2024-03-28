@@ -19,6 +19,7 @@ class ChooseRepaymentOrderState {
 
   Decimal totalAmount = Decimal.zero;
 
+
   ChooseRepaymentOrderState() {
     ///Initialize variables
   }

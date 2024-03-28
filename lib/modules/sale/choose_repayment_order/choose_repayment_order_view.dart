@@ -246,7 +246,7 @@ class ChooseRepaymentOrderView extends StatelessWidget {
                                               Text('本次还款：',
                                                   style: TextStyle(
                                                     color: Colours.primary,
-                                                    fontSize: 26.sp,
+                                                    fontSize: 30.sp,
                                                     fontWeight: FontWeight.w500,
                                                   )),
                                               SizedBox(
@@ -273,11 +273,12 @@ class ChooseRepaymentOrderView extends StatelessWidget {
                                                                 alignment:
                                                                     Alignment
                                                                         .center,
-                                                                child: Text((customCreditDTO
-                                                                            .repaymentAmount ??
-                                                                        Decimal
-                                                                            .zero)
-                                                                    .toString()),
+                                                                child: Text((customCreditDTO.repaymentAmount ?? Decimal.zero).toString(),
+                                                                    style: TextStyle(
+                                                                      color: Colours.text_333,
+                                                                      fontSize: 30.sp,
+                                                                      fontWeight: FontWeight.w500,
+                                                                    )),
                                                               ),
                                                               Container(
                                                                 color: Colours
@@ -300,8 +301,8 @@ class ChooseRepaymentOrderView extends StatelessWidget {
                                               TextUtil.listToStr(customCreditDTO.productNameList):customCreditDTO.creatorName??'',
                                                   textAlign:TextAlign.right,
                                                   style: TextStyle(
-                                                    color: Colours.text_333,
-                                                    fontSize: 24.sp,
+                                                    color: Colours.text_999,
+                                                    fontSize: 30.sp,
                                                     fontWeight: FontWeight.w500,
                                                   )), )
                                             ],
@@ -318,7 +319,7 @@ class ChooseRepaymentOrderView extends StatelessWidget {
                                                   Text('待还：',
                                                       style: TextStyle(
                                                         color: Colours.text_999,
-                                                        fontSize: 26.sp,
+                                                        fontSize: 30.sp,
                                                         fontWeight:
                                                         FontWeight.w300,
                                                       )),
@@ -331,7 +332,7 @@ class ChooseRepaymentOrderView extends StatelessWidget {
                                                               .repaymentAmount),
                                                       style: TextStyle(
                                                         color: Colours.text_333,
-                                                        fontSize: 28.sp,
+                                                        fontSize: 30.sp,
                                                         fontWeight:
                                                         FontWeight.w500,
                                                       ))),
@@ -346,7 +347,7 @@ class ChooseRepaymentOrderView extends StatelessWidget {
                                                       textAlign:TextAlign.right,
                                                       style: TextStyle(
                                                         color: Colours.text_999,
-                                                        fontSize: 26.sp,
+                                                        fontSize: 30.sp,
                                                         fontWeight:
                                                         FontWeight.w400,
                                                       ))),

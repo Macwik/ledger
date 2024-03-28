@@ -184,6 +184,7 @@ class HomeView extends StatelessWidget {
           children: [
             Card(
               elevation: 6,
+              shadowColor: Colors.black45,
               margin: EdgeInsets.only(left: 34.w, top: 56.w, right: 34.w),
               clipBehavior: Clip.antiAlias,
               shape: RoundedRectangleBorder(
@@ -431,6 +432,7 @@ class HomeView extends StatelessWidget {
             ),
             Card(
               elevation: 6,
+              shadowColor: Colors.black45,
               margin: EdgeInsets.only(left: 34.w, top: 56.w, right: 34.w),
               clipBehavior: Clip.antiAlias,
               shape: RoundedRectangleBorder(
@@ -598,6 +600,7 @@ class HomeView extends StatelessWidget {
             ),
             Card(
               elevation: 6,
+              shadowColor: Colors.black45,
               margin: EdgeInsets.only(left: 34.w, top: 56.w, right: 34.w),
               clipBehavior: Clip.antiAlias,
               shape: RoundedRectangleBorder(
@@ -799,6 +802,7 @@ class HomeView extends StatelessWidget {
             ),
             Card(
               elevation: 6,
+              shadowColor: Colors.black45,
               margin: EdgeInsets.only(left: 34.w, right: 38.w, top: 56.w),
               clipBehavior: Clip.antiAlias,
               shape: RoundedRectangleBorder(
@@ -1319,6 +1323,7 @@ Widget functionCard(int index) {
         },
         child: Card(
           elevation: 6,
+          shadowColor: Colors.black45,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(28.w)),
           ),

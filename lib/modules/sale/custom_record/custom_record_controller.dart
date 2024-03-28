@@ -70,29 +70,6 @@ class CustomRecordController extends GetxController {
               .where((e) => (e.creditAmount ?? Decimal.zero) > Decimal.zero)
               .length;
         }
-        // if ((state.isSelectCustom == true) && ((state.orderType == OrderType.SALE) ||
-        //         (state.orderType == OrderType.PURCHASE))) {
-        //   if (state.initialIndex == 0) {
-        //     state.customList.insert(
-        //         0,
-        //         CustomDTO(
-        //             customName: '默认客户',
-        //             used: 1,
-        //             creditAmount: Decimal.zero,
-        //             tradeAmount: Decimal.zero,
-        //             invalid: 0));
-        //   } else {
-        //     state.customList.insert(
-        //         0,
-        //         CustomDTO(
-        //             customName: '默认供应商',
-        //             used: 1,
-        //             creditAmount: Decimal.zero,
-        //             tradeAmount: Decimal.zero,
-        //             invalid: 0));
-        //   }
-        // }
-
         // 根据A-Z排序
         SuspensionUtil.sortListBySuspensionTag(state.customList);
 
@@ -301,7 +278,7 @@ class CustomRecordController extends GetxController {
       onPressed: () {
         Get.back();
         Get.toNamed(RouteConfig.customList,
-                arguments: {'isAddressList': IsSelectType.TRUE.value})
+                arguments: {'isAddressList': IsSelectType.TRUE.value,'customType':state.initialIndex==0? CustomType.CUSTOM: CustomType.SUPPLIER})
             ?.then((value) {
             queryCustom();
         });

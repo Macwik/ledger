@@ -22,9 +22,10 @@ class MoreView extends StatelessWidget {
         child: Column(
         children: [
           Container(
-              height:520.w,
+              height:570.w,
               child: Card(
                 elevation: 6,
+                shadowColor: Colors.black45,
                 margin: EdgeInsets.only(left: 24.w, top: 16.w, right: 24.w),
                 clipBehavior: Clip.antiAlias,
                 shape: RoundedRectangleBorder(
@@ -93,6 +94,7 @@ class MoreView extends StatelessWidget {
               height:340.w,
               child: Card(
                 elevation: 6,
+                shadowColor: Colors.black45,
                 margin: EdgeInsets.only(left: 24.w, top: 16.w, right: 24.w),
                 clipBehavior: Clip.antiAlias,
                 shape: RoundedRectangleBorder(
@@ -159,6 +161,7 @@ class MoreView extends StatelessWidget {
               height:340.w,
               child: Card(
                 elevation: 6,
+                shadowColor: Colors.black45,
                 margin: EdgeInsets.only(left: 24.w, top: 16.w, right: 24.w),
                 clipBehavior: Clip.antiAlias,
                 shape: RoundedRectangleBorder(
@@ -222,9 +225,10 @@ class MoreView extends StatelessWidget {
                 ],),
               )),
           Container(
-              height:520.w,
+              height:570.w,
               child: Card(
                 elevation: 6,
+                shadowColor: Colors.black45,
                 margin: EdgeInsets.only(left: 24.w, top: 16.w, right: 24.w),
                 clipBehavior: Clip.antiAlias,
                 shape: RoundedRectangleBorder(
@@ -291,6 +295,7 @@ class MoreView extends StatelessWidget {
               height:340.w,
               child: Card(
                 elevation: 6,
+                shadowColor: Colors.black45,
                 margin: EdgeInsets.only(left: 24.w, top: 16.w, right: 24.w),
                 clipBehavior: Clip.antiAlias,
                 shape: RoundedRectangleBorder(

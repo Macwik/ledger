@@ -20,10 +20,13 @@ class CustomListController extends GetxController {
     if ((arguments != null) && arguments['isAddressList'] != null) {
       state.isAddressList = arguments['isAddressList'];
     }
-    queryData();
+    if ((arguments != null) && arguments['customType'] != null) {
+      state.customType = arguments['customType'];
+    }
+    _queryData();
   }
 
-  queryData() async {
+  _queryData() async {
     if (state.isAddressList == IsSelectType.TRUE.value) {
       await queryCustom();
       queryContact();
@@ -47,7 +50,7 @@ class CustomListController extends GetxController {
         Method.post, CustomApi.batchImportCustom,
         queryParameters: {
           'ledgerId': state.ledgerId,
-          'customType': CustomType.CUSTOM.value,
+          'customType':state.customType?.value,
         }).then((result) {
       if (result.success) {
         if (result.d?.isNotEmpty ?? false) {
@@ -65,7 +68,7 @@ class CustomListController extends GetxController {
   Future<void> queryCustom() async {
     await Http().network<List<CustomDTO>>(Method.post, CustomApi.getCustomList,
         queryParameters: {
-          'customType': CustomType.CUSTOM.value,
+          'customType': state.customType?.value,
         }).then((result) {
       if (result.success) {
         if (result.d?.isNotEmpty ?? false) {
@@ -85,11 +88,11 @@ class CustomListController extends GetxController {
       'customName': name,
       'phone': phone,
       'remark': remark,
-      'customType': CustomType.CUSTOM.value,
+      'customType': state.customType?.value,
     }).then((result) {
       Loading.dismiss();
       if (result.success) {
-        queryData();
+        _queryData();
         Toast.showSuccess('导入成功');
       }
     });

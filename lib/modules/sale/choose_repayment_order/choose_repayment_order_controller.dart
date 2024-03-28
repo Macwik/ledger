@@ -8,6 +8,7 @@ import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/http/http_util.dart';
 import 'package:ledger/route/route_config.dart';
 import 'package:ledger/util/date_util.dart';
+import 'package:ledger/util/decimal_util.dart';
 import 'package:ledger/util/toast_util.dart';
 import 'package:ledger/widget/dialog/single_input_dialog.dart';
 import 'choose_repayment_order_state.dart';
@@ -84,12 +85,12 @@ class ChooseRepaymentOrderController extends GetxController {
   }
 
   void editRepaymentAmount(CustomCreditDTO customCreditDTO) {
+    var repaymentAmount = DecimalUtil.formatDecimalNumber(customCreditDTO.repaymentAmount ?? customCreditDTO.creditAmount);
+    TextEditingController textEditingController = TextEditingController(text: (repaymentAmount));
+
     SingleInputDialog().singleInputDialog(
       title: '还款金额',
-      controller: TextEditingController(
-          text:
-              (customCreditDTO.repaymentAmount ?? customCreditDTO.creditAmount)
-                  .toString()),
+      controller: textEditingController,
       keyboardType: TextInputType.number,
       validator: FormBuilderValidators.compose([
         FormBuilderValidators.required(errorText: '还款金额不能为空！'),
@@ -99,13 +100,15 @@ class ChooseRepaymentOrderController extends GetxController {
             return '请正确输入还款金额！';
           } else if (repaymentAmount <= Decimal.zero) {
             return '还款金额不能小于等于0';
-          } else if (repaymentAmount >
-              (state.customDTO?.creditAmount ?? Decimal.zero)) {
-            return '还款金额不能大于欠款金额';
+          } else if (repaymentAmount > (customCreditDTO.creditAmount ?? Decimal.zero)) {
+            return '本次还款不能大于待还金额';
           }
           return null;
         },
       ]),
+      onTap: (){
+     textEditingController.selection = TextSelection(baseOffset: 0, extentOffset:textEditingController.value.text.length);
+      },
       onOkPressed: (value) async {
         var repaymentAmount = Decimal.tryParse(value) ?? Decimal.zero;
 
