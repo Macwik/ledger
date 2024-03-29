@@ -18,6 +18,16 @@ SalesProductStatisticsDTO $SalesProductStatisticsDTOFromJson(
   if (productName != null) {
     salesProductStatisticsDTO.productName = productName;
   }
+  final String? productStandard = jsonConvert.convert<String>(
+      json['productStandard']);
+  if (productStandard != null) {
+    salesProductStatisticsDTO.productStandard = productStandard;
+  }
+  final String? productPlace = jsonConvert.convert<String>(
+      json['productPlace']);
+  if (productPlace != null) {
+    salesProductStatisticsDTO.productPlace = productPlace;
+  }
   final int? unitType = jsonConvert.convert<int>(json['unitType']);
   if (unitType != null) {
     salesProductStatisticsDTO.unitType = unitType;
@@ -81,6 +91,16 @@ SalesProductStatisticsDTO $SalesProductStatisticsDTOFromJson(
   if (discountAmount != null) {
     salesProductStatisticsDTO.discountAmount = discountAmount;
   }
+  final Decimal? repaymentAmount = jsonConvert.convert<Decimal>(
+      json['repaymentAmount']);
+  if (repaymentAmount != null) {
+    salesProductStatisticsDTO.repaymentAmount = repaymentAmount;
+  }
+  final Decimal? repaymentDiscountAmount = jsonConvert.convert<Decimal>(
+      json['repaymentDiscountAmount']);
+  if (repaymentDiscountAmount != null) {
+    salesProductStatisticsDTO.repaymentDiscountAmount = repaymentDiscountAmount;
+  }
   return salesProductStatisticsDTO;
 }
 
@@ -90,6 +110,8 @@ Map<String, dynamic> $SalesProductStatisticsDTOToJson(
   data['ledgerId'] = entity.ledgerId;
   data['productId'] = entity.productId;
   data['productName'] = entity.productName;
+  data['productStandard'] = entity.productStandard;
+  data['productPlace'] = entity.productPlace;
   data['unitType'] = entity.unitType;
   data['unitGroupId'] = entity.unitGroupId;
   data['unitId'] = entity.unitId;
@@ -104,6 +126,8 @@ Map<String, dynamic> $SalesProductStatisticsDTOToJson(
   data['totalAmount'] = entity.totalAmount?.toJson();
   data['creditAmount'] = entity.creditAmount?.toJson();
   data['discountAmount'] = entity.discountAmount?.toJson();
+  data['repaymentAmount'] = entity.repaymentAmount?.toJson();
+  data['repaymentDiscountAmount'] = entity.repaymentDiscountAmount?.toJson();
   return data;
 }
 
@@ -112,6 +136,8 @@ extension SalesProductStatisticsDTOExtension on SalesProductStatisticsDTO {
     int? ledgerId,
     int? productId,
     String? productName,
+    String? productStandard,
+    String? productPlace,
     int? unitType,
     int? unitGroupId,
     int? unitId,
@@ -126,11 +152,15 @@ extension SalesProductStatisticsDTOExtension on SalesProductStatisticsDTO {
     Decimal? totalAmount,
     Decimal? creditAmount,
     Decimal? discountAmount,
+    Decimal? repaymentAmount,
+    Decimal? repaymentDiscountAmount,
   }) {
     return SalesProductStatisticsDTO()
       ..ledgerId = ledgerId ?? this.ledgerId
       ..productId = productId ?? this.productId
       ..productName = productName ?? this.productName
+      ..productStandard = productStandard ?? this.productStandard
+      ..productPlace = productPlace ?? this.productPlace
       ..unitType = unitType ?? this.unitType
       ..unitGroupId = unitGroupId ?? this.unitGroupId
       ..unitId = unitId ?? this.unitId
@@ -144,6 +174,9 @@ extension SalesProductStatisticsDTOExtension on SalesProductStatisticsDTO {
       ..slaveNumber = slaveNumber ?? this.slaveNumber
       ..totalAmount = totalAmount ?? this.totalAmount
       ..creditAmount = creditAmount ?? this.creditAmount
-      ..discountAmount = discountAmount ?? this.discountAmount;
+      ..discountAmount = discountAmount ?? this.discountAmount
+      ..repaymentAmount = repaymentAmount ?? this.repaymentAmount
+      ..repaymentDiscountAmount = repaymentDiscountAmount ??
+          this.repaymentDiscountAmount;
   }
 }

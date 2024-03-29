@@ -5,7 +5,6 @@ import 'package:ledger/entity/home/sales_credit_statistics_dto.dart';
 import 'package:ledger/entity/home/sales_payment_statistics_dto.dart';
 import 'package:ledger/entity/home/sales_product_statistics_dto.dart';
 import 'package:ledger/entity/home/sales_repayment_statistics_dto.dart';
-import 'package:ledger/enum/custom_type.dart';
 import 'package:ledger/enum/is_select.dart';
 import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/enum/stock_list_type.dart';
@@ -611,7 +610,7 @@ class HomeView extends StatelessWidget {
                     return InkWell(
                         onTap: () => Get.toNamed(RouteConfig.repaymentRecord,
                                 arguments: {
-                                  'customType': CustomType.CUSTOM.value,
+                                  'index': 0,
                                 }),
                         child: Column(
                           children: [
@@ -977,7 +976,7 @@ final List<Function()> gridItemRoutes = [
   () => Get.toNamed(RouteConfig.purchaseRecord, arguments: {'index': 0}),
   () => Get.toNamed(RouteConfig.stockList, arguments: {'select': StockListType.DETAIL}),
   () => Get.toNamed(RouteConfig.costRecord, arguments: {'index': 0}),
-  () => Get.toNamed(RouteConfig.repaymentRecord, arguments: {'customType': CustomType.CUSTOM.value}),
+  () => Get.toNamed(RouteConfig.repaymentRecord, arguments: {'index': 0}),
   () => Get.toNamed(RouteConfig.dailyAccount),
   () => Get.toNamed(RouteConfig.more),
 ];

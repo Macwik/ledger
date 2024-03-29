@@ -13,9 +13,6 @@ class DailyAccountState {
   );
 
 
-  // DateTime startDatePurchaseMoney = DateTime.now().subtract(Duration(days: 2));
-  // DateTime endDatePurchaseMoney = DateTime.now();
-
   DateTime startDateSalesProduct = DateTime.now().subtract(Duration(days: 90));
   DateTime endDateSalesProduct = DateTime.now();
 

@@ -18,7 +18,7 @@ class ShoppingCarListView extends StatelessWidget {
     controller.initState();
     return Scaffold(
       appBar: TitleBar(
-        title:'销售开单',
+        title: '购物车详情',
       ),
       body: Column(
         children: [
@@ -41,7 +41,7 @@ class ShoppingCarListView extends StatelessWidget {
                           color: Colours.text_666,
                         fontSize: 32.w)),
                     SizedBox(height: 16.w,),
-                    Text(DecimalUtil.formatDecimalNumber(state.totalNumber),
+                    Text(DecimalUtil.formatDecimalNumber(controller.getShoppingCarTotalNumber()),
                         style: TextStyle(color:Colours.text_333,
                         fontSize: 36.w,
                         fontWeight: FontWeight.w500)),
@@ -61,7 +61,7 @@ class ShoppingCarListView extends StatelessWidget {
                             color: Colours.text_666,
                         fontSize: 32.w)),
                     SizedBox(height: 16.w,),
-                    Text(DecimalUtil.formatDecimalNumber(state.totalAmount),
+                    Text(controller.getTotalAmount()??'0',
                         style: TextStyle(
                             color: Colours.text_333,
                         fontSize: 36.w,

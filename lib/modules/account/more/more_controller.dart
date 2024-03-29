@@ -68,7 +68,7 @@ class MoreController extends GetxController {
       case 3:
            Get.toNamed(RouteConfig.repaymentBill,arguments: {'customType':CustomType.CUSTOM.value});
       case 4:
-           Get.toNamed(RouteConfig.repaymentRecord, arguments: {'customType': CustomType.CUSTOM.value});
+           Get.toNamed(RouteConfig.repaymentRecord, arguments: {'index': 0});
       case 5:
          Get.toNamed(RouteConfig.remittance);
       case 6:

@@ -8,6 +8,8 @@ class SalesProductStatisticsDTO {
   int? ledgerId;
   int? productId;
   String? productName;
+  String? productStandard;
+  String? productPlace;
   int? unitType;
   int? unitGroupId;
   int? unitId;
@@ -22,6 +24,9 @@ class SalesProductStatisticsDTO {
   Decimal? totalAmount;
   Decimal? creditAmount;
   Decimal? discountAmount;
+  Decimal? repaymentAmount;
+  Decimal? repaymentDiscountAmount;
+
 
   SalesProductStatisticsDTO();
 

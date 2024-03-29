@@ -131,7 +131,7 @@ class CustomListView extends StatelessWidget {
                             color: Colours.divider,
                             width: double.infinity,
                           ),
-                          itemCount: state.contactList?.length ?? 0,
+                          itemCount: state.contactList.length,
                         ),
                 );
               }),

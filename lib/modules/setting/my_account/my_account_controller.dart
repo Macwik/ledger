@@ -126,7 +126,7 @@ class MyAccountController extends GetxController {
         }
       });
     } else {
-      Get.offNamed(RouteConfig.customList, arguments: {'ledgerId': id,'customType':state.customType});
+      Get.toNamed(RouteConfig.customList, arguments: {'ledgerId': id,'customType':state.customType});
     }
   }
 

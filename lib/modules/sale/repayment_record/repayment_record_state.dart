@@ -1,5 +1,6 @@
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:ledger/entity/repayment/repayment_dto.dart';
+import 'package:ledger/enum/custom_type.dart';
 
 class RepaymentRecordState {
   final refreshController = EasyRefreshController(
@@ -23,7 +24,9 @@ class RepaymentRecordState {
 
   String? searchContent ='';
 
-  int? customType;
+  CustomType? customType;
+
+  List<CustomType> customTypeList = [];
 
   RepaymentRecordState() {
     ///Initialize variables

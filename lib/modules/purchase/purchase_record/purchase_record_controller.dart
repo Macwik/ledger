@@ -15,6 +15,7 @@ import 'package:ledger/route/route_config.dart';
 import 'package:ledger/util/date_util.dart';
 import 'package:ledger/util/decimal_util.dart';
 import 'package:ledger/util/toast_util.dart';
+import 'package:ledger/widget/loading.dart';
 
 import 'purchase_record_state.dart';
 
@@ -105,6 +106,7 @@ class PurchaseRecordController extends GetxController
 
   Future<void> onRefresh() async {
     state.currentPage = 1;
+    Loading.showDuration();
     await _queryData(state.currentPage).then((result) {
       if (true == result.success) {
         state.list = result.d?.result;

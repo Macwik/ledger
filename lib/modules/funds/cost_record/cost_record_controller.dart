@@ -12,6 +12,7 @@ import 'package:ledger/http/http_util.dart';
 import 'package:ledger/route/route_config.dart';
 import 'package:ledger/util/date_util.dart';
 import 'package:ledger/util/toast_util.dart';
+import 'package:ledger/widget/loading.dart';
 
 import 'cost_record_state.dart';
 
@@ -104,6 +105,7 @@ class CostRecordController extends GetxController with GetSingleTickerProviderSt
 
   Future<void> onRefresh() async {
     state.currentPage = 1;
+    Loading.showDuration();
     _queryData(state.currentPage).then((result) {
       if (result.success) {
         state.items = result.d?.result;
@@ -215,9 +217,15 @@ class CostRecordController extends GetxController with GetSingleTickerProviderSt
 
   void toAddBill() {
     if (state.index == 0) {
-      Get.toNamed(RouteConfig.costBill, arguments: {'costOrderType': CostOrderType.COST});
+      Get.toNamed(RouteConfig.costBill, arguments: {'costOrderType': CostOrderType.COST})
+          ?.then((value) {
+        onRefresh();
+      });
     } else {
-      Get.toNamed(RouteConfig.costBill, arguments: {'costOrderType': CostOrderType.INCOME});
+      Get.toNamed(RouteConfig.costBill, arguments: {'costOrderType': CostOrderType.INCOME})
+          ?.then((value) {
+        onRefresh();
+      });
     }
   }
 }

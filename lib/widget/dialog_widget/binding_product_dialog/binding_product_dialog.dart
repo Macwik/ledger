@@ -70,7 +70,28 @@ class BindingProductDialog extends StatelessWidget {
                                         .update(['binding_product_checkbox']);
                                   });
                             }),
-                        Text(item.productName ?? ''),
+                        Text(item.productName ?? '',
+                        style: TextStyle(color:item.invalid == 0 ? Colours.text_333 : Colours.text_ccc ),),
+                      Offstage(
+                        offstage: item.invalid == 0 ? true : false,
+                        child:   Container(
+                            padding: EdgeInsets.only(
+                                top: 2.w,
+                                bottom: 2.w,
+                                left: 4.w,
+                                right: 4.w),
+                            margin: EdgeInsets.only(left: 24.w),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colours.text_ccc,
+                                width: 1.0,
+                              ),
+                              borderRadius:
+                              BorderRadius.circular(8.0),
+                            ),
+                            child: Text( '已停用',
+                              style: TextStyle(color: Colours.text_ccc)))
+                      ),
                       ]));
                 },
                 separatorBuilder: (context, index) => Container(

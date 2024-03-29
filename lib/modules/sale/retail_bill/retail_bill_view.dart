@@ -460,16 +460,20 @@ class RetailBillView extends StatelessWidget {
                                                               ],
                                                             ),
                                                           ),
-                                                          Positioned(
-                                                            left: 8.w,
-                                                            bottom: 8.w,
-                                                            child:LoadAssetImage(
-                                                            'retail_bill_checked',
-                                                            format: ImageFormat.png,
-                                                            //color: Colors.orange,
-                                                            height: 50.w,
-                                                            width: 50.w,
-                                                          ),)
+                                                           Positioned(
+                                                              left: 8.w,
+                                                              bottom: 8.w,
+                                                              child:Offstage(
+                                                                  offstage: controller.isInShoppingCar(stockDTO.id),
+                                                                  child:LoadAssetImage(
+                                                                'retail_bill_checked',
+                                                                format: ImageFormat.png,
+                                                                color: Colours.primary,
+                                                                height: 50.w,
+                                                                width: 50.w,
+                                                              ))
+                                                          )
+
                                                         ],
                                                       )
                                                   );

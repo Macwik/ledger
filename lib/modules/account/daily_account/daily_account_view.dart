@@ -485,6 +485,26 @@ class DailyAccountView extends StatelessWidget {
                                                     color: Colours.text_333,
                                                   ),
                                                 ),
+                                                SizedBox(width: 32.w,),
+                                                Text(
+                                                  salesProductStatisticsDTO
+                                                      .productStandard ??
+                                                      '',
+                                                  style: TextStyle(
+                                                    fontSize: 28.sp,
+                                                    color: Colours.text_999,
+                                                  ),
+                                                ),
+                                                SizedBox(width: 16.w,),
+                                                Text(
+                                                  salesProductStatisticsDTO
+                                                      .productPlace ??
+                                                      '',
+                                                  style: TextStyle(
+                                                    fontSize: 28.sp,
+                                                    color: Colours.text_999,
+                                                  ),
+                                                ),
                                               ],)
                                           ),
                                           Container(
@@ -509,9 +529,12 @@ class DailyAccountView extends StatelessWidget {
                                                                     .text_ccc),
                                                           ),
                                                           Expanded(child:
-                                                          Text(DecimalUtil.formatAmount(((salesProductStatisticsDTO.totalAmount??Decimal.zero)
-                                                              -( salesProductStatisticsDTO.discountAmount??Decimal.zero)-
-                                                              (salesProductStatisticsDTO.creditAmount??Decimal.zero))),
+                                                          Text(DecimalUtil.formatAmount((salesProductStatisticsDTO.totalAmount??Decimal.zero)
+                                                              -( salesProductStatisticsDTO.discountAmount??Decimal.zero)
+                                                              - (salesProductStatisticsDTO.creditAmount??Decimal.zero)
+                                                              + (salesProductStatisticsDTO.repaymentAmount??Decimal.zero)
+                                                              - (salesProductStatisticsDTO.repaymentDiscountAmount??Decimal.zero)
+                                                          ),
                                                             style: TextStyle(
                                                                 fontSize: 30.sp,
                                                                 fontWeight:
@@ -559,9 +582,9 @@ class DailyAccountView extends StatelessWidget {
                                                         Colours.text_ccc),
                                                   ),
                                                   Text(
-                                                    DecimalUtil.formatAmount(
-                                                        salesProductStatisticsDTO
-                                                            .creditAmount),
+                                                    DecimalUtil.formatAmount((salesProductStatisticsDTO.creditAmount??Decimal.zero)
+                                                        - (salesProductStatisticsDTO.repaymentAmount??Decimal.zero)
+                                                        - (salesProductStatisticsDTO.repaymentDiscountAmount??Decimal.zero)),
                                                     style: TextStyle(
                                                         fontSize: 30.sp,
                                                         fontWeight:

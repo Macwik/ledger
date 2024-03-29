@@ -241,7 +241,7 @@ class FundsView extends StatelessWidget {
           ),
           InkWell(
             onTap: () => Get.toNamed(RouteConfig.repaymentRecord,
-                arguments: {'customType': CustomType.CUSTOM.value}),
+                arguments: {'index': 0}),
             child:  PermissionWidget(
               permissionCode: PermissionCode.funds_repayment_record_permission,
               child:Container(

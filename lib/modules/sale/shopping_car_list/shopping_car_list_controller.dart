@@ -50,9 +50,15 @@ class ShoppingCarListController extends GetxController {
   String? getPrice(UnitDetailDTO unitDetailDTO) {
     var unitType = unitDetailDTO.unitType;
     if (UnitType.SINGLE.value == unitType) {
+      if(unitDetailDTO.price ==null ){
+        return '/';
+      }
       return '${unitDetailDTO.price}元/${unitDetailDTO.unitName}';
     } else {
       if (unitDetailDTO.selectMasterUnit ?? true) {
+        if((unitDetailDTO.masterPrice ==null)&&(unitDetailDTO.slaveNumber == null)){
+          return '/';
+        }
         return '${unitDetailDTO.masterPrice}元/${unitDetailDTO.masterUnitName}';
       } else {
         return '${unitDetailDTO.slavePrice}元/${unitDetailDTO.slaveUnitName}';
@@ -63,13 +69,45 @@ class ShoppingCarListController extends GetxController {
   String? getNum(UnitDetailDTO unitDetailDTO) {
     var unitType = unitDetailDTO.unitType;
     if (UnitType.SINGLE.value == unitType) {
+      if(unitDetailDTO.number ==null ){
+        return '/';
+      }
       return '${DecimalUtil.formatDecimalNumber(unitDetailDTO.number)} ${unitDetailDTO.unitName}';
     } else {
       if (unitDetailDTO.selectMasterUnit ?? true) {
+        if((unitDetailDTO.masterNumber ==null)&&(unitDetailDTO.slaveNumber == null)){
+          return '/';
+        }
         return '${DecimalUtil.formatDecimalNumber(unitDetailDTO.masterNumber)} ${unitDetailDTO.masterUnitName}';
       } else {
         return '${DecimalUtil.formatDecimalNumber(unitDetailDTO.slaveNumber)} ${unitDetailDTO.slaveUnitName}';
       }
     }
+  }
+
+  //计算数量
+  Decimal getShoppingCarTotalNumber() {
+    var shoppingCarList = state.shoppingCarList;
+    if (shoppingCarList.isEmpty) {
+      return Decimal.zero;
+    }
+    return shoppingCarList.fold(Decimal.zero, (previousValue, element) {
+      if (element.unitDetailDTO?.unitType == UnitType.SINGLE.value) {
+        return previousValue + (element.unitDetailDTO?.number ?? Decimal.zero);
+      } else {
+        return previousValue +
+            (element.unitDetailDTO?.slaveNumber ?? Decimal.zero);
+      }
+    });
+  }
+
+ // 计算金额
+  String? getTotalAmount() {
+    var totalAmount = Decimal.zero;
+    for (var element in state.shoppingCarList) {
+      totalAmount = totalAmount + element.unitDetailDTO!.totalAmount!;
+    }
+    state.totalAmount = totalAmount;
+    return DecimalUtil.formatDecimalDefault(totalAmount);
   }
 }
