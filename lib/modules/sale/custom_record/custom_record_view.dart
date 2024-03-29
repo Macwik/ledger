@@ -6,7 +6,9 @@ import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/entity/custom/custom_dto.dart';
 import 'package:ledger/modules/sale/custom_record/ledger_contacts_cell.dart';
 import 'package:ledger/res/export.dart';
+import 'package:ledger/util/logger_util.dart';
 import 'package:ledger/widget/permission/permission_widget.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 import 'custom_record_controller.dart';
 
@@ -258,11 +260,18 @@ class CustomRecordView extends StatelessWidget {
                 )
               ])),
         ),
-        body: GetBuilder<CustomRecordController>(
-            id: 'custom_list',
-            init: controller,
-            global: false,
-            builder: (_) => SlidableAutoCloseBehavior(child: _body())));
+        body: VisibilityDetector(
+            key: Key('CustomRecordVisibilityKey'),
+            child: GetBuilder<CustomRecordController>(
+                id: 'custom_list',
+                init: controller,
+                global: false,
+                builder: (_) => SlidableAutoCloseBehavior(child: _body())),
+            onVisibilityChanged: (visibilityInfo) {
+              var visiblePercentage = visibilityInfo.visibleFraction * 100;
+              LoggerUtil.e(
+                  'Widget ${visibilityInfo.key} is $visiblePercentage% visible');
+            }));
   }
 
   // body
@@ -325,12 +334,12 @@ class CustomRecordView extends StatelessWidget {
   // 吸顶组件
   Widget _buildSusWidget(String susTag, BuildContext context) {
     return Container(
-      height: controller.state.suspensionHeight*0.5,
+      height: controller.state.suspensionHeight * 0.5,
       width: ScreenUtil().screenWidth,
       padding: const EdgeInsets.only(left: 15),
       decoration: BoxDecoration(
         color: Colors.white30,
-       // border: const Border(bottom: BorderSide(color: Color(0xFFE6E6E6), width: 0.5)),
+        // border: const Border(bottom: BorderSide(color: Color(0xFFE6E6E6), width: 0.5)),
       ),
       alignment: Alignment.centerLeft,
       child: Text(
