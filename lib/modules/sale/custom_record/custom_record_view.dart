@@ -269,8 +269,9 @@ class CustomRecordView extends StatelessWidget {
                 builder: (_) => SlidableAutoCloseBehavior(child: _body())),
             onVisibilityChanged: (visibilityInfo) {
               var visiblePercentage = visibilityInfo.visibleFraction * 100;
-              LoggerUtil.e(
-                  'Widget ${visibilityInfo.key} is $visiblePercentage% visible');
+              if (visiblePercentage > 30) {
+                controller.queryCustom();
+              }
             }));
   }
 

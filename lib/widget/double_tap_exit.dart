@@ -36,12 +36,6 @@ class DoubleTapBackExitAppState extends State<DoubleTapBackExitApp> {
   }
 
   Future<bool> _isExit() async {
-    MainController controller = widget.controller;
-    if (controller.getSelectIndex() != 0) {
-      widget.controller.selectTab(0);
-      return Future.value(false);
-    }
-
     if (_lastTime == null ||
         DateTime.now().difference(_lastTime!) > widget.duration) {
       _lastTime = DateTime.now();

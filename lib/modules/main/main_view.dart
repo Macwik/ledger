@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:ledger/res/export.dart';
 import 'package:ledger/widget/double_tap_exit.dart';
 import 'package:ledger/widget/my_bottom_bar.dart';
-import 'package:lifecycle/lifecycle.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 import 'main_controller.dart';
 
@@ -16,23 +16,18 @@ class MainView extends StatelessWidget {
     return DoubleTapBackExitApp(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        body: PageViewLifecycleWrapper(
+        body: VisibilityDetector(
+          key: Key('StockListVisibilityKey'),
+          onVisibilityChanged: (VisibilityInfo visibilityInfo) {
+            if (visibilityInfo.visibleFraction > 0.2) {
+              controller.updatePage();
+            }
+          },
           child: PageView.builder(
             physics: NeverScrollableScrollPhysics(),
             controller: state.pageController,
             itemCount: state.tabPage.length,
-            itemBuilder: (context, index) {
-              return ChildPageLifecycleWrapper(
-                index: index,
-                wantKeepAlive: true,
-                onLifecycleEvent: (event) {
-                  if (event == LifecycleEvent.visible) {
-                    controller.updatePage();
-                  }
-                },
-                child: state.tabPage[index],
-              );
-            },
+            itemBuilder: (context, index) => state.tabPage[index],
           ),
         ),
         bottomNavigationBar: GetBuilder<MainController>(

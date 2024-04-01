@@ -25,10 +25,6 @@ class StockListController extends GetxController {
     if ((arguments != null) && arguments['select'] != null) {
       state.select = arguments['select'];
     }
-    // if ((arguments != null) && arguments['bottomShow'] != null) {
-    //   state.bottomShow = arguments['bottomShow'];
-    //   update(['stock_list_bottom_show']);
-    // }
     _queryProductClassifyList();
     onRefresh();
   }
