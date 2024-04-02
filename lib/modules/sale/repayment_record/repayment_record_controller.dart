@@ -24,7 +24,9 @@ import 'package:ledger/widget/lottie_indicator.dart';
 
 import 'repayment_record_state.dart';
 
-class RepaymentRecordController extends GetxController  with GetSingleTickerProviderStateMixin implements DisposableInterface {
+class RepaymentRecordController extends GetxController
+    with GetSingleTickerProviderStateMixin
+    implements DisposableInterface {
   final RepaymentRecordState state = RepaymentRecordState();
 
   late TabController tabController;
@@ -111,8 +113,10 @@ class RepaymentRecordController extends GetxController  with GetSingleTickerProv
   }
 
   void toRepaymentDetail(int? id) {
-    Get.toNamed(RouteConfig.repaymentDetail, arguments: {'id': id,'customType':state.customTypeList[state.index].value})
-        ?.then((value) {
+    Get.toNamed(RouteConfig.repaymentDetail, arguments: {
+      'id': id,
+      'customType': state.customTypeList[state.index].value
+    })?.then((value) {
       if (ProcessStatus.OK == value) {
         onRefresh();
       }
@@ -128,11 +132,13 @@ class RepaymentRecordController extends GetxController  with GetSingleTickerProv
   permissionCount() {
     int count = 0;
     List<String>? permissionList = StoreController.to.getPermissionCode();
-    if (permissionList.contains(PermissionCode.funds_repayment_record_permission)) {
+    if (permissionList
+        .contains(PermissionCode.funds_repayment_record_permission)) {
       state.customTypeList.add(CustomType.CUSTOM);
       count++;
     }
-    if (permissionList.contains(PermissionCode.supplier_custom_repayment_record_permission)) {
+    if (permissionList
+        .contains(PermissionCode.supplier_custom_repayment_record_permission)) {
       state.customTypeList.add(CustomType.SUPPLIER);
       count++;
     }
@@ -152,10 +158,12 @@ class RepaymentRecordController extends GetxController  with GetSingleTickerProv
   permissionWidget() {
     List<Widget> widgetList = [];
     List<String>? permissionList = StoreController.to.getPermissionCode();
-    if (permissionList.contains(PermissionCode.funds_repayment_record_permission)) {
+    if (permissionList
+        .contains(PermissionCode.funds_repayment_record_permission)) {
       widgetList.add(Tab(text: '客户'));
     }
-    if (permissionList.contains(PermissionCode.supplier_custom_repayment_record_permission)) {
+    if (permissionList
+        .contains(PermissionCode.supplier_custom_repayment_record_permission)) {
       widgetList.add(Tab(text: '供应商'));
     }
     return widgetList;
@@ -163,53 +171,60 @@ class RepaymentRecordController extends GetxController  with GetSingleTickerProv
 
   Future<void> toRepaymentBill() async {
     List<String>? permissionList = StoreController.to.getPermissionCode();
-    if  (((state.customTypeList[state.index].value)==CustomType.CUSTOM.value)&&(permissionList.contains(PermissionCode.supplier_detail_repayment_order_permission))) {
+    if (((state.customTypeList[state.index]) == CustomType.CUSTOM) &&
+        (permissionList.contains(
+            PermissionCode.supplier_detail_repayment_order_permission))) {
       await Get.toNamed(RouteConfig.repaymentBill,
-          arguments: {'customType': CustomType.CUSTOM})
-          ?.then((value) {
+          arguments: {'customType': CustomType.CUSTOM})?.then((value) {
         onRefresh();
       });
     }
-    if (((state.customTypeList[state.index].value)==CustomType.SUPPLIER.value)&&(permissionList.contains(PermissionCode.supplier_repayment_order_permission))) {
+    if (((state.customTypeList[state.index]) == CustomType.SUPPLIER) &&
+        (permissionList
+            .contains(PermissionCode.supplier_repayment_order_permission))) {
       await Get.toNamed(RouteConfig.repaymentBill,
-          arguments: {'customType': CustomType.SUPPLIER})
-          ?.then((value) async {
+          arguments: {'customType': CustomType.SUPPLIER})?.then((value) async {
         await onRefresh();
       });
     }
   }
 
 //主体内容
-  widgetRepaymentRecord(){
+  widgetRepaymentRecord() {
     return Stack(
       children: [
         Column(
           children: [
-            Flex(direction: Axis.horizontal,
+            Flex(
+              direction: Axis.horizontal,
               children: [
-                Expanded(child: Container(
-                    height: 100.w,
-                    padding: EdgeInsets.only(top:10.w,left: 10.w, right: 10.w),
-                    child: SearchBar(
-                      leading: Icon(
-                        Icons.search,
-                        color: Colors.grey,
-                        size: 40.w,
-                      ),
-                      shadowColor:MaterialStatePropertyAll<Color>(Colors.black26),
-                      hintStyle: MaterialStatePropertyAll<TextStyle>(
-                          TextStyle(fontSize: 34.sp,  color: Colors.black26)),
-                      onChanged: (value) {
-                        searchRepaymentRecord(value);
-                      },
-                      hintText: '请输入名称',
-                    )) ),
+                Expanded(
+                    child: Container(
+                        height: 100.w,
+                        padding:
+                            EdgeInsets.only(top: 10.w, left: 10.w, right: 10.w),
+                        child: SearchBar(
+                          leading: Icon(
+                            Icons.search,
+                            color: Colors.grey,
+                            size: 40.w,
+                          ),
+                          shadowColor:
+                              MaterialStatePropertyAll<Color>(Colors.black26),
+                          hintStyle: MaterialStatePropertyAll<TextStyle>(
+                              TextStyle(
+                                  fontSize: 34.sp, color: Colors.black26)),
+                          onChanged: (value) {
+                            searchRepaymentRecord(value);
+                          },
+                          hintText: '请输入名称',
+                        ))),
                 Builder(
                   builder: (context) => GestureDetector(
                     onTap: () {
                       Scaffold.of(context).openEndDrawer();
                     },
-                    child:  Row(
+                    child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         LoadAssetImage(
@@ -218,17 +233,22 @@ class RepaymentRecordController extends GetxController  with GetSingleTickerProv
                           color: Colours.text_999,
                           height: 40.w,
                           width: 40.w,
-                        ),// 导入的图像
+                        ), // 导入的图像
                         SizedBox(width: 8.w), // 图像和文字之间的间距
-                        Text('筛选',
-                          style: TextStyle(fontSize: 30.sp,
-                              color: Colours.text_666),),
-                        SizedBox(width: 24.w,),
+                        Text(
+                          '筛选',
+                          style: TextStyle(
+                              fontSize: 30.sp, color: Colours.text_666),
+                        ),
+                        SizedBox(
+                          width: 24.w,
+                        ),
                       ],
                     ),
                   ),
                 ),
-              ],),
+              ],
+            ),
             //搜索框
             Expanded(
                 child: GetBuilder<RepaymentRecordController>(
@@ -241,27 +261,24 @@ class RepaymentRecordController extends GetxController  with GetSingleTickerProv
                         emptyWidget: state.items == null
                             ? LottieIndicator()
                             : state.items!.isEmpty
-                            ? EmptyLayout(hintText: '什么都没有'.tr)
-                            : null,
+                                ? EmptyLayout(hintText: '什么都没有'.tr)
+                                : null,
                         child: ListView.builder(
                           itemBuilder: (context, index) {
                             var repaymentOrderDTO = state.items![index];
                             return InkWell(
-                                onTap: () => toRepaymentDetail(
-                                    repaymentOrderDTO.id),
+                                onTap: () =>
+                                    toRepaymentDetail(repaymentOrderDTO.id),
                                 child: Column(
                                   children: [
                                     Container(
                                       padding: EdgeInsets.only(
-                                          bottom: 10.w,
-                                          left: 30.w,
-                                          top: 10.w),
+                                          bottom: 10.w, left: 30.w, top: 10.w),
                                       alignment: Alignment.centerLeft,
                                       color: Colors.white12,
                                       child: Text(
                                           DateUtil.formatDefaultDate2(
-                                              repaymentOrderDTO
-                                                  .repaymentDate),
+                                              repaymentOrderDTO.repaymentDate),
                                           style: TextStyle(
                                             color: Colours.text_ccc,
                                             fontSize: 24.sp,
@@ -271,8 +288,7 @@ class RepaymentRecordController extends GetxController  with GetSingleTickerProv
                                     Container(
                                       color: Colors.white,
                                       padding: EdgeInsets.symmetric(
-                                          horizontal: 40.w,
-                                          vertical: 20.w),
+                                          horizontal: 40.w, vertical: 20.w),
                                       child: Column(
                                         children: [
                                           Flex(
@@ -280,53 +296,46 @@ class RepaymentRecordController extends GetxController  with GetSingleTickerProv
                                             children: [
                                               Expanded(
                                                   child: Text(
-                                                    repaymentOrderDTO
-                                                        .customName ??
-                                                        '',
-                                                    style: TextStyle(
-                                                      color: repaymentOrderDTO
-                                                          .invalid ==
+                                                repaymentOrderDTO.customName ??
+                                                    '',
+                                                style: TextStyle(
+                                                  color: repaymentOrderDTO
+                                                              .invalid ==
                                                           0
-                                                          ? Colours.text_333
-                                                          : Colours.text_ccc,
-                                                      fontSize: 30.sp,
-                                                      fontWeight:
-                                                      FontWeight.w500,
-                                                    ),
-                                                  )),
+                                                      ? Colours.text_333
+                                                      : Colours.text_ccc,
+                                                  fontSize: 30.sp,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              )),
                                               Visibility(
                                                   visible: repaymentOrderDTO
-                                                      .invalid ==
-                                                      0
+                                                              .invalid ==
+                                                          0
                                                       ? false
                                                       : true,
                                                   child: Container(
-                                                    padding:
-                                                    EdgeInsets.only(
+                                                    padding: EdgeInsets.only(
                                                         top: 2.w,
                                                         bottom: 2.w,
                                                         left: 4.w,
                                                         right: 4.w),
-                                                    decoration:
-                                                    BoxDecoration(
+                                                    decoration: BoxDecoration(
                                                       border: Border.all(
-                                                        color: Colours
-                                                            .text_ccc,
+                                                        color: Colours.text_ccc,
                                                         width: 1.0,
                                                       ),
                                                       borderRadius:
-                                                      BorderRadius
-                                                          .circular(
-                                                          8.0),
+                                                          BorderRadius.circular(
+                                                              8.0),
                                                     ),
                                                     child: Text('已作废',
                                                         style: TextStyle(
-                                                          color: Colours
-                                                              .text_666,
+                                                          color:
+                                                              Colours.text_666,
                                                           fontSize: 26.sp,
                                                           fontWeight:
-                                                          FontWeight
-                                                              .w500,
+                                                              FontWeight.w500,
                                                         )),
                                                   )),
                                             ],
@@ -342,70 +351,65 @@ class RepaymentRecordController extends GetxController  with GetSingleTickerProv
                                             direction: Axis.horizontal,
                                             children: [
                                               Expanded(
-                                                  child:Row(
-                                                    children: [
-                                                      Text(
-                                                        '本次还款：',
-                                                        style: TextStyle(
-                                                          color: Colours
-                                                              .text_ccc,
-                                                          fontSize: 26.sp,
-                                                          fontWeight:
+                                                  child: Row(
+                                                children: [
+                                                  Text(
+                                                    '本次还款：',
+                                                    style: TextStyle(
+                                                      color: Colours.text_ccc,
+                                                      fontSize: 26.sp,
+                                                      fontWeight:
                                                           FontWeight.w400,
-                                                        ),
-                                                      ) ,
-                                                      Expanded(child:  Text(
-                                                        textAlign:TextAlign.left,
-                                                        DecimalUtil.formatAmount(repaymentOrderDTO
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                      child: Text(
+                                                    textAlign: TextAlign.left,
+                                                    DecimalUtil.formatAmount(
+                                                        repaymentOrderDTO
                                                             .totalAmount),
-                                                        style: TextStyle(
-                                                          color: repaymentOrderDTO
-                                                              .invalid ==
+                                                    style: TextStyle(
+                                                      color: repaymentOrderDTO
+                                                                  .invalid ==
                                                               0
-                                                              ? Colours
-                                                              .text_333
-                                                              : Colours
-                                                              .text_ccc,
-                                                          fontSize: 28.sp,
-                                                          fontWeight:
+                                                          ? Colours.text_333
+                                                          : Colours.text_ccc,
+                                                      fontSize: 28.sp,
+                                                      fontWeight:
                                                           FontWeight.w500,
-                                                        ),
-                                                      ))
-
-                                                    ],
-                                                  ) ),
+                                                    ),
+                                                  ))
+                                                ],
+                                              )),
                                               Expanded(
                                                   child: Row(
-                                                    children: [
-                                                      Text(
-                                                        '业务员：',
-                                                        style: TextStyle(
-                                                          color: Colours
-                                                              .text_ccc,
-                                                          fontSize: 26.sp,
-                                                          fontWeight:
+                                                children: [
+                                                  Text(
+                                                    '业务员：',
+                                                    style: TextStyle(
+                                                      color: Colours.text_ccc,
+                                                      fontSize: 26.sp,
+                                                      fontWeight:
                                                           FontWeight.w400,
-                                                        ),
-                                                      ),
-                                                      Text(
-                                                        repaymentOrderDTO
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    repaymentOrderDTO
                                                             .creatorName ??
-                                                            '',
-                                                        style: TextStyle(
-                                                          color: repaymentOrderDTO
-                                                              .invalid ==
+                                                        '',
+                                                    style: TextStyle(
+                                                      color: repaymentOrderDTO
+                                                                  .invalid ==
                                                               0
-                                                              ? Colours
-                                                              .text_666
-                                                              : Colours
-                                                              .text_ccc,
-                                                          fontSize: 26.sp,
-                                                          fontWeight:
+                                                          ? Colours.text_666
+                                                          : Colours.text_ccc,
+                                                      fontSize: 26.sp,
+                                                      fontWeight:
                                                           FontWeight.w500,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  )),
+                                                    ),
+                                                  ),
+                                                ],
+                                              )),
                                             ],
                                           ),
                                           SizedBox(
@@ -416,44 +420,46 @@ class RepaymentRecordController extends GetxController  with GetSingleTickerProv
                                             children: [
                                               Expanded(
                                                   child: Row(
-                                                    children: [
-                                                      Text(
-                                                        '其中优惠：',
-                                                        style: TextStyle(
-                                                          color: Colours
-                                                              .text_ccc,
-                                                          fontSize: 26.sp,
-                                                          fontWeight:
+                                                children: [
+                                                  Text(
+                                                    '其中优惠：',
+                                                    style: TextStyle(
+                                                      color: Colours.text_ccc,
+                                                      fontSize: 26.sp,
+                                                      fontWeight:
                                                           FontWeight.w400,
-                                                        ),
-                                                      ) ,
-                                                      Text(
-                                                        DecimalUtil.formatAmount( repaymentOrderDTO
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    DecimalUtil.formatAmount(
+                                                        repaymentOrderDTO
                                                             .discountAmount),
-                                                        style: TextStyle(
-                                                          color: repaymentOrderDTO
-                                                              .invalid ==
+                                                    style: TextStyle(
+                                                      color: repaymentOrderDTO
+                                                                  .invalid ==
                                                               0
-                                                              ? Colours
-                                                              .text_666
-                                                              : Colours
-                                                              .text_ccc,
-                                                          fontSize: 26.sp,
-                                                          fontWeight:
+                                                          ? Colours.text_666
+                                                          : Colours.text_ccc,
+                                                      fontSize: 26.sp,
+                                                      fontWeight:
                                                           FontWeight.w500,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  )),
-                                              Expanded(child: Text(
-                                                  DateUtil.formatDefaultDateTimeMinute(
-                                                      repaymentOrderDTO
-                                                          .gmtCreate),
-                                                  style: TextStyle(
-                                                    color: Colours.text_ccc,
-                                                    fontSize: 28.sp,
-                                                    fontWeight: FontWeight.w400,
-                                                  )),)
+                                                    ),
+                                                  ),
+                                                ],
+                                              )),
+                                              Expanded(
+                                                child: Text(
+                                                    DateUtil
+                                                        .formatDefaultDateTimeMinute(
+                                                            repaymentOrderDTO
+                                                                .gmtCreate),
+                                                    style: TextStyle(
+                                                      color: Colours.text_ccc,
+                                                      fontSize: 28.sp,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                    )),
+                                              )
                                             ],
                                           ),
                                         ],
@@ -472,30 +478,30 @@ class RepaymentRecordController extends GetxController  with GetSingleTickerProv
             bottom: 20.w,
             right: 20.w,
             child: Container(
-                    width: 210.w,
-                    height:110.w,
-                    margin: EdgeInsets.only(bottom:30.w),
-                    child: FloatingActionButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30), // 设置圆角大小
+                width: 210.w,
+                height: 110.w,
+                margin: EdgeInsets.only(bottom: 30.w),
+                child: FloatingActionButton(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30), // 设置圆角大小
+                  ),
+                  onPressed: () => toRepaymentBill(),
+                  child: Container(
+                      child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.add,
+                        size: 30.w,
                       ),
-                      onPressed: () =>toRepaymentBill(),
-                      child: Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.add,
-                                size: 30.w,
-                              ),
-                              Text(
-                                '还款',
-                                style: TextStyle(fontSize: 32.sp),
-                              ),
-                            ],
-                          )), // 按钮上显示的图标
-                    )))
+                      Text(
+                        '还款',
+                        style: TextStyle(fontSize: 32.sp),
+                      ),
+                    ],
+                  )), // 按钮上显示的图标
+                )))
       ],
     );
   }

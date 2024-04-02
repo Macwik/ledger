@@ -15,6 +15,7 @@ import 'package:ledger/res/export.dart';
 import 'package:flutter/material.dart';
 import 'package:ledger/util/decimal_util.dart';
 import 'package:ledger/util/image_util.dart';
+import 'package:ledger/widget/permission/permission_multi_widget.dart';
 import 'package:ledger/widget/permission/permission_owner_widget.dart';
 import 'package:ledger/widget/permission/permission_widget.dart';
 
@@ -982,19 +983,19 @@ final List<Function()> gridItemRoutes = [
   () => Get.toNamed(RouteConfig.more),
 ];
 
-const List<String> gridItemPermission = [
-  PermissionCode.sales_page_permission,
-  PermissionCode.purchase_page_permission,
-  PermissionCode.stock_page_permission,
-  PermissionCode.funds_cost_record_permission,
-  PermissionCode.repayment_page_permission,
-  PermissionCode.account_page_permission,
-  PermissionCode.common_permission,
+const List<List<String>> gridItemPermission = [
+  [PermissionCode.sales_sale_record_permission, PermissionCode.sales_return_sale_record_permission,PermissionCode.sales_refund_sale_record_permission],
+  [PermissionCode.purchase_page_permission],
+  [PermissionCode.stock_page_permission],
+  [PermissionCode.funds_cost_record_permission],
+  [PermissionCode.repayment_page_permission],
+  [PermissionCode.account_page_permission],
+  [PermissionCode.common_permission],//ToDO
 ];
 
 Widget gridItem(int index) {
-  return PermissionWidget(
-    permissionCode: gridItemPermission[index],
+  return PermissionMultiWidget(
+    permissionCodes: gridItemPermission[index],
     child: InkWell(
       onTap: gridItemRoutes[index],
       child: Flex(
