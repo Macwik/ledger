@@ -431,7 +431,7 @@ const List<String> gridItemFundPermission = [
   PermissionCode.funds_cost_order_permission,
   PermissionCode.funds_cost_record_permission,
   PermissionCode.funds_add_debt_permission,
-  PermissionCode.funds_repayment_record_permission,//ToDO 没判断有客户还款权限还是供应商还款权限，可能有问题
+  PermissionCode.repayment_page_permission,
   PermissionCode.purchase_remittance_order_permission,
   PermissionCode.remittance_remittance_record_permission
 ];
