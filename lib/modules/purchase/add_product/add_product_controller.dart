@@ -2,6 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/api/product_api.dart';
+import 'package:ledger/enum/custom_type.dart';
 import 'package:ledger/enum/is_select.dart';
 import 'package:ledger/enum/process_status.dart';
 import 'package:ledger/enum/unit_type.dart';
@@ -81,7 +82,7 @@ class AddProductController extends GetxController {
 
   Future<void> selectCustom() async {
     var result = await Get.toNamed(RouteConfig.customRecord,
-        arguments: {'initialIndex': 1, 'isSelectCustom': true});
+        arguments: {'customType': CustomType.SUPPLIER.value, 'isSelectCustom': true});
     if (result != null) {
       state.customDTO = result;
       update(['custom']);

@@ -608,8 +608,7 @@ class StockListView extends StatelessWidget {
                                         controller.toAddProduct();
                                       },
                                       child: PermissionWidget(
-                                          permissionCode: PermissionCode
-                                              .stock_list_add_product_permission,
+                                          permissionCode: PermissionCode.purchase_add_stock_order_permission,
                                           child: Container(
                                               padding:
                                                   EdgeInsets.only(top: 16.w),
@@ -641,7 +640,7 @@ class StockListView extends StatelessWidget {
                                           RouteConfig.stockChangeRecord),
                                       child: PermissionWidget(
                                           permissionCode: PermissionCode
-                                              .stock_stock_change_permission,
+                                              .stock_stock_change_record_permission,
                                           child: Container(
                                             padding: EdgeInsets.only(top: 16.w),
                                             alignment: Alignment.center,

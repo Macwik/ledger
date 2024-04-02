@@ -21,7 +21,7 @@ class MoreController extends GetxController {
       case 3:
            Get.toNamed(RouteConfig.saleRecord, arguments: {'orderType': OrderType.SALE,'index': 0});
       case 4:
-           Get.toNamed(RouteConfig.customRecord,arguments: {'initialIndex': 0, 'isSelectCustom': false});
+           Get.toNamed(RouteConfig.customRecord,arguments: {'customType': CustomType.CUSTOM.value, 'isSelectCustom': false});
       default:
         throw Exception('Unsupported ChangePasswordType');
     }
@@ -36,7 +36,7 @@ class MoreController extends GetxController {
       case 2:
            Get.toNamed(RouteConfig.saleRecord, arguments: {'orderType': OrderType.PURCHASE});
       case 3:
-           Get.toNamed(RouteConfig.customRecord,arguments: {'initialIndex': 1, 'isSelectCustom': false});
+           Get.toNamed(RouteConfig.customRecord,arguments: {'customType': CustomType.SUPPLIER.value, 'isSelectCustom': false});
       default:
         throw Exception('Unsupported ChangePasswordType');
     }

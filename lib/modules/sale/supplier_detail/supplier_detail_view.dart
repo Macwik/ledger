@@ -573,8 +573,9 @@ class SupplierDetailView extends StatelessWidget {
                   init: controller,
                   builder: (_) {
                     return PermissionWidget(
-                        permissionCode: PermissionCode
-                            .supplier_detail_check_bill_permission,
+                        permissionCode:controller.state.customType == CustomType.CUSTOM.value
+                            ? PermissionCode.supplier_detail_check_bill_permission
+                             :PermissionCode.supplier_supplier_detail_check_bill_permission,
                         child: CustomEasyRefresh(
                             controller: state.refreshController,
                             onLoad: controller.onLoad,
@@ -795,8 +796,9 @@ class SupplierDetailView extends StatelessWidget {
           id: 'supplier_btn',
           builder: (_) {
             return PermissionWidget(
-                permissionCode: PermissionCode
-                    .supplier_detail_repayment_order_permission,
+                permissionCode: state.customType == CustomType.CUSTOM.value
+                ?PermissionCode.supplier_detail_repayment_order_permission
+                :PermissionCode.supplier_repayment_order_permission,
                 child:Visibility(
                 visible: state.customDTO?.invalid == 0,
                 child:Container(

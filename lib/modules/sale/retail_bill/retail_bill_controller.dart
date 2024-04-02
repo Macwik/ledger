@@ -9,6 +9,7 @@ import 'package:ledger/entity/payment/payment_method_dto.dart';
 import 'package:ledger/entity/product/product_classify_list_dto.dart';
 import 'package:ledger/entity/product/product_dto.dart';
 import 'package:ledger/entity/unit/unit_detail_dto.dart';
+import 'package:ledger/enum/custom_type.dart';
 import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/enum/sales_channel.dart';
 import 'package:ledger/enum/unit_type.dart';
@@ -290,7 +291,7 @@ class RetailBillController extends GetxController {
 
   Future<void> pickerCustom() async {
     var result = await Get.toNamed(RouteConfig.customRecord, arguments: {
-      'initialIndex': 0,
+      'customType': CustomType.CUSTOM.value,
       'isSelectCustom': true,
       'orderType': state.orderType
     });

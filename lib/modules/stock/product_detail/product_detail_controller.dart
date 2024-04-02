@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:ledger/config/api/product_api.dart';
 import 'package:ledger/entity/custom/custom_dto.dart';
 import 'package:ledger/entity/product/product_detail_dto.dart';
+import 'package:ledger/enum/custom_type.dart';
 import 'package:ledger/enum/is_select.dart';
 import 'package:ledger/enum/process_status.dart';
 import 'package:ledger/enum/unit_type.dart';
@@ -78,7 +79,7 @@ class ProductDetailController extends GetxController {
 
   Future<void> selectCustom() async {
     await Get.toNamed(RouteConfig.customRecord,
-        arguments: {'initialIndex': 1, 'isSelectCustom': true})?.then((value) {
+        arguments: {'customType': CustomType.SUPPLIER.value, 'isSelectCustom': true})?.then((value) {
       CustomDTO? result = value as CustomDTO?;
       if (result != null) {
         state.supplierId = result.id;

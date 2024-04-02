@@ -8,6 +8,7 @@ import 'package:ledger/entity/custom/custom_dto.dart';
 import 'package:ledger/entity/payment/order_pay_dialog_result.dart';
 import 'package:ledger/entity/payment/order_payment_request.dart';
 import 'package:ledger/entity/payment/payment_method_dto.dart';
+import 'package:ledger/enum/custom_type.dart';
 import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/res/export.dart';
 import 'package:ledger/util/decimal_util.dart';
@@ -64,10 +65,10 @@ class PaymentDialog extends StatelessWidget {
                       onPressed: () async {
                         var result = await Get.toNamed(RouteConfig.customRecord,
                             arguments: {
-                              'initialIndex': (orderType == OrderType.SALE) ||
+                              'customType': (orderType == OrderType.SALE) ||
                                       (orderType == OrderType.SALE_RETURN)
-                                  ? 0
-                                  : 1,
+                                  ? CustomType.CUSTOM.value
+                                  : CustomType.SUPPLIER.value,
                               'isSelectCustom': true,
                             });
                         controller.customDTO = result;

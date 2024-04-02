@@ -4,9 +4,9 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/entity/custom/custom_dto.dart';
+import 'package:ledger/enum/custom_type.dart';
 import 'package:ledger/modules/sale/custom_record/ledger_contacts_cell.dart';
 import 'package:ledger/res/export.dart';
-import 'package:ledger/util/logger_util.dart';
 import 'package:ledger/widget/permission/permission_widget.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -20,13 +20,14 @@ class CustomRecordView extends StatelessWidget {
     controller.initState();
     return Scaffold(
         appBar: TitleBar(
-            title: controller.state.initialIndex == 0 ? '客户列表' : '供应商列表',
+            title: controller.state.customType == CustomType.CUSTOM.value ? '客户列表' : '供应商列表',
             backPressed: () {
               controller.customRecordGetBack();
             },
             actionWidget: PermissionWidget(
-                permissionCode:
-                    PermissionCode.custom_record_add_custom_permission,
+                permissionCode:controller.state.customType == CustomType.CUSTOM.value
+                    ? PermissionCode.custom_record_add_custom_permission
+                    :PermissionCode.supplier_custom_record_add_custom_permission,
                 child: IconButton(
                   onPressed: () {
                     controller.toAddCustom(context);

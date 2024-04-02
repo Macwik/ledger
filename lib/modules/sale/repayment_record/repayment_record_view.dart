@@ -279,11 +279,7 @@ class RepaymentRecordView extends StatelessWidget {
                   height: 90.w, // 调整TabBar高度
                   child: TabBar(
                     controller: controller.tabController,
-                    tabs: [
-                      Tab(text:'客户'),
-                      Tab(text: '供应商',
-                      ),
-                    ],
+                    tabs:controller. permissionWidget(),
                     indicatorWeight: 3.w,
                     indicatorPadding: EdgeInsets.all(0),
                     labelPadding: EdgeInsets.all(0),
@@ -297,11 +293,8 @@ class RepaymentRecordView extends StatelessWidget {
                   )),
               Expanded(
                   child: TabBarView(
-                    controller: controller.tabController,
-                children: [
-                  controller.widgetTabBarViews(),
-                  controller.widgetTabBarViews()
-                ],
+                      controller: controller.tabController,
+                      children: controller.widgetTabBarViews()
               ))
             ],
           ))

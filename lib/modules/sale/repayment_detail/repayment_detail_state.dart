@@ -9,5 +9,5 @@ class RepaymentDetailState {
     ///Initialize variables
   }
 
-  int? index;
+  int? customType;
 }

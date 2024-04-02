@@ -25,7 +25,7 @@ class PermissionCode{
   static const String sales_sale_return_permission = 'WIDGET_SALES_SALE_RETURN';
   //销售退款开单
   static const String sales_sale_refund_permission = 'WIDGET_SALES_SALE_REFUND';
-  //销售开单时间修改
+  //销售开单时间修改 delete
   static const String sales_bill_time_permission = 'WIDGET_SALES_BILL_TIME';
   //分享销售单
   static const String sales_detail_share_permission = 'WIDGET_SALES_DETAIL_SHARE';
@@ -44,7 +44,7 @@ class PermissionCode{
   static const String purchase_purchase_return_order_permission = 'WIDGET_PURCHASE_PURCHASE_RETURN_ORDER';
   //直接入库开单2
   static const String purchase_add_stock_order_permission = 'WIDGET_PURCHASE_ADD_STOCK_ORDER_RETURN';
-  //采购开单修改日期
+  //采购开单修改日期 delete
   static const String purchase_bill_time_permission = 'WIDGET_PURCHASE_BILL_TIME';
   //查看采购记录3
   static const String purchase_purchase_record_permission = 'WIDGET_PURCHASE_PURCHASE_RECORD';
@@ -58,7 +58,7 @@ class PermissionCode{
   static const String purchase_detail_delete_permission = 'WIDGET_PURCHASE_DETAIL_DELETE';
   //汇款开单8
   static const String purchase_remittance_order_permission = 'WIDGET_PURCHASE_REMITTANCE_ORDER';
-  //汇款开单修改日期
+  //汇款开单修改日期 delete
   static const String remittance_bill_time_permission = 'WIDGET_REMITTANCE_BILL_TIME';
   //看汇款记录9
   static const String remittance_remittance_record_permission = 'WIDGET_REMITTANCE_REMITTANCE_RECORD';
@@ -83,49 +83,49 @@ class PermissionCode{
   static const String funds_repayment_record_permission = 'WIDGET_FUNDS_REPAYMENT_RECORD';
   //作废客户还款记录 6
   static const String repayment_detail_delete_permission = 'WIDGET_REPAYMENT_DETAIL_DELETE';
-  //新增供应7  TODO  没用过
+  //新增供应7
   static const String supplier_custom_record_add_custom_permission = 'WIDGET_SUPPLIER_CUSTOM_RECORD_ADD_CUSTOM';
-  //看供应商对账单8  TODO   没用过
+  //看供应商对账单8
   static const String supplier_supplier_detail_check_bill_permission = 'WIDGET_SUPPLIER_SUPPLIER_DETAIL_CHECK_BILL';
-  //修改供应商资料9  TODO   没用过
+  //修改供应商资料9
   static const String supplier_custom_detail_update_permission = 'WIDGET_SUPPLIER_CUSTOM_DETAIL_UPDATE';
-  //停用供应商10  TODO  没用过
+  //停用供应商10
   static const String supplier_custom_record_invalid_permission = 'WIDGET_SUPPLIER_CUSTOM_RECORD_INVALID';
   //供应商还款开单11
   static const String  supplier_repayment_order_permission = 'WIDGET_SUPPLIER_REPAYMENT_ORDER';
   //供应商看还款记录12
   static const String supplier_custom_repayment_record_permission = 'WIDGET_SUPPLIER_CUSTOM_REPAYMENT_RECORD';
-  //作废供应商还款记录13 TODO  没用过
+  //作废供应商还款记录13
   static const String supplier_custom_repayment_detail_delete_permission = 'WIDGET_SUPPLIER_CUSTOM_REPAYMENT_DETAIL_DELETE';
-  //录入欠款
+  //录入欠款14
   static const String funds_add_debt_permission = 'WIDGET_FUNDS_ADD_DEBT';
-  //录入欠款修改日期
+  //录入欠款修改日期15 delete
   static const String add_debt_time_permission = 'WIDGET_ADD_DEBT_TIME';
   /// parentId 4
-  //新增货物
+  //新增货物0
   static const String stock_list_add_product_permission = 'WIDGET_STOCK_LIST_ADD_PRODUCT';
-  //停用货物
+  //停用货物1
   static const String stock_list_invalid_product_permission = 'WIDGET_STOCK_LIST_INVALID_PRODUCT';
-  //调整库存
+  //调整库存2
   static const String stock_stock_change_permission = 'WIDGET_STOCK_STOCK_CHANGE';
-  //查看调整库存记录
+  //查看调整库存记录3
   static const String stock_stock_change_record_permission = 'WIDGET_STOCK_STOCK_CHANGE_RECORD';
-  //查看货物详情
+  //查看货物详情4
   static const String goods_detail_check_detail_permission = 'WIDGET_GOODS_DETAIL_CHECK_DETAIL';
-  //修改货物资料
+  //修改货物资料5
   static const String product_detail_product_detail_permission = 'WIDGET_PRODUCT_DETAIL_PRODUCT_DETAIL';
   /// parentId 5
-  //新增费用开单
+  //新增费用收入开单0
   static const String funds_cost_order_permission = 'WIDGET_FUNDS_COST_ORDER';
-  //新增收入开单
-  static const String funds_income_order_permission = 'WIDGET_FUNDS_INCOME_ORDER';
-  //费用收入开单修改日期
+  //新增收入开单4
+  //static const String funds_income_order_permission = 'WIDGET_FUNDS_INCOME_ORDER';
+  //费用收入开单修改日期 delete55
   static const String cost_bill_time_permission = 'WIDGET_COST_BILL_TIME';
-  //查看费用收入单
+  //查看费用收入单1
   static const String funds_cost_record_permission = 'WIDGET_FUNDS_COST_RECORD';
-  //作废费用收入单
+  //作废费用收入单2
   static const String cost_detail_delete_permission = 'WIDGET_COST_DETAIL_DELETE';
-  //分享费用收入单
+  //分享费用收入单3
   static const String cost_detail_share_permission = 'WIDGET_COST_DETAIL_SHARE';
 
 

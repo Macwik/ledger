@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/permission_code.dart';
+import 'package:ledger/enum/custom_type.dart';
 import 'package:ledger/res/colors.dart';
 import 'package:ledger/route/route_config.dart';
 import 'package:ledger/util/date_util.dart';
@@ -514,7 +515,7 @@ class PurchaseRecordView extends StatelessWidget {
           },
           child: DefaultTabController(
             initialIndex: 0,
-            length:  3,
+            length:  controller.permissionCount(),
             child: Column(
               children: [
                 Container(
@@ -557,9 +558,9 @@ class PurchaseRecordView extends StatelessWidget {
                           children: [
                             Expanded(
                                 child: InkWell(
-                                    onTap: () => Get.toNamed(RouteConfig.customRecord,arguments: {'initialIndex': 1, 'isSelectCustom': false}),
+                                    onTap: () => Get.toNamed(RouteConfig.customRecord,arguments: {'customType': CustomType.SUPPLIER.value, 'isSelectCustom': false}),
                                     child: PermissionWidget(
-                                        permissionCode: PermissionCode.stock_list_add_product_permission,
+                                        permissionCode: PermissionCode.purchase_purchase_order_permission,//供应商列表暂无单独权限，和采购开单共用
                                         child: Container(
                                             padding: EdgeInsets.only(top: 16.w),
                                             alignment: Alignment.center,
@@ -587,7 +588,7 @@ class PurchaseRecordView extends StatelessWidget {
                                 child: InkWell(
                                     onTap: () => Get.toNamed(RouteConfig.remittanceRecord),
                                     child: PermissionWidget(
-                                        permissionCode: PermissionCode.purchase_remittance_order_permission,
+                                        permissionCode: PermissionCode.remittance_remittance_record_permission,
                                         child: Container(
                                           padding: EdgeInsets.only(top: 16.w),
                                           alignment: Alignment.center,
@@ -614,9 +615,7 @@ class PurchaseRecordView extends StatelessWidget {
               ],
             ),
           )),
-      floatingActionButton: PermissionWidget(
-          permissionCode: PermissionCode.purchase_purchase_record_permission,
-          child: GetBuilder<PurchaseRecordController>(
+      floatingActionButton: GetBuilder<PurchaseRecordController>(
               id: 'purchase_record_add_bill',
               init: controller,
               global: false,
@@ -641,7 +640,7 @@ class PurchaseRecordView extends StatelessWidget {
                             ],
                           )), // 按钮上显示的图标
                     ));
-              })),
+              }),
       floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
     );
   }

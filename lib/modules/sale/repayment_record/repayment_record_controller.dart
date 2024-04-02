@@ -21,7 +21,6 @@ import 'package:ledger/widget/empty_layout.dart';
 import 'package:ledger/widget/image.dart';
 import 'package:ledger/widget/loading.dart';
 import 'package:ledger/widget/lottie_indicator.dart';
-import 'package:ledger/widget/permission/permission_widget.dart';
 
 import 'repayment_record_state.dart';
 
@@ -112,7 +111,7 @@ class RepaymentRecordController extends GetxController  with GetSingleTickerProv
   }
 
   void toRepaymentDetail(int? id) {
-    Get.toNamed(RouteConfig.repaymentDetail, arguments: {'id': id,'index':state.index})
+    Get.toNamed(RouteConfig.repaymentDetail, arguments: {'id': id,'customType':state.customTypeList[state.index].value})
         ?.then((value) {
       if (ProcessStatus.OK == value) {
         onRefresh();
@@ -124,8 +123,6 @@ class RepaymentRecordController extends GetxController  with GetSingleTickerProv
     state.searchContent = value;
     onRefresh();
   }
-
-
 
   //权限控制相关--标签数量
   permissionCount() {
@@ -474,9 +471,7 @@ class RepaymentRecordController extends GetxController  with GetSingleTickerProv
         Positioned(
             bottom: 20.w,
             right: 20.w,
-            child: PermissionWidget(
-                permissionCode: PermissionCode.supplier_detail_repayment_order_permission,
-                child:Container(
+            child: Container(
                     width: 210.w,
                     height:110.w,
                     margin: EdgeInsets.only(bottom:30.w),
@@ -500,7 +495,7 @@ class RepaymentRecordController extends GetxController  with GetSingleTickerProv
                               ),
                             ],
                           )), // 按钮上显示的图标
-                    ))))
+                    )))
       ],
     );
   }

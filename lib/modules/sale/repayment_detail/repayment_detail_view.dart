@@ -28,7 +28,9 @@ class RepaymentDetailView extends StatelessWidget {
               id: 'repayment_title',
               builder: (_) {
                 return  PermissionWidget(
-                    permissionCode: PermissionCode.repayment_detail_delete_permission,
+                    permissionCode: state.customType == CustomType.CUSTOM.value
+                        ? PermissionCode.repayment_detail_delete_permission
+                        :PermissionCode.supplier_custom_repayment_detail_delete_permission,
                     child:Visibility(
                   visible: state.repaymentDetailDTO?.invalid ==
                       IsDeleted.NORMAL.value,
@@ -79,7 +81,7 @@ class RepaymentDetailView extends StatelessWidget {
                                         style: TextStyle(color: Colors.red),
                                       ),
                                       Text(
-                                         state.index == CustomType.CUSTOM?'客户':'供应商',
+                                         state.customType == CustomType.CUSTOM.value?'客户':'供应商',
                                         style: TextStyle(
                                           color: Colours.text_666,
                                           fontSize: 32.sp,

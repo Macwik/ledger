@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ledger/entity/custom/custom_dto.dart';
+import 'package:ledger/enum/custom_type.dart';
 import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/modules/sale/custom_record/custom_record_controller.dart';
 import 'package:ledger/res/export.dart';
@@ -154,7 +155,7 @@ class LedgerContactsCell extends StatelessWidget {
             margin: EdgeInsets.only(bottom: 8.w),
             width: double.infinity,
             color: Colors.white,
-            child: Text(controller.state.initialIndex == 0?'默认客户':'默认供应商'))))
+            child: Text(controller.state.customType == CustomType.CUSTOM.value?'默认客户':'默认供应商'))))
 
     ]);
 

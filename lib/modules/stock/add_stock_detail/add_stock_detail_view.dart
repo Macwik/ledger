@@ -440,9 +440,7 @@ class AddStockDetailView extends StatelessWidget {
               ]))),
       //底部按钮
       floatingActionButton: PermissionWidget(
-          permissionCode: (state.orderType == OrderType.SALE)
-              ? PermissionCode.sales_detail_share_permission
-              : PermissionCode.purchase_detail_share_permission,
+          permissionCode: PermissionCode.purchase_detail_share_permission,
           child: Builder(builder: (BuildContext buildContext) {
             return ElevatedBtn(
               margin: EdgeInsets.only(top: 80.w),

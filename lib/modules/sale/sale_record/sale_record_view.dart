@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/res/export.dart';
 import 'package:ledger/util/picker_date_utils.dart';
-import 'package:ledger/widget/permission/permission_widget.dart';
 import 'package:ledger/widget/will_pop.dart';
 import 'sale_record_controller.dart';
 
@@ -531,9 +529,11 @@ class SaleRecordView extends StatelessWidget {
               ],
             ),
           )),
-      floatingActionButton: PermissionWidget(
-          permissionCode: PermissionCode.sales_sale_order_permission,
-          child: GetBuilder<SaleRecordController>(
+      floatingActionButton:
+      // PermissionWidget(
+      //     permissionCode: PermissionCode.sales_sale_order_permission,
+      //     child:
+          GetBuilder<SaleRecordController>(
               id: 'sale_record_add_bill',
               init: controller,
               global: false,
@@ -559,7 +559,7 @@ class SaleRecordView extends StatelessWidget {
                         ],
                       )), // 按钮上显示的图标
                     ));
-              })),
+              }),
       floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
     );
   }

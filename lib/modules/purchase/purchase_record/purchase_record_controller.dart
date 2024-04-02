@@ -47,7 +47,7 @@ class PurchaseRecordController extends GetxController
 
   @override
   void onInit() {
-    tabController = TabController(length: 3, vsync: this);
+    tabController = TabController(length: permissionCount(), vsync: this);
     tabController.addListener(() {
       var index = tabController.index;
       state.index = index;

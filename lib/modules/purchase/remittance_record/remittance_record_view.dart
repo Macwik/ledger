@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/res/export.dart';
 import 'package:ledger/util/decimal_util.dart';
 import 'package:ledger/util/image_util.dart';
 import 'package:ledger/util/picker_date_utils.dart';
+import 'package:ledger/widget/permission/permission_widget.dart';
 
 import 'remittance_record_controller.dart';
 
@@ -574,7 +576,9 @@ class RemittanceRecordView extends StatelessWidget {
             )
           ],
         ),
-        floatingActionButton:Container(
+        floatingActionButton: PermissionWidget(
+            permissionCode: PermissionCode.purchase_remittance_order_permission,
+            child:Container(
             width: 210.w,
             height:110.w,
             margin: EdgeInsets.only(bottom:30.w),
@@ -597,7 +601,7 @@ class RemittanceRecordView extends StatelessWidget {
                     ),),
                 ],)
           ), // 按钮上显示的图标
-        )),
+        ))),
     floatingActionButtonLocation: FloatingActionButtonLocation.endContained ,);
   }
 

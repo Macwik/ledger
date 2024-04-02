@@ -377,9 +377,9 @@ const List<String> gridItemSalePaths = [
 const List<String> gridItemSalePermission = [
   PermissionCode.sales_sale_order_permission,
   PermissionCode.sales_sale_return_permission,
-  PermissionCode.sales_sale_return_permission,
+  PermissionCode.sales_sale_refund_permission,
   PermissionCode.sales_sale_record_permission,
-  PermissionCode.sales_sale_order_permission,//ToDO 客户没有专属控制
+  PermissionCode.common_permission,  //客户目前默认所有岗位都可见
 ];
 
 const List<String> gridItemPurchaseNames = ['采购开单', '采购退货', '采购记录', '供应商'];
@@ -395,7 +395,7 @@ const List<String> gridItemPurchasePermission = [
   PermissionCode.purchase_purchase_order_permission,
   PermissionCode.purchase_purchase_return_order_permission,
   PermissionCode.purchase_purchase_record_permission,
-  PermissionCode.purchase_purchase_order_permission,//TODO 供应商没有单独控制
+  PermissionCode.purchase_purchase_order_permission,// 供应商没有单独控制,同步采购开单
 ];
 
 const List<String> gridItemStoreNames = ['库存列表', '直接入库', '库存调整', '调整记录'];
@@ -409,7 +409,7 @@ const List<String> gridItemStorePaths = [
 
 const List<String> gridItemStorePermission = [
   PermissionCode.stock_page_permission,
-  PermissionCode.purchase_purchase_order_permission,
+  PermissionCode.purchase_add_stock_order_permission,
   PermissionCode.stock_stock_change_permission,
   PermissionCode.stock_stock_change_record_permission,
 ];
@@ -428,10 +428,10 @@ const List<String> gridItemFundPaths = [
 
 const List<String> gridItemFundPermission = [
   PermissionCode.funds_cost_order_permission,
-  PermissionCode.funds_income_order_permission,
+  PermissionCode.funds_cost_order_permission,
   PermissionCode.funds_cost_record_permission,
   PermissionCode.funds_add_debt_permission,
-  PermissionCode.funds_repayment_record_permission,
+  PermissionCode.funds_repayment_record_permission,//ToDO 没判断有客户还款权限还是供应商还款权限，可能有问题
   PermissionCode.purchase_remittance_order_permission,
   PermissionCode.remittance_remittance_record_permission
 ];

@@ -22,10 +22,10 @@ class CustomRecordController extends GetxController {
   Future<void> initState() async {
     //新增货物选择供应商
     var arguments = Get.arguments;
-    if ((arguments != null) && arguments['initialIndex'] != null) {
-      state.initialIndex = arguments['initialIndex'];
+    if ((arguments != null) && arguments['customType'] != null) {
+      state.customType = arguments['customType'];
     } else {
-      state.initialIndex = 0;
+      state.customType = 0;
     }
     if ((arguments != null) && arguments['isSelectCustom'] != null) {
       state.isSelectCustom = arguments['isSelectCustom'];
@@ -42,7 +42,7 @@ class CustomRecordController extends GetxController {
   Future<void> queryCustom() async {
     await Http().network<List<CustomDTO>>(Method.post, CustomApi.getCustomList,
         queryParameters: {
-          'customType': state.initialIndex,
+          'customType': state.customType,
           'name': state.customName,
           'debtStatus': state.debtStatus,
           'invalid': state.isSelectCustom == true ? 0 : state.invalid,
@@ -150,8 +150,9 @@ class CustomRecordController extends GetxController {
 
     if (customDTO?.invalid == 0) {
       actions.add(PermissionWidget(
-        permissionCode:
-            PermissionCode.supplier_detail_repayment_order_permission,
+        permissionCode: state.customType == CustomType.CUSTOM.value
+            ?PermissionCode.supplier_detail_repayment_order_permission
+            :PermissionCode.supplier_repayment_order_permission,
         child: CupertinoActionSheetAction(
             onPressed: () {
               Get.offNamed(RouteConfig.repaymentBill,
@@ -162,7 +163,9 @@ class CustomRecordController extends GetxController {
     }
 
     actions.add(PermissionWidget(
-        permissionCode: PermissionCode.custom_record_invalid_permission,
+        permissionCode:state.customType == CustomType.CUSTOM.value
+            ? PermissionCode.custom_record_invalid_permission
+            :PermissionCode.supplier_custom_record_invalid_permission,
         child: CupertinoActionSheetAction(
           onPressed: () {
             toInvalidCustom(customDTO);
@@ -278,7 +281,7 @@ class CustomRecordController extends GetxController {
       onPressed: () {
         Get.back();
         Get.toNamed(RouteConfig.customList,
-                arguments: {'isAddressList': IsSelectType.TRUE.value,'customType':state.initialIndex==0? CustomType.CUSTOM: CustomType.SUPPLIER})
+                arguments: {'isAddressList': IsSelectType.TRUE.value,'customType':state.customType==CustomType.CUSTOM.value? CustomType.CUSTOM: CustomType.SUPPLIER})
             ?.then((value) {
             queryCustom();
         });
@@ -290,7 +293,7 @@ class CustomRecordController extends GetxController {
       onPressed: () {
         Get.back();
         Get.toNamed(RouteConfig.myAccount,
-            arguments: {'isSelect': IsSelectType.TRUE.value, 'customType': state.initialIndex==0? CustomType.CUSTOM: CustomType.SUPPLIER})
+            arguments: {'isSelect': IsSelectType.TRUE.value, 'customType': state.customType==CustomType.CUSTOM.value? CustomType.CUSTOM: CustomType.SUPPLIER})
         ?.then((value) => queryCustom());
       },
       child: Text('其他账本导入'),
@@ -300,7 +303,7 @@ class CustomRecordController extends GetxController {
       onPressed: () {
         Get.back();
         Get.toNamed(RouteConfig.addCustom,
-            arguments: {'customType': state.initialIndex})?.then((value) {
+            arguments: {'customType': state.customType})?.then((value) {
             queryCustom();
         });
       },

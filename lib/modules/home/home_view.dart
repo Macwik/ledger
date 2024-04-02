@@ -5,6 +5,7 @@ import 'package:ledger/entity/home/sales_credit_statistics_dto.dart';
 import 'package:ledger/entity/home/sales_payment_statistics_dto.dart';
 import 'package:ledger/entity/home/sales_product_statistics_dto.dart';
 import 'package:ledger/entity/home/sales_repayment_statistics_dto.dart';
+import 'package:ledger/enum/custom_type.dart';
 import 'package:ledger/enum/is_select.dart';
 import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/enum/stock_list_type.dart';
@@ -985,8 +986,8 @@ const List<String> gridItemPermission = [
   PermissionCode.sales_page_permission,
   PermissionCode.purchase_page_permission,
   PermissionCode.stock_page_permission,
-  PermissionCode.stock_page_permission,
-  PermissionCode.common_permission,
+  PermissionCode.funds_cost_record_permission,
+  PermissionCode.repayment_page_permission,
   PermissionCode.account_page_permission,
   PermissionCode.common_permission,
 ];
@@ -1303,7 +1304,7 @@ List<String> functionRoutes = [
 const List<String> functionItemPermission = [
   PermissionCode.sales_sale_order_permission,
   PermissionCode.sales_sale_record_permission,
-  PermissionCode.sales_sale_order_permission,
+  PermissionCode.common_permission,//客户默认所有岗位都可见
 ];
 
 Widget functionCard(int index) {
@@ -1313,7 +1314,7 @@ Widget functionCard(int index) {
         onTap: () {
           if (index == 2) {
             Get.toNamed(functionRoutes[index],
-                arguments: {'initialIndex': 0, 'isSelectCustom': false});
+                arguments: {'customType': CustomType.CUSTOM.value, 'isSelectCustom': false});
           } else {
             Get.toNamed(functionRoutes[index],
                 arguments: {'orderType': OrderType.SALE});

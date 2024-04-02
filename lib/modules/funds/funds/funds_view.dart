@@ -77,9 +77,7 @@ class FundsView extends StatelessWidget {
           InkWell(
             onTap: () => Get.toNamed(RouteConfig.costBill,
                 arguments: {'costOrderType': CostOrderType.INCOME}),
-            child:  PermissionWidget(
-              permissionCode: PermissionCode.funds_income_order_permission,
-              child:Container(
+            child:Container(
               height: 180.w,
               color: Colors.white,
               padding: EdgeInsets.only(top: 20.0.w, left: 40.w, right: 40.w),
@@ -112,7 +110,7 @@ class FundsView extends StatelessWidget {
                   ),
                 ],
               ),
-            )),
+            ),
           ),
           InkWell(
             onTap: () => Get.toNamed(RouteConfig.costRecord),

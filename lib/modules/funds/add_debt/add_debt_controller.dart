@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/api/repayment_api.dart';
+import 'package:ledger/enum/custom_type.dart';
 import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/res/export.dart';
 
@@ -62,7 +63,7 @@ class AddDebtController extends GetxController {
 
  Future<void> chooseCustom() async {
    var result = await Get.toNamed(RouteConfig.customRecord,
-       arguments: {'initialIndex': 0,'isSelectCustom': true,'orderType':OrderType.CREDIT});
+       arguments: {'customType': CustomType.CUSTOM.value,'isSelectCustom': true,'orderType':OrderType.CREDIT});
    if (result != null) {
      state.customDTO = result;
      update(['custom']);

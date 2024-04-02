@@ -4,7 +4,7 @@ import 'package:ledger/enum/order_type.dart';
 
 class CustomRecordState {
 
-  int initialIndex = 0;
+  int customType = 0;
   String? customName ='';
 
   // 联系人总数

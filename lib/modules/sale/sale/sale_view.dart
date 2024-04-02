@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/permission_code.dart';
+import 'package:ledger/enum/custom_type.dart';
 import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/res/colors.dart';
 import 'package:ledger/route/route_config.dart';
@@ -206,7 +207,7 @@ class SaleView extends StatelessWidget {
           ),
           InkWell(
             onTap: () => Get.toNamed(RouteConfig.customRecord,
-                arguments: {'initialIndex': 0, 'isSelectCustom': false}),
+                arguments: {'customType': CustomType.CUSTOM.value, 'isSelectCustom': false}),
             child: Container(
               height: 180.w,
               color: Colors.white,

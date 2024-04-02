@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/res/export.dart';
 import 'package:ledger/util/image_util.dart';
 import 'package:ledger/util/picker_date_utils.dart';
+import 'package:ledger/widget/permission/permission_widget.dart';
 
 import 'stock_change_record_controller.dart';
 
@@ -504,14 +506,15 @@ class StockChangeRecordView extends StatelessWidget {
             ],
           ),
         ),
-      floatingActionButton:Container(
+      floatingActionButton: PermissionWidget(
+      permissionCode: PermissionCode.stock_stock_change_permission,
+    child:Container(
           width: 90.0,
           height: 66.0,
           margin: EdgeInsets.all(30.w),
           child: FloatingActionButton(
             onPressed:()=> Get.offNamed(RouteConfig.stockChangeBill),
             child: Container(
-
                 child:
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -525,7 +528,7 @@ class StockChangeRecordView extends StatelessWidget {
                       ),),
                   ],)
             ), // 按钮上显示的图标
-          )),
+          ))),
       floatingActionButtonLocation: FloatingActionButtonLocation.endContained ,);
   }
 }
