@@ -14,6 +14,8 @@ class PermissionCode{
   static const String stock_page_permission = 'PAGE_STOCK';
   //首页资金权限
   static const String funds_page_permission = 'PAGE_FUNDS';
+  //首页还款权限
+  static const String repayment_page_permission = 'PAGE_REPAYMENT';
   //首页账目权限
   static const String account_page_permission = 'PAGE_ACCOUNT';
 
@@ -21,7 +23,7 @@ class PermissionCode{
   static const String sales_sale_order_permission = 'WIDGET_SALES_SALE_ORDER';
   //销售退货开单
   static const String sales_sale_return_permission = 'WIDGET_SALES_SALE_RETURN';
-  //销售退货开单   TODO new
+  //销售退款开单   TODO new
   static const String sales_sale_refund_permission = 'WIDGET_SALES_SALE_REFUND';
   //销售开单时间修改
   static const String sales_bill_time_permission = 'WIDGET_SALES_BILL_TIME';
@@ -38,15 +40,20 @@ class PermissionCode{
 
   //采购开单
   static const String purchase_purchase_order_permission = 'WIDGET_PURCHASE_PURCHASE_ORDER';
-  //采购开单--采购记录
-  //采购退货开单
-  static const String purchase_purchase_return_permission = 'WIDGET_PURCHASE_PURCHASE_RETURN';
+  //采购退货开单  ToDO change name
+  static const String purchase_purchase_return_order_permission = 'WIDGET_PURCHASE_PURCHASE_RETURN_ORDER';
+  //直接入库开单   TODO new
+  static const String purchase_add_stock_order_permission = 'WIDGET_PURCHASE_ADD_STOCK_ORDER_RETURN';
   //采购开单修改日期
   static const String purchase_bill_time_permission = 'WIDGET_PURCHASE_BILL_TIME';
   //分享采购单
   static const String purchase_detail_share_permission = 'WIDGET_PURCHASE_DETAIL_SHARE';
-  //查看采购列表
+  //查看采购记录
   static const String purchase_purchase_record_permission = 'WIDGET_PURCHASE_PURCHASE_RECORD';
+  //查看采购退货记录  TODO new
+  static const String purchase_purchase_return_record_permission = 'WIDGET_PURCHASE_PURCHASE_RETURN_RECORD';
+  //查看直接入库记录  TODO new
+  static const String purchase_add_stock_record_permission = 'WIDGET_PURCHASE_ADD_STOCK_PURCHASE_RECORD';
   //作废采购单
   static const String purchase_detail_delete_permission = 'WIDGET_PURCHASE_DETAIL_DELETE';
 

@@ -393,7 +393,7 @@ const List<String> gridItemPurchasePaths = [
 
 const List<String> gridItemPurchasePermission = [
   PermissionCode.purchase_purchase_order_permission,
-  PermissionCode.purchase_purchase_return_permission,
+  PermissionCode.purchase_purchase_return_order_permission,
   PermissionCode.purchase_purchase_record_permission,
   PermissionCode.purchase_purchase_order_permission,//TODO 供应商没有单独控制
 ];

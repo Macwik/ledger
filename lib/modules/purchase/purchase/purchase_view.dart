@@ -75,7 +75,7 @@ class PurchaseView extends StatelessWidget {
           InkWell(
             onTap: () => controller.toSaleReturnBill(),
             child:  PermissionWidget(
-              permissionCode: PermissionCode.purchase_purchase_return_permission,
+              permissionCode: PermissionCode.purchase_purchase_return_order_permission,
               child:Container(
                height: 180.w,
               color: Colors.white,

@@ -10,7 +10,6 @@ class RepaymentRecordView extends StatelessWidget {
 
   final controller = Get.find<RepaymentRecordController>();
   final state = Get.find<RepaymentRecordController>().state;
-
   @override
   Widget build(BuildContext context) {
     controller.initState();

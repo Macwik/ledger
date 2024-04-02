@@ -72,7 +72,7 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
   permissionCount() {
     int count = 0;
     List<String>? permissionList = StoreController.to.getPermissionCode();
-    if (permissionList.contains(PermissionCode.sales_sale_return_permission)) {
+    if (permissionList.contains(PermissionCode.sales_sale_record_permission)) {
       state.orderTypeList.add(OrderType.SALE);
       count++;
     }
@@ -91,13 +91,13 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
   permissionWidget() {
     List<Widget> widgetList = [];
     List<String>? permissionList = StoreController.to.getPermissionCode();
-    if (permissionList.contains(PermissionCode.sales_sale_order_permission)) {
+    if (permissionList.contains(PermissionCode.sales_sale_record_permission)) {
       widgetList.add(Tab(text: '销售'));
     }
-    if (permissionList.contains(PermissionCode.sales_sale_return_permission)) {
+    if (permissionList.contains(PermissionCode.sales_return_sale_record_permission)) {
       widgetList.add(Tab(text: '销售退货'));
     }
-    if (permissionList.contains(PermissionCode.sales_sale_refund_permission)) {
+    if (permissionList.contains(PermissionCode.sales_refund_sale_record_permission)) {
       widgetList.add(Tab(text: '仅退款'));
     }
     return widgetList;
@@ -119,21 +119,22 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
 
   //权限控制相关--页面跳转
   Future<void> toAddBill() async {
-    if  ((state.orderTypeList[state.index].value)==OrderType.SALE.value) {
+    List<String>? permissionList = StoreController.to.getPermissionCode();
+    if  (((state.orderTypeList[state.index].value)==OrderType.SALE.value)&&(permissionList.contains(PermissionCode.sales_sale_order_permission))) {
       await Get.toNamed(RouteConfig.retailBill,
           arguments: {'orderType': OrderType.SALE})
           ?.then((value) {
         onRefresh();
       });
     }
-     if ((state.orderTypeList[state.index].value)==OrderType.SALE_RETURN.value) {
+     if (((state.orderTypeList[state.index].value)==OrderType.SALE_RETURN.value)&&(permissionList.contains(PermissionCode.sales_sale_return_permission))) {
       await Get.toNamed(RouteConfig.retailBill,
           arguments: {'orderType': OrderType.SALE_RETURN})
-          ?.then((value) async {
-        await onRefresh();
+          ?.then((value)  {
+         onRefresh();
       });
     }
-     if ((state.orderTypeList[state.index].value)==OrderType.REFUND.value) {
+     if (((state.orderTypeList[state.index].value)==OrderType.REFUND.value)&&(permissionList.contains(PermissionCode.sales_sale_refund_permission))){
       await Get.toNamed(RouteConfig.retailBill,
           arguments: {'orderType': OrderType.REFUND})
           ?.then((value) {

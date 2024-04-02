@@ -155,38 +155,33 @@ class RepaymentRecordController extends GetxController  with GetSingleTickerProv
   permissionWidget() {
     List<Widget> widgetList = [];
     List<String>? permissionList = StoreController.to.getPermissionCode();
-    if (permissionList.contains(PermissionCode.supplier_detail_repayment_order_permission)) {
+    if (permissionList.contains(PermissionCode.funds_repayment_record_permission)) {
       widgetList.add(Tab(text: '客户'));
     }
-    if (permissionList.contains(PermissionCode.supplier_repayment_order_permission)) {
+    if (permissionList.contains(PermissionCode.supplier_custom_repayment_record_permission)) {
       widgetList.add(Tab(text: '供应商'));
     }
     return widgetList;
   }
 
   Future<void> toRepaymentBill() async {
-    if  ((state.customTypeList[state.index].value)==CustomType.CUSTOM.value) {
+    List<String>? permissionList = StoreController.to.getPermissionCode();
+    if  (((state.customTypeList[state.index].value)==CustomType.CUSTOM.value)&&(permissionList.contains(PermissionCode.supplier_detail_repayment_order_permission))) {
       await Get.toNamed(RouteConfig.repaymentBill,
           arguments: {'customType': CustomType.CUSTOM})
           ?.then((value) {
         onRefresh();
       });
     }
-    if ((state.customTypeList[state.index].value)==CustomType.SUPPLIER.value) {
+    if (((state.customTypeList[state.index].value)==CustomType.SUPPLIER.value)&&(permissionList.contains(PermissionCode.supplier_repayment_order_permission))) {
       await Get.toNamed(RouteConfig.repaymentBill,
           arguments: {'customType': CustomType.SUPPLIER})
           ?.then((value) async {
         await onRefresh();
       });
     }
-    //
-    // Get.toNamed(RouteConfig.repaymentBill,arguments: {'customType':CustomType.SUPPLIER.value})?.then((value) {
-    //   if(CustomType.SUPPLIER == value){
-    //     state.customType = value;
-    //   }
-    //   onRefresh();
-    // });
   }
+
 //主体内容
   widgetRepaymentRecord(){
     return Stack(

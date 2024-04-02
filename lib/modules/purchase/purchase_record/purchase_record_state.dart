@@ -35,12 +35,14 @@ class PurchaseRecordState {
 
   OrderType? orderType ;
 
-  int? index;
+  int index = 0;
 
   List<OrderDTO>? list;
 
   String? searchContent = '';
 
   Decimal? totalNumber;
+
+  List<OrderType> orderTypeList = [];
 
 }

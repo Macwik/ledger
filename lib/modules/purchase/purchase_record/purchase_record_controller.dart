@@ -1,9 +1,11 @@
 import 'package:decimal/decimal.dart';
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/api/ledger_api.dart';
 import 'package:ledger/config/api/order_api.dart';
+import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/entity/order/order_dto.dart';
 import 'package:ledger/entity/user/user_base_dto.dart';
 import 'package:ledger/enum/order_state_type.dart';
@@ -11,11 +13,19 @@ import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/enum/process_status.dart';
 import 'package:ledger/http/base_page_entity.dart';
 import 'package:ledger/http/http_util.dart';
+import 'package:ledger/res/colors.dart';
 import 'package:ledger/route/route_config.dart';
+import 'package:ledger/store/store_controller.dart';
 import 'package:ledger/util/date_util.dart';
 import 'package:ledger/util/decimal_util.dart';
+import 'package:ledger/util/image_util.dart';
+import 'package:ledger/util/text_util.dart';
 import 'package:ledger/util/toast_util.dart';
+import 'package:ledger/widget/custom_easy_refresh.dart';
+import 'package:ledger/widget/empty_layout.dart';
+import 'package:ledger/widget/image.dart';
 import 'package:ledger/widget/loading.dart';
+import 'package:ledger/widget/lottie_indicator.dart';
 
 import 'purchase_record_state.dart';
 
@@ -64,7 +74,7 @@ class PurchaseRecordController extends GetxController
     return await Http()
         .networkPage<OrderDTO>(Method.post, OrderApi.order_page, data: {
       'page': currentPage,
-      'orderTypeList': [orderTypes()],
+      'orderTypeList': [state.orderTypeList[state.index].value],
       'userIdList': state.selectEmployeeIdList,
       'orderStatus': state.orderStatus,
       'invalid': state.invalid,
@@ -74,18 +84,6 @@ class PurchaseRecordController extends GetxController
     });
   }
 
-  int? orderTypes() {
-    switch (state.index) {
-      case 0:
-        return OrderType.PURCHASE.value;
-      case 1:
-        return OrderType.PURCHASE_RETURN.value;
-      case 2:
-        return OrderType.ADD_STOCK.value;
-      default:
-        throw Exception('无此项');
-    }
-  }
 
   Future<void> onLoad() async {
     state.currentPage += 1;
@@ -122,7 +120,7 @@ class PurchaseRecordController extends GetxController
   }
 
   void toPurchaseDetail(OrderDTO? purchasePurchaseOrderDTO) {
-    if (state.index == 2) {
+    if (purchasePurchaseOrderDTO?.orderType == OrderType.ADD_STOCK.value) {
       Get.toNamed(RouteConfig.addStockDetail, arguments: {
         'id': purchasePurchaseOrderDTO?.id,
       })?.then((value) {
@@ -142,11 +140,11 @@ class PurchaseRecordController extends GetxController
     }
   }
 
-  String getOrderStatusDesc(int? orderStatus) {
-    if (state.index == 0) {
+  String getOrderStatusDesc(OrderDTO? purchasePurchaseOrderDTO) {
+    if (purchasePurchaseOrderDTO?.orderType == OrderType.PURCHASE.value) {
       var list = OrderStateType.values;
       for (var value in list) {
-        if (value.value == orderStatus) {
+        if (value.value == purchasePurchaseOrderDTO?.orderStatus) {
           return value.desc;
         }
       }
@@ -155,15 +153,15 @@ class PurchaseRecordController extends GetxController
     return '';
   }
 
-  String totalAmountOrNumber(OrderDTO purchasePurchaseOrderDTO) {
-    if (state.index == 1) {
-      return '￥- ${(purchasePurchaseOrderDTO.totalAmount ?? Decimal.zero) - (purchasePurchaseOrderDTO.discountAmount ?? Decimal.zero)}';
-    } else if (state.index == 0) {
+  String totalAmountOrNumber(OrderDTO? purchasePurchaseOrderDTO) {
+    if (purchasePurchaseOrderDTO?.orderType == OrderType.PURCHASE_RETURN.value) {
+      return '￥- ${(purchasePurchaseOrderDTO?.totalAmount ?? Decimal.zero) - (purchasePurchaseOrderDTO?.discountAmount ?? Decimal.zero)}';
+    } else if (purchasePurchaseOrderDTO?.orderType == OrderType.PURCHASE.value) {
       return DecimalUtil.formatAmount(
-          (purchasePurchaseOrderDTO.totalAmount ?? Decimal.zero) -
-              (purchasePurchaseOrderDTO.discountAmount ?? Decimal.zero));
+          (purchasePurchaseOrderDTO?.totalAmount ?? Decimal.zero) -
+              (purchasePurchaseOrderDTO?.discountAmount ?? Decimal.zero));
     } else {
-      return '${purchasePurchaseOrderDTO.productNameList?.length}种';
+      return '${purchasePurchaseOrderDTO?.productNameList?.length}种';
     }
   }
 
@@ -239,37 +237,368 @@ class PurchaseRecordController extends GetxController
     Get.back();
   }
 
-  void toAddBill() {
-    if (state.index == 0) {
-      Get.toNamed(RouteConfig.saleBill,
-              arguments: {'orderType': OrderType.PURCHASE})
-          ?.then((value) => onRefresh());
-    } else if (state.index == 1) {
-      Get.toNamed(RouteConfig.saleBill,
-              arguments: {'orderType': OrderType.PURCHASE_RETURN})
-          ?.then((value) => onRefresh());
-    } else {
-      Get.toNamed(RouteConfig.saleBill,
-              arguments: {'orderType': OrderType.ADD_STOCK})
-          ?.then((value) => onRefresh());
+  //权限控制相关--页面跳转
+  Future<void> toAddBill() async {
+    List<String>? permissionList = StoreController.to.getPermissionCode();
+    if  (((state.orderTypeList[state.index].value)==OrderType.PURCHASE.value)&&(permissionList.contains(PermissionCode.purchase_purchase_order_permission))) {
+      await Get.toNamed(RouteConfig.saleBill,
+          arguments: {'orderType': OrderType.PURCHASE})
+          ?.then((value) {onRefresh();});
+    }
+    if (((state.orderTypeList[state.index].value)==OrderType.PURCHASE_RETURN.value)&&(permissionList.contains(PermissionCode.purchase_purchase_return_order_permission))) {
+      await Get.toNamed(RouteConfig.saleBill,
+          arguments: {'orderType': OrderType.PURCHASE_RETURN})
+          ?.then((value) {
+         onRefresh();
+      });
+    }
+    if (((state.orderTypeList[state.index].value)==OrderType.ADD_STOCK.value)&&(permissionList.contains(PermissionCode.purchase_add_stock_order_permission))) {
+      await Get.toNamed(RouteConfig.saleBill,
+          arguments: {'orderType': OrderType.ADD_STOCK})
+          ?.then((value) {
+        onRefresh();
+      });
     }
   }
 
+  //权限控制相关--开单按钮
   String toAddBillsName() {
-    switch (state.index) {
-      case 0:
-        return '+ 采购';
-      case 1:
-        return '+ 退货';
-      case 2:
-        return '+ 入库';
-      default:
-        throw Exception('此项不存在');
+    if ((state.orderTypeList[state.index].value)==OrderType.PURCHASE.value) {
+      return '+ 采购';
     }
+    if  ((state.orderTypeList[state.index].value)==OrderType.PURCHASE_RETURN.value) {
+      return '+ 退货';
+    }
+    if  ((state.orderTypeList[state.index].value)==OrderType.ADD_STOCK.value) {
+      return '+ 入库';
+    }
+    return '';
   }
 
   void searchPurchaseRecord(String value) {
     state.searchContent = value;
     onRefresh();
   }
+
+  //权限控制相关--标签
+  permissionWidget() {
+    List<Widget> widgetList = [];
+    List<String>? permissionList = StoreController.to.getPermissionCode();
+    if (permissionList.contains(PermissionCode.purchase_purchase_record_permission)) {
+      widgetList.add(Tab(text: '采购'));
+    }
+    if (permissionList.contains(PermissionCode.purchase_purchase_return_record_permission)) {
+      widgetList.add(Tab(text: '采购退货'));
+    }
+    if (permissionList.contains(PermissionCode.purchase_add_stock_record_permission)) {
+      widgetList.add(Tab(text: '直接入库'));
+    }
+    return widgetList;
+  }
+
+  //权限控制相关--内容body
+  widgetTabBarViews() {
+    List<Widget> widgetList = [];
+    for (int i = 0; i < permissionCount(); i++) {
+      widgetList.add(widgetPurchaseRecord());
+    }
+    return widgetList;
+  }
+
+  //权限控制相关--标签数量
+  permissionCount() {
+    int count = 0;
+    List<String>? permissionList = StoreController.to.getPermissionCode();
+    if (permissionList.contains(PermissionCode.purchase_purchase_record_permission)) {
+      state.orderTypeList.add(OrderType.PURCHASE);
+      count++;
+    }
+    if (permissionList.contains(PermissionCode.purchase_purchase_return_record_permission)) {
+      state.orderTypeList.add(OrderType.PURCHASE_RETURN);
+      count++;
+    }
+    if (permissionList.contains(PermissionCode.purchase_add_stock_record_permission)) {
+      state.orderTypeList.add(OrderType.ADD_STOCK);
+      count++;
+    }
+    return count;
+  }
+
+  widgetPurchaseRecord() {
+    return Flex(
+      direction: Axis.vertical,
+      children: [
+        Flex(direction: Axis.horizontal,
+          children: [
+            Expanded(child:  Container(
+              height: 100.w,
+              padding: EdgeInsets.only(top:10.w,left: 10.w, right: 10.w),
+              child: SearchBar(
+                leading: Icon(
+                  Icons.search,
+                  color: Colors.grey,
+                  size: 40.w,
+                ),
+                shadowColor:MaterialStatePropertyAll<Color>(Colors.black26),
+                hintStyle: MaterialStatePropertyAll<TextStyle>(
+                    TextStyle(fontSize: 34.sp,  color: Colors.black26)),
+                onChanged: (value) {
+                  searchPurchaseRecord(value);
+                },
+                hintText: '请输入货物名称',
+              ),
+            )),
+            Builder(
+              builder: (context) => GestureDetector(
+                onTap: () {
+                  Scaffold.of(context).openEndDrawer();
+                },
+                child:  Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    LoadAssetImage(
+                      'screen',
+                      format: ImageFormat.png,
+                      color: Colours.text_999,
+                      height: 40.w,
+                      width: 40.w,
+                    ),// 导入的图像
+                    SizedBox(width: 8.w), // 图像和文字之间的间距
+                    Text('筛选',
+                      style: TextStyle(fontSize: 30.sp,
+                          color: Colours.text_666),),
+                    SizedBox(width: 24.w,),
+                  ],
+                ),
+              ),
+            ),
+          ],),
+        Expanded(
+          child: GetBuilder<PurchaseRecordController>(
+              id: 'purchase_order_list',
+              init: this,
+              global: false,
+              builder: (_) {
+                return CustomEasyRefresh(
+                  controller: state.refreshController,
+                  onLoad: onLoad,
+                  onRefresh: onRefresh,
+                  emptyWidget: state.list == null
+                      ? LottieIndicator()
+                      : state.list?.isEmpty ?? true
+                      ? EmptyLayout(hintText: '什么都没有'.tr)
+                      : null,
+                  child: ListView.separated(
+                    itemBuilder: (context, index) {
+                      var purchasePurchaseOrderDTO = state.list![index];
+                      return InkWell(
+                        onTap: () => toPurchaseDetail(purchasePurchaseOrderDTO),
+                        child: Column(
+                          children: [
+                            Container(
+                              width: double.infinity,
+                              padding: EdgeInsets.only(
+                                  left: 40.w, top: 10.w, bottom: 10.w),
+                              color: Colors.white12,
+                              child: Text(
+                                DateUtil.formatDefaultDate2(
+                                    purchasePurchaseOrderDTO.orderDate),
+                                style: TextStyle(
+                                  color: Colours.text_ccc,
+                                  fontSize: 24.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              color: Colors.white,
+                              padding: EdgeInsets.only(
+                                  left: 40.w,
+                                  right: 40.w,
+                                  top: 20.w,
+                                  bottom: 20.w),
+                              child: Column(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Flex(
+                                    direction: Axis.horizontal,
+                                    children: [
+                                      Expanded(
+                                        flex: 3,
+                                        child: Text(
+                                            TextUtil.listToStr(
+                                                purchasePurchaseOrderDTO.productNameList),
+                                            style: TextStyle(
+                                              color: purchasePurchaseOrderDTO
+                                                  .invalid == 1
+                                                  ? Colours.text_ccc
+                                                  : Colours.text_333,
+                                              fontSize: 32.sp,
+                                              fontWeight: FontWeight.w500,
+                                            )),
+                                      ),
+                                      Visibility(
+                                          visible:
+                                          purchasePurchaseOrderDTO.invalid == 1,
+                                          child: Container(
+                                            padding: EdgeInsets.only(
+                                                top: 2.w,
+                                                bottom: 2.w,
+                                                left: 4.w,
+                                                right: 4.w),
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                color: Colours.text_999,
+                                                width: 1.0,
+                                              ),
+                                              borderRadius:
+                                              BorderRadius.circular(8.0),
+                                            ),
+                                            child: Text('已作废',
+                                                style: TextStyle(
+                                                  color: Colours.text_999,
+                                                  fontSize: 26.sp,
+                                                  fontWeight: FontWeight.w500,
+                                                )),
+                                          )),
+                                      Expanded(
+                                        child: Text(
+                                            textAlign: TextAlign.right,
+                                            getOrderStatusDesc(purchasePurchaseOrderDTO),
+                                            style: TextStyle(
+                                              color: purchasePurchaseOrderDTO.invalid == 1
+                                                  ? Colours.text_ccc
+                                                  : OrderStateType.DEBT_ACCOUNT
+                                                  .value ==
+                                                  purchasePurchaseOrderDTO
+                                                      .orderStatus
+                                                  ? Colors.orange
+                                                  : Colours.text_ccc,
+                                              fontSize: 26.sp,
+                                              fontWeight: FontWeight.w400,
+                                            )),
+                                      )
+                                    ],
+                                  ),
+                                  Container(
+                                    height: 1.w,
+                                    margin: EdgeInsets.only(
+                                        top: 16.w, bottom: 16.w),
+                                    width: double.infinity,
+                                    color: Colours.divider,
+                                  ),
+                                  Flex(
+                                    direction: Axis.horizontal,
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                            totalAmountOrNumber(
+                                                purchasePurchaseOrderDTO),
+                                            style: TextStyle(
+                                              color: purchasePurchaseOrderDTO.invalid == 1
+                                                  ? Colours.text_ccc
+                                                  : purchasePurchaseOrderDTO.orderType == OrderType.PURCHASE.value
+                                                     ? Colours.text_333
+                                                     : Colors.red[600],
+                                              fontSize: 32.sp,
+                                              fontWeight: FontWeight.w500,
+                                            )),
+                                      ),
+                                      Expanded(
+                                          child: Row(children: [
+                                            Text('业务员：',
+                                                style: TextStyle(
+                                                  color: Colours.text_ccc,
+                                                  fontSize: 22.sp,
+                                                  fontWeight: FontWeight.w500,
+                                                )),
+                                            Text(
+                                                purchasePurchaseOrderDTO.creatorName ??
+                                                    '',
+                                                style: TextStyle(
+                                                  color: Colours.text_666,
+                                                  fontSize: 26.sp,
+                                                  fontWeight: FontWeight.w400,
+                                                )),
+                                          ])),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 16.w,
+                                  ),
+                                  Flex(
+                                    direction: Axis.horizontal,
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                            state.orderType ==
+                                                OrderType.PURCHASE
+                                                ? '${purchasePurchaseOrderDTO.batchNo}'
+                                                : DateUtil
+                                                .formatDefaultDateTimeMinute(
+                                                purchasePurchaseOrderDTO
+                                                    .gmtCreate),
+                                            style: TextStyle(
+                                              color:
+                                              state.orderType ==
+                                                  OrderType.PURCHASE
+                                                  ? Colours.text_999
+                                                  : Colours.text_ccc,
+                                              fontSize: 26.sp,
+                                              fontWeight: FontWeight.w500,
+                                            )),
+                                      ),
+                                      Expanded(
+                                          child: Row(
+                                            children: [
+                                              Visibility(
+                                                  visible: purchasePurchaseOrderDTO
+                                                      .customName?.isNotEmpty ??
+                                                      false,
+                                                  child: Text('供应商：',
+                                                      style: TextStyle(
+                                                        color: Colours.text_ccc,
+                                                        fontSize: 22.sp,
+                                                        fontWeight: FontWeight.w500,
+                                                      ))),
+                                              Expanded(
+                                                  child: Text(
+                                                      purchasePurchaseOrderDTO
+                                                          .customName ??
+                                                          '',
+                                                      style: TextStyle(
+                                                        color: purchasePurchaseOrderDTO
+                                                            .invalid ==
+                                                            1
+                                                            ? Colours.text_ccc
+                                                            : Colours.text_666,
+                                                        fontSize: 26.sp,
+                                                        fontWeight: FontWeight.w400,
+                                                      )))
+                                            ],
+                                          ))
+                                    ],
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    },
+                    separatorBuilder: (context, index) => Container(
+                      height: 2.w,
+                      color: Colors.white12,
+                      width: double.infinity,
+                    ),
+                    itemCount: state.list?.length ?? 0,
+                  ),
+                );
+              }),
+        ),
+      ],
+    );
+  }
+
 }
