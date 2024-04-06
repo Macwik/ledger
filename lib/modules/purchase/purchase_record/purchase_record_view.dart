@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/permission_code.dart';
@@ -508,6 +509,7 @@ class PurchaseRecordView extends StatelessWidget {
       ),
       body: MyWillPop(
           onWillPop: () async {
+            EasyLoading.dismiss();
             Get.until((route) {
               return (route.settings.name == RouteConfig.main);
             });
