@@ -30,15 +30,16 @@ class PermissionMultiWidget extends StatelessWidget {
   }
 
   bool permissionCheck() {
-    if(permissionCodes.isEmpty){
+    if (permissionCodes.isEmpty) {
       return false;
     }
+    if (permissionCodes.contains(PermissionCode.common_permission)) {
+      return true;
+    }
     List<String>? permissionList = StoreController.to.getPermissionCode();
-    if(permissionList.isEmpty){
+    if (permissionList.isEmpty) {
       return false;
     }
     return permissionCodes.any((element) => permissionList.contains(element));
   }
 }
-
-

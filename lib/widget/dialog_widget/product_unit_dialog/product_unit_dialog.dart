@@ -30,6 +30,7 @@ class ProductUnitDialog extends StatelessWidget {
 
     controller.priceController.addListener(updateShoppingCarTotalAmount);
     controller.amountController.addListener(updatePrice);
+
     controller.masterController.addListener(() {
       String? masterNum = controller.masterController.text;
       Decimal? masterNumber = Decimal.tryParse(masterNum);
@@ -37,14 +38,6 @@ class ProductUnitDialog extends StatelessWidget {
         return;
       }
       updateShoppingCarTotalAmount();
-      if (orderType != OrderType.SALE) {
-        return;
-      }
-      var masterStock = productDTO.unitDetailDTO?.masterStock;
-
-      if (null != masterStock && DecimalUtil.compare(masterStock, masterNumber) < 0) {
-        alertStockNotEnough();
-      }
     });
 
     controller.slaveController.addListener(() {
@@ -54,29 +47,57 @@ class ProductUnitDialog extends StatelessWidget {
         return;
       }
       updateShoppingCarTotalAmount();
-      if (orderType != OrderType.SALE) {
-        return;
+    });
+  }
+
+  checkMasterStockEnough(BuildContext context) {
+    String? masterNum = controller.masterController.text;
+    Decimal? masterNumber = Decimal.tryParse(masterNum);
+    if (null == masterNumber) {
+      return;
+    }
+    var masterStock = productDTO.unitDetailDTO?.masterStock;
+
+    if (null != masterStock &&
+        DecimalUtil.compare(masterStock, masterNumber) < 0) {
+      alertStockNotEnough();
+    }
+  }
+
+  checkSlaveStockEnough(BuildContext context) {
+    String? slaveNum = controller.slaveController.text;
+    Decimal? slaveNumber = Decimal.tryParse(slaveNum);
+    if (null == slaveNumber) {
+      return;
+    }
+    if (orderType != OrderType.SALE) {
+      return;
+    }
+    if (productDTO.unitDetailDTO?.unitType == UnitType.SINGLE.value) {
+      var stock = productDTO.unitDetailDTO?.stock;
+      if ((stock != null) && DecimalUtil.compare(stock, slaveNumber) < 0) {
+         alertStockNotEnough();
       }
-      if (productDTO.unitDetailDTO?.unitType == UnitType.SINGLE.value) {
-        var stock = productDTO.unitDetailDTO?.stock;
+    } else {
+      if (productDTO.unitDetailDTO?.unitType == UnitType.MULTI_NUMBER.value &&
+          isSelectMaster()) {
+        var stock = productDTO.unitDetailDTO?.masterStock;
         if ((stock != null) && DecimalUtil.compare(stock, slaveNumber) < 0) {
           alertStockNotEnough();
+          Get.defaultDialog(
+            title: '库存不足',
+          );
         }
       } else {
-        if (productDTO.unitDetailDTO?.unitType == UnitType.MULTI_NUMBER.value &&
-            isSelectMaster()) {
-          var stock = productDTO.unitDetailDTO?.masterStock;
-          if ((stock != null) && DecimalUtil.compare(stock, slaveNumber) < 0) {
-            alertStockNotEnough();
-          }
-        } else {
-          var stock = productDTO.unitDetailDTO?.slaveStock;
-          if ((stock != null) && DecimalUtil.compare(stock, slaveNumber) < 0) {
-            alertStockNotEnough();
-          }
+        var stock = productDTO.unitDetailDTO?.slaveStock;
+        if ((stock != null) && DecimalUtil.compare(stock, slaveNumber) < 0) {
+          alertStockNotEnough();
+          Get.defaultDialog(
+            title: '库存不足',
+          );
         }
       }
-    });
+    }
   }
 
   @override
@@ -449,6 +470,8 @@ class ProductUnitDialog extends StatelessWidget {
                         if (formKey.currentState
                                 ?.saveAndValidate(focusOnInvalid: true) ??
                             false) {
+                          checkMasterStockEnough(context);
+                          checkSlaveStockEnough(context);
                           if (onClick(buildContent())) {
                             Get.back();
                           } else {

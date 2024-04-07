@@ -26,7 +26,7 @@ class ShoppingCarState {
   final ScrollController menuController = ScrollController(); // 一级滚动控制
 
   //购物车商品
-  List<ProductShoppingCarDTO>? shoppingCarList = [];
+  List<ProductShoppingCarDTO> shoppingCarList = [];
   //调整库存
   ProductStockAdjustRequest? productStockAdjustRequest;
   //入库商品
