@@ -153,23 +153,18 @@ class RetailBillController extends GetxController {
   }
 
   addToShoppingCarList(ProductShoppingCarDTO result) {
-    ProductShoppingCarDTO? product = state.shoppingCarList
-        .firstWhereOrNull((element) => element.productId == result.productId);
-    if (product == null) {
-      state.shoppingCarList.add(result);
-    } else {
-      if (product.unitDetailDTO?.unitType == UnitType.SINGLE.value) {
-        product.unitDetailDTO?.number =
-            product.unitDetailDTO!.number! + result.unitDetailDTO!.number!;
+    if(state.orderType == OrderType.REFUND){
+      ProductShoppingCarDTO? product = state.shoppingCarList
+          .firstWhereOrNull((element) => element.productId == result.productId);
+      if (product == null) {
+        state.shoppingCarList.add(result);
       } else {
-        product.unitDetailDTO?.masterNumber =
-            (product.unitDetailDTO?.masterNumber ?? Decimal.zero) +
-                (result.unitDetailDTO?.masterNumber ?? Decimal.zero);
-        product.unitDetailDTO?.slaveNumber =
-            (product.unitDetailDTO?.slaveNumber ?? Decimal.zero) +
-                (result.unitDetailDTO?.slaveNumber ?? Decimal.zero);
+        var totalAmount = product.unitDetailDTO?.totalAmount ?? Decimal.zero;
+        totalAmount = totalAmount + (result.unitDetailDTO?.totalAmount ?? Decimal.zero);
+        product.unitDetailDTO?.totalAmount = totalAmount;
       }
     }
+
   }
 
   Decimal getShoppingCarTotalNumber() {

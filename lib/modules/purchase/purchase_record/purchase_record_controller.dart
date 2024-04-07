@@ -106,6 +106,7 @@ class PurchaseRecordController extends GetxController
     state.currentPage = 1;
     Loading.showDuration();
     await _queryData(state.currentPage).then((result) {
+      Loading.dismiss();
       if (true == result.success) {
         state.list = result.d?.result;
         state.hasMore = result.d?.hasMore;
