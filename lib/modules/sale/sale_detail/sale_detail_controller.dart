@@ -88,12 +88,10 @@ class SaleDetailController extends GetxController {
     }
     String result = '';
     for (var payment in orderPaymentList) {
-      if (state.orderType == OrderType.SALE_RETURN ||
-          state.orderType == OrderType.PURCHASE_RETURN) {
+      if (state.orderType == OrderType.SALE_RETURN || state.orderType == OrderType.PURCHASE_RETURN|| state.orderType == OrderType.REFUND) {
         payment.paymentAmount = Decimal.fromInt(-1) * payment.paymentAmount!;
       }
-      result =
-          '$result${payment.paymentMethodName ?? ''}：¥${payment.paymentAmount}  ';
+      result = '$result${payment.paymentMethodName ?? ''}：¥${payment.paymentAmount}  ';
     }
     return result;
   }
@@ -118,31 +116,14 @@ class SaleDetailController extends GetxController {
     }
   }
 
-  String buildTotalAmount() {
-    var orderType = state.orderDetailDTO?.orderType;
-    if ((orderType == OrderType.SALE_RETURN.value) ||
-        (orderType == OrderType.PURCHASE_RETURN.value)) {
-      return '¥-${state.orderDetailDTO?.totalAmount ?? ''}';
-    } else {
-      return '¥${state.orderDetailDTO?.totalAmount ?? ''}';
-    }
-  }
 
   String productAmount(OrderProductDetail? orderProductDetail) {
     if ((state.orderDetailDTO?.orderType == OrderType.SALE_RETURN.value) ||
-        (state.orderDetailDTO?.orderType == OrderType.PURCHASE_RETURN.value)) {
+        (state.orderDetailDTO?.orderType == OrderType.PURCHASE_RETURN.value)||
+        (state.orderDetailDTO?.orderType == OrderType.REFUND.value)) {
       return '¥- ${orderProductDetail?.totalAmount}';
     } else {
       return DecimalUtil.formatAmount(orderProductDetail?.totalAmount);
-    }
-  }
-
-  String productCreditAmount() {
-    if ((state.orderDetailDTO?.orderType == OrderType.SALE_RETURN.value) ||
-        (state.orderDetailDTO?.orderType == OrderType.PURCHASE_RETURN.value)) {
-      return '¥- ${state.orderDetailDTO?.creditAmount}';
-    } else {
-      return DecimalUtil.formatAmount(state.orderDetailDTO?.creditAmount);
     }
   }
 
@@ -154,5 +135,15 @@ class SaleDetailController extends GetxController {
         .map((e) => (e.totalAmount ?? Decimal.zero))
         .reduce((value, element) => value + element);
     return DecimalUtil.formatAmount(totalCostAmount);
+  }
+
+  String countChange() {
+    if (state.orderDetailDTO?.externalOrderBaseDTOList?.isEmpty ?? true) {
+      return '0';
+    }
+    return (state.orderDetailDTO?.orderType ==OrderType.SALE_RETURN.value) ||
+        (state.orderDetailDTO?.orderType ==OrderType.PURCHASE_RETURN.value)||
+        (state.orderDetailDTO?.orderType ==OrderType.REFUND.value)
+        ?DecimalUtil.formatNegativeAmount(state.orderDetailDTO?.discountAmount):DecimalUtil.formatAmount(state.orderDetailDTO?.discountAmount);
   }
 }

@@ -93,14 +93,18 @@ class RepaymentBillView extends StatelessWidget {
                                   '* ',
                                   style: TextStyle(color: Colors.red),
                                 ),
-                                Text(
-                                  state.customType == CustomType.CUSTOM.value?'客户':'供应商',
-                                  style: TextStyle(
-                                    color: Colours.text_666,
-                                    fontSize: 32.sp,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
+                                GetBuilder<RepaymentBillController>(
+                                    id: 'repayment_custom_type',
+                                    builder: (_) {
+                                      return  Text(
+                                        state.customType == CustomType.CUSTOM.value?'客户':'供应商',
+                                        style: TextStyle(
+                                          color: Colours.text_666,
+                                          fontSize: 32.sp,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      );
+                                    }),
                                 const Spacer(),
                                 InkWell(
                                     onTap: () => controller.selectCustom(),
@@ -113,9 +117,7 @@ class RepaymentBillView extends StatelessWidget {
                                                 state.customDTO?.customName ??
                                                     '请选择还款人',
                                                 style: TextStyle(
-                                                  color: state.customDTO
-                                                              ?.customName !=
-                                                          null
+                                                  color: state.customDTO?.customName != null
                                                       ? Colours.text_333
                                                       : Colours.text_ccc,
                                                   fontSize: 32.sp,

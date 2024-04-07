@@ -98,7 +98,7 @@ class SupplierDetailController extends GetxController {
 
   void toRepayment() {
     Get.toNamed(RouteConfig.repaymentBill,
-        arguments: {'customDTO': state.customDTO})?.then((value) {
+        arguments: {'customType': state.customType,'customId':state.customDTO?.id})?.then((value) {
       _queryData();
     });
   }

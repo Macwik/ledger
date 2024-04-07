@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ledger/res/export.dart';
 import 'package:ledger/util/picker_date_utils.dart';
+import 'package:ledger/widget/will_pop.dart';
 
 import 'repayment_record_controller.dart';
 
@@ -269,7 +270,15 @@ class RepaymentRecordView extends StatelessWidget {
                   )
                 ])),
           ),
-          body: DefaultTabController(
+          body:  MyWillPop(
+              onWillPop: () async {
+                EasyLoading.dismiss();
+                Get.until((route) {
+                  return (route.settings.name == RouteConfig.main);
+                });
+                return Future(() => true);
+              },
+              child:DefaultTabController(
               length: controller.permissionCount(),
               initialIndex: 0,
               child:Column(
@@ -297,7 +306,7 @@ class RepaymentRecordView extends StatelessWidget {
                       children: controller.widgetTabBarViews()
               ))
             ],
-          ))
+          )))
       );
   }
 

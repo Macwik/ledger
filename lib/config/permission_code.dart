@@ -6,15 +6,15 @@ class PermissionCode{
   //营业员管理
   static const String employee_manage_permission = 'PAGE_EMPLOYEE_MANAGE';
 /// parentId 0
-  //首页销售权限
+  //首页销售权限 to delete
   static const String sales_page_permission = 'PAGE_SALES';
-  //首页采购权限
+  //首页采购权限 to delete
   static const String purchase_page_permission = 'PAGE_PURCHASE';
   //首页库存权限
   static const String stock_page_permission = 'PAGE_STOCK';
-  //首页资金权限
+  //首页资金权限 to delete
   static const String funds_page_permission = 'PAGE_FUNDS';
-  //首页还款权限
+  //首页还款权限 delete
   static const String repayment_page_permission = 'PAGE_REPAYMENT';
   //首页账目权限
   static const String account_page_permission = 'PAGE_ACCOUNT';

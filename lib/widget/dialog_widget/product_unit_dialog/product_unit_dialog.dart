@@ -42,8 +42,7 @@ class ProductUnitDialog extends StatelessWidget {
       }
       var masterStock = productDTO.unitDetailDTO?.masterStock;
 
-      if (null != masterStock &&
-          DecimalUtil.compare(masterStock, masterNumber) < 0) {
+      if (null != masterStock && DecimalUtil.compare(masterStock, masterNumber) < 0) {
         alertStockNotEnough();
       }
     });
@@ -576,9 +575,8 @@ class ProductUnitDialog extends StatelessWidget {
       TextButton(
         child: Text('取消'),
         onPressed: () {
-          Get.until((route) {
-            return route.settings.name == RouteConfig.shoppingCar;
-          });
+          Get.back();
+          Get.back();
         },
       ),
       TextButton(

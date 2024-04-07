@@ -6,6 +6,7 @@ import 'package:ledger/res/export.dart';
 import 'package:ledger/util/image_util.dart';
 import 'package:ledger/util/picker_date_utils.dart';
 import 'package:ledger/widget/permission/permission_widget.dart';
+import 'package:ledger/widget/will_pop.dart';
 import 'cost_record_controller.dart';
 
 class CostRecordView extends StatelessWidget {
@@ -511,7 +512,15 @@ class CostRecordView extends StatelessWidget {
                 )
               ])),
         ),
-        body: DefaultTabController(
+        body:  MyWillPop(
+            onWillPop: () async {
+              EasyLoading.dismiss();
+              Get.until((route) {
+                return (route.settings.name == RouteConfig.main);
+              });
+              return Future(() => true);
+            },
+            child:DefaultTabController(
           initialIndex: 0,
           length:  2,
           child: Column(
@@ -546,7 +555,7 @@ class CostRecordView extends StatelessWidget {
                       ]))
             ],
           ),
-        ),
+        )),
       floatingActionButton:PermissionWidget(
           permissionCode: PermissionCode.funds_cost_order_permission,
           child:GetBuilder<CostRecordController>(

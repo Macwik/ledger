@@ -231,7 +231,7 @@ class SaleBillController extends GetxController {
 
   void saleBillGetBack() {
     if ((state.customDTO != null) ||
-        (state.shoppingCarList.isNotEmpty)) {
+        (state.shoppingCarList.isNotEmpty)||( state.textEditingController.text.isNotEmpty)) {
       Get.dialog(AlertDialog(
           title: Text('是否确认退出'),
           content: Text('退出后将无法恢复'),
@@ -240,18 +240,15 @@ class SaleBillController extends GetxController {
               child: Text('取消'),
               onPressed: () {
                 Get.back();
-              },
-            ),
+              }),
             TextButton(
                 child: Text('确定'),
                 onPressed: () {
                   state.shoppingCarList.clear();
                   Get.until((route) {
-                    return (route.settings.name == RouteConfig.purchase) ||
-                        (route.settings.name == RouteConfig.stock)||
+                    return (route.settings.name == RouteConfig.purchaseRecord) ||
                         (route.settings.name == RouteConfig.main);
-                  }
-                 );
+                  });
                 }),
           ]));
     } else {
@@ -296,12 +293,12 @@ class SaleBillController extends GetxController {
   String? getAddStockNum(UnitDetailDTO unitDetailDTO) {
     var unitType = unitDetailDTO.unitType;
     if (UnitType.SINGLE.value == unitType) {
-      return '${DecimalUtil.formatDecimalNumber(unitDetailDTO.stock)} ${unitDetailDTO.unitName}';
+      return '${DecimalUtil.formatDecimalNumber(unitDetailDTO.number)} ${unitDetailDTO.unitName}';
     } else {
       if (unitDetailDTO.selectMasterUnit ?? true) {
-        return '${DecimalUtil.formatDecimalNumber(unitDetailDTO.masterStock)} ${unitDetailDTO.masterUnitName}';
+        return '${DecimalUtil.formatDecimalNumber(unitDetailDTO.masterNumber)} ${unitDetailDTO.masterUnitName}';
       } else {
-        return '${DecimalUtil.formatDecimalNumber(unitDetailDTO.slaveStock)} ${unitDetailDTO.slaveUnitName}';
+        return '${DecimalUtil.formatDecimalNumber(unitDetailDTO.slaveNumber)} ${unitDetailDTO.slaveUnitName}';
       }
     }
   }

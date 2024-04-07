@@ -17,6 +17,8 @@ class RepaymentBillState {
 
   int? customType;
 
+  int? customId;
+
   Decimal repaymentTotalAmount = Decimal.zero;
 
   TextEditingController repaymentController = TextEditingController();
@@ -42,4 +44,7 @@ class RepaymentBillState {
   TextEditingController remarkController = TextEditingController();
 
   int? index;
+
+
+
 }

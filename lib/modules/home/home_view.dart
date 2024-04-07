@@ -985,12 +985,12 @@ final List<Function()> gridItemRoutes = [
 
 const List<List<String>> gridItemPermission = [
   [PermissionCode.sales_sale_record_permission, PermissionCode.sales_return_sale_record_permission,PermissionCode.sales_refund_sale_record_permission],
-  [PermissionCode.purchase_page_permission],
-  [PermissionCode.stock_page_permission],
-  [PermissionCode.funds_cost_record_permission],
-  [PermissionCode.repayment_page_permission],
-  [PermissionCode.account_page_permission],
-  [PermissionCode.common_permission],//ToDO
+  [PermissionCode.purchase_purchase_record_permission,PermissionCode.purchase_purchase_return_record_permission,PermissionCode.purchase_add_stock_record_permission],
+  [PermissionCode.stock_page_permission,],
+  [PermissionCode.funds_cost_record_permission,],
+  [PermissionCode.funds_repayment_record_permission,PermissionCode.supplier_custom_repayment_record_permission],
+  [PermissionCode.account_page_permission,],
+  [PermissionCode.common_permission],
 ];
 
 Widget gridItem(int index) {

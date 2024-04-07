@@ -156,7 +156,7 @@ class CustomRecordController extends GetxController {
         child: CupertinoActionSheetAction(
             onPressed: () {
               Get.offNamed(RouteConfig.repaymentBill,
-                  arguments: {'customDTO': customDTO});
+                  arguments: {'customType': customDTO?.customType,'customId':customDTO?.id});
             },
             child: Text('还款')),
       ));

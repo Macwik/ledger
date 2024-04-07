@@ -1,5 +1,4 @@
 import 'package:decimal/decimal.dart';
-import 'package:intl/intl.dart';
 
 enum DecimalUnit {
   YUAN, // ¥6.00
@@ -23,6 +22,13 @@ class DecimalUtil {
       return '';
     }
     return '￥${Decimal.parse(amount.toStringAsFixed(scale))}';
+  }
+
+  static String formatNegativeAmount(Decimal? amount, {int scale = 2}) {
+    if (null == amount) {
+      return '';
+    }
+    return '￥-${Decimal.parse(amount.toStringAsFixed(scale))}';
   }
 
   static String formatDecimalNumber(Decimal? amount, {int scale = 2}) {

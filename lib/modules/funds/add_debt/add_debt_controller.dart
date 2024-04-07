@@ -86,10 +86,8 @@ class AddDebtController extends GetxController {
             TextButton(
                 child: Text('确定'),
                 onPressed: () {
-                  Get.until((route) {
-                    return( route.settings.name == RouteConfig.main)
-                    || ( route.settings.name == RouteConfig.funds);
-                });}),
+                  Get.back();
+                }),
           ]));
     } else {
       Get.back();

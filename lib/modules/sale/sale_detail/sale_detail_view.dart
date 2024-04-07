@@ -244,22 +244,10 @@ class SaleDetailView extends StatelessWidget {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    Visibility(
-                                        visible: (state.orderDetailDTO
-                                                    ?.orderType ==
-                                                OrderType.SALE_RETURN.value) ||
-                                            (state.orderDetailDTO?.orderType ==
-                                                OrderType
-                                                    .PURCHASE_RETURN.value),
-                                        child: Text('-',
-                                            style: TextStyle(
-                                              color: Colours.text_333,
-                                              fontSize: 26.sp,
-                                              fontWeight: FontWeight.w500,
-                                            ))),
-                                    Text(
-                                      DecimalUtil.formatAmount(
-                                          state.orderDetailDTO?.totalAmount),
+                                    Text( (state.orderDetailDTO?.orderType ==OrderType.SALE_RETURN.value) ||
+                                        (state.orderDetailDTO?.orderType ==OrderType.PURCHASE_RETURN.value)||
+                                        (state.orderDetailDTO?.orderType ==OrderType.REFUND.value)
+                                     ? DecimalUtil.formatNegativeAmount(state.orderDetailDTO?.totalAmount):DecimalUtil.formatAmount(state.orderDetailDTO?.totalAmount),
                                       textAlign: TextAlign.right,
                                       style: TextStyle(
                                         color: Colours.text_333,
@@ -366,8 +354,10 @@ class SaleDetailView extends StatelessWidget {
                                           ),
                                           const Spacer(),
                                           Text(
-                                            controller.productCreditAmount(),
-                                            // DecimalUtil.formatAmount(state.orderDetailDTO?.creditAmount),
+                                            (state.orderDetailDTO?.orderType ==OrderType.SALE_RETURN.value) ||
+                                                (state.orderDetailDTO?.orderType ==OrderType.PURCHASE_RETURN.value)||
+                                                (state.orderDetailDTO?.orderType ==OrderType.REFUND.value)
+                                                ? DecimalUtil.formatNegativeAmount(state.orderDetailDTO?.creditAmount):DecimalUtil.formatAmount(state.orderDetailDTO?.creditAmount),
                                             style: TextStyle(
                                               color: Colors.red[600],
                                               fontSize: 32.sp,
@@ -399,9 +389,12 @@ class SaleDetailView extends StatelessWidget {
                                   ),
                                   Expanded(
                                       child: Text(
+                                        controller.countChange(),
                                     textAlign: TextAlign.right,
-                                    DecimalUtil.formatAmount(
-                                        state.orderDetailDTO?.discountAmount),
+                                        // (state.orderDetailDTO?.orderType ==OrderType.SALE_RETURN.value) ||
+                                        //     (state.orderDetailDTO?.orderType ==OrderType.PURCHASE_RETURN.value)||
+                                        //     (state.orderDetailDTO?.orderType ==OrderType.REFUND.value)
+                                        //     ?DecimalUtil.formatNegativeAmount(state.orderDetailDTO?.discountAmount):DecimalUtil.formatAmount(state.orderDetailDTO?.discountAmount),
                                     style: TextStyle(
                                       color: Colours.text_333,
                                       fontSize: 32.sp,

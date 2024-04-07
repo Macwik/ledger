@@ -1,9 +1,10 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ledger/config/api/custom_api.dart';
 import 'package:ledger/config/api/repayment_api.dart';
+import 'package:ledger/entity/custom/custom_dto.dart';
 import 'package:ledger/entity/repayment/custom_credit_dto.dart';
-import 'package:ledger/enum/custom_type.dart';
 import 'package:ledger/enum/is_select.dart';
 import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/res/export.dart';
@@ -16,19 +17,38 @@ class RepaymentBillController extends GetxController {
 
   void initState() {
     var arguments = Get.arguments;
-    if ((arguments != null) && arguments['customDTO'] != null) {
-      state.customDTO = arguments['customDTO'];
-      state.customType = state.customDTO?.customType;
+    if ((arguments != null) && arguments['customType'] != null) {
+      state.customType = arguments['customType'];
     }
-    if ((arguments != null) && arguments['index'] != null) {
-      state.index = arguments['index'];
-      if( state.index== 0){
-        state.customType = CustomType.CUSTOM.value;
-      }else{
-        state.customType = CustomType.SUPPLIER.value;
+    if ((arguments != null) && arguments['customId'] != null) {
+      state.customId = arguments['customId'];
+      _queryData();
+    }
+    // if ((arguments != null) && arguments['index'] != null) {
+    //   state.index = arguments['index'];
+    //   if( state.index== 0){
+    //     state.customType = CustomType.CUSTOM.value;
+    //   }else{
+    //     state.customType = CustomType.SUPPLIER.value;
+    //   }
+    // }
+
+    update(['repayment_custom_type']);
+  }
+
+
+  _queryData() {
+    Http().network<CustomDTO>(Method.post, CustomApi.supplier_detail_title,
+        queryParameters: {
+          'id': state.customId,
+        }).then((result) {
+      if (result.success) {
+        state.customDTO = result.d;
+        update(['repayment_bill_credit_amount','repayment_custom']);
+      } else {
+        Toast.show(result.m.toString());
       }
-    }
-    update(['repayment_custom']);
+    });
   }
 
   void onFormChange() {

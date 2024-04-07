@@ -498,9 +498,9 @@ class PurchaseRecordController extends GetxController
                                             style: TextStyle(
                                               color: purchasePurchaseOrderDTO.invalid == 1
                                                   ? Colours.text_ccc
-                                                  : purchasePurchaseOrderDTO.orderType == OrderType.PURCHASE.value
-                                                     ? Colours.text_333
-                                                     : Colors.red[600],
+                                                  : purchasePurchaseOrderDTO.orderType == OrderType.PURCHASE_RETURN.value
+                                                     ?  Colors.red[600]
+                                                     :Colours.text_333,
                                               fontSize: 32.sp,
                                               fontWeight: FontWeight.w500,
                                             )),

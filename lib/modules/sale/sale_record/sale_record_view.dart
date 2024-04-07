@@ -495,6 +495,7 @@ class SaleRecordView extends StatelessWidget {
       ),
       body: MyWillPop(
           onWillPop: () async {
+            EasyLoading.dismiss();
             Get.until((route) {
               return (route.settings.name == RouteConfig.main);
             });

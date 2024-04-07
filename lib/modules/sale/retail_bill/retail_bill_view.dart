@@ -60,10 +60,6 @@ class RetailBillView extends StatelessWidget {
             controller.saleBillGetBack();
             return true;
           },
-          child: DefaultTabController(
-        length: 3,
-        child: Container(
-          //color: Colors.white,
           child: Column(
             children: [
               Expanded(
@@ -632,9 +628,7 @@ class RetailBillView extends StatelessWidget {
                   })
             ],
           ),
-        ),
-
-      ))
+      )
     );
   }
 }

@@ -175,7 +175,7 @@ class RepaymentRecordController extends GetxController
         (permissionList.contains(
             PermissionCode.supplier_detail_repayment_order_permission))) {
       await Get.toNamed(RouteConfig.repaymentBill,
-          arguments: {'customType': CustomType.CUSTOM})?.then((value) {
+          arguments: {'customType': CustomType.CUSTOM.value})?.then((value) {
         onRefresh();
       });
     }
@@ -183,7 +183,7 @@ class RepaymentRecordController extends GetxController
         (permissionList
             .contains(PermissionCode.supplier_repayment_order_permission))) {
       await Get.toNamed(RouteConfig.repaymentBill,
-          arguments: {'customType': CustomType.SUPPLIER})?.then((value) async {
+          arguments: {'customType': CustomType.SUPPLIER.value})?.then((value) async {
         await onRefresh();
       });
     }
