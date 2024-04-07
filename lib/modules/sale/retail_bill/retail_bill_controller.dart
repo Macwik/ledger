@@ -8,6 +8,7 @@ import 'package:ledger/config/api/product_api.dart';
 import 'package:ledger/entity/payment/payment_method_dto.dart';
 import 'package:ledger/entity/product/product_classify_list_dto.dart';
 import 'package:ledger/entity/product/product_dto.dart';
+import 'package:ledger/entity/product/product_shopping_car_dto.dart';
 import 'package:ledger/entity/unit/unit_detail_dto.dart';
 import 'package:ledger/enum/custom_type.dart';
 import 'package:ledger/enum/order_type.dart';
@@ -126,8 +127,8 @@ class RetailBillController extends GetxController {
           child: RefundDialog(
             productDTO: productDTO,
             onClick: (result) {
-              state.shoppingCarList.add(result);
-              update(['shopping_car_box','product_classify_list']);
+              addToShoppingCarList(result);
+              update(['shopping_car_box', 'product_classify_list']);
               return true;
             },
           ),
@@ -142,12 +143,32 @@ class RetailBillController extends GetxController {
             orderType: state.orderType,
             onClick: (result) {
               state.shoppingCarList.add(result);
-              update(['shopping_car_box','product_classify_list']);
+              update(['shopping_car_box', 'product_classify_list']);
               return true;
             },
           ),
         ),
       ));
+    }
+  }
+
+  addToShoppingCarList(ProductShoppingCarDTO result) {
+    ProductShoppingCarDTO? product = state.shoppingCarList
+        .firstWhereOrNull((element) => element.productId == result.productId);
+    if (product == null) {
+      state.shoppingCarList.add(result);
+    } else {
+      if (product.unitDetailDTO?.unitType == UnitType.SINGLE.value) {
+        product.unitDetailDTO?.number =
+            product.unitDetailDTO!.number! + result.unitDetailDTO!.number!;
+      } else {
+        product.unitDetailDTO?.masterNumber =
+            (product.unitDetailDTO?.masterNumber ?? Decimal.zero) +
+                (result.unitDetailDTO?.masterNumber ?? Decimal.zero);
+        product.unitDetailDTO?.slaveNumber =
+            (product.unitDetailDTO?.slaveNumber ?? Decimal.zero) +
+                (result.unitDetailDTO?.slaveNumber ?? Decimal.zero);
+      }
     }
   }
 
@@ -175,15 +196,16 @@ class RetailBillController extends GetxController {
     return '';
   }
 
-
   ///判断是否已添加购物车
-  bool isInShoppingCar(int? productId){
-    if(productId == null){
+  bool isInShoppingCar(int? productId) {
+    if (productId == null) {
       return false;
     }
-    return !state.shoppingCarList.map((e) => e.productId).toSet().contains(productId);
+    return !state.shoppingCarList
+        .map((e) => e.productId)
+        .toSet()
+        .contains(productId);
   }
-
 
   //选择日期
   Future<void> pickerDate(BuildContext context) async {
@@ -216,18 +238,17 @@ class RetailBillController extends GetxController {
   }
 
   void toShoppingCarList(BuildContext context) {
-      if (state.shoppingCarList.isEmpty) {
-        Toast.show('请先添加货物');
-        return;
-      }
-      Get.toNamed(RouteConfig.shoppingCarList, arguments: {
-        'shoppingCar': state.shoppingCarList,
-      })?.then((value) {
-        state.shoppingCarList = value;
-        update(['shopping_car_box','product_classify_list']);
-      });
+    if (state.shoppingCarList.isEmpty) {
+      Toast.show('请先添加货物');
+      return;
+    }
+    Get.toNamed(RouteConfig.shoppingCarList, arguments: {
+      'shoppingCar': state.shoppingCarList,
+    })?.then((value) {
+      state.shoppingCarList = value;
+      update(['shopping_car_box', 'product_classify_list']);
+    });
   }
-
 
   String? getNumber(UnitDetailDTO unitDetailDTO) {
     var unitType = unitDetailDTO.unitType;
@@ -455,8 +476,7 @@ class RetailBillController extends GetxController {
   }
 
   Future<void> saleBillGetBack() async {
-    if ((state.customDTO != null) ||
-        (state.shoppingCarList.isNotEmpty)) {
+    if ((state.customDTO != null) || (state.shoppingCarList.isNotEmpty)) {
       Get.dialog(AlertDialog(
           title: Text('是否确认退出'),
           content: Text('退出后将无法恢复'),
