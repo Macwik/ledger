@@ -6,6 +6,7 @@ import 'package:ledger/config/api/product_api.dart';
 import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/entity/product/product_classify_list_dto.dart';
 import 'package:ledger/entity/product/product_dto.dart';
+import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/enum/process_status.dart';
 import 'package:ledger/enum/sales_channel.dart';
 import 'package:ledger/enum/stock_list_type.dart';
@@ -14,7 +15,6 @@ import 'package:ledger/http/base_page_entity.dart';
 import 'package:ledger/res/export.dart';
 import 'package:ledger/util/decimal_util.dart';
 import 'package:ledger/widget/permission/permission_widget.dart';
-
 import 'stock_list_state.dart';
 
 class StockListController extends GetxController {
@@ -25,6 +25,7 @@ class StockListController extends GetxController {
     if ((arguments != null) && arguments['select'] != null) {
       state.select = arguments['select'];
     }
+    update(['stock_list_bottom']);
     _queryProductClassifyList();
     onRefresh();
   }
@@ -159,10 +160,8 @@ class StockListController extends GetxController {
   }
 
   Future<void> _queryProductClassifyList() async {
-    await Http()
-        .network<ProductClassifyListDTO>(
-            Method.post, ProductApi.product_classify_product_list)
-        .then((result) {
+    await Http().network<ProductClassifyListDTO>(
+            Method.post, ProductApi.product_classify_product_list).then((result) {
       if (result.success) {
         state.productClassifyListDTO = result.d!;
         state.productList = result.d?.productList;
@@ -218,7 +217,7 @@ class StockListController extends GetxController {
   }
 
   void toAddProduct() {
-    Get.toNamed(RouteConfig.addProduct)?.then((result) {
+    Get.toNamed(RouteConfig.saleBill,arguments: {'orderType':OrderType.ADD_STOCK})?.then((result) {
       if (ProcessStatus.OK == result) {
         onRefresh();
       }

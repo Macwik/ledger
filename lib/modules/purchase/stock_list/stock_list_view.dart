@@ -583,86 +583,93 @@ class StockListView extends StatelessWidget {
                       );
                     }),
               ),
-              Offstage(
-                  offstage: Get.routing.current == RouteConfig.main,
-                  child: Align(
-                      child: Container(
-                          width: double.infinity,
-                          height: 120.w,
-                          decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.5),
-                                offset: Offset(1, 1),
-                                blurRadius: 3,
-                              ),
-                            ],
-                            //borderRadius: BorderRadius.circular(12.0),
-                            color: Colors.white,
-                          ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                  child: InkWell(
-                                      onTap: () {
-                                        controller.toAddProduct();
-                                      },
-                                      child: PermissionWidget(
-                                          permissionCode: PermissionCode.purchase_add_stock_order_permission,
-                                          child: Container(
-                                              padding:
-                                                  EdgeInsets.only(top: 16.w),
+              GetBuilder(
+                  id: 'stock_list_bottom',
+                  init: controller,
+                  global: false,
+                  builder: (_){
+                return Offstage(
+                    offstage: Get.routing.current == RouteConfig.main,
+                    child: Align(
+                        child: Container(
+                            width: double.infinity,
+                            height: 120.w,
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.5),
+                                  offset: Offset(1, 1),
+                                  blurRadius: 3,
+                                ),
+                              ],
+                              //borderRadius: BorderRadius.circular(12.0),
+                              color: Colors.white,
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                    child: InkWell(
+                                        onTap: () {
+                                          controller.toAddProduct();
+                                        },
+                                        child: PermissionWidget(
+                                            permissionCode: PermissionCode.purchase_add_stock_order_permission,
+                                            child: Container(
+                                                padding:
+                                                EdgeInsets.only(top: 16.w),
+                                                alignment: Alignment.center,
+                                                child: Column(
+                                                  children: [
+                                                    LoadSvg(
+                                                      'svg/ic_stock_list_add_stock',
+                                                      width: 40.w,
+                                                      color: Colors.blue[500],
+                                                    ),
+                                                    Text(
+                                                      '直接入库',
+                                                      style: TextStyle(
+                                                        fontSize: 28.sp,
+                                                        color: Colors.blue[500],
+                                                      ),
+                                                    )
+                                                  ],
+                                                ))))),
+                                Container(
+                                  height: 100.w,
+                                  width: 1.w,
+                                  color: Colours.divider,
+                                ),
+                                Expanded(
+                                    child: InkWell(
+                                        onTap: () => Get.toNamed(
+                                            RouteConfig.stockChangeRecord),
+                                        child: PermissionWidget(
+                                            permissionCode: PermissionCode
+                                                .stock_stock_change_record_permission,
+                                            child: Container(
+                                              padding: EdgeInsets.only(top: 16.w),
                                               alignment: Alignment.center,
                                               child: Column(
                                                 children: [
                                                   LoadSvg(
-                                                    'svg/ic_stock_list_add_stock',
+                                                    'svg/ic_to_stock_change',
                                                     width: 40.w,
                                                     color: Colors.blue[500],
                                                   ),
                                                   Text(
-                                                    '直接入库',
+                                                    '调整库存',
                                                     style: TextStyle(
                                                       fontSize: 28.sp,
                                                       color: Colors.blue[500],
                                                     ),
                                                   )
                                                 ],
-                                              ))))),
-                              Container(
-                                height: 100.w,
-                                width: 1.w,
-                                color: Colours.divider,
-                              ),
-                              Expanded(
-                                  child: InkWell(
-                                      onTap: () => Get.toNamed(
-                                          RouteConfig.stockChangeRecord),
-                                      child: PermissionWidget(
-                                          permissionCode: PermissionCode
-                                              .stock_stock_change_record_permission,
-                                          child: Container(
-                                            padding: EdgeInsets.only(top: 16.w),
-                                            alignment: Alignment.center,
-                                            child: Column(
-                                              children: [
-                                                LoadSvg(
-                                                  'svg/ic_to_stock_change',
-                                                  width: 40.w,
-                                                  color: Colors.blue[500],
-                                                ),
-                                                Text(
-                                                  '调整库存',
-                                                  style: TextStyle(
-                                                    fontSize: 28.sp,
-                                                    color: Colors.blue[500],
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ))))
-                            ],
-                          ))))
+                                              ),
+                                            ))))
+                              ],
+                            ))));
+              })
+
             ],
           )),
     );
