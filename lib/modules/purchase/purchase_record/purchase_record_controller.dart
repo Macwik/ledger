@@ -435,7 +435,7 @@ class PurchaseRecordController extends GetxController
                                                   ? Colours.text_ccc
                                                   : Colours.text_333,
                                               fontSize: 32.sp,
-                                              fontWeight: FontWeight.w500,
+                                              fontWeight: FontWeight.w400,
                                             )),
                                       ),
                                       Visibility(
@@ -498,10 +498,8 @@ class PurchaseRecordController extends GetxController
                                             style: TextStyle(
                                               color: purchasePurchaseOrderDTO.invalid == 1
                                                   ? Colours.text_ccc
-                                                  : purchasePurchaseOrderDTO.orderType == OrderType.PURCHASE_RETURN.value
-                                                     ?  Colors.red[600]
-                                                     :Colours.text_333,
-                                              fontSize: 32.sp,
+                                                  : Colours.text_333,
+                                              fontSize: 34.sp,
                                               fontWeight: FontWeight.w500,
                                             )),
                                       ),

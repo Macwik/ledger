@@ -265,7 +265,7 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
                                                   ? Colours.text_ccc
                                                   : Colours.text_333,
                                               fontSize: 32.sp,
-                                              fontWeight: FontWeight.w500,
+                                              fontWeight: FontWeight.w400,
                                             )),
                                       ),
                                       Visibility(
@@ -328,12 +328,10 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
                                             totalAmount(
                                                 salePurchaseOrderDTO),
                                             style: TextStyle(
-                                              color: salePurchaseOrderDTO
-                                                  .invalid ==
-                                                  1
+                                              color: salePurchaseOrderDTO.invalid == 1
                                                   ? Colours.text_ccc
-                                                  : Colors.red[600],
-                                              fontSize: 32.sp,
+                                                  : Colours.text_333,
+                                              fontSize: 34.sp,
                                               fontWeight: FontWeight.w500,
                                             )),
                                       ),
@@ -389,14 +387,7 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
                                                       .customName?.isNotEmpty ??
                                                       false,
                                                   child: Text(
-                                                      (state.orderType ==
-                                                          OrderType.SALE) ||
-                                                          (state
-                                                              .orderType ==
-                                                              OrderType
-                                                                  .SALE_RETURN)
-                                                          ? '客户：'
-                                                          : '供应商：',
+                                                    '客户：',
                                                       style: TextStyle(
                                                         color: Colours.text_ccc,
                                                         fontSize: 22.sp,
