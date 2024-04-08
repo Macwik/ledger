@@ -64,11 +64,5 @@ class RetailBillState {
   //调整库存
   ProductStockAdjustRequest? productStockAdjustRequest;
 
-  Decimal? totalNum;//添加购物车单单位数量之和
-
-  Decimal? totalSlaveNum;//添加购物车多单位数量之和
-
-  Decimal? totalMasterNum;//添加购物车多单位数量之和
-
 
 }
