@@ -1,6 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/api/order_api.dart';
 import 'package:ledger/config/api/payment_api.dart';
@@ -127,7 +128,7 @@ class RetailBillController extends GetxController {
           child: RefundDialog(
             productDTO: productDTO,
             onClick: (result) {
-              addToShoppingCarList(result);
+              addRefundShoppingCarList(result);
               update(['shopping_car_box', 'product_classify_list']);
               return true;
             },
@@ -152,7 +153,7 @@ class RetailBillController extends GetxController {
     }
   }
 
-  addToShoppingCarList(ProductShoppingCarDTO result) {
+  addRefundShoppingCarList(ProductShoppingCarDTO result) {
     if(state.orderType == OrderType.REFUND){
       ProductShoppingCarDTO? product = state.shoppingCarList
           .firstWhereOrNull((element) => element.productId == result.productId);
@@ -164,8 +165,50 @@ class RetailBillController extends GetxController {
         product.unitDetailDTO?.totalAmount = totalAmount;
       }
     }
-
   }
+
+  addRetailShoppingCarList(ProductShoppingCarDTO result) {
+      ProductShoppingCarDTO? product = state.shoppingCarList.firstWhereOrNull((element) => element.productId == result.productId);
+      if (product == null) {
+        state.shoppingCarList.add(result);
+      } else {
+        if (result.unitDetailDTO?.unitType == UnitType.SINGLE.value) {
+          var number = product.unitDetailDTO?.number ?? Decimal.zero;
+          number = number + (result.unitDetailDTO?.number ?? Decimal.zero);
+          state.totalNum = number;
+        }else{
+          var masterNumber = product.unitDetailDTO?.masterNumber ?? Decimal.zero;
+          masterNumber = masterNumber + (result.unitDetailDTO?.masterNumber ?? Decimal.zero);
+          state.totalMasterNum = masterNumber;
+          var slaveNumber = product.unitDetailDTO?.slaveNumber ?? Decimal.zero;
+         slaveNumber = slaveNumber + (result.unitDetailDTO?.slaveNumber ?? Decimal.zero);
+          state.totalSlaveNum = slaveNumber;
+        }
+      }
+  }
+
+  Future<void> alertStockNotEnough() async {
+    await  Get.dialog(
+        AlertDialog(
+            title: Text('部分商品库存不足',
+            style: TextStyle(fontSize: 46.sp,fontWeight: FontWeight.w500),),
+            content: Text('保存后，会导致商品库存变负数，是否继续保存？',
+                style: TextStyle(fontSize: 34.sp),), actions: [
+          TextButton(
+            child: Text('取消'),
+            onPressed: () {
+              Get.back();
+            },
+          ),
+          TextButton(
+            child: Text('确定'),
+            onPressed: () {
+              getPaymentBottomSheet();
+            },
+          ),
+        ]));
+  }
+
 
   Decimal getShoppingCarTotalNumber() {
     var shoppingCarList = state.shoppingCarList;
@@ -386,6 +429,28 @@ class RetailBillController extends GetxController {
     }
   }
 
+  bool checkStockEnough(){
+    var productList = state.productList;
+    if((productList==null)||(productList.isEmpty)){
+      return false;
+    }else{
+        for (var productDTO in productList) {//ToDO 没有循环判断(目前校验是添加完所有商品后，一起校验；统计了添加某商品总数，和库存数量一一比较）
+          if (productDTO.unitDetailDTO?.unitType == UnitType.SINGLE.value) {
+            if ((state.totalNum ??Decimal.zero) > (productDTO.unitDetailDTO?.stock??Decimal.zero)) {
+              return true;
+            }
+            return false;
+          }else{
+            if ((state.totalMasterNum ??Decimal.zero) > (productDTO.unitDetailDTO?.masterStock??Decimal.zero)) {
+              return true;
+            }
+            return false;
+          }
+        }
+    }
+    return false;
+  }
+
   //Dialog
   Future<void> showPaymentDialog() async {
     if (state.shoppingCarList.isEmpty) {
@@ -399,6 +464,14 @@ class RetailBillController extends GetxController {
         return;
       }
     }
+     if(!checkStockEnough()){
+       alertStockNotEnough();
+       return;
+    }
+    getPaymentBottomSheet();
+  }
+
+  Future<void> getPaymentBottomSheet() async {
     await Get.bottomSheet(
         isScrollControlled: true,
         PaymentDialog(
