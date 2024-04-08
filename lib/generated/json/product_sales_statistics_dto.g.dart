@@ -74,6 +74,21 @@ ProductSalesStatisticsDTO $ProductSalesStatisticsDTOFromJson(
   if (purchaseSlaveNumber != null) {
     productSalesStatisticsDTO.purchaseSlaveNumber = purchaseSlaveNumber;
   }
+  final Decimal? addStoreNumber = jsonConvert.convert<Decimal>(
+      json['addStoreNumber']);
+  if (addStoreNumber != null) {
+    productSalesStatisticsDTO.addStoreNumber = addStoreNumber;
+  }
+  final Decimal? addStoreMasterNumber = jsonConvert.convert<Decimal>(
+      json['addStoreMasterNumber']);
+  if (addStoreMasterNumber != null) {
+    productSalesStatisticsDTO.addStoreMasterNumber = addStoreMasterNumber;
+  }
+  final Decimal? addStoreSlaveNumber = jsonConvert.convert<Decimal>(
+      json['addStoreSlaveNumber']);
+  if (addStoreSlaveNumber != null) {
+    productSalesStatisticsDTO.addStoreSlaveNumber = addStoreSlaveNumber;
+  }
   final Decimal? salesTotalAmount = jsonConvert.convert<Decimal>(
       json['salesTotalAmount']);
   if (salesTotalAmount != null) {
@@ -142,6 +157,9 @@ Map<String, dynamic> $ProductSalesStatisticsDTOToJson(
   data['purchaseNumber'] = entity.purchaseNumber?.toJson();
   data['purchaseMasterNumber'] = entity.purchaseMasterNumber?.toJson();
   data['purchaseSlaveNumber'] = entity.purchaseSlaveNumber?.toJson();
+  data['addStoreNumber'] = entity.addStoreNumber?.toJson();
+  data['addStoreMasterNumber'] = entity.addStoreMasterNumber?.toJson();
+  data['addStoreSlaveNumber'] = entity.addStoreSlaveNumber?.toJson();
   data['salesTotalAmount'] = entity.salesTotalAmount?.toJson();
   data['salesDiscountAmount'] = entity.salesDiscountAmount?.toJson();
   data['salesRepaymentDiscountAmount'] =
@@ -173,6 +191,9 @@ extension ProductSalesStatisticsDTOExtension on ProductSalesStatisticsDTO {
     Decimal? purchaseNumber,
     Decimal? purchaseMasterNumber,
     Decimal? purchaseSlaveNumber,
+    Decimal? addStoreNumber,
+    Decimal? addStoreMasterNumber,
+    Decimal? addStoreSlaveNumber,
     Decimal? salesTotalAmount,
     Decimal? salesDiscountAmount,
     Decimal? salesRepaymentDiscountAmount,
@@ -199,6 +220,9 @@ extension ProductSalesStatisticsDTOExtension on ProductSalesStatisticsDTO {
       ..purchaseNumber = purchaseNumber ?? this.purchaseNumber
       ..purchaseMasterNumber = purchaseMasterNumber ?? this.purchaseMasterNumber
       ..purchaseSlaveNumber = purchaseSlaveNumber ?? this.purchaseSlaveNumber
+      ..addStoreNumber = addStoreNumber ?? this.addStoreNumber
+      ..addStoreMasterNumber = addStoreMasterNumber ?? this.addStoreMasterNumber
+      ..addStoreSlaveNumber = addStoreSlaveNumber ?? this.addStoreSlaveNumber
       ..salesTotalAmount = salesTotalAmount ?? this.salesTotalAmount
       ..salesDiscountAmount = salesDiscountAmount ?? this.salesDiscountAmount
       ..salesRepaymentDiscountAmount = salesRepaymentDiscountAmount ??

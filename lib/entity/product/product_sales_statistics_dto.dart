@@ -21,6 +21,9 @@ class ProductSalesStatisticsDTO {
   Decimal? purchaseNumber;
   Decimal? purchaseMasterNumber;
   Decimal? purchaseSlaveNumber;
+  Decimal? addStoreNumber;
+  Decimal? addStoreMasterNumber;
+  Decimal? addStoreSlaveNumber;
   Decimal? salesTotalAmount;
   Decimal? salesDiscountAmount;
   Decimal? salesRepaymentDiscountAmount;

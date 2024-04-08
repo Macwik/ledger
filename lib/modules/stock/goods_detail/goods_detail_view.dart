@@ -39,63 +39,68 @@ class GoodsDetailView extends StatelessWidget {
                       },
                       child: Column(
                         children: [
-                          Row(
-                            children: [
-                              Expanded(
-                                  child: Text(
-                                    state.productDTO?.productName ?? '',
-                                    style: TextStyle(
-                                      color: state.productDTO?.invalid == IsDeleted.DELETED.value
-                                          ? Colours.text_ccc
-                                          : Colours.text_333,
-                                      fontSize: 34.sp,
-                                    ),
-                                  )),
-                              Visibility(
-                                  visible:
-                                  state.productDTO?.invalid == IsDeleted.DELETED.value,
-                                  child: Container(
-                                    padding: EdgeInsets.only(
-                                        top: 2.w,
-                                        bottom: 2.w,
-                                        left: 4.w,
-                                        right: 4.w),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: Colors.red,
-                                        width: 1.0,
-                                      ),
-                                      borderRadius:
-                                      BorderRadius.circular(8.0),
-                                    ),
-                                    child: Text('已停用',
-                                        style: TextStyle(
-                                          color: Colors.red,
-                                          fontSize: 30.sp,
-                                          fontWeight: FontWeight.w500,
-                                        )),
-                                  )),
-                              Expanded(child:
+                          // GetBuilder<GoodsDetailController>(
+                          //     id: 'goods_detail_name',
+                          //     builder: (_){
+                          //   return
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text('货物资料',
+                              children: [
+                                Expanded(
+                                    child: Text(
+                                      state.productDTO?.productName ?? '',
                                       style: TextStyle(
+                                        color: state.productDTO?.invalid == IsDeleted.DELETED.value
+                                            ? Colours.text_ccc
+                                            : Colours.text_333,
+                                        fontSize: 34.sp,
+                                      ),
+                                    )),
+                                Visibility(
+                                    visible:
+                                    state.productDTO?.invalid == IsDeleted.DELETED.value,
+                                    child: Container(
+                                      padding: EdgeInsets.only(
+                                          top: 2.w,
+                                          bottom: 2.w,
+                                          left: 4.w,
+                                          right: 4.w),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: Colors.red,
+                                          width: 1.0,
+                                        ),
+                                        borderRadius:
+                                        BorderRadius.circular(8.0),
+                                      ),
+                                      child: Text('已停用',
+                                          style: TextStyle(
+                                            color: Colors.red,
+                                            fontSize: 30.sp,
+                                            fontWeight: FontWeight.w500,
+                                          )),
+                                    )),
+                                Expanded(child:
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Text('货物资料',
+                                        style: TextStyle(
+                                          color: Colours.text_999,
+                                          fontSize: 26.sp,
+                                        )),
+                                    Padding(
+                                      padding: EdgeInsets.only(left: 10),
+                                      child: LoadAssetImage(
+                                        'common/arrow_right',
+                                        width: 25.w,
                                         color: Colours.text_999,
-                                        fontSize: 26.sp,
-                                      )),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 10),
-                                    child: LoadAssetImage(
-                                      'common/arrow_right',
-                                      width: 25.w,
-                                      color: Colours.text_999,
-                                    ),
-                                  )
-                                ],
-                              ))
-                            ],
-                          ),
+                                      ),
+                                    )
+                                  ],
+                                ))
+                              ],
+                            ),
+                            //;}),
                           Visibility(
                               maintainSize: false,
                               visible: state.productDTO?.productPlace ?.isNotEmpty??false ,
@@ -458,6 +463,35 @@ class GoodsDetailView extends StatelessWidget {
                                   horizontal: 40.w, vertical: 20.w),
                               child: Column(
                                 children: [
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                          flex: 1,
+                                          child: Text('直接入库数量：',
+                                              style: TextStyle(
+                                                color: Colours.text_666,
+                                                fontSize: 30.sp,
+                                              ))),
+                                      Expanded(
+                                        flex: 2,
+                                        child: Text(
+                                          controller.judgeAddStockUnit(),
+                                          textAlign: TextAlign.right,
+                                          style: TextStyle(
+                                              color: Colours.text_333,
+                                              fontSize: 32.sp,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Container(
+                                    color: Colours.divider,
+                                    height: 1.w,
+                                    margin: EdgeInsets.only(
+                                        top: 16, bottom: 16),
+                                    width: double.infinity,
+                                  ),
                                   Row(
                                     children: [
                                       Expanded(

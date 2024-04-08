@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/api/product_api.dart';
 import 'package:ledger/entity/product/product_sales_statistics_dto.dart';
-import 'package:ledger/enum/process_status.dart';
 import 'package:ledger/enum/unit_type.dart';
 import 'package:ledger/http/http_util.dart';
 import 'package:ledger/res/colors.dart';
@@ -67,12 +66,26 @@ Future<void> initState() async {
     }
   }
 
+  String judgeAddStockUnit() {
+    var productSalesStatistics =state.productSalesStatisticsDTO;
+    if (null == productSalesStatistics) {
+      return '-';
+    }
+    if (productSalesStatistics.unitType == UnitType.SINGLE.value) {
+      return '${DecimalUtil.formatDecimalNumber(productSalesStatistics.addStoreNumber)} | ${productSalesStatistics.unitName}';
+    } else {
+      return '${DecimalUtil.formatDecimalNumber(productSalesStatistics.addStoreMasterNumber)} ${productSalesStatistics.masterUnitName} | ${DecimalUtil.formatDecimalNumber(productSalesStatistics.addStoreSlaveNumber)} ${productSalesStatistics.slaveUnitName}';
+    }
+  }
+
   void toProductDetail() {
-    Get.toNamed(RouteConfig.productDetail,arguments: {'id':state.productDTO?.id})?.then((value){
-      if (ProcessStatus.OK == value) {
-        //成功后再拉一次数据，目前后台没接口，就不写了
-      }
-    });
+    Get.toNamed(RouteConfig.productDetail,arguments: {'id':state.productDTO?.id});
+    //     ?.then((value){
+    //   if (ProcessStatus.OK == value) {
+    //     //成功后再拉一次数据，目前后台没接口，就不写了
+    //     update(['goods_detail_name']);
+    //   }
+    // });
   }
 
   void explainSalesAmount() {

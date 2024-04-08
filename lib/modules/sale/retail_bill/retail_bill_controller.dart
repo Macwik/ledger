@@ -203,6 +203,7 @@ class RetailBillController extends GetxController {
           TextButton(
             child: Text('确定'),
             onPressed: () {
+              Get.back();
               getPaymentBottomSheet();
             },
           ),
@@ -464,11 +465,14 @@ class RetailBillController extends GetxController {
         return;
       }
     }
+    if (state.orderType != OrderType.SALE) {
+      getPaymentBottomSheet();
+      return;
+    }
      if(!checkStockEnough()){
        alertStockNotEnough();
        return;
     }
-    getPaymentBottomSheet();
   }
 
   Future<void> getPaymentBottomSheet() async {
