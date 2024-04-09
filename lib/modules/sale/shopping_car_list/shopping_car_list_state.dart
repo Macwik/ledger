@@ -13,5 +13,6 @@ class ShoppingCarListState {
 
   List<ProductShoppingCarDTO> shoppingCarList =[];
 
+
   OrderType? orderType;
 }

@@ -60,10 +60,9 @@ class ShoppingCarListController extends GetxController {
           return '/';
         }
         return '${unitDetailDTO.masterPrice}元/${unitDetailDTO.masterUnitName}';
-      } else {
-        return '${unitDetailDTO.slavePrice}元/${unitDetailDTO.slaveUnitName}';
-      }
     }
+      return '${unitDetailDTO.slavePrice}元/${unitDetailDTO.slaveUnitName}';
+  }
   }
 
   String? getNum(UnitDetailDTO unitDetailDTO) {
@@ -75,12 +74,16 @@ class ShoppingCarListController extends GetxController {
       return '${DecimalUtil.formatDecimalNumber(unitDetailDTO.number)} ${unitDetailDTO.unitName}';
     } else {
       if (unitDetailDTO.selectMasterUnit ?? true) {
-        if((unitDetailDTO.masterNumber ==null)&&(unitDetailDTO.slaveNumber == null)){
+        if ((unitDetailDTO.masterNumber == null) && (unitDetailDTO.slaveNumber == null)) {
           return '/';
         }
-        return '${DecimalUtil.formatDecimalNumber(unitDetailDTO.masterNumber)} ${unitDetailDTO.masterUnitName}';
-      } else {
-        return '${DecimalUtil.formatDecimalNumber(unitDetailDTO.slaveNumber)} ${unitDetailDTO.slaveUnitName}';
+          Decimal? slaveNum = DecimalUtil.divide (unitDetailDTO.masterNumber,unitDetailDTO.conversion);
+          return '${DecimalUtil.formatDecimalNumber(slaveNum)} ${unitDetailDTO.slaveUnitName}'
+              ' | ${DecimalUtil.formatDecimalNumber(unitDetailDTO.masterNumber)} ${unitDetailDTO.masterUnitName}';
+        }else{
+        Decimal? masterNum = (unitDetailDTO.slaveNumber??Decimal.zero)*(unitDetailDTO.conversion??Decimal.zero);
+        return '${DecimalUtil.formatDecimalNumber(unitDetailDTO.slaveNumber)} ${unitDetailDTO.slaveUnitName}'
+            ' | ${DecimalUtil.formatDecimalNumber(masterNum)} ${unitDetailDTO.masterUnitName}';
       }
     }
   }
@@ -95,8 +98,7 @@ class ShoppingCarListController extends GetxController {
       if (element.unitDetailDTO?.unitType == UnitType.SINGLE.value) {
         return previousValue + (element.unitDetailDTO?.number ?? Decimal.zero);
       } else {
-        return previousValue +
-            (element.unitDetailDTO?.slaveNumber ?? Decimal.zero);
+        return previousValue + (element.unitDetailDTO?.slaveNumber ?? Decimal.zero);
       }
     });
   }

@@ -144,6 +144,7 @@ class RetailBillController extends GetxController {
             orderType: state.orderType,
             onClick: (result) {
               addRetailShoppingCarList(result);
+             // state.shoppingCarList.add(result);
               update(['shopping_car_box', 'product_classify_list']);
               return true;
             },
@@ -155,8 +156,7 @@ class RetailBillController extends GetxController {
 
   addRefundShoppingCarList(ProductShoppingCarDTO result) {
     if (state.orderType == OrderType.REFUND) {
-      ProductShoppingCarDTO? product = state.shoppingCarList
-          .firstWhereOrNull((element) => element.productId == result.productId);
+      ProductShoppingCarDTO? product = state.shoppingCarList.firstWhereOrNull((element) => element.productId == result.productId);
       if (product == null) {
         state.shoppingCarList.add(result);
       } else {
@@ -168,11 +168,11 @@ class RetailBillController extends GetxController {
     }
   }
 
-  addRetailShoppingCarList(ProductShoppingCarDTO result) {
-    ProductShoppingCarDTO? product = state.shoppingCarList
-        .firstWhereOrNull((element) => element.productId == result.productId);
+  addRetailShoppingCarList(ProductShoppingCarDTO result) {//TODO 建立副本
+    state.shoppingCarCheckList = state.shoppingCarList;
+    ProductShoppingCarDTO? product = state.shoppingCarCheckList.firstWhereOrNull((element) => element.productId == result.productId);
     if (product == null) {
-      state.shoppingCarList.add(result);
+      state.shoppingCarCheckList.add(result);
     } else {
       if (result.unitDetailDTO?.unitType == UnitType.SINGLE.value) {
         var number = product.unitDetailDTO?.number ?? Decimal.zero;
@@ -180,12 +180,10 @@ class RetailBillController extends GetxController {
         product.unitDetailDTO?.number = number;
       } else {
         var masterNumber = product.unitDetailDTO?.masterNumber ?? Decimal.zero;
-        masterNumber =
-            masterNumber + (result.unitDetailDTO?.masterNumber ?? Decimal.zero);
+        masterNumber = masterNumber + (result.unitDetailDTO?.masterNumber ?? Decimal.zero);
         product.unitDetailDTO?.masterNumber = masterNumber;
         var slaveNumber = product.unitDetailDTO?.slaveNumber ?? Decimal.zero;
-        slaveNumber =
-            slaveNumber + (result.unitDetailDTO?.slaveNumber ?? Decimal.zero);
+        slaveNumber = slaveNumber + (result.unitDetailDTO?.slaveNumber ?? Decimal.zero);
         product.unitDetailDTO?.slaveNumber = slaveNumber;
       }
     }
@@ -292,7 +290,7 @@ class RetailBillController extends GetxController {
       'shoppingCar': state.shoppingCarList,
     })?.then((value) {
       state.shoppingCarList = value;
-      update(['shopping_car_box', 'product_classify_list']);
+      update(['shopping_car_box','product_classify_list']);
     });
   }
 
@@ -347,7 +345,7 @@ class RetailBillController extends GetxController {
     return '-';
   }
 
-  String? getTotalAmount() {
+  String? getTotalAmount() {//ToDo 计算有问题
     var totalAmount = Decimal.zero;
     for (var element in state.shoppingCarList) {
       totalAmount = totalAmount + element.unitDetailDTO!.totalAmount!;
@@ -438,7 +436,7 @@ class RetailBillController extends GetxController {
   }
 
   bool checkStockEnough() {
-    var productList = state.shoppingCarList;
+    var productList = state.shoppingCarCheckList;//ToDO 校验用副本
     if (productList.isEmpty) {
       return false;
     } else {
@@ -573,6 +571,7 @@ class RetailBillController extends GetxController {
                 child: Text('确定'),
                 onPressed: () {
                   state.shoppingCarList.clear();
+                  state.shoppingCarCheckList.clear();
                   Get.until((route) {
                     return (route.settings.name == RouteConfig.saleRecord) ||
                         (route.settings.name == RouteConfig.main);

@@ -74,7 +74,7 @@ class DecimalUtil {
       return null;
     }
     var rational = dividend / divisor;
-    return rational.toDecimal(scaleOnInfinitePrecision: 4);
+    return rational.toDecimal(scaleOnInfinitePrecision: 2);
   }
 
   /// 抹零函数

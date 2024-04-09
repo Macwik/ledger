@@ -48,13 +48,24 @@ class ShoppingCarListView extends StatelessWidget {
                               SizedBox(
                                 height: 16.w,
                               ),
-                              Text(
-                                  DecimalUtil.formatDecimalNumber(
-                                      controller.getShoppingCarTotalNumber()),
-                                  style: TextStyle(
-                                      color: Colours.text_333,
-                                      fontSize: 36.w,
-                                      fontWeight: FontWeight.w500)),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                Text(
+                                    DecimalUtil.formatDecimalNumber(
+                                        controller.getShoppingCarTotalNumber()),
+                                    style: TextStyle(
+                                        color: Colours.text_333,
+                                        fontSize: 36.w,
+                                        fontWeight: FontWeight.w500)),
+                                Text(
+                                    ' 件',
+                                    style: TextStyle(
+                                        color: Colours.text_666,
+                                        fontSize: 30.w,
+                                        fontWeight: FontWeight.w500)),
+                              ],)
+
                             ],
                           )),
                           Container(
@@ -72,11 +83,22 @@ class ShoppingCarListView extends StatelessWidget {
                               SizedBox(
                                 height: 16.w,
                               ),
-                              Text(controller.getTotalAmount() ?? '0',
-                                  style: TextStyle(
-                                      color: Colours.text_333,
-                                      fontSize: 36.w,
-                                      fontWeight: FontWeight.w500)),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                Text(controller.getTotalAmount() ?? '0',
+                                    style: TextStyle(
+                                        color: Colours.text_333,
+                                        fontSize: 36.w,
+                                        fontWeight: FontWeight.w500)),
+                                Text(
+                                   ' 元',
+                                    style: TextStyle(
+                                        color: Colours.text_666,
+                                        fontSize: 30.w,
+                                        fontWeight: FontWeight.w500)),
+                              ],)
+
                             ],
                           ))
                         ],
@@ -136,19 +158,17 @@ class ShoppingCarListView extends StatelessWidget {
                                                     ))),
                                             Text('数量：',
                                                 style: TextStyle(
-                                                  color: Colours.text_999,
+                                                  color: Colours.text_ccc,
                                                   fontSize: 30.sp,
-                                                  fontWeight: FontWeight.w500,
+                                                  fontWeight: FontWeight.w400,
                                                 )),
-                                            Text(
-                                                controller.getNum(productDTO
-                                                        .unitDetailDTO!) ??
-                                                    '',
+                                            Expanded(child:Text(
+                                                controller.getNum(productDTO.unitDetailDTO!) ?? '',
                                                 style: TextStyle(
-                                                  color: Colours.text_333,
-                                                  fontSize: 30.sp,
+                                                  color: Colours.text_666,
+                                                  fontSize: 32.sp,
                                                   fontWeight: FontWeight.w500,
-                                                )),
+                                                )))
                                           ],
                                         ),
                                         SizedBox(
@@ -158,16 +178,16 @@ class ShoppingCarListView extends StatelessWidget {
                                           children: [
                                             Text('单价：',
                                                 style: TextStyle(
-                                                  color: Colours.text_999,
+                                                  color: Colours.text_ccc,
                                                   fontSize: 30.sp,
-                                                  fontWeight: FontWeight.w500,
+                                                  fontWeight: FontWeight.w400,
                                                 )),
                                             Text(
                                                 controller.getPrice(productDTO
                                                         .unitDetailDTO!) ??
                                                     '',
                                                 style: TextStyle(
-                                                  color: Colours.text_333,
+                                                  color: Colours.text_999,
                                                   fontSize: 30.sp,
                                                   fontWeight: FontWeight.w500,
                                                 )),
