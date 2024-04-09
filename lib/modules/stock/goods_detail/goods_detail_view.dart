@@ -410,7 +410,7 @@ class GoodsDetailView extends StatelessWidget {
                                         arguments:{'id': state.productDTO?.id,
                                           'creditAmount':state.productSalesStatisticsDTO
                                               ?.salesCreditAmount,
-                                          'orderType':[OrderType.SALE.value,OrderType.SALE_RETURN.value]} ),
+                                          'orderType':[OrderType.SALE.value,OrderType.SALE_RETURN.value,OrderType.REFUND.value]} ),
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [

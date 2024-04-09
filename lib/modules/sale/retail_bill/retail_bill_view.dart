@@ -551,24 +551,36 @@ class RetailBillView extends StatelessWidget {
                                         color: Colours.primary,
                                       ),
                                       Expanded(child:
-                                      Text(controller.state.orderType == OrderType.REFUND
-                                          ?controller.state.shoppingCarList.length.toString()
-                                          :DecimalUtil.formatDecimalNumber(controller.getShoppingCarTotalNumber()),
-                                        style: TextStyle(
+                                  Visibility(
+                                    visible: controller.state.orderType != OrderType.REFUND,
+                                    replacement:  Text('合计：',
+                                      style: TextStyle(
+                                          color: Colours.text_666,
+                                          fontSize: 26.sp,
+                                          fontWeight: FontWeight.w500
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    child: Text(DecimalUtil.formatDecimalNumber(controller.getShoppingCarTotalNumber()),
+                                      style: TextStyle(
                                           color: Colors.red[600],
                                           fontSize: 32.sp,
-                                            fontWeight: FontWeight.w500
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      )),
-                                      Text(controller.state.orderType == OrderType.REFUND?'种':'件',
+                                          fontWeight: FontWeight.w500
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    )) ,
+                                  ),
+                                  Offstage(
+                                    offstage: controller.state.orderType == OrderType.REFUND,
+                                    child:
+                                      Text('件',
                                         style: TextStyle(
                                           color: Colours.text_666,
                                           fontSize: 28.sp,
                                             fontWeight: FontWeight.w500
                                         ),
                                         textAlign: TextAlign.center,
-                                      ),
+                                      )),
                                       Expanded(child:
                                       Text(
                                         controller.getTotalAmount() ?? '',
@@ -588,7 +600,7 @@ class RetailBillView extends StatelessWidget {
                                         ),
                                         textAlign: TextAlign.center,
                                       ),
-                                      SizedBox(width: 8.w,)
+                                      SizedBox(width: 16.w,)
                                     ],
                                   ),
                                 )),
