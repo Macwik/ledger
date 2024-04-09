@@ -66,7 +66,7 @@ class PaymentDialog extends StatelessWidget {
                         var result = await Get.toNamed(RouteConfig.customRecord,
                             arguments: {
                               'customType': (orderType == OrderType.SALE) ||
-                                      (orderType == OrderType.SALE_RETURN)
+                                      (orderType == OrderType.SALE_RETURN) || (orderType == OrderType.REFUND)
                                   ? CustomType.CUSTOM.value
                                   : CustomType.SUPPLIER.value,
                               'isSelectCustom': true,

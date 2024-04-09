@@ -469,7 +469,6 @@ class RetailBillView extends StatelessWidget {
                                                                 width: 50.w,
                                                               ))
                                                           )
-
                                                         ],
                                                       )
                                                   );

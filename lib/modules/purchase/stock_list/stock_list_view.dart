@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/permission_code.dart';
@@ -368,17 +369,10 @@ class StockListView extends StatelessWidget {
                                                   child: Container(
                                                       width: double.infinity,
                                                       color: Colors.white,
-                                                      margin: EdgeInsets.only(
-                                                          bottom: 8.w),
-                                                      padding: EdgeInsets.only(
-                                                        left: 32.w,
-                                                        right: 32.w,
-                                                        top: 32.w,
+                                                      padding: EdgeInsets.symmetric(
+                                                        vertical: 24.w,horizontal: 32.w
                                                       ),
                                                       child: Column(
-                                                        // mainAxisAlignment:
-                                                        //     MainAxisAlignment
-                                                        //         .spaceEvenly,
                                                         children: [
                                                           Row(
                                                               mainAxisAlignment:
@@ -464,54 +458,60 @@ class StockListView extends StatelessWidget {
                                                           SizedBox(
                                                             height: 16.w,
                                                           ),
-                                                          Container(
-                                                            alignment: Alignment
-                                                                .centerLeft,
-                                                            child: Text(
-                                                                controller
-                                                                    .judgeUnit(
-                                                                        stockDTO),
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: stockDTO
-                                                                              .invalid ==
-                                                                          1
-                                                                      ? Colours
-                                                                          .text_ccc
-                                                                      : Colours
-                                                                          .text_999,
-                                                                  fontSize:
-                                                                      30.sp,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                )),
-                                                          ),
-                                                          SizedBox(
-                                                            height: 10.w,
-                                                          ),
                                                           Row(
                                                             children: [
-                                                              Expanded(
-                                                                  child:
-                                                                      Visibility(
-                                                                maintainSize:
-                                                                    false,
-                                                                visible: (((stockDTO
-                                                                            .productPlace
-                                                                            ?.isNotEmpty ??
-                                                                        false)) &&
-                                                                    ((stockDTO
-                                                                            .productStandard
-                                                                            ?.isNotEmpty ??
-                                                                        false))),
-                                                                child: Flex(
-                                                                    direction: Axis
-                                                                        .horizontal,
+                                                              Expanded(child: Container(
+                                                                alignment: Alignment
+                                                                    .centerLeft,
+                                                                child: Text(
+                                                                    controller.judgeUnit(stockDTO),
+                                                                    style:
+                                                                    TextStyle(
+                                                                      color: stockDTO
+                                                                          .invalid ==
+                                                                          1
+                                                                          ? Colours
+                                                                          .text_ccc
+                                                                          : Colours
+                                                                          .text_999,
+                                                                      fontSize:
+                                                                      30.sp,
+                                                                      fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                    )),
+                                                              )),
+                                                              Visibility(
+                                                                  visible:controller.state.select != StockListType.SELECT_PRODUCT,
+                                                                  child: Container(
+                                                                    width: 60.w,
+                                                                    height: 60.w,
+                                                                    child: IconButton(
+                                                                        padding: EdgeInsets.zero,
+                                                                        onPressed: () => controller.showBottomSheet(
+                                                                            context,
+                                                                            stockDTO),
+                                                                        icon: Icon(
+                                                                            Icons.more_horiz,
+                                                                            size: 40.sp,
+                                                                            color: Colours.text_666)),
+                                                                  )),
+                                                            ],
+                                                          ),
+                                                      Offstage(
+                                                        offstage: !((stockDTO.productPlace?.isNotEmpty ?? false) &&
+                                                            (stockDTO.productStandard?.isNotEmpty ?? false)),
+                                                        child: SizedBox(
+                                                            height: 10.w,
+                                                          )),
+                                                          Offstage(
+                                                            offstage: !((stockDTO.productPlace?.isNotEmpty ?? false) &&
+                                                                (stockDTO.productStandard?.isNotEmpty ?? false)),
+                                                            child: Flex(
+                                                                direction: Axis.horizontal,
                                                                     children: [
                                                                       Text(
-                                                                          stockDTO.productPlace ??
-                                                                              '',
+                                                                          stockDTO.productPlace ?? '',
                                                                           style:
                                                                               TextStyle(
                                                                             color: stockDTO.invalid == 1
@@ -536,34 +536,7 @@ class StockListView extends StatelessWidget {
                                                                                 fontWeight: FontWeight.w500,
                                                                               ))),
                                                                     ]),
-                                                              )),
-                                                              Visibility(
-                                                                  visible: controller
-                                                                          .state
-                                                                          .select !=
-                                                                      StockListType
-                                                                          .SELECT_PRODUCT,
-                                                                  child:
-                                                                      Container(
-                                                                    width: 60.w,
-                                                                    height:
-                                                                        60.w,
-                                                                    child: IconButton(
-                                                                        padding:
-                                                                            EdgeInsets
-                                                                                .zero,
-                                                                        onPressed: () => controller.showBottomSheet(
-                                                                            context,
-                                                                            stockDTO),
-                                                                        icon: Icon(
-                                                                            Icons
-                                                                                .more_horiz,
-                                                                            size:
-                                                                                40.sp,
-                                                                            color: Colours.text_666)),
-                                                                  )),
-                                                            ],
-                                                          )
+                                                              )
                                                         ],
                                                       )));
                                             },

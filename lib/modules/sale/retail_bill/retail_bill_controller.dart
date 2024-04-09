@@ -143,8 +143,8 @@ class RetailBillController extends GetxController {
             productDTO: productDTO,
             orderType: state.orderType,
             onClick: (result) {
-              addRetailShoppingCarList(result);
-             // state.shoppingCarList.add(result);
+             state.shoppingCarList.add(result);
+            addRetailShoppingCarList(result);
               update(['shopping_car_box', 'product_classify_list']);
               return true;
             },
@@ -172,18 +172,18 @@ class RetailBillController extends GetxController {
     state.shoppingCarCheckList = state.shoppingCarList;
     ProductShoppingCarDTO? product = state.shoppingCarCheckList.firstWhereOrNull((element) => element.productId == result.productId);
     if (product == null) {
-      state.shoppingCarCheckList.add(result);
+      //state.shoppingCarCheckList.add(result);
     } else {
       if (result.unitDetailDTO?.unitType == UnitType.SINGLE.value) {
         var number = product.unitDetailDTO?.number ?? Decimal.zero;
-        number = number + (result.unitDetailDTO?.number ?? Decimal.zero);
+        number += number ; //(result.unitDetailDTO?.number ?? Decimal.zero);
         product.unitDetailDTO?.number = number;
       } else {
         var masterNumber = product.unitDetailDTO?.masterNumber ?? Decimal.zero;
-        masterNumber = masterNumber + (result.unitDetailDTO?.masterNumber ?? Decimal.zero);
+        masterNumber += masterNumber ; //(result.unitDetailDTO?.masterNumber ?? Decimal.zero);
         product.unitDetailDTO?.masterNumber = masterNumber;
         var slaveNumber = product.unitDetailDTO?.slaveNumber ?? Decimal.zero;
-        slaveNumber = slaveNumber + (result.unitDetailDTO?.slaveNumber ?? Decimal.zero);
+        slaveNumber += slaveNumber; //+ (result.unitDetailDTO?.slaveNumber ?? Decimal.zero);
         product.unitDetailDTO?.slaveNumber = slaveNumber;
       }
     }
@@ -225,8 +225,7 @@ class RetailBillController extends GetxController {
       if (element.unitDetailDTO?.unitType == UnitType.SINGLE.value) {
         return previousValue + (element.unitDetailDTO?.number ?? Decimal.zero);
       } else {
-        return previousValue +
-            (element.unitDetailDTO?.slaveNumber ?? Decimal.zero);
+        return previousValue + (element.unitDetailDTO?.slaveNumber ?? Decimal.zero);
       }
     });
   }

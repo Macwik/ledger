@@ -124,23 +124,19 @@ class SaleDetailView extends StatelessWidget {
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
                         separatorBuilder: (context, index) => Container(
-                          height: 2.w,
+                          height: 1.w,
+                          margin: EdgeInsets.symmetric(horizontal: 40.w),
                           color: Colours.divider,
                           width: double.infinity,
                         ),
                         itemCount: state.orderDetailDTO?.orderProductDetailList
-                                ?.length ??
-                            0,
+                                ?.length ?? 0,
                         itemBuilder: (BuildContext context, int index) {
                           var orderProductDetail = state
                               .orderDetailDTO?.orderProductDetailList![index];
                           return Container(
                             color: Colors.white,
-                            padding: EdgeInsets.only(
-                                left: 40.w,
-                                right: 40.w,
-                                top: 32.w,
-                                bottom: 16.w),
+                            padding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 32.w),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
@@ -180,50 +176,54 @@ class SaleDetailView extends StatelessWidget {
                                         fontWeight: FontWeight.w500,
                                       )),
                                 ),
-                                Container(
-                                    padding: EdgeInsets.only(top: 10.w),
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                            orderProductDetail?.productPlace ??
-                                                '',
-                                            style: TextStyle(
-                                              color: Colours.text_999,
-                                              fontSize: 28.sp,
-                                              fontWeight: FontWeight.w500,
-                                            )),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        Text(
-                                            orderProductDetail
-                                                    ?.productStandard ??
-                                                '',
-                                            style: TextStyle(
-                                              color: Colours.text_999,
-                                              fontSize: 28.sp,
-                                              fontWeight: FontWeight.w500,
-                                            )),
-                                      ],
-                                    ))
-                                //),
+                                Offstage(
+                                  offstage:  (orderProductDetail?.productPlace==null)||( orderProductDetail?.productStandard==null),
+                                  child:  Container(
+                                      padding: EdgeInsets.only(top: 10.w),
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                              orderProductDetail?.productPlace ??
+                                                  '',
+                                              style: TextStyle(
+                                                color: Colours.text_999,
+                                                fontSize: 28.sp,
+                                                fontWeight: FontWeight.w500,
+                                              )),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text(
+                                              orderProductDetail
+                                                  ?.productStandard ??
+                                                  '',
+                                              style: TextStyle(
+                                                color: Colours.text_999,
+                                                fontSize: 28.sp,
+                                                fontWeight: FontWeight.w500,
+                                              )),
+                                        ],
+                                      )),
+                                )
                               ],
                             ),
                           );
                         },
                       );
                     }),
-                Column(
+                 Column(
                   children: [
                     Container(
                       color: Colors.white12,
-                      height: 8.w,
+                      height: 4.w,
                       width: double.infinity,
                     ),
                     GetBuilder<SaleDetailController>(
                         id: 'order_payment',
                         builder: (_) {
-                          return Container(
+                          return   Offstage(
+                              offstage: state.orderDetailDTO?.orderProductDetailList?.length ==1,
+                              child:Container(
                             padding: EdgeInsets.only(
                                 right: 40.w,
                                 left: 40.w,
@@ -236,8 +236,8 @@ class SaleDetailView extends StatelessWidget {
                                 Text(
                                   '合计：',
                                   style: TextStyle(
-                                    color: Colours.text_666,
-                                    fontSize: 32.sp,
+                                    color: Colours.text_999,
+                                    fontSize: 28.sp,
                                     fontWeight: FontWeight.w400,
                                   ),
                                 ),
@@ -250,7 +250,7 @@ class SaleDetailView extends StatelessWidget {
                                      ? DecimalUtil.formatNegativeAmount(state.orderDetailDTO?.totalAmount):DecimalUtil.formatAmount(state.orderDetailDTO?.totalAmount),
                                       textAlign: TextAlign.right,
                                       style: TextStyle(
-                                        color: Colours.text_333,
+                                        color: Colours.text_666,
                                         fontSize: 32.sp,
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -259,11 +259,11 @@ class SaleDetailView extends StatelessWidget {
                                 )
                               ],
                             ),
-                          );
+                          ));
                         }),
                     Container(
                       color: Colors.white12,
-                      height: 32.w,
+                      height: 24.w,
                       width: double.infinity,
                     )
                   ],

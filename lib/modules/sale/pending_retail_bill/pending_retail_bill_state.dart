@@ -29,7 +29,7 @@ class PendingRetailBillState {
   final ScrollController menuController = ScrollController(); // 一级滚动控制
 
   //销售、退货开单购物车商品
-  List<ProductShoppingCarDTO>? shoppingCarList = [];
+  List<ProductShoppingCarDTO> shoppingCarList = [];
 
   final refreshController = EasyRefreshController(
     controlFinishRefresh: true,

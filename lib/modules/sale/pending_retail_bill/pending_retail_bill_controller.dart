@@ -35,7 +35,7 @@ class PendingRetailBillController extends GetxController {
     }
     _queryProductClassifyList();
     initPaymentMethodList();
-    pendingOrderNum();
+   // pendingOrderNum();
     _queryPendingData();
   }
 
@@ -63,14 +63,14 @@ class PendingRetailBillController extends GetxController {
   }
 
   //拉取挂单 的数量
-  void pendingOrderNum() {
-    Http().network<int>(Method.post, OrderApi.pending_order_count).then((result) {
-      if (result.success) {
-        state.pendingOrderNum = result.d;
-        update(['sale_bill_pending_order']);
-      }
-    });
-  }
+  // void pendingOrderNum() {
+  //   Http().network<int>(Method.post, OrderApi.pending_order_count).then((result) {
+  //     if (result.success) {
+  //       state.pendingOrderNum = result.d;
+  //       update(['sale_bill_pending_order']);
+  //     }
+  //   });
+  // }
 
   void initPaymentMethodList() {
     Http().network<List<PaymentMethodDTO>>(Method.get, PaymentApi.LEDGER_PAYMENT_METHOD_LIST)
@@ -199,8 +199,8 @@ class PendingRetailBillController extends GetxController {
           productDTO: productDTO,
           orderType: state.orderType,
           onClick: (result) {
-            state.shoppingCarList?.add(result);
-            update(['shopping_car_box']);
+            state.shoppingCarList.add(result);
+            update(['shopping_car_box','product_classify_list']);
             return true;
           },
         ),
@@ -229,61 +229,77 @@ class PendingRetailBillController extends GetxController {
   }
 
   //挂单
-  Future<bool> pendingOrder() async {
-    if (state.shoppingCarList?.isEmpty??false) {
-      Toast.show('请先选择商品');
-      return Future(() => false);
-    }
-    Loading.showDuration();
-    return await Http().network(Method.post, OrderApi.add_pending_order, data: {
-      'customId': state.customDTO?.id,
-      'orderProductRequest': state.shoppingCarList,
-      'orderDate': DateUtil.formatDefaultDate(state.date),
-      'orderType': state.orderType.value,
-    }).then((result) {
-      Loading.dismiss();
-      if (result.success) {
-        Toast.show('挂单成功');
-        state.totalAmount  =Decimal.zero;
-        state.date = DateTime.now();
-        state.shoppingCarList =  [];
-        state.customDTO = null;
-        pendingOrderNum();
-        update([ 'shopping_car_box',
-          'retail_bill_sale_custom',
-          'product_classify_list',
-          'bill_date']);//需要更新下挂单列表按钮颜色和数字
-        return true;
-      } else {
-        Toast.show(result.m.toString());
-        return false;
-      }
-    });
-  }
+  // Future<bool> pendingOrder() async {
+  //   if (state.shoppingCarList.isEmpty) {
+  //     Toast.show('请先选择商品');
+  //     return Future(() => false);
+  //   }
+  //   Loading.showDuration();
+  //   return await Http().network(Method.post, OrderApi.add_pending_order, data: {
+  //     'customId': state.customDTO?.id,
+  //     'orderProductRequest': state.shoppingCarList,
+  //     'orderDate': DateUtil.formatDefaultDate(state.date),
+  //     'orderType': state.orderType.value,
+  //   }).then((result) {
+  //     Loading.dismiss();
+  //     if (result.success) {
+  //       Toast.show('挂单成功');
+  //       state.totalAmount  =Decimal.zero;
+  //       state.date = DateTime.now();
+  //       state.shoppingCarList =  [];
+  //       state.customDTO = null;
+  //       pendingOrderNum();
+  //       update([ 'shopping_car_box',
+  //         'retail_bill_sale_custom',
+  //         'product_classify_list',
+  //         'bill_date']);//需要更新下挂单列表按钮颜色和数字
+  //       return true;
+  //     } else {
+  //       Toast.show(result.m.toString());
+  //       return false;
+  //     }
+  //   });
+  // }
 
   void toShoppingCarList(){
-    if (state.shoppingCarList?.isEmpty??false) {
+    if (state.shoppingCarList.isEmpty) {
       Toast.show('请先添加货物');
       return;
     }
     Get.toNamed(RouteConfig.shoppingCarList,arguments: {
-      'shoppingCar':state.shoppingCarList,
-      'totalAmount':state.totalAmount,
-      'totalNumber':0});
+      'shoppingCar': state.shoppingCarList
+    })?.then((value) {
+      state.shoppingCarList = value;
+      update(['shopping_car_box','product_classify_list']);
+    });
   }
 
   String? getTotalAmount() {
     var totalAmount = Decimal.zero;
-    state.shoppingCarList?.forEach((element) {
+    for (var element in state.shoppingCarList) {
       totalAmount = totalAmount + element.unitDetailDTO!.totalAmount!;
-    });
+    }
     state.totalAmount = totalAmount;
     return DecimalUtil.formatDecimalDefault(totalAmount);
   }
 
+  Decimal getShoppingCarTotalNumber() {
+    var shoppingCarList = state.shoppingCarList;
+    if (shoppingCarList.isEmpty) {
+      return Decimal.zero;
+    }
+    return shoppingCarList.fold(Decimal.zero, (previousValue, element) {
+      if (element.unitDetailDTO?.unitType == UnitType.SINGLE.value) {
+        return previousValue + (element.unitDetailDTO?.number ?? Decimal.zero);
+      } else {
+        return previousValue + (element.unitDetailDTO?.slaveNumber ?? Decimal.zero);
+      }
+    });
+  }
+
   //Dialog
   Future<void> showPaymentDialog(BuildContext context) async {
-    if (state.shoppingCarList?.isEmpty??false) {
+    if (state.shoppingCarList.isEmpty) {
       Toast.show('请添加货物后再试');
       return;
     }
@@ -337,7 +353,7 @@ class PendingRetailBillController extends GetxController {
 
   void saleBillGetBack() {
     if ((state.customDTO != null) ||
-        (state.shoppingCarList?.isNotEmpty??false)
+        (state.shoppingCarList.isNotEmpty)
     ) {
       Get.dialog(AlertDialog(
           title: Text('是否确认退出'),
@@ -352,7 +368,7 @@ class PendingRetailBillController extends GetxController {
             TextButton(
                 child: Text('确定'),
                 onPressed: () {
-                  state.shoppingCarList?.clear();
+                  state.shoppingCarList.clear();
                   Get.until((route) {
                     return (route.settings.name == RouteConfig.pendingOrder)||
                         (route.settings.name == RouteConfig.main);
@@ -363,6 +379,18 @@ class PendingRetailBillController extends GetxController {
     } else {
       Get.back();
     }
+  }
+
+
+  ///判断是否已添加购物车
+  bool isInShoppingCar(int? productId) {
+    if (productId == null) {
+      return false;
+    }
+    return !state.shoppingCarList
+        .map((e) => e.productId)
+        .toSet()
+        .contains(productId);
   }
 
 }

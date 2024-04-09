@@ -85,6 +85,7 @@ class RepaymentRecordController extends GetxController
     state.currentPage = 1;
     Loading.showDuration();
     await _queryData(state.currentPage).then((result) {
+      Loading.dismiss();
       if (result.success) {
         state.items = result.d?.result;
         state.hasMore = result.d?.hasMore;

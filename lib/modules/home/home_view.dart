@@ -233,9 +233,9 @@ class HomeView extends StatelessWidget {
                                               text: DecimalUtil.formatDecimal(
                                                   state.todaySalesAmount),
                                               style: TextStyle(
-                                                fontWeight: FontWeight.w400,
+                                                fontWeight: FontWeight.w500,
                                                 fontSize: 28.sp,
-                                                color: Colours.text_ccc,
+                                                color: Colours.text_666,
                                               )),
                                         ],
                                       ),
@@ -1143,11 +1143,7 @@ class _MySliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
                               )),
                           Expanded(
                               flex: 1,
-                              child: Visibility(
-                                visible: state
-                                        .homeStatisticsDTO?.totalIncomeAmount !=
-                                    Decimal.zero,
-                                child: Column(
+                              child:  Column(
                                   children: [
                                     Expanded(
                                         child: Container(
@@ -1179,7 +1175,7 @@ class _MySliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
                                         ))
                                   ],
                                 ),
-                              )),
+                              ),
                         ],
                       )),
                 ),

@@ -138,12 +138,13 @@ class SaleDetailController extends GetxController {
   }
 
   String countChange() {
-    if (state.orderDetailDTO?.externalOrderBaseDTOList?.isEmpty ?? true) {
+    if (state.orderDetailDTO?.discountAmount == Decimal.zero) {
       return '0';
     }
     return (state.orderDetailDTO?.orderType ==OrderType.SALE_RETURN.value) ||
         (state.orderDetailDTO?.orderType ==OrderType.PURCHASE_RETURN.value)||
         (state.orderDetailDTO?.orderType ==OrderType.REFUND.value)
-        ?DecimalUtil.formatNegativeAmount(state.orderDetailDTO?.discountAmount):DecimalUtil.formatAmount(state.orderDetailDTO?.discountAmount);
+        ?DecimalUtil.formatNegativeAmount(state.orderDetailDTO?.discountAmount)
+        :DecimalUtil.formatAmount(state.orderDetailDTO?.discountAmount);
   }
 }

@@ -4,6 +4,7 @@ import 'package:ledger/entity/product/product_classify_dto.dart';
 import 'package:ledger/entity/product/product_dto.dart';
 import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/res/export.dart';
+import 'package:ledger/util/decimal_util.dart';
 import 'package:ledger/util/image_util.dart';
 import 'package:ledger/widget/permission/ledger_widget_type.dart';
 import 'package:ledger/widget/permission/permission_owner_widget.dart';
@@ -23,7 +24,8 @@ class PendingRetailBillView extends StatelessWidget {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: TitleBar(
-          title: '${state.ledgerName ?? ''} 开单',
+          title:'挂单开单',
+          // '${state.ledgerName ?? ''} 开单',
           actionWidget:PermissionOwnerWidget(
               widgetType: LedgerWidgetType.Disable,
               child: InkWell(
@@ -69,8 +71,7 @@ class PendingRetailBillView extends StatelessWidget {
                         id: 'retail_bill_sale_custom',
                         builder: (_){
                           return InkWell(
-                              onTap: () =>
-                                  controller.pickerCustom(),
+                              onTap: () => controller.pickerCustom(),
                               child:Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -80,8 +81,10 @@ class PendingRetailBillView extends StatelessWidget {
                                           ?Colours.text_999
                                           :Colors.orange[600]
                                   ),
-                                  Expanded(child:Text(
+                                  Expanded(
+                                      child:Text(
                                     state.customDTO?.customName ?? '选择客户',
+                                    textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontSize: 28.sp,
                                         fontWeight: FontWeight.w500,
@@ -97,7 +100,7 @@ class PendingRetailBillView extends StatelessWidget {
                 Container(
                   height: 40.w,
                   width: 2.w,
-                  margin: EdgeInsets.symmetric(horizontal: 8.w),
+                  margin: EdgeInsets.only(right: 24.w),
                   color: Colours.text_ccc,
                 ),
                 Icon(
@@ -118,55 +121,55 @@ class PendingRetailBillView extends StatelessWidget {
                           fontSize: 28.sp,
                           color: Colours.text_999
                       ),)),
-                Container(
-                  height: 40.w,
-                  width: 2.w,
-                  margin: EdgeInsets.symmetric(horizontal: 8.w),
-                  color: Colours.text_ccc,
-                ),
-
-                Expanded(
-                    flex: 2,
-                    child: Visibility(
-                      visible: controller.state.orderType ==OrderType.SALE,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.w),
-                        child: InkWell(
-                            onTap: () =>Get.toNamed(RouteConfig.pendingOrder)?.then((value){
-                              if(OrderType.SALE == controller.state.orderType){
-                                controller.pendingOrderNum();
-                              }
-                            }),
-                            child: GetBuilder<PendingRetailBillController>(
-                              id: 'sale_bill_pending_order',
-                              init: controller,
-                              global: false,
-                              builder: (_){
-                                return Row(
-                                  children: [
-                                    LoadAssetImage(
-                                      'pending_order',
-                                      format: ImageFormat.png,
-                                      color: ((controller.state.pendingOrderNum != 0)&&(controller.state.pendingOrderNum !=null))
-                                          ? Colours.primary
-                                          : Colours.text_ccc,
-                                      height: 70.w,
-                                      width: 70.w,
-                                    ),
-                                    Text(((controller.state.pendingOrderNum != 0)&&(controller.state.pendingOrderNum !=null))
-                                        ? controller.state.pendingOrderNum.toString()
-                                        : '',
-                                      style: TextStyle(
-                                          color:  Colours.primary,
-                                          fontWeight: FontWeight.w500
-                                      ),),
-                                  ],
-                                );
-                              },)
-                        ),
-                      ),
-                    )
-                )
+                // Container(
+                //   height: 40.w,
+                //   width: 2.w,
+                //   margin: EdgeInsets.symmetric(horizontal: 8.w),
+                //   color: Colours.text_ccc,
+                // ),
+                //
+                // Expanded(
+                //     flex: 2,
+                //     child: Visibility(
+                //       visible: controller.state.orderType ==OrderType.SALE,
+                //       child: Padding(
+                //         padding: EdgeInsets.symmetric(horizontal: 16.w),
+                //         child: InkWell(
+                //             onTap: () =>Get.toNamed(RouteConfig.pendingOrder)?.then((value){
+                //               if(OrderType.SALE == controller.state.orderType){
+                //                 controller.pendingOrderNum();
+                //               }
+                //             }),
+                //             child: GetBuilder<PendingRetailBillController>(
+                //               id: 'sale_bill_pending_order',
+                //               init: controller,
+                //               global: false,
+                //               builder: (_){
+                //                 return Row(
+                //                   children: [
+                //                     LoadAssetImage(
+                //                       'pending_order',
+                //                       format: ImageFormat.png,
+                //                       color: ((controller.state.pendingOrderNum != 0)&&(controller.state.pendingOrderNum !=null))
+                //                           ? Colours.primary
+                //                           : Colours.text_ccc,
+                //                       height: 70.w,
+                //                       width: 70.w,
+                //                     ),
+                //                     Text(((controller.state.pendingOrderNum != 0)&&(controller.state.pendingOrderNum !=null))
+                //                         ? controller.state.pendingOrderNum.toString()
+                //                         : '',
+                //                       style: TextStyle(
+                //                           color:  Colours.primary,
+                //                           fontWeight: FontWeight.w500
+                //                       ),),
+                //                   ],
+                //                 );
+                //               },)
+                //         ),
+                //       ),
+                //     )
+                // )
               ],
             )
         ),
@@ -195,8 +198,7 @@ class PendingRetailBillView extends StatelessWidget {
                                     padding: EdgeInsets.only(top: 0),
                                     controller: state.menuController,
                                     itemCount:state.productClassifyListDTO
-                                        ?.productClassifyList
-                                        ?.length ?? 0,
+                                        ?.productClassifyList?.length ?? 0,
                                     itemBuilder: (BuildContext context,
                                         int index) {
                                       ProductClassifyDTO classifyDTO =
@@ -270,127 +272,146 @@ class PendingRetailBillView extends StatelessWidget {
                                   ProductDTO stockDTO = state.productList![index];
                                   return InkWell(
                                       onTap: () => controller.addToShoppingCar(stockDTO),
-                                      child: Container(
-                                        width: double.infinity,
-                                        color: Colors.white,
-                                        padding: EdgeInsets.symmetric(
-                                          vertical: 16.w,
-                                          horizontal: 32.w,),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            Container(
-                                                padding: EdgeInsets.symmetric(vertical: 10.w),
-                                                child: Flex(
-                                                    direction: Axis.horizontal,
-                                                    mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                    children: [
-                                                      Expanded(
-                                                        flex: 3,
-                                                        child: Text(
-                                                            stockDTO.productName ??
-                                                                '',
-                                                            style: TextStyle(
-                                                              color: stockDTO
-                                                                  .invalid ==
-                                                                  1
-                                                                  ? Colours.text_ccc
-                                                                  : Colours.text_333,
-                                                              fontSize: 32.sp,
-                                                              fontWeight:
-                                                              FontWeight.w500,
-                                                            )),
-                                                      ),
-                                                      Expanded(
-                                                        child: Text(
-                                                            textAlign: TextAlign.end,
-                                                            controller.getSalesChannel(
-                                                                stockDTO.salesChannel),
-                                                            style: TextStyle(
-                                                              color: stockDTO
-                                                                  .invalid == 1
-                                                                  ? Colours.text_ccc
-                                                                  : Colours.text_999,
-                                                              fontSize: 22.sp,
-                                                              fontWeight:
-                                                              FontWeight.w400,
-                                                            )),
-                                                      )
-                                                    ])),
-                                            Container(
-                                              alignment:Alignment.centerLeft,
-                                              child: Text(textAlign: TextAlign.left,
-                                                  controller.judgeUnit(
-                                                      stockDTO),
-                                                  style: TextStyle(
-                                                    color: stockDTO.invalid == 1
-                                                        ? Colours.text_ccc
-                                                        : Colours.text_999,
-                                                    fontSize: 30.sp,
-                                                    fontWeight:
-                                                    FontWeight.w500,
-                                                  )),
-                                            ),
-                                            Flex(direction: Axis.horizontal,
+                                      child:Stack(
+                                        children: [
+                                          Container(
+                                            width: double.infinity,
+                                            color: Colors.white,
+                                            padding: EdgeInsets.symmetric(
+                                              vertical: 16.w,
+                                              horizontal: 32.w,),
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                               children: [
-                                                Expanded(child:
-                                                Visibility(
-                                                    maintainSize: false,
-                                                    visible:(( (stockDTO.productPlace !=null))&&( (stockDTO.productStandard!=null))) ,
-                                                    child:
-                                                    Container(
-                                                      padding: EdgeInsets.only(top: 16.w),
-                                                      child:  Flex(direction: Axis.horizontal,
+                                                Container(
+                                                    padding: EdgeInsets.symmetric(vertical: 10.w),
+                                                    child: Flex(
+                                                        direction: Axis.horizontal,
+                                                        mainAxisAlignment:
+                                                        MainAxisAlignment.start,
                                                         children: [
-                                                          Text(
-                                                              stockDTO.productPlace ??
-                                                                  '',
-                                                              style:
-                                                              TextStyle(
-                                                                color: stockDTO.invalid == 1
-                                                                    ? Colours.text_ccc
-                                                                    : Colours.text_999,
-                                                                fontSize: 26.sp,
-                                                                fontWeight:
-                                                                FontWeight
-                                                                    .w500,
-                                                              )),
-                                                          SizedBox(width: 32.w,),
-                                                          Expanded(child:Text(
-                                                              stockDTO.productStandard ?? '',
-                                                              style:
-                                                              TextStyle(
-                                                                color: stockDTO
-                                                                    .invalid ==
-                                                                    1
-                                                                    ? Colours
-                                                                    .text_ccc
-                                                                    : Colours
-                                                                    .text_999,
-                                                                fontSize:
-                                                                26.sp,
-                                                                fontWeight:
-                                                                FontWeight
-                                                                    .w500,
-                                                              )) ),
-                                                        ],
+                                                          Expanded(
+                                                            flex: 3,
+                                                            child: Text(
+                                                                stockDTO.productName ??
+                                                                    '',
+                                                                style: TextStyle(
+                                                                  color: stockDTO
+                                                                      .invalid ==
+                                                                      1
+                                                                      ? Colours.text_ccc
+                                                                      : Colours.text_333,
+                                                                  fontSize: 32.sp,
+                                                                  fontWeight:
+                                                                  FontWeight.w500,
+                                                                )),
+                                                          ),
+                                                          Expanded(
+                                                            child: Text(
+                                                                textAlign: TextAlign.end,
+                                                                controller.getSalesChannel(
+                                                                    stockDTO.salesChannel),
+                                                                style: TextStyle(
+                                                                  color: stockDTO
+                                                                      .invalid == 1
+                                                                      ? Colours.text_ccc
+                                                                      : Colours.text_999,
+                                                                  fontSize: 22.sp,
+                                                                  fontWeight:
+                                                                  FontWeight.w400,
+                                                                )),
+                                                          )
+                                                        ])),
+                                                Container(
+                                                  alignment:Alignment.centerLeft,
+                                                  child: Text(textAlign: TextAlign.left,
+                                                      controller.judgeUnit(
+                                                          stockDTO),
+                                                      style: TextStyle(
+                                                        color: stockDTO.invalid == 1
+                                                            ? Colours.text_ccc
+                                                            : Colours.text_999,
+                                                        fontSize: 30.sp,
+                                                        fontWeight:
+                                                        FontWeight.w500,
+                                                      )),
+                                                ),
+                                                Flex(direction: Axis.horizontal,
+                                                  children: [
+                                                    Expanded(child:
+                                                    Visibility(
+                                                        maintainSize: false,
+                                                        visible:(( (stockDTO.productPlace !=null))&&( (stockDTO.productStandard!=null))) ,
+                                                        child:
+                                                        Container(
+                                                          padding: EdgeInsets.only(top: 16.w),
+                                                          child:  Flex(direction: Axis.horizontal,
+                                                            children: [
+                                                              Text(
+                                                                  stockDTO.productPlace ??
+                                                                      '',
+                                                                  style:
+                                                                  TextStyle(
+                                                                    color: stockDTO.invalid == 1
+                                                                        ? Colours.text_ccc
+                                                                        : Colours.text_999,
+                                                                    fontSize: 26.sp,
+                                                                    fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                  )),
+                                                              SizedBox(width: 32.w,),
+                                                              Expanded(child:Text(
+                                                                  stockDTO.productStandard ?? '',
+                                                                  style:
+                                                                  TextStyle(
+                                                                    color: stockDTO
+                                                                        .invalid ==
+                                                                        1
+                                                                        ? Colours
+                                                                        .text_ccc
+                                                                        : Colours
+                                                                        .text_999,
+                                                                    fontSize:
+                                                                    26.sp,
+                                                                    fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                  )) ),
+                                                            ],
+                                                          ),
+                                                        )
+                                                    )
+                                                    ),
+                                                    Container(
+                                                      padding: EdgeInsets.only(left: 48.w),
+                                                      child:  LoadAssetImage(
+                                                        'add_goods',
+                                                        width: 50.w,
+                                                        height: 50.w,
                                                       ),
                                                     )
-                                                )
-                                                ),
-                                                Container(
-                                                  padding: EdgeInsets.only(left: 48.w),
-                                                  child:  LoadAssetImage(
-                                                    'add_goods',
-                                                    width: 50.w,
+                                                  ],)
+                                              ],
+                                            ),
+                                          ),
+                                          Positioned(
+                                              left: 8.w,
+                                              bottom: 8.w,
+                                              child:Offstage(
+                                                  offstage: controller.isInShoppingCar(stockDTO.id),
+                                                  child:LoadAssetImage(
+                                                    'retail_bill_checked',
+                                                    format: ImageFormat.png,
+                                                    color: Colours.primary,
                                                     height: 50.w,
-                                                  ),
-                                                )
-                                              ],)
-                                          ],
-                                        ),
-                                      ));
+                                                    width: 50.w,
+                                                  ))
+                                          )
+                                        ],
+                                      )
+
+                                  );
                                 },
                                 separatorBuilder: (context, index) => Container(
                                   height: 2.w,
@@ -422,36 +443,36 @@ class PendingRetailBillView extends StatelessWidget {
                 child: Flex(
                   direction: Axis.horizontal,
                   children: [
-                    Expanded(
-                      flex: 2,
-                      child:
-                      Visibility(
-                          visible: controller.state.orderType ==OrderType.SALE,
-                          child: InkWell(
-                              onTap: () =>controller.pendingOrder(),
-                              child:  Row(
-                                children: [
-                                  LoadAssetImage(
-                                    'pending_order',
-                                    format: ImageFormat.png,
-                                    color: Colours.primary,
-                                    height: 70.w,
-                                    width: 70.w,
-                                  ),
-                                  Expanded(child:
-                                  Text('挂单',))
-                                ],
-                              )
-                          )),
-                    ),
-                    Visibility(
-                        visible:controller.state.orderType ==OrderType.SALE,
-                        child: Container(
-                          width: 2.w,
-                          height: 60.w,
-                          margin: EdgeInsets.symmetric(horizontal: 16.w),
-                          color: Colours.divider,
-                        )),
+                    // Expanded(
+                    //   flex: 2,
+                    //   child:
+                    //   Visibility(
+                    //       visible: controller.state.orderType ==OrderType.SALE,
+                    //       child: InkWell(
+                    //           onTap: () =>controller.pendingOrder(),
+                    //           child:  Row(
+                    //             children: [
+                    //               LoadAssetImage(
+                    //                 'pending_order',
+                    //                 format: ImageFormat.png,
+                    //                 color: Colours.primary,
+                    //                 height: 70.w,
+                    //                 width: 70.w,
+                    //               ),
+                    //               Expanded(child:
+                    //               Text('挂单',))
+                    //             ],
+                    //           )
+                    //       )),
+                    // ),
+                    // Visibility(
+                    //     visible:controller.state.orderType ==OrderType.SALE,
+                    //     child: Container(
+                    //       width: 2.w,
+                    //       height: 60.w,
+                    //       margin: EdgeInsets.symmetric(horizontal: 16.w),
+                    //       color: Colours.divider,
+                    //     )),
                     Expanded(
                         flex: 4,
                         child: InkWell(
@@ -460,12 +481,15 @@ class PendingRetailBillView extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
+                              SizedBox(width: 24.w,),
                               Icon(
                                 Icons.shopping_cart_outlined,
                                 color: Colours.primary,
                               ),
-                              Expanded(child:
-                              Text('${state.shoppingCarList?.length ?? 0}',
+                              Expanded(
+                                  child: Text(controller.state.orderType == OrderType.REFUND
+                                  ?controller.state.shoppingCarList.length.toString()
+                                  :DecimalUtil.formatDecimalNumber(controller.getShoppingCarTotalNumber()),
                                 style: TextStyle(
                                     color: Colors.red[600],
                                     fontSize: 32.sp,
@@ -474,7 +498,7 @@ class PendingRetailBillView extends StatelessWidget {
                                 textAlign: TextAlign.center,
                               )),
                               Text(
-                                '种',
+                                '件',
                                 style: TextStyle(
                                     color: Colours.text_666,
                                     fontSize: 28.sp,

@@ -107,6 +107,7 @@ class CostRecordController extends GetxController with GetSingleTickerProviderSt
     state.currentPage = 1;
     Loading.showDuration();
     _queryData(state.currentPage).then((result) {
+      Loading.dismiss();
       if (result.success) {
         state.items = result.d?.result;
         state.hasMore = result.d?.hasMore;
