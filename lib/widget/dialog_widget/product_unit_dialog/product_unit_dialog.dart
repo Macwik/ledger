@@ -500,6 +500,7 @@ class ProductUnitDialog extends StatelessWidget {
             masterUnitId: productDTO.unitDetailDTO?.masterUnitId,
             slaveUnitId: productDTO.unitDetailDTO?.slaveUnitId,
             masterNumber: Decimal.tryParse(number),
+            slaveNumber: DecimalUtil.divide(Decimal.tryParse(number), (productDTO.unitDetailDTO?.conversion ?? Decimal.one)),
             masterPrice: Decimal.tryParse(price),
             totalAmount: Decimal.tryParse(totalAmount));
       } else {
@@ -507,6 +508,7 @@ class ProductUnitDialog extends StatelessWidget {
             selectMasterUnit: false,
             masterUnitId: productDTO.unitDetailDTO?.masterUnitId,
             slaveUnitId: productDTO.unitDetailDTO?.slaveUnitId,
+            masterNumber: (Decimal.tryParse(number) ?? Decimal.zero) * (productDTO.unitDetailDTO?.conversion ?? Decimal.zero),
             slaveNumber: Decimal.tryParse(number),
             slavePrice: Decimal.tryParse(price),
             totalAmount: Decimal.tryParse(totalAmount));

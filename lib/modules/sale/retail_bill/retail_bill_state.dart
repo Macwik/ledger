@@ -60,7 +60,6 @@ class RetailBillState {
 
   //销售、退货开单购物车商品
   List<ProductShoppingCarDTO> shoppingCarList = [];
-  List<ProductShoppingCarDTO> shoppingCarCheckList =[];
 
   //调整库存
   ProductStockAdjustRequest? productStockAdjustRequest;

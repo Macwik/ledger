@@ -17,7 +17,7 @@ class ShoppingCarListController extends GetxController {
     if ((arguments != null) && arguments['shoppingCar'] != null) {
       state.shoppingCarList = arguments['shoppingCar'];
     }
-    update(['shopping_car_list_title','shopping_car_list_detail']);
+    update(['shopping_car_list_title', 'shopping_car_list_detail']);
   }
 
   void toDeleteOrder(ProductShoppingCarDTO productShoppingCarDTO) {
@@ -36,12 +36,16 @@ class ShoppingCarListController extends GetxController {
                   .map((e) => (e.unitDetailDTO?.totalAmount ?? Decimal.zero))
                   .reduce((value, element) => value + element);
             }
-            if(productShoppingCarDTO.unitDetailDTO?.unitType == UnitType.SINGLE.value){
-              state.totalNumber =  state.totalNumber - (productShoppingCarDTO.unitDetailDTO?.number??Decimal.zero);
-            }else{
-              state.totalNumber =  state.totalNumber - (productShoppingCarDTO.unitDetailDTO?.slaveNumber??Decimal.zero);
+            if (productShoppingCarDTO.unitDetailDTO?.unitType ==
+                UnitType.SINGLE.value) {
+              state.totalNumber = state.totalNumber -
+                  (productShoppingCarDTO.unitDetailDTO?.number ?? Decimal.zero);
+            } else {
+              state.totalNumber = state.totalNumber -
+                  (productShoppingCarDTO.unitDetailDTO?.slaveNumber ??
+                      Decimal.zero);
             }
-            update(['shopping_car_list_detail','shopping_car_list_title']);
+            update(['shopping_car_list_detail', 'shopping_car_list_title']);
             Toast.show('删除成功');
           }),
     );
@@ -50,41 +54,45 @@ class ShoppingCarListController extends GetxController {
   String? getPrice(UnitDetailDTO unitDetailDTO) {
     var unitType = unitDetailDTO.unitType;
     if (UnitType.SINGLE.value == unitType) {
-      if(unitDetailDTO.price ==null ){
+      if (unitDetailDTO.price == null) {
         return '/';
       }
       return '${unitDetailDTO.price}元/${unitDetailDTO.unitName}';
     } else {
       if (unitDetailDTO.selectMasterUnit ?? true) {
-        if((unitDetailDTO.masterPrice ==null)&&(unitDetailDTO.slaveNumber == null)){
+        if ((unitDetailDTO.masterPrice == null) &&
+            (unitDetailDTO.slaveNumber == null)) {
           return '/';
         }
         return '${unitDetailDTO.masterPrice}元/${unitDetailDTO.masterUnitName}';
-    }
+      }
       return '${unitDetailDTO.slavePrice}元/${unitDetailDTO.slaveUnitName}';
-  }
+    }
   }
 
   String? getNum(UnitDetailDTO unitDetailDTO) {
     var unitType = unitDetailDTO.unitType;
     if (UnitType.SINGLE.value == unitType) {
-      if(unitDetailDTO.number ==null ){
+      if (unitDetailDTO.number == null) {
         return '/';
       }
       return '${DecimalUtil.formatDecimalNumber(unitDetailDTO.number)} ${unitDetailDTO.unitName}';
     } else {
-      if (unitDetailDTO.selectMasterUnit ?? true) {
-        if ((unitDetailDTO.masterNumber == null) && (unitDetailDTO.slaveNumber == null)) {
-          return '/';
-        }
-          Decimal? slaveNum = DecimalUtil.divide (unitDetailDTO.masterNumber,unitDetailDTO.conversion);
-          return '${DecimalUtil.formatDecimalNumber(slaveNum)} ${unitDetailDTO.slaveUnitName}'
-              ' | ${DecimalUtil.formatDecimalNumber(unitDetailDTO.masterNumber)} ${unitDetailDTO.masterUnitName}';
-        }else{
-        Decimal? masterNum = (unitDetailDTO.slaveNumber??Decimal.zero)*(unitDetailDTO.conversion??Decimal.zero);
-        return '${DecimalUtil.formatDecimalNumber(unitDetailDTO.slaveNumber)} ${unitDetailDTO.slaveUnitName}'
-            ' | ${DecimalUtil.formatDecimalNumber(masterNum)} ${unitDetailDTO.masterUnitName}';
-      }
+      // if (unitDetailDTO.selectMasterUnit ?? true) {
+      //   if ((unitDetailDTO.masterNumber == null) &&
+      //       (unitDetailDTO.slaveNumber == null)) {
+      //     return '/';
+      //   }
+      //   Decimal? slaveNum = DecimalUtil.divide(
+      //       unitDetailDTO.masterNumber, unitDetailDTO.conversion);
+      return '${DecimalUtil.formatDecimalNumber(unitDetailDTO.slaveNumber)} ${unitDetailDTO.slaveUnitName}'
+          ' | ${DecimalUtil.formatDecimalNumber(unitDetailDTO.masterNumber)} ${unitDetailDTO.masterUnitName}';
+      // } else {
+      //   Decimal? masterNum = (unitDetailDTO.slaveNumber ?? Decimal.zero) *
+      //       (unitDetailDTO.conversion ?? Decimal.zero);
+      //   return '${DecimalUtil.formatDecimalNumber(unitDetailDTO.slaveNumber)} ${unitDetailDTO.slaveUnitName}'
+      //       ' | ${DecimalUtil.formatDecimalNumber(masterNum)} ${unitDetailDTO.masterUnitName}';
+      // }
     }
   }
 
@@ -98,12 +106,13 @@ class ShoppingCarListController extends GetxController {
       if (element.unitDetailDTO?.unitType == UnitType.SINGLE.value) {
         return previousValue + (element.unitDetailDTO?.number ?? Decimal.zero);
       } else {
-        return previousValue + (element.unitDetailDTO?.slaveNumber ?? Decimal.zero);
+        return previousValue +
+            (element.unitDetailDTO?.slaveNumber ?? Decimal.zero);
       }
     });
   }
 
- // 计算金额
+  // 计算金额
   String? getTotalAmount() {
     var totalAmount = Decimal.zero;
     for (var element in state.shoppingCarList) {

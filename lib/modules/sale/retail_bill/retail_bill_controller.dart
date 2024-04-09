@@ -144,7 +144,6 @@ class RetailBillController extends GetxController {
             orderType: state.orderType,
             onClick: (result) {
              state.shoppingCarList.add(result);
-            addRetailShoppingCarList(result);
               update(['shopping_car_box', 'product_classify_list']);
               return true;
             },
@@ -168,25 +167,28 @@ class RetailBillController extends GetxController {
     }
   }
 
-  addRetailShoppingCarList(ProductShoppingCarDTO result) {//TODO 建立副本
-    state.shoppingCarCheckList = state.shoppingCarList;
-    ProductShoppingCarDTO? product = state.shoppingCarCheckList.firstWhereOrNull((element) => element.productId == result.productId);
-    if (product == null) {
-      //state.shoppingCarCheckList.add(result);
-    } else {
-      if (result.unitDetailDTO?.unitType == UnitType.SINGLE.value) {
-        var number = product.unitDetailDTO?.number ?? Decimal.zero;
-        number += number ; //(result.unitDetailDTO?.number ?? Decimal.zero);
-        product.unitDetailDTO?.number = number;
-      } else {
-        var masterNumber = product.unitDetailDTO?.masterNumber ?? Decimal.zero;
-        masterNumber += masterNumber ; //(result.unitDetailDTO?.masterNumber ?? Decimal.zero);
-        product.unitDetailDTO?.masterNumber = masterNumber;
-        var slaveNumber = product.unitDetailDTO?.slaveNumber ?? Decimal.zero;
-        slaveNumber += slaveNumber; //+ (result.unitDetailDTO?.slaveNumber ?? Decimal.zero);
-        product.unitDetailDTO?.slaveNumber = slaveNumber;
+  mergeShoppingCarList() {//TODO 建立副本
+    List<ProductShoppingCarDTO> shoppingCarCheckList =[];
+    for(ProductShoppingCarDTO result in state.shoppingCarList){
+      var product = shoppingCarCheckList.firstWhereOrNull((element) => element.productId == result.productId);
+      if(null == product){
+        shoppingCarCheckList.add(result);
+      }else{
+        if (result.unitDetailDTO?.unitType == UnitType.SINGLE.value) {
+          var number = product.unitDetailDTO?.number ?? Decimal.zero;
+          number += (result.unitDetailDTO?.number ?? Decimal.zero);
+          product.unitDetailDTO?.number = number;
+        } else {
+          var masterNumber = product.unitDetailDTO?.masterNumber ?? Decimal.zero;
+          masterNumber += (result.unitDetailDTO?.masterNumber ?? Decimal.zero);
+          product.unitDetailDTO?.masterNumber = masterNumber;
+          var slaveNumber = product.unitDetailDTO?.slaveNumber ?? Decimal.zero;
+          slaveNumber += (result.unitDetailDTO?.slaveNumber ?? Decimal.zero);
+          product.unitDetailDTO?.slaveNumber = slaveNumber;
+        }
       }
     }
+    return shoppingCarCheckList;
   }
 
   Future<void> alertStockNotEnough() async {
@@ -435,11 +437,11 @@ class RetailBillController extends GetxController {
   }
 
   bool checkStockEnough() {
-    var productList = state.shoppingCarCheckList;//ToDO 校验用副本
-    if (productList.isEmpty) {
+    var mergeList = mergeShoppingCarList();
+    if (mergeList.isEmpty) {
       return false;
     } else {
-      for (var productDTO in productList) {
+      for (var productDTO in mergeList) {
         if (productDTO.unitDetailDTO?.unitType == UnitType.SINGLE.value) {
           if ((productDTO.unitDetailDTO?.number ?? Decimal.zero) >
               (productDTO.unitDetailDTO?.stock ?? Decimal.zero)) {
@@ -570,7 +572,6 @@ class RetailBillController extends GetxController {
                 child: Text('确定'),
                 onPressed: () {
                   state.shoppingCarList.clear();
-                  state.shoppingCarCheckList.clear();
                   Get.until((route) {
                     return (route.settings.name == RouteConfig.saleRecord) ||
                         (route.settings.name == RouteConfig.main);
