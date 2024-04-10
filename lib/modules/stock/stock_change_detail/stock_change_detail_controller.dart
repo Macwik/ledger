@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ledger/entity/product/stock_change_record_dto.dart';
 import 'package:ledger/enum/unit_type.dart';
+import 'package:ledger/res/colors.dart';
 
 import 'stock_change_detail_state.dart';
 
@@ -45,6 +47,25 @@ class StockChangeDetailController extends GetxController {
       return '${beforeRecordDTO.beforeStock!} ${beforeRecordDTO.unitName}';
     }else{
       return '${beforeRecordDTO.beforeMasterStock!} ${beforeRecordDTO.masterUnitName}| ${beforeRecordDTO.beforeSlaveStock!} ${beforeRecordDTO.slaveUnitName}';
+    }
+  }
+
+  Color beforeCountColor(StockChangeRecordDTO? beforeStock) {
+    if (null == beforeStock) {
+      return Colours.primary;
+    }
+    if (beforeStock.unitType == UnitType.SINGLE.value) {
+      if (beforeStock.beforeStock! < beforeStock.afterStock!) {
+        return Colours.primary;
+      } else {
+        return Colors.orange;
+      }
+    } else {
+      if (beforeStock.beforeMasterStock! < beforeStock.afterMasterStock!) {
+        return Colours.primary;
+      } else {
+        return Colors.orange;
+      }
     }
   }
 }

@@ -51,13 +51,13 @@ class StockChangeRecordController extends GetxController {
       return Colours.primary;
     }
     if (beforeStock.unitType == UnitType.SINGLE.value) {
-      if (beforeStock.beforeStock! > beforeStock.afterStock!) {
+      if (beforeStock.beforeStock! < beforeStock.afterStock!) {
         return Colours.primary;
       } else {
         return Colors.orange;
       }
     } else {
-      if (beforeStock.beforeMasterStock! > beforeStock.afterMasterStock!) {
+      if (beforeStock.beforeMasterStock! < beforeStock.afterMasterStock!) {
         return Colours.primary;
       } else {
         return Colors.orange;

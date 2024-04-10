@@ -24,13 +24,13 @@ class StockChangeMultiDialog extends StatelessWidget {
     required this.onClick}){
     StockChangeMultiDialogBinding().dependencies();
     controller = Get.find<StockChangeMultiDialogController>();
-   // controller.masterStockController.text = DecimalUtil.formatDecimalDefault(productDTO.unitDetailDTO?.masterStock);
     controller.slaveStockController.text = DecimalUtil.formatDecimalDefault(productDTO.unitDetailDTO?.slaveStock
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    controller.initState();
     return FormBuilder(
         key: formKey,
         child: Column(
@@ -90,12 +90,12 @@ class StockChangeMultiDialog extends StatelessWidget {
                             controller.update(['master_profit_and_loss']);
                             },
                           controller: controller.slaveStockController,
+                          autofocus: true,
                           onTap: () {
                             controller.updateSlaveStock(productDTO.unitDetailDTO);
                             controller.slaveStockController.selection = TextSelection(
                                     baseOffset: 0,
-                                    extentOffset: controller.slaveStockController
-                                        .value.text.length);
+                                    extentOffset: controller.slaveStockController.value.text.length);
                           },
                           textAlign: TextAlign.center,
                           maxLength: 10,

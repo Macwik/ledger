@@ -30,6 +30,7 @@ class StockChangeSingleDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    controller.initState();
     return FormBuilder(
         key: formKey,
         child: Column(

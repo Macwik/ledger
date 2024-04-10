@@ -11,6 +11,15 @@ class StockChangeMultiDialogController extends GetxController {
 
   String ? masterNum;
 
+  Future<void> initState() async{
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      slaveStockController.selection = TextSelection(
+        baseOffset: 0,
+        extentOffset: slaveStockController.value.text.length,
+      );
+    });
+  }
+
 
   void updateMasterStock(UnitDetailDTO? unitDetailDTO) {
     var masterStock = masterStockController.text;

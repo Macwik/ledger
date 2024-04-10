@@ -134,6 +134,59 @@ class StockChangeDetailView extends StatelessWidget {
                                     )),
                               ],
                             ),
+                            SizedBox(
+                              height: 16.w,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Visibility(
+                                      visible: (((state.stockChangeRecordDTO != null)) &&
+                                          ((state.stockChangeRecordDTO?.productStandard?.isNotEmpty ?? false))),
+                                      child:  Row(
+                                          children:[
+                                            Text( '规格:',
+                                                style: TextStyle(
+                                                  color: Colours.text_ccc,
+                                                  fontSize: 30.sp,
+                                                  fontWeight: FontWeight.w500,
+                                                )),
+                                            SizedBox(width: 24.w,),
+                                            Expanded(child:
+                                            Text(state.stockChangeRecordDTO?.productStandard ?? '',
+                                                style: TextStyle(
+                                                  color: Colours.text_999,
+                                                  fontSize: 30.sp,
+                                                  fontWeight: FontWeight.w500,
+                                                )))
+                                          ]
+                                      )),),
+                                Expanded(
+                                    child: Visibility(
+                                        visible: (((state.stockChangeRecordDTO != null)) &&
+                                            ((state.stockChangeRecordDTO?.productStandard?.isNotEmpty ?? false))),
+                                        child: Row(children: [Text('产地:',
+                                            style: TextStyle(
+                                              color: Colours.text_ccc,
+                                              fontSize: 30.sp,
+                                              fontWeight: FontWeight.w500,
+                                            )),
+                                          SizedBox(
+                                            width: 24.w,
+                                          ),
+                                          Expanded(
+                                              child: Text(
+                                                  state.stockChangeRecordDTO
+                                                      ?.productPlace ??
+                                                      '',
+                                                  style: TextStyle(
+                                                    color: Colours.text_999,
+                                                    fontSize: 30.sp,
+                                                    fontWeight: FontWeight.w500,
+                                                  )))
+                                        ])))
+                              ],
+                            ),
                             Container(
                               height: 1.w,
                               margin: EdgeInsets.only(top: 16.w,bottom: 16.w),
@@ -161,32 +214,11 @@ class StockChangeDetailView extends StatelessWidget {
                                         )))
                                   ],
                                 )),
-                                Expanded(
-                                  child: Visibility(
-                                      visible: (((state.stockChangeRecordDTO != null)) &&
-                                          ((state.stockChangeRecordDTO?.productStandard?.isNotEmpty ?? false))),
-                                child:  Row(
-                                children:[
-                                  Text( '规格:',
-                                      style: TextStyle(
-                                        color: Colours.text_999,
-                                        fontSize: 30.sp,
-                                        fontWeight: FontWeight.w500,
-                                      )),
-                                  SizedBox(width: 24.w,),
-                                  Expanded(child:
-                                  Text(state.stockChangeRecordDTO?.productStandard ?? '',
-                                            style: TextStyle(
-                                              color: Colours.text_999,
-                                              fontSize: 30.sp,
-                                              fontWeight: FontWeight.w500,
-                                            )))
-                                      ]
-                                )),)
+
                               ],
                             ),
                             SizedBox(
-                              height: 8,
+                              height: 16.w,
                             ),
                             Flex(
                               direction: Axis.horizontal,
@@ -203,40 +235,17 @@ class StockChangeDetailView extends StatelessWidget {
                                 Expanded(child:
                                 Text(controller.getDiff(state.stockChangeRecordDTO),
                                     style: TextStyle(
-                                      color: Colours.primary,
+                                      color: controller.beforeCountColor(state.stockChangeRecordDTO),
                                       fontSize: 30.sp,
                                       fontWeight: FontWeight.w500,
                                     ))),
                               ],)),
-                                    Expanded(
-                                        child: Visibility(
-                                            visible: (((state.stockChangeRecordDTO != null)) &&
-                                                ((state.stockChangeRecordDTO?.productStandard?.isNotEmpty ?? false))),
-                                            child: Row(children: [Text('产地:',
-                                          style: TextStyle(
-                                            color: Colours.text_999,
-                                            fontSize: 30.sp,
-                                            fontWeight: FontWeight.w500,
-                                          )),
-                                      SizedBox(
-                                        width: 24.w,
-                                      ),
-                                      Expanded(
-                                          child: Text(
-                                              state.stockChangeRecordDTO
-                                                      ?.productPlace ??
-                                                  '',
-                                              style: TextStyle(
-                                                color: Colours.text_999,
-                                                fontSize: 30.sp,
-                                                fontWeight: FontWeight.w500,
-                                              )))
-                                    ])))
+
                                   ],
                             ),
 
                             SizedBox(
-                              height: 8,
+                              height: 16.w,
                             ),
                             Row(
                               children: [
@@ -255,6 +264,7 @@ class StockChangeDetailView extends StatelessWidget {
                                     )) ,
                               ],
                             ),
+
                           ],
                         ),
                       );

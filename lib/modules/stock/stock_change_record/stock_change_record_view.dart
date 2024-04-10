@@ -395,7 +395,7 @@ class StockChangeRecordView extends StatelessWidget {
                                       Text(stockChangeRecordDTO.productName??'',
                                           style: TextStyle(
                                             color: Colours.text_333,
-                                            fontSize: 30.sp,
+                                            fontSize: 32.sp,
                                             fontWeight: FontWeight.w500,
                                           )),
                                       // SizedBox(
@@ -434,33 +434,33 @@ class StockChangeRecordView extends StatelessWidget {
                                     children: [
                                       Expanded(child: Row(
                                         children: [
-                                         Text('调整库存：',
+                                         Text('差      异：',
                                               style: TextStyle(
                                                 color: Colours.text_ccc,
-                                                fontSize: 26.sp,
+                                                fontSize: 30.sp,
                                                 fontWeight: FontWeight.w500,
                                               )),
                                           Expanded(child: Text(controller.beforeCount(stockChangeRecordDTO),
                                               style: TextStyle(
                                                 color:controller.beforeCountColor(stockChangeRecordDTO),
-                                                fontSize: 26.sp,
+                                                fontSize: 30.sp,
                                                 fontWeight: FontWeight.w500,
                                               )), ),
                                         ],)),
-                                      Expanded(child: Row(children: [
-                                        Text('业务员：',
-                                            style: TextStyle(
-                                              color: Colours.text_ccc,
-                                              fontSize: 26.sp,
-                                              fontWeight: FontWeight.w500,
-                                            )),
-                                        Expanded(child: Text(stockChangeRecordDTO.creatorName??'',
-                                            style: TextStyle(
-                                              color: Colours.text_666,
-                                              fontSize: 26.sp,
-                                              fontWeight: FontWeight.w500,
-                                            ))),
-                                      ],), )
+                                      // Expanded(child: Row(children: [
+                                      //   Text('业务员：',
+                                      //       style: TextStyle(
+                                      //         color: Colours.text_ccc,
+                                      //         fontSize: 26.sp,
+                                      //         fontWeight: FontWeight.w500,
+                                      //       )),
+                                      //   Expanded(child: Text(stockChangeRecordDTO.creatorName??'',
+                                      //       style: TextStyle(
+                                      //         color: Colours.text_666,
+                                      //         fontSize: 26.sp,
+                                      //         fontWeight: FontWeight.w500,
+                                      //       ))),
+                                      // ],), )
                                     ],
                                   ),
                                   SizedBox(height: 16.w,),
@@ -472,13 +472,13 @@ class StockChangeRecordView extends StatelessWidget {
                                           Text('目前库存：',
                                               style: TextStyle(
                                                 color: Colours.text_ccc,
-                                                fontSize: 26.sp,
+                                                fontSize: 30.sp,
                                                 fontWeight: FontWeight.w500,
                                               )) ,
                                         Text(controller.afterCount(stockChangeRecordDTO),
                                               style: TextStyle(
                                                 color: Colours.text_999,
-                                                fontSize: 26.sp,
+                                                fontSize: 30.sp,
                                                 fontWeight: FontWeight.w500,
                                               ),)
                                         ],)),

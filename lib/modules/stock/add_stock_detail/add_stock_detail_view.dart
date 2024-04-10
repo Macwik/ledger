@@ -110,6 +110,67 @@ class AddStockDetailView extends StatelessWidget {
                       );
                     }),
                 GetBuilder<AddStockDetailController>(
+                    id: 'add_stock_detail_product',
+                    builder: (_) {
+                      return ListView.separated(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        separatorBuilder: (context, index) => Container(
+                          height: 2.w,
+                          margin: EdgeInsets.symmetric(
+                            horizontal: 40.w,
+                          ),
+                          color: Colours.divider,
+                          width: double.infinity,
+                        ),
+                        itemCount: state.orderDetailDTO?.orderProductDetailList
+                            ?.length ??
+                            0,
+                        itemBuilder: (BuildContext context, int index) {
+                          var orderProductDetail = state.orderDetailDTO?.orderProductDetailList![index];
+                          return Container(
+                            color: Colors.white,
+                            padding: EdgeInsets.only(
+                                left: 40.w,
+                                right: 40.w,
+                                top: 32.w,
+                                bottom: 16.w),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Flex(
+                                  direction: Axis.horizontal,
+                                  children: [
+                                    Expanded(
+                                        child: Text(
+                                            orderProductDetail?.productName ??
+                                                '',
+                                            style: TextStyle(
+                                              color: Colours.text_333,
+                                              fontSize: 32.sp,
+                                              fontWeight: FontWeight.w500,
+                                            ))),
+                                    Expanded(
+                                      child: Text(
+                                          controller.judgeUnit(orderProductDetail),
+                                          textAlign: TextAlign.right,
+                                          style: TextStyle(
+                                            color: Colours.text_333,
+                                            fontSize: 32.sp,
+                                            fontWeight: FontWeight.w400,
+                                          )),
+                                    )
+                                  ],
+                                ),
+
+                                //),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    }),
+                GetBuilder<AddStockDetailController>(
                     id: 'order_cost',
                     builder: (_) {
                       return Visibility(
@@ -229,68 +290,6 @@ class AddStockDetailView extends StatelessWidget {
                             ],
                           ));
                     }),
-                GetBuilder<AddStockDetailController>(
-                    id: 'add_stock_detail_product',
-                    builder: (_) {
-                      return ListView.separated(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        separatorBuilder: (context, index) => Container(
-                          height: 2.w,
-                          margin: EdgeInsets.symmetric(
-                            horizontal: 40.w,
-                          ),
-                         color: Colours.divider,
-                          width: double.infinity,
-                        ),
-                        itemCount: state.orderDetailDTO?.orderProductDetailList
-                            ?.length ??
-                            0,
-                        itemBuilder: (BuildContext context, int index) {
-                          var orderProductDetail = state.orderDetailDTO?.orderProductDetailList![index];
-                          return Container(
-                            color: Colors.white,
-                            padding: EdgeInsets.only(
-                                left: 40.w,
-                                right: 40.w,
-                                top: 32.w,
-                                bottom: 16.w),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Flex(
-                                  direction: Axis.horizontal,
-                                  children: [
-                                    Expanded(
-                                        child: Text(
-                                            orderProductDetail?.productName ??
-                                                '',
-                                            style: TextStyle(
-                                              color: Colours.text_333,
-                                              fontSize: 32.sp,
-                                              fontWeight: FontWeight.w500,
-                                            ))),
-                                    Expanded(
-                                      child: Text(
-                                         controller.judgeUnit(orderProductDetail),
-                                          textAlign: TextAlign.right,
-                                          style: TextStyle(
-                                            color: Colours.text_333,
-                                            fontSize: 32.sp,
-                                            fontWeight: FontWeight.w400,
-                                          )),
-                                    )
-                                  ],
-                                ),
-
-                                //),
-                              ],
-                            ),
-                          );
-                        },
-                      );
-                    }),
-
                 Column(
                   children: [
                     Container(
