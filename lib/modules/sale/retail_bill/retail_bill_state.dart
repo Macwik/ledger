@@ -8,7 +8,6 @@ import 'package:ledger/entity/payment/payment_method_dto.dart';
 import 'package:ledger/entity/product/product_classify_list_dto.dart';
 import 'package:ledger/entity/product/product_dto.dart';
 import 'package:ledger/entity/product/product_shopping_car_dto.dart';
-import 'package:ledger/entity/product/product_stock_adjust_request.dart';
 import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/store/store_controller.dart';
 
@@ -62,7 +61,7 @@ class RetailBillState {
   List<ProductShoppingCarDTO> shoppingCarList = [];
 
   //调整库存
-  ProductStockAdjustRequest? productStockAdjustRequest;
+ // ProductStockAdjustRequest? productStockAdjustRequest;
 
 
 }

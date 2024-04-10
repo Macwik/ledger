@@ -237,7 +237,10 @@ class AddStockDetailView extends StatelessWidget {
                         physics: NeverScrollableScrollPhysics(),
                         separatorBuilder: (context, index) => Container(
                           height: 2.w,
-                          color: Colours.divider,
+                          margin: EdgeInsets.symmetric(
+                            horizontal: 40.w,
+                          ),
+                         color: Colours.divider,
                           width: double.infinity,
                         ),
                         itemCount: state.orderDetailDTO?.orderProductDetailList

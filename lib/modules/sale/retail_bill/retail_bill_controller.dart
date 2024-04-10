@@ -167,29 +167,7 @@ class RetailBillController extends GetxController {
     }
   }
 
-  mergeShoppingCarList() {//TODO 建立副本
-    List<ProductShoppingCarDTO> shoppingCarCheckList =[];
-    for(ProductShoppingCarDTO result in state.shoppingCarList){
-      var product = shoppingCarCheckList.firstWhereOrNull((element) => element.productId == result.productId);
-      if(null == product){
-        shoppingCarCheckList.add(result);
-      }else{
-        if (result.unitDetailDTO?.unitType == UnitType.SINGLE.value) {
-          var number = product.unitDetailDTO?.number ?? Decimal.zero;
-          number += (result.unitDetailDTO?.number ?? Decimal.zero);
-          product.unitDetailDTO?.number = number;
-        } else {
-          var masterNumber = product.unitDetailDTO?.masterNumber ?? Decimal.zero;
-          masterNumber += (result.unitDetailDTO?.masterNumber ?? Decimal.zero);
-          product.unitDetailDTO?.masterNumber = masterNumber;
-          var slaveNumber = product.unitDetailDTO?.slaveNumber ?? Decimal.zero;
-          slaveNumber += (result.unitDetailDTO?.slaveNumber ?? Decimal.zero);
-          product.unitDetailDTO?.slaveNumber = slaveNumber;
-        }
-      }
-    }
-    return shoppingCarCheckList;
-  }
+
 
   Future<void> alertStockNotEnough() async {
     await Get.dialog(AlertDialog(
@@ -460,6 +438,30 @@ class RetailBillController extends GetxController {
       }
     }
     return false;
+  }
+
+  mergeShoppingCarList() {
+    List<ProductShoppingCarDTO> shoppingCarCheckList =[];
+    for(ProductShoppingCarDTO result in state.shoppingCarList){
+      var product = shoppingCarCheckList.firstWhereOrNull((element) => element.productId == result.productId);
+      if(null == product){
+        shoppingCarCheckList.add(result);
+      }else{
+        if (result.unitDetailDTO?.unitType == UnitType.SINGLE.value) {
+          var number = product.unitDetailDTO?.number ?? Decimal.zero;
+          number += (result.unitDetailDTO?.number ?? Decimal.zero);
+          product.unitDetailDTO?.number = number;
+        } else {
+          var masterNumber = product.unitDetailDTO?.masterNumber ?? Decimal.zero;
+          masterNumber += (result.unitDetailDTO?.masterNumber ?? Decimal.zero);
+          product.unitDetailDTO?.masterNumber = masterNumber;
+          var slaveNumber = product.unitDetailDTO?.slaveNumber ?? Decimal.zero;
+          slaveNumber += (result.unitDetailDTO?.slaveNumber ?? Decimal.zero);
+          product.unitDetailDTO?.slaveNumber = slaveNumber;
+        }
+      }
+    }
+    return shoppingCarCheckList;
   }
 
   //Dialog

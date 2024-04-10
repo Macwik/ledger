@@ -78,21 +78,8 @@ class ShoppingCarListController extends GetxController {
       }
       return '${DecimalUtil.formatDecimalNumber(unitDetailDTO.number)} ${unitDetailDTO.unitName}';
     } else {
-      // if (unitDetailDTO.selectMasterUnit ?? true) {
-      //   if ((unitDetailDTO.masterNumber == null) &&
-      //       (unitDetailDTO.slaveNumber == null)) {
-      //     return '/';
-      //   }
-      //   Decimal? slaveNum = DecimalUtil.divide(
-      //       unitDetailDTO.masterNumber, unitDetailDTO.conversion);
       return '${DecimalUtil.formatDecimalNumber(unitDetailDTO.slaveNumber)} ${unitDetailDTO.slaveUnitName}'
           ' | ${DecimalUtil.formatDecimalNumber(unitDetailDTO.masterNumber)} ${unitDetailDTO.masterUnitName}';
-      // } else {
-      //   Decimal? masterNum = (unitDetailDTO.slaveNumber ?? Decimal.zero) *
-      //       (unitDetailDTO.conversion ?? Decimal.zero);
-      //   return '${DecimalUtil.formatDecimalNumber(unitDetailDTO.slaveNumber)} ${unitDetailDTO.slaveUnitName}'
-      //       ' | ${DecimalUtil.formatDecimalNumber(masterNum)} ${unitDetailDTO.masterUnitName}';
-      // }
     }
   }
 

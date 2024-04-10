@@ -97,7 +97,7 @@ class CustomRecordController extends GetxController {
       //选择客户
       Get.back(
           result:CustomDTO(
-          customName: '默认客户',
+          customName: state.customType == CustomType.CUSTOM.value?'默认客户':'默认供应商',
           used: 1,
           creditAmount: Decimal.zero,
           tradeAmount: Decimal.zero,

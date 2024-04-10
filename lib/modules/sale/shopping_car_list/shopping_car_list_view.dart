@@ -162,13 +162,13 @@ class ShoppingCarListView extends StatelessWidget {
                                                   fontSize: 30.sp,
                                                   fontWeight: FontWeight.w400,
                                                 )),
-                                            Expanded(child:Text(
+                                            Text(
                                                 controller.getNum(productDTO.unitDetailDTO!) ?? '',
                                                 style: TextStyle(
                                                   color: Colours.text_666,
                                                   fontSize: 32.sp,
                                                   fontWeight: FontWeight.w500,
-                                                )))
+                                                ))
                                           ],
                                         ),
                                         SizedBox(
