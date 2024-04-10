@@ -29,8 +29,12 @@ import 'package:ledger/widget/loading.dart';
 
 import 'retail_bill_state.dart';
 
-class RetailBillController extends GetxController {
+class RetailBillController extends GetxController with GetSingleTickerProviderStateMixin implements DisposableInterface {
   final RetailBillState state = RetailBillState();
+
+
+  late final AnimationController shakeController =
+  AnimationController(vsync: this, duration: Duration(milliseconds: 500));
 
   Future<void> initState() async {
     var arguments = Get.arguments;
@@ -40,6 +44,11 @@ class RetailBillController extends GetxController {
     initPaymentMethodList();
     pendingOrderNum();
     _queryProductClassifyList();
+    shakeController.addListener(() {
+      if (shakeController.status == AnimationStatus.completed) {
+        shakeController.reset();
+      }
+    });
   }
 
   Future<void> onRefresh() async {
@@ -480,6 +489,7 @@ class RetailBillController extends GetxController {
         (state.orderType == OrderType.REFUND)) {
       if (state.customDTO == null) {
         Toast.show('请选择客户');
+        shakeController.forward();
         return;
       }
     }

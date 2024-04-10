@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ledger/entity/product/product_classify_dto.dart';
@@ -85,27 +87,38 @@ class RetailBillView extends StatelessWidget {
                                     return InkWell(
                                         onTap: () =>
                                             controller.pickerCustom(),
-                                        child:Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Icon(
-                                              Icons.person_outline_rounded,
-                                                color: controller.state.customDTO?.customName?.isEmpty??false
-                                                    ?Colours.text_999
-                                                    :Colors.orange[600]
-                                            ),
-                                            Expanded(child:Text(
-                                              controller.customName(),
-                                              style: TextStyle(
-                                                  fontSize: 28.sp,
-                                                  fontWeight: FontWeight.w500,
+                                        child: AnimatedBuilder(
+                                          animation: controller.shakeController,
+                                          builder: (context, child) {
+                                            final sineValue =
+                                            sin(10 * 2 * pi * controller.shakeController.value);
+                                            return Transform.translate(
+                                              offset: Offset(sineValue * 10, 0),
+                                              child: child,
+                                            );
+                                          },
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Icon(
+                                                  Icons.person_outline_rounded,
                                                   color: controller.state.customDTO?.customName?.isEmpty??false
                                                       ?Colours.text_999
                                                       :Colors.orange[600]
                                               ),
-                                            ) )
-                                          ],
-                                        ));
+                                              Expanded(child:Text(
+                                                controller.customName(),
+                                                style: TextStyle(
+                                                    fontSize: 28.sp,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: controller.state.customDTO?.customName?.isEmpty??false
+                                                        ?Colours.text_999
+                                                        :Colors.orange[600]
+                                                ),
+                                              ) )
+                                            ],
+                                          )),
+                                        );
                                   })
                                   ),
                                 Container(
