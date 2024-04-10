@@ -15,6 +15,7 @@ import 'package:ledger/enum/custom_type.dart';
 import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/enum/sales_channel.dart';
 import 'package:ledger/enum/unit_type.dart';
+import 'package:ledger/generated/json/product_shopping_car_dto.g.dart';
 import 'package:ledger/http/base_page_entity.dart';
 import 'package:ledger/http/http_util.dart';
 import 'package:ledger/route/route_config.dart';
@@ -120,21 +121,23 @@ class RetailBillController extends GetxController {
 
   Future<void> addToShoppingCar(ProductDTO productDTO) async {
     if (state.orderType == OrderType.REFUND) {
-      Get.dialog(AlertDialog(
-        title: Text(
-          productDTO.productName ?? '',
-        ),
-        content: SingleChildScrollView(
-          child: RefundDialog(
-            productDTO: productDTO,
-            onClick: (result) {
-              addRefundShoppingCarList(result);
-              update(['shopping_car_box', 'product_classify_list']);
-              return true;
-            },
+      Get.dialog(
+          AlertDialog(
+            title: Text(
+              productDTO.productName ?? '',
+            ),
+            content: SingleChildScrollView(
+              child: RefundDialog(
+                productDTO: productDTO,
+                onClick: (result) {
+                  addRefundShoppingCarList(result);
+                  update(['shopping_car_box', 'product_classify_list']);
+                  return true;
+                },
+              ),
+            ),
           ),
-        ),
-      ));
+          barrierDismissible: false);
     } else {
       await Get.dialog(AlertDialog(
         title: null, // 设置标题为null，
@@ -143,19 +146,20 @@ class RetailBillController extends GetxController {
             productDTO: productDTO,
             orderType: state.orderType,
             onClick: (result) {
-             state.shoppingCarList.add(result);
+              state.shoppingCarList.add(result);
               update(['shopping_car_box', 'product_classify_list']);
               return true;
             },
           ),
         ),
-      ));
+      ), barrierDismissible: false);
     }
   }
 
   addRefundShoppingCarList(ProductShoppingCarDTO result) {
     if (state.orderType == OrderType.REFUND) {
-      ProductShoppingCarDTO? product = state.shoppingCarList.firstWhereOrNull((element) => element.productId == result.productId);
+      ProductShoppingCarDTO? product = state.shoppingCarList
+          .firstWhereOrNull((element) => element.productId == result.productId);
       if (product == null) {
         state.shoppingCarList.add(result);
       } else {
@@ -166,8 +170,6 @@ class RetailBillController extends GetxController {
       }
     }
   }
-
-
 
   Future<void> alertStockNotEnough() async {
     await Get.dialog(AlertDialog(
@@ -205,7 +207,8 @@ class RetailBillController extends GetxController {
       if (element.unitDetailDTO?.unitType == UnitType.SINGLE.value) {
         return previousValue + (element.unitDetailDTO?.number ?? Decimal.zero);
       } else {
-        return previousValue + (element.unitDetailDTO?.slaveNumber ?? Decimal.zero);
+        return previousValue +
+            (element.unitDetailDTO?.slaveNumber ?? Decimal.zero);
       }
     });
   }
@@ -269,7 +272,7 @@ class RetailBillController extends GetxController {
       'shoppingCar': state.shoppingCarList,
     })?.then((value) {
       state.shoppingCarList = value;
-      update(['shopping_car_box','product_classify_list']);
+      update(['shopping_car_box', 'product_classify_list']);
     });
   }
 
@@ -324,7 +327,8 @@ class RetailBillController extends GetxController {
     return '-';
   }
 
-  String? getTotalAmount() {//ToDo 计算有问题
+  String? getTotalAmount() {
+    //ToDo 计算有问题
     var totalAmount = Decimal.zero;
     for (var element in state.shoppingCarList) {
       totalAmount = totalAmount + element.unitDetailDTO!.totalAmount!;
@@ -441,18 +445,20 @@ class RetailBillController extends GetxController {
   }
 
   mergeShoppingCarList() {
-    List<ProductShoppingCarDTO> shoppingCarCheckList =[];
-    for(ProductShoppingCarDTO result in state.shoppingCarList){
-      var product = shoppingCarCheckList.firstWhereOrNull((element) => element.productId == result.productId);
-      if(null == product){
-        shoppingCarCheckList.add(result);
-      }else{
+    List<ProductShoppingCarDTO> shoppingCarCheckList = [];
+    for (ProductShoppingCarDTO result in state.shoppingCarList) {
+      var product = shoppingCarCheckList
+          .firstWhereOrNull((element) => element.productId == result.productId);
+      if (null == product) {
+        shoppingCarCheckList.add(result.copyWith());
+      } else {
         if (result.unitDetailDTO?.unitType == UnitType.SINGLE.value) {
           var number = product.unitDetailDTO?.number ?? Decimal.zero;
           number += (result.unitDetailDTO?.number ?? Decimal.zero);
           product.unitDetailDTO?.number = number;
         } else {
-          var masterNumber = product.unitDetailDTO?.masterNumber ?? Decimal.zero;
+          var masterNumber =
+              product.unitDetailDTO?.masterNumber ?? Decimal.zero;
           masterNumber += (result.unitDetailDTO?.masterNumber ?? Decimal.zero);
           product.unitDetailDTO?.masterNumber = masterNumber;
           var slaveNumber = product.unitDetailDTO?.slaveNumber ?? Decimal.zero;
