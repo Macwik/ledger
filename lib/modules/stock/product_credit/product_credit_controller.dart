@@ -104,4 +104,21 @@ class ProductCreditController extends GetxController {
         throw Exception('销售单');
     }
   }
+
+  String checkOrderType(int? orderType) {
+    switch (orderType) {
+      case 0:
+        return '采购单';
+      case 1:
+        return '销售单';
+      case 2:
+        return '销售退货单';
+      case 3:
+        return '采购退货单';
+      case 10:
+        return '退款单';
+      default:
+        throw Exception('销售单');
+    }
+  }
 }

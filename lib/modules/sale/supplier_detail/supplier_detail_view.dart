@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/enum/custom_type.dart';
+import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/enum/process_status.dart';
 import 'package:ledger/res/export.dart';
 import 'package:ledger/util/image_util.dart';
@@ -321,6 +322,38 @@ class SupplierDetailView extends StatelessWidget {
                                   ),
                                   child: Text( state.customDTO?.customType == CustomType.CUSTOM.value
                                       ?'销售退货单':'采购退货单')),
+                              SizedBox(
+                                width: 10.w,
+                              ),
+                              TextButton(
+                                  onPressed: () {
+                                    state.customDTO?.customType == CustomType.CUSTOM.value
+                                        ?state.orderType = OrderType.REFUND.value
+                                        :state.orderType = OrderType.ADD_STOCK.value;
+                                    controller.update(['supplier_detail_order_type']);
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor:state.customDTO?.customType == CustomType.CUSTOM.value
+                                        ? controller.checkOrderStatus(OrderType.REFUND.value)
+                                        ? Colours.primary
+                                        : Colors.white
+                                        : controller.checkOrderStatus(OrderType.ADD_STOCK.value)
+                                        ? Colours.primary
+                                        : Colors.white,
+                                    foregroundColor:state.customDTO?.customType == CustomType.CUSTOM.value
+                                        ? controller.checkOrderStatus(OrderType.REFUND.value)
+                                        ? Colors.white
+                                        : Colours.text_333
+                                        : controller.checkOrderStatus(OrderType.ADD_STOCK.value)
+                                        ? Colors.white
+                                        : Colours.text_333,
+                                    side: BorderSide(
+                                      color: Colours.primary, // 添加边框颜色，此处为灰色
+                                      width: 1.0, // 设置边框宽度
+                                    ),
+                                  ),
+                                  child: Text( state.customDTO?.customType == CustomType.CUSTOM.value
+                                      ?'仅退款单':'直接入库单')),
                             ],
                           )),
                   SizedBox(height: 40.w),

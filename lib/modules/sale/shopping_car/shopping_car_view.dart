@@ -6,6 +6,7 @@ import 'package:ledger/entity/product/product_dto.dart';
 import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/enum/page_to_type.dart';
 import 'package:ledger/res/export.dart';
+import 'package:ledger/util/image_util.dart';
 import 'package:ledger/widget/permission/permission_widget.dart';
 
 import 'shopping_car_controller.dart';
@@ -157,101 +158,103 @@ class ShoppingCarView extends StatelessWidget {
                                 ProductDTO stockDTO = state.productList![index];
                                 return InkWell(
                                     onTap: () => controller.addToShoppingCar(stockDTO),
-                                    child: Container(
-                                      width: double.infinity,
-                                      color: Colors.white,
-                                      padding: EdgeInsets.symmetric(
-                                        vertical: 16.w,
-                                        horizontal: 32.w,),
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Container(
-                                              padding: EdgeInsets.symmetric(vertical: 10.w),
-                                              child: Flex(
-                                                  direction: Axis.horizontal,
-                                                  mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                                  children: [
-                                                    Expanded(
-                                                      flex: 3,
-                                                      child: Text(
-                                                          stockDTO.productName ??
-                                                              '',
-                                                          style: TextStyle(
-                                                            color: stockDTO
-                                                                .invalid ==
-                                                                1
-                                                                ? Colours.text_ccc
-                                                                : Colours.text_333,
-                                                            fontSize: 32.sp,
-                                                            fontWeight:
-                                                            FontWeight.w500,
-                                                          )),
-                                                    ),
-                                                    Visibility(
-                                                        visible:
-                                                        stockDTO.invalid == 1,
-                                                        child: Container(
-                                                          padding: EdgeInsets.only(
-                                                              top: 2.w,
-                                                              bottom: 2.w,
-                                                              left: 4.w,
-                                                              right: 4.w),
-                                                          decoration: BoxDecoration(
-                                                            border: Border.all(
-                                                              color:
-                                                              Colours.text_ccc,
-                                                              width: 1.0,
-                                                            ),
-                                                            borderRadius:
-                                                            BorderRadius
-                                                                .circular(8.0),
-                                                          ),
-                                                          child: Text('已停用',
+                                    child: Stack(
+                                      children: [
+                                        Container(
+                                          width: double.infinity,
+                                          color: Colors.white,
+                                          padding: EdgeInsets.symmetric(
+                                            vertical: 16.w,
+                                            horizontal: 32.w,),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Container(
+                                                  padding: EdgeInsets.symmetric(vertical: 10.w),
+                                                  child: Flex(
+                                                      direction: Axis.horizontal,
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                      children: [
+                                                        Expanded(
+                                                          flex: 3,
+                                                          child: Text(
+                                                              stockDTO.productName ??
+                                                                  '',
                                                               style: TextStyle(
-                                                                color: Colours
-                                                                    .text_999,
-                                                                fontSize: 26.sp,
+                                                                color: stockDTO
+                                                                    .invalid ==
+                                                                    1
+                                                                    ? Colours.text_ccc
+                                                                    : Colours.text_333,
+                                                                fontSize: 32.sp,
                                                                 fontWeight:
                                                                 FontWeight.w500,
                                                               )),
-                                                        )),
-                                                    Expanded(
-                                                      child: Text(
-                                                          textAlign: TextAlign.end,
-                                                          controller.getSalesChannel(
-                                                              stockDTO
-                                                                  .salesChannel),
-                                                          style: TextStyle(
-                                                            color: stockDTO
-                                                                .invalid ==
-                                                                1
-                                                                ? Colours.text_ccc
-                                                                : Colours.text_999,
-                                                            fontSize: 22.sp,
-                                                            fontWeight:
-                                                            FontWeight.w400,
-                                                          )),
-                                                    )
-                                                  ])),
-                                          Container(
-                                            alignment:Alignment.centerLeft,
-                                            child: Text(textAlign: TextAlign.left,
-                                                controller.judgeUnit(
-                                                    stockDTO),
-                                                style: TextStyle(
-                                                  color: stockDTO.invalid == 1
-                                                      ? Colours.text_ccc
-                                                      : Colours.text_999,
-                                                  fontSize: 30.sp,
-                                                  fontWeight:
-                                                  FontWeight.w500,
-                                                )),
-                                          ),
-                                          Flex(direction: Axis.horizontal,
-                                            children: [
-                                              Expanded(child:
+                                                        ),
+                                                        Visibility(
+                                                            visible:
+                                                            stockDTO.invalid == 1,
+                                                            child: Container(
+                                                              padding: EdgeInsets.only(
+                                                                  top: 2.w,
+                                                                  bottom: 2.w,
+                                                                  left: 4.w,
+                                                                  right: 4.w),
+                                                              decoration: BoxDecoration(
+                                                                border: Border.all(
+                                                                  color:
+                                                                  Colours.text_ccc,
+                                                                  width: 1.0,
+                                                                ),
+                                                                borderRadius:
+                                                                BorderRadius
+                                                                    .circular(8.0),
+                                                              ),
+                                                              child: Text('已停用',
+                                                                  style: TextStyle(
+                                                                    color: Colours
+                                                                        .text_999,
+                                                                    fontSize: 26.sp,
+                                                                    fontWeight:
+                                                                    FontWeight.w500,
+                                                                  )),
+                                                            )),
+                                                        Expanded(
+                                                          child: Text(
+                                                              textAlign: TextAlign.end,
+                                                              controller.getSalesChannel(
+                                                                  stockDTO
+                                                                      .salesChannel),
+                                                              style: TextStyle(
+                                                                color: stockDTO
+                                                                    .invalid ==
+                                                                    1
+                                                                    ? Colours.text_ccc
+                                                                    : Colours.text_999,
+                                                                fontSize: 22.sp,
+                                                                fontWeight:
+                                                                FontWeight.w400,
+                                                              )),
+                                                        )
+                                                      ])),
+                                              Container(
+                                                alignment:Alignment.centerLeft,
+                                                child: Text(textAlign: TextAlign.left,
+                                                    controller.judgeUnit(
+                                                        stockDTO),
+                                                    style: TextStyle(
+                                                      color: stockDTO.invalid == 1
+                                                          ? Colours.text_ccc
+                                                          : Colours.text_999,
+                                                      fontSize: 30.sp,
+                                                      fontWeight:
+                                                      FontWeight.w500,
+                                                    )),
+                                              ),
+                                              Flex(direction: Axis.horizontal,
+                                                children: [
+                                                  Expanded(child:
                                                   Visibility(
                                                       maintainSize: false,
                                                       visible:(( (stockDTO.productPlace !=null))&&( (stockDTO.productStandard!=null))) ,
@@ -295,15 +298,31 @@ class ShoppingCarView extends StatelessWidget {
                                                         ),
                                                       )
                                                   )
-                                              ),
-                                              Container(
-                                                padding: EdgeInsets.only(left: 48.w),
-                                                child: toAddButtonWidget(stockDTO),
-                                              )
-                                            ],)
-                                        ],
-                                      ),
-                                    ));
+                                                  ),
+                                                  Container(
+                                                    padding: EdgeInsets.only(left: 48.w),
+                                                    child: toAddButtonWidget(stockDTO),
+                                                  )
+                                                ],)
+                                            ],
+                                          ),
+                                        ),
+                                        Positioned(
+                                            left: 8.w,
+                                            bottom: 8.w,
+                                            child:Offstage(
+                                                offstage: controller.isInShoppingCar(stockDTO.id),
+                                                child:LoadAssetImage(
+                                                  'retail_bill_checked',
+                                                  format: ImageFormat.png,
+                                                  color: Colours.primary,
+                                                  height: 50.w,
+                                                  width: 50.w,
+                                                ))
+                                        )
+                                      ],
+                                    )
+                                    );
                               },
                               separatorBuilder: (context, index) => Container(
                                 height: 2.w,
@@ -361,7 +380,7 @@ class ShoppingCarView extends StatelessWidget {
                                         padding: EdgeInsets.only(bottom: 40.w),
                                         child: Visibility(
                                           visible: state.shoppingCarList
-                                                  ?.isNotEmpty ?? false,
+                                                  .isNotEmpty ,
                                           child: Container(
                                               padding: EdgeInsets.all(4.w),
                                               decoration: BoxDecoration(
@@ -373,7 +392,7 @@ class ShoppingCarView extends StatelessWidget {
                                                 minHeight: 16,
                                               ),
                                               child: Text(
-                                                '${state.shoppingCarList?.length ?? 0}',
+                                                '${state.shoppingCarList.length }',
                                                 style: TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 12,

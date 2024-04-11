@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/res/export.dart';
+import 'package:ledger/widget/permission/permission_multi_widget.dart';
 import 'package:ledger/widget/permission/permission_widget.dart';
 
 import 'more_controller.dart';
@@ -254,8 +255,8 @@ class MoreView extends StatelessWidget {
                         physics: NeverScrollableScrollPhysics(),
                         padding: EdgeInsets.all(16.w),
                         children: List.generate(7, (index) {
-                          return PermissionWidget(
-                              permissionCode: gridItemFundPermission[index],
+                          return PermissionMultiWidget(
+                              permissionCodes: gridItemFundPermission[index],
                               child: InkWell(
                             onTap: ()=> controller.toFund(index),
                             child: Flex(
@@ -426,14 +427,14 @@ const List<String> gridItemFundPaths = [
   'svg/ic_purchase_remittance_record'
 ];
 
-const List<String> gridItemFundPermission = [
-  PermissionCode.funds_cost_order_permission,
-  PermissionCode.funds_cost_order_permission,
-  PermissionCode.funds_cost_record_permission,
-  PermissionCode.funds_add_debt_permission,
-  PermissionCode.repayment_page_permission,
-  PermissionCode.purchase_remittance_order_permission,
-  PermissionCode.remittance_remittance_record_permission
+const List<List<String>> gridItemFundPermission = [
+  [PermissionCode.funds_cost_order_permission],
+  [PermissionCode.funds_cost_order_permission],
+  [PermissionCode.funds_cost_record_permission],
+  [PermissionCode.funds_add_debt_permission],
+  [PermissionCode.funds_repayment_record_permission,PermissionCode.supplier_custom_repayment_record_permission],
+  [PermissionCode.purchase_remittance_order_permission],
+  [PermissionCode.remittance_remittance_record_permission]
 ];
 
 const List<String> gridItemAccountNames = ['每日流水', ];

@@ -337,7 +337,6 @@ class RetailBillController extends GetxController with GetSingleTickerProviderSt
   }
 
   String? getTotalAmount() {
-    //ToDo 计算有问题
     var totalAmount = Decimal.zero;
     for (var element in state.shoppingCarList) {
       totalAmount = totalAmount + element.unitDetailDTO!.totalAmount!;

@@ -1,6 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/api/order_api.dart';
 import 'package:ledger/config/api/payment_api.dart';
@@ -9,10 +10,12 @@ import 'package:ledger/entity/draft/order_draft_detail_dto.dart';
 import 'package:ledger/entity/payment/payment_method_dto.dart';
 import 'package:ledger/entity/product/product_classify_list_dto.dart';
 import 'package:ledger/entity/product/product_dto.dart';
+import 'package:ledger/entity/product/product_shopping_car_dto.dart';
 import 'package:ledger/enum/custom_type.dart';
 import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/enum/sales_channel.dart';
 import 'package:ledger/enum/unit_type.dart';
+import 'package:ledger/generated/json/product_shopping_car_dto.g.dart';
 import 'package:ledger/http/base_page_entity.dart';
 import 'package:ledger/http/http_util.dart';
 import 'package:ledger/route/route_config.dart';
@@ -303,13 +306,15 @@ class PendingRetailBillController extends GetxController {
       Toast.show('请添加货物后再试');
       return;
     }
-    if (state.orderType == OrderType.SALE_RETURN) {//判断方式可能需要改 TODO
-      if (state.customDTO == null) {
-        Toast.show('请选择客户' );
-        return;
-      }
+    if (checkStockEnough()) {
+      alertStockNotEnough();
+      return;
     }
-    Get.bottomSheet(
+    getPaymentBottomSheet();
+  }
+
+  Future<void> getPaymentBottomSheet() async {
+  await  Get.bottomSheet(
         isScrollControlled: true,
         PaymentDialog(
             paymentMethods: state.paymentMethods!,
@@ -324,6 +329,86 @@ class PendingRetailBillController extends GetxController {
               return await saveOrder();
             }),
         backgroundColor: Colors.white);
+  }
+
+  bool checkStockEnough() {
+    var mergeList = mergeShoppingCarList();
+    if (mergeList.isEmpty) {
+      return false;
+    } else {
+      for (var productDTO in mergeList) {
+        if (productDTO.unitDetailDTO?.unitType == UnitType.SINGLE.value) {
+          if ((productDTO.unitDetailDTO?.number ?? Decimal.zero) >
+              (productDTO.unitDetailDTO?.stock ?? Decimal.zero)) {
+            return true;
+          }
+        } else {
+          if ((productDTO.unitDetailDTO?.masterNumber ?? Decimal.zero) >
+              (productDTO.unitDetailDTO?.masterStock ?? Decimal.zero)) {
+            return true;
+          }
+          if ((productDTO.unitDetailDTO?.slaveNumber ?? Decimal.zero) >
+              (productDTO.unitDetailDTO?.slaveStock ?? Decimal.zero)) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
+
+  mergeShoppingCarList() {
+    List<ProductShoppingCarDTO> shoppingCarCheckList = [];
+    for (ProductShoppingCarDTO result in state.shoppingCarList) {
+      var product = shoppingCarCheckList
+          .firstWhereOrNull((element) => element.productId == result.productId);
+      if (null == product) {
+        shoppingCarCheckList.add(result.copyWith());
+      } else {
+        if (result.unitDetailDTO?.unitType == UnitType.SINGLE.value) {
+          var number = product.unitDetailDTO?.number ?? Decimal.zero;
+          number += (result.unitDetailDTO?.number ?? Decimal.zero);
+          product.unitDetailDTO?.number = number;
+        } else {
+          var masterNumber =
+              product.unitDetailDTO?.masterNumber ?? Decimal.zero;
+          masterNumber += (result.unitDetailDTO?.masterNumber ?? Decimal.zero);
+          product.unitDetailDTO?.masterNumber = masterNumber;
+          var slaveNumber = product.unitDetailDTO?.slaveNumber ?? Decimal.zero;
+          slaveNumber += (result.unitDetailDTO?.slaveNumber ?? Decimal.zero);
+          product.unitDetailDTO?.slaveNumber = slaveNumber;
+        }
+      }
+    }
+    return shoppingCarCheckList;
+  }
+
+  Future<void> alertStockNotEnough() async {
+    await Get.dialog(AlertDialog(
+        title: Text(
+          '部分商品库存不足',
+          style: TextStyle(fontSize: 46.sp, fontWeight: FontWeight.w500),
+        ),
+        content: Text(
+          '保存后，会导致商品库存变负数，是否继续保存？',
+          style: TextStyle(fontSize: 34.sp),
+        ),
+        actions: [
+          TextButton(
+            child: Text('取消'),
+            onPressed: () {
+              Get.back();
+            },
+          ),
+          TextButton(
+            child: Text('确定'),
+            onPressed: () {
+              Get.back();
+              getPaymentBottomSheet();
+            },
+          ),
+        ]));
   }
 
   Future<bool> saveOrder() async {

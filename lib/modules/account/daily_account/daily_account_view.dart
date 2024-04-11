@@ -768,10 +768,9 @@ class DailyAccountView extends StatelessWidget {
                                                       mainAxisAlignment: MainAxisAlignment.end,
                                                       children: [
                                                         Visibility(
-                                                            visible: (customCreditDTO.creditType ==
-                                                                OrderType.SALE_RETURN.value) ||
-                                                                (customCreditDTO.creditType ==
-                                                                    OrderType.PURCHASE_RETURN.value),
+                                                            visible: (customCreditDTO.creditType == OrderType.SALE_RETURN.value) ||
+                                                                (customCreditDTO.creditType == OrderType.PURCHASE_RETURN.value)||
+                                                                (customCreditDTO.creditType == OrderType.REFUND.value),
                                                             child: Container(
                                                               margin: EdgeInsets.symmetric(
                                                                   horizontal: 8.w),

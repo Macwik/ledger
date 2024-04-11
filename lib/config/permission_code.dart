@@ -5,7 +5,7 @@ class PermissionCode{
 
   //营业员管理
   static const String employee_manage_permission = 'PAGE_EMPLOYEE_MANAGE';
-/// parentId 0
+/// parentId
   //首页销售权限 to delete
   static const String sales_page_permission = 'PAGE_SALES';
   //首页采购权限 to delete
@@ -14,35 +14,35 @@ class PermissionCode{
   static const String stock_page_permission = 'PAGE_STOCK';
   //首页资金权限 to delete
   static const String funds_page_permission = 'PAGE_FUNDS';
-  //首页还款权限 delete
-  static const String repayment_page_permission = 'PAGE_REPAYMENT';
+  //供应商
+  static const String supplier_page_permission = 'PAGE_SUPPILER';
   //首页账目权限
   static const String account_page_permission = 'PAGE_ACCOUNT';
   /// parentId 1
-  //销售开单
+  //销售开单 0
   static const String sales_sale_order_permission = 'WIDGET_SALES_SALE_ORDER';
-  //销售退货开单
+  //销售退货开单 1
   static const String sales_sale_return_permission = 'WIDGET_SALES_SALE_RETURN';
-  //销售退款开单
+  //销售退款开单 2
   static const String sales_sale_refund_permission = 'WIDGET_SALES_SALE_REFUND';
+  //查看销售记录 3
+  static const String sales_sale_record_permission = 'WIDGET_SALES_SALE_RECORD';
+  //查看销售退货记录 4
+  static const String sales_return_sale_record_permission = 'WIDGET_SALES_RETURN_SALE_RECORD';
+  //查看销售退款记录 5
+  static const String sales_refund_sale_record_permission = 'WIDGET_SALES_REFUND_SALE_RECORD';
+  //分享销售单 6
+  static const String sales_detail_share_permission = 'WIDGET_SALES_DETAIL_SHARE';
+  //作废销售单 7
+  static const String sales_detail_delete_permission = 'WIDGET_SALES_DETAIL_DELETE';
   //销售开单时间修改 delete
   static const String sales_bill_time_permission = 'WIDGET_SALES_BILL_TIME';
-  //分享销售单
-  static const String sales_detail_share_permission = 'WIDGET_SALES_DETAIL_SHARE';
-  //查看销售记录--销售页
-  static const String sales_sale_record_permission = 'WIDGET_SALES_SALE_RECORD';
-  //查看销售退货记录
-  static const String sales_return_sale_record_permission = 'WIDGET_SALES_RETURN_SALE_RECORD';
-  //查看销售退款记录
-  static const String sales_refund_sale_record_permission = 'WIDGET_SALES_REFUND_SALE_RECORD';
-  //作废销售单
-  static const String sales_detail_delete_permission = 'WIDGET_SALES_DETAIL_DELETE';
   /// parentId 2
   //采购开单0
   static const String purchase_purchase_order_permission = 'WIDGET_PURCHASE_PURCHASE_ORDER';
-  //采购退货开单1
+  //采购退货开单 1
   static const String purchase_purchase_return_order_permission = 'WIDGET_PURCHASE_PURCHASE_RETURN_ORDER';
-  //直接入库开单2
+  //直接入库开单 2
   static const String purchase_add_stock_order_permission = 'WIDGET_PURCHASE_ADD_STOCK_ORDER_RETURN';
   //采购开单修改日期 delete
   static const String purchase_bill_time_permission = 'WIDGET_PURCHASE_BILL_TIME';
@@ -83,24 +83,27 @@ class PermissionCode{
   static const String funds_repayment_record_permission = 'WIDGET_FUNDS_REPAYMENT_RECORD';
   //作废客户还款记录 6
   static const String repayment_detail_delete_permission = 'WIDGET_REPAYMENT_DETAIL_DELETE';
-  //新增供应7
-  static const String supplier_custom_record_add_custom_permission = 'WIDGET_SUPPLIER_CUSTOM_RECORD_ADD_CUSTOM';
-  //看供应商对账单8
-  static const String supplier_supplier_detail_check_bill_permission = 'WIDGET_SUPPLIER_SUPPLIER_DETAIL_CHECK_BILL';
-  //修改供应商资料9
-  static const String supplier_custom_detail_update_permission = 'WIDGET_SUPPLIER_CUSTOM_DETAIL_UPDATE';
-  //停用供应商10
-  static const String supplier_custom_record_invalid_permission = 'WIDGET_SUPPLIER_CUSTOM_RECORD_INVALID';
-  //供应商还款开单11
-  static const String  supplier_repayment_order_permission = 'WIDGET_SUPPLIER_REPAYMENT_ORDER';
-  //供应商看还款记录12
-  static const String supplier_custom_repayment_record_permission = 'WIDGET_SUPPLIER_CUSTOM_REPAYMENT_RECORD';
-  //作废供应商还款记录13
-  static const String supplier_custom_repayment_detail_delete_permission = 'WIDGET_SUPPLIER_CUSTOM_REPAYMENT_DETAIL_DELETE';
-  //录入欠款14
+  //录入欠款7
   static const String funds_add_debt_permission = 'WIDGET_FUNDS_ADD_DEBT';
   //录入欠款修改日期15 delete
   static const String add_debt_time_permission = 'WIDGET_ADD_DEBT_TIME';
+
+  /// parentId 49
+  //新增供应0
+  static const String supplier_custom_record_add_custom_permission = 'WIDGET_SUPPLIER_CUSTOM_RECORD_ADD_CUSTOM';
+  //看供应商对账单1
+  static const String supplier_supplier_detail_check_bill_permission = 'WIDGET_SUPPLIER_SUPPLIER_DETAIL_CHECK_BILL';
+  //修改供应商资料2
+  static const String supplier_custom_detail_update_permission = 'WIDGET_SUPPLIER_CUSTOM_DETAIL_UPDATE';
+  //停用供应商3
+  static const String supplier_custom_record_invalid_permission = 'WIDGET_SUPPLIER_CUSTOM_RECORD_INVALID';
+  //供应商还款开单4
+  static const String  supplier_repayment_order_permission = 'WIDGET_SUPPLIER_REPAYMENT_ORDER';
+  //供应商看还款记录5
+  static const String supplier_custom_repayment_record_permission = 'WIDGET_SUPPLIER_CUSTOM_REPAYMENT_RECORD';
+  //作废供应商还款记录6
+  static const String supplier_custom_repayment_detail_delete_permission = 'WIDGET_SUPPLIER_CUSTOM_REPAYMENT_DETAIL_DELETE';
+
   /// parentId 4
   //新增货物0
   static const String stock_list_add_product_permission = 'WIDGET_STOCK_LIST_ADD_PRODUCT';

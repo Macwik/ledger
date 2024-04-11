@@ -97,7 +97,6 @@ class ProductCreditView extends StatelessWidget {
                                    Expanded(
                                      child: Container(
                                        alignment: Alignment.centerLeft,
-                                       padding: EdgeInsets.only(bottom: 8.w),
                                        child:  Text(
                                            DateUtil.formatDefaultDate2(
                                                productSalesCredit.gmtCreate),
@@ -108,24 +107,57 @@ class ProductCreditView extends StatelessWidget {
                                            )),
                                      ),
                                    ),
-                                   Expanded(child:Container(
-                                     child: Text(
+                                   Visibility(
+                                       visible:productSalesCredit.orderStatus ==1,
+                                       child: Container(
+                                         padding: EdgeInsets.only(
+                                             top: 2.w,
+                                             bottom: 2.w,
+                                             left: 4.w,
+                                             right: 4.w),
+                                         decoration: BoxDecoration(
+                                           border: Border.all(
+                                             color: Colours.text_ccc,
+                                             width: 1.0,
+                                           ),
+                                           borderRadius:
+                                           BorderRadius.circular(8.0),
+                                         ),
+                                         child: Text('已结清',
+                                             style: TextStyle(
+                                               color: Colours.text_ccc,
+                                               fontSize: 28.sp,
+                                               fontWeight: FontWeight.w500,
+                                             )),
+                                       )),
+                                   Expanded(child:  Text(controller.checkOrderType(productSalesCredit.orderType),
                                        textAlign:TextAlign.right,
-                                       productSalesCredit.orderStatus ==1
-                                           ?'已结清'
-                                           :'未结清',
-                                         style: TextStyle(
-                                           color:  productSalesCredit.orderStatus ==1
-                                           ?Colours.text_ccc
-                                           :Colours.text_999,
-                                           fontSize: 28.sp,
-                                           fontWeight: FontWeight.w400,
-                                         )
-                                     ),
-                                   ) )
+                                       style: TextStyle(
+                                         color:  productSalesCredit.orderStatus ==1
+                                             ?Colours.text_ccc
+                                             :Colours.text_999,
+                                         fontSize: 28.sp,
+                                         fontWeight: FontWeight.w400,
+                                       )
+                                   )),
+                                   // Expanded(child:Container(
+                                   //   child: Text(
+                                   //     textAlign:TextAlign.right,
+                                   //     productSalesCredit.orderStatus ==1
+                                   //         ?'已结清'
+                                   //         :'未结清',
+                                   //       style: TextStyle(
+                                   //         color:  productSalesCredit.orderStatus ==1
+                                   //         ?Colours.text_ccc
+                                   //         :Colours.text_999,
+                                   //         fontSize: 28.sp,
+                                   //         fontWeight: FontWeight.w400,
+                                   //       )
+                                   //   ),
+                                   // ) )
                                  ],
                                 ),
-
+                                SizedBox(height: 24.w,),
                                 Row(
                                   children: [
                                     Expanded(child: Row(
@@ -139,15 +171,9 @@ class ProductCreditView extends StatelessWidget {
                                               fontWeight: FontWeight.w500,
                                             )),
                                         Visibility(
-                                            visible: (productSalesCredit
-                                                .orderType ==
-                                                OrderType.SALE_RETURN
-                                                    .value) ||
-                                                (productSalesCredit
-                                                    .orderType ==
-                                                    OrderType
-                                                        .PURCHASE_RETURN
-                                                        .value),
+                                            visible: (productSalesCredit.orderType == OrderType.SALE_RETURN.value) ||
+                                                (productSalesCredit.orderType == OrderType.PURCHASE_RETURN.value)||
+                                                (productSalesCredit.orderType == OrderType.REFUND.value),
                                             child: Container(
                                               margin: EdgeInsets.symmetric(
                                                   horizontal: 16.w),
@@ -173,7 +199,6 @@ class ProductCreditView extends StatelessWidget {
                                       ],
                                     )),
                                     Expanded(child: Row(
-                                     // mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
                                         Text('欠款:',
                                             style: TextStyle(
@@ -182,20 +207,18 @@ class ProductCreditView extends StatelessWidget {
                                               fontWeight: FontWeight.w400,
                                             )),
                                         SizedBox(width: 10.w),
-                                        Text(//controller.creditAmount( productSalesCredit),
-                                            DecimalUtil.formatAmount(
-                                            productSalesCredit.creditAmount),
+                                        Text(controller.state.orderTypeList != null &&  (controller.state.orderTypeList!.contains(OrderType.REFUND.value) ||
+                                            controller.state.orderTypeList!.contains(OrderType.SALE_RETURN.value))
+                                            ? DecimalUtil.formatNegativeAmount(productSalesCredit.creditAmount)
+                                            : DecimalUtil.formatAmount(productSalesCredit.creditAmount),
                                             style: TextStyle(
                                               color:productSalesCredit.orderStatus ==1
                                                   ? Colours.text_ccc
                                                   : Colours.text_333,
                                               fontSize: 30.sp,
                                               fontWeight: FontWeight.w400,
-                                            )),
-                                      ],
-                                    ))
-                                  ],
-                                ),
+                                            ))],
+                                    ))]),
                                 SizedBox(height: 16.w),
                                 Row(children: [
                                   Expanded(child:  Container(
