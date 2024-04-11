@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/entity/product/product_classify_dto.dart';
 import 'package:ledger/entity/product/product_dto.dart';
+import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/enum/stock_list_type.dart';
 import 'package:ledger/res/export.dart';
 import 'package:ledger/util/image_util.dart';
@@ -581,13 +582,13 @@ class StockListView extends StatelessWidget {
                             child: Row(
                               children: [
                                 Expanded(
-                                    child: InkWell(
+                                    child:PermissionWidget(
+                                        permissionCode: PermissionCode.purchase_add_stock_order_permission,
+                                        child: InkWell(
                                         onTap: () {
-                                          controller.toAddProduct();
+                                          Get.toNamed(RouteConfig.retailBill,arguments: {'orderType':OrderType.ADD_STOCK});
                                         },
-                                        child: PermissionWidget(
-                                            permissionCode: PermissionCode.purchase_add_stock_order_permission,
-                                            child: Container(
+                                        child:Container(
                                                 padding:
                                                 EdgeInsets.only(top: 16.w),
                                                 alignment: Alignment.center,

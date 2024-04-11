@@ -51,7 +51,7 @@ class ProductCreditView extends StatelessWidget {
                       fontSize: 24.sp,
                       fontWeight: FontWeight.w600),
                   ),
-                      Text('￥${state.creditAmount}',
+                      Text(DecimalUtil.formatDecimalNumber(state.creditAmount),
                         style: TextStyle(
                             color: Colors.orange[600],
                             fontSize: 40.sp,
@@ -107,29 +107,29 @@ class ProductCreditView extends StatelessWidget {
                                            )),
                                      ),
                                    ),
-                                   Visibility(
-                                       visible:productSalesCredit.orderStatus ==1,
-                                       child: Container(
-                                         padding: EdgeInsets.only(
-                                             top: 2.w,
-                                             bottom: 2.w,
-                                             left: 4.w,
-                                             right: 4.w),
-                                         decoration: BoxDecoration(
-                                           border: Border.all(
-                                             color: Colours.text_ccc,
-                                             width: 1.0,
-                                           ),
-                                           borderRadius:
-                                           BorderRadius.circular(8.0),
-                                         ),
-                                         child: Text('已结清',
-                                             style: TextStyle(
-                                               color: Colours.text_ccc,
-                                               fontSize: 28.sp,
-                                               fontWeight: FontWeight.w500,
-                                             )),
-                                       )),
+                                   // Visibility(
+                                   //     visible:productSalesCredit.orderStatus ==1,
+                                   //     child: Container(
+                                   //       padding: EdgeInsets.only(
+                                   //           top: 2.w,
+                                   //           bottom: 2.w,
+                                   //           left: 4.w,
+                                   //           right: 4.w),
+                                   //       decoration: BoxDecoration(
+                                   //         border: Border.all(
+                                   //           color: Colours.text_ccc,
+                                   //           width: 1.0,
+                                   //         ),
+                                   //         borderRadius:
+                                   //         BorderRadius.circular(8.0),
+                                   //       ),
+                                   //       child: Text('已结清',
+                                   //           style: TextStyle(
+                                   //             color: Colours.text_ccc,
+                                   //             fontSize: 28.sp,
+                                   //             fontWeight: FontWeight.w500,
+                                   //           )),
+                                   //     )),
                                    Expanded(child:  Text(controller.checkOrderType(productSalesCredit.orderType),
                                        textAlign:TextAlign.right,
                                        style: TextStyle(
@@ -162,40 +162,44 @@ class ProductCreditView extends StatelessWidget {
                                   children: [
                                     Expanded(child: Row(
                                       children: [
-                                        Text(productSalesCredit.customerName??'',
+                                        Expanded(child: Text(productSalesCredit.customerName??'',
                                             style: TextStyle(
                                               color:productSalesCredit.orderStatus ==1
-                                             ? Colours.text_ccc
-                                              : Colours.text_333,
+                                                  ? Colours.text_ccc
+                                                  : Colours.text_333,
                                               fontSize: 32.sp,
                                               fontWeight: FontWeight.w500,
-                                            )),
-                                        Visibility(
-                                            visible: (productSalesCredit.orderType == OrderType.SALE_RETURN.value) ||
-                                                (productSalesCredit.orderType == OrderType.PURCHASE_RETURN.value)||
-                                                (productSalesCredit.orderType == OrderType.REFUND.value),
-                                            child: Container(
-                                              margin: EdgeInsets.symmetric(
-                                                  horizontal: 16.w),
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 6.w,
-                                                  vertical: 2.w),
-                                              decoration: (BoxDecoration(
-                                                  borderRadius:
-                                                  BorderRadius.circular(
-                                                      (36)),
-                                                  border: Border.all(
-                                                      color: Colors.orange,
-                                                      width: 3.w),
-                                                  color: Colors.white)),
-                                              child: Text(
-                                                '退',
-                                                style: TextStyle(
-                                                  fontSize: 24.sp,
-                                                  color: Colors.orange,
-                                                ),
-                                              ),
-                                            )),
+                                            ))),
+                                        // Visibility(
+                                        //     visible: (productSalesCredit.orderType == OrderType.SALE_RETURN.value) ||
+                                        //         (productSalesCredit.orderType == OrderType.PURCHASE_RETURN.value)||
+                                        //         (productSalesCredit.orderType == OrderType.REFUND.value),
+                                        //     child: Container(
+                                        //       margin: EdgeInsets.symmetric(
+                                        //           horizontal: 16.w),
+                                        //       padding: EdgeInsets.symmetric(
+                                        //           horizontal: 6.w,
+                                        //           vertical: 2.w),
+                                        //       decoration: (BoxDecoration(
+                                        //           borderRadius:
+                                        //           BorderRadius.circular(
+                                        //               (36)),
+                                        //           border: Border.all(
+                                        //               color: productSalesCredit.orderStatus ==1
+                                        //                   ? Colours.text_ccc
+                                        //                   :Colors.orange,
+                                        //               width: 3.w),
+                                        //           color: Colors.white)),
+                                        //       child: Text(
+                                        //         '退',
+                                        //         style: TextStyle(
+                                        //           fontSize: 24.sp,
+                                        //           color: productSalesCredit.orderStatus ==1
+                                        //             ? Colours.text_ccc
+                                        //             :Colors.orange,
+                                        //         ),
+                                        //       ),
+                                        //     )),
                                       ],
                                     )),
                                     Expanded(child: Row(
@@ -207,9 +211,11 @@ class ProductCreditView extends StatelessWidget {
                                               fontWeight: FontWeight.w400,
                                             )),
                                         SizedBox(width: 10.w),
-                                        Text(controller.state.orderTypeList != null &&  (controller.state.orderTypeList!.contains(OrderType.REFUND.value) ||
-                                            controller.state.orderTypeList!.contains(OrderType.SALE_RETURN.value))
-                                            ? DecimalUtil.formatNegativeAmount(productSalesCredit.creditAmount)
+                                            Text(
+                                                (productSalesCredit.orderType == OrderType.SALE_RETURN.value) ||
+                                                        (productSalesCredit.orderType == OrderType.PURCHASE_RETURN.value) ||
+                                                        (productSalesCredit.orderType == OrderType.REFUND.value)
+                                                    ? DecimalUtil.formatNegativeAmount(productSalesCredit.creditAmount)
                                             : DecimalUtil.formatAmount(productSalesCredit.creditAmount),
                                             style: TextStyle(
                                               color:productSalesCredit.orderStatus ==1
@@ -242,8 +248,11 @@ class ProductCreditView extends StatelessWidget {
                                             fontWeight: FontWeight.w400,
                                           )),
                                       SizedBox(width: 10.w),
-                                      Text(//controller. creditRepaymentAmount(productSalesCredit),
-                                          DecimalUtil.formatAmount(productSalesCredit.repaymentAmount),
+                                      Text(   (productSalesCredit.orderType == OrderType.SALE_RETURN.value) ||
+                                          (productSalesCredit.orderType == OrderType.PURCHASE_RETURN.value) ||
+                                          (productSalesCredit.orderType == OrderType.REFUND.value)
+                                          ? DecimalUtil.formatNegativeAmount(productSalesCredit.repaymentAmount)
+                                         : DecimalUtil.formatAmount(productSalesCredit.repaymentAmount),
                                           style: TextStyle(
                                             color:productSalesCredit.orderStatus ==1
                                                 ? Colours.text_ccc

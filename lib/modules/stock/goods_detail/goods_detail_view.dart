@@ -335,7 +335,7 @@ class GoodsDetailView extends StatelessWidget {
                                     color: Colours.divider,
                                     height: 1.w,
                                     margin: EdgeInsets.only(
-                                        top: 16, bottom: 16),
+                                        top: 32.w, bottom: 32.w),
                                     width: double.infinity,
                                   ),
                                   Row(
@@ -377,7 +377,7 @@ class GoodsDetailView extends StatelessWidget {
                                     color: Colours.divider,
                                     height: 1.w,
                                     margin: EdgeInsets.only(
-                                        top: 16, bottom: 16),
+                                        top: 32.w, bottom: 32.w),
                                     width: double.infinity,
                                   ),
                                   Row(
@@ -404,30 +404,32 @@ class GoodsDetailView extends StatelessWidget {
                                           )),
                                     ],
                                   ),
-                                  SizedBox(height: 10.w,),
-                                  InkWell(
-                                    onTap: () => Get.toNamed(RouteConfig.productCredit,
-                                        arguments:{'id': state.productDTO?.id,
-                                          'creditAmount':state.productSalesStatisticsDTO
-                                              ?.salesCreditAmount,
-                                          'orderType':[OrderType.SALE.value,OrderType.SALE_RETURN.value,OrderType.REFUND.value]} ),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
+                                  SizedBox(height: 16.w,),
+                                  Container(
+                                    alignment: Alignment.centerRight,
+                                    child:InkWell(
+                                      onTap: () => Get.toNamed(RouteConfig.productCredit,
+                                          arguments:{'id': state.productDTO?.id,
+                                            'creditAmount':state.productSalesStatisticsDTO
+                                                ?.salesCreditAmount,
+                                            'orderType':[OrderType.SALE.value,OrderType.SALE_RETURN.value,OrderType.REFUND.value]} ),
+                                      child:  Container(
+                                        padding: EdgeInsets.symmetric(vertical:8.w,horizontal: 16.w),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: Colours.text_ccc,
+                                            width: 1.0,
+                                          ),
+                                          borderRadius: BorderRadius.circular(12.0),
+                                        ),
+                                        child:
                                         Text(
-                                          '赊账详情',
+                                          '查看明细',
                                           style: TextStyle(
                                               color: Colours.text_999,
                                               fontSize: 32.sp,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                        Icon(
-                                          Icons.chevron_right,
-                                          color: Colours.text_ccc,
-                                        )
-                                      ],
-                                    ),
-                                  )
+                                              fontWeight: FontWeight.w500)),
+                                      )))
                                 ],
                               )),
                           Container(
@@ -467,7 +469,7 @@ class GoodsDetailView extends StatelessWidget {
                                     children: [
                                       Expanded(
                                           flex: 1,
-                                          child: Text('直接入库数量：',
+                                          child: Text('直接入库：',
                                               style: TextStyle(
                                                 color: Colours.text_666,
                                                 fontSize: 30.sp,
@@ -489,7 +491,7 @@ class GoodsDetailView extends StatelessWidget {
                                     color: Colours.divider,
                                     height: 1.w,
                                     margin: EdgeInsets.only(
-                                        top: 16, bottom: 16),
+                                        top: 32.w, bottom: 32.w),
                                     width: double.infinity,
                                   ),
                                   Row(
@@ -518,7 +520,7 @@ class GoodsDetailView extends StatelessWidget {
                                     color: Colours.divider,
                                     height: 1.w,
                                     margin: EdgeInsets.only(
-                                        top: 16, bottom: 16),
+                                        top: 32.w, bottom: 32.w),
                                     width: double.infinity,
                                   ),
                                   Row(
@@ -562,7 +564,7 @@ class GoodsDetailView extends StatelessWidget {
                                     color: Colours.divider,
                                     height: 1.w,
                                     margin: EdgeInsets.only(
-                                        top: 16, bottom: 16),
+                                        top: 32.w, bottom: 32.w),
                                     width: double.infinity,
                                   ),
                                   Row(
@@ -590,34 +592,39 @@ class GoodsDetailView extends StatelessWidget {
                                           )),
                                     ],
                                   ),
-                                  SizedBox(height: 10.w,),
-                                  InkWell(
-                                    onTap: () => Get.toNamed(RouteConfig.productCredit,
-                                        arguments:{'id': state.productDTO?.id,
-                                          'creditAmount':state.productSalesStatisticsDTO?.purchaseCreditAmount,
-                                          'orderType':[OrderType.PURCHASE.value,OrderType.PURCHASE_RETURN.value]} ),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Text(
-                                          '赊账详情',
-                                          style: TextStyle(
-                                              color: Colours.text_999,
-                                              fontSize: 32.sp,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                        Icon(
-                                          Icons.chevron_right,
-                                          color: Colours.text_ccc,
-                                        )
-                                      ],
-                                    ),
-                                  ),
+                                  SizedBox(height: 16.w,),
+                                 Container(
+                                   alignment: Alignment.centerRight,
+                                   child:    InkWell(
+                                     onTap: () => Get.toNamed(RouteConfig.productCredit,
+                                         arguments:{'id': state.productDTO?.id,
+                                           'creditAmount':state.productSalesStatisticsDTO?.purchaseCreditAmount,
+                                           'orderType':[OrderType.PURCHASE.value,OrderType.PURCHASE_RETURN.value]} ),
+                                     child:  Container(
+                                       padding: EdgeInsets.symmetric(vertical:8.w,horizontal: 16.w),
+                                       decoration: BoxDecoration(
+                                         border: Border.all(
+                                           color: Colours.text_ccc,
+                                           width: 1.0,
+                                         ),
+                                         borderRadius: BorderRadius.circular(12.0),
+                                       ),
+                                       child:
+                                       Text(
+                                         '查看明细',
+                                         style: TextStyle(
+                                             color: Colours.text_999,
+                                             fontSize: 32.sp,
+                                             fontWeight: FontWeight.w500),
+                                       ),
+                                     ),
+                                   ),
+                                 ),
                                   Container(
                                     color: Colours.divider,
                                     height: 1.w,
                                     margin: EdgeInsets.only(
-                                        top: 16, bottom: 16),
+                                        top: 32.w, bottom: 32.w),
                                     width: double.infinity,
                                   ),
                                   Row(
@@ -649,7 +656,7 @@ class GoodsDetailView extends StatelessWidget {
                           Container(
                             alignment: Alignment.centerLeft,
                             color: Colors.white,
-                            margin: EdgeInsets.only(top: 20.w),
+                            margin: EdgeInsets.only(top: 32.w),
                             padding:
                             EdgeInsets.only(left: 40.w, top: 20.w, bottom: 20.w),
                             child: Row(
