@@ -100,6 +100,8 @@ class ProductCreditController extends GetxController {
         return OrderType.SALE_RETURN;
       case 3:
         return OrderType.PURCHASE_RETURN;
+      case 10:
+        return OrderType.REFUND;
       default:
         throw Exception('销售单');
     }
