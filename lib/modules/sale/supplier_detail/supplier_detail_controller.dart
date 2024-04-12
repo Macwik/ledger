@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/api/custom_api.dart';
@@ -241,23 +242,27 @@ class SupplierDetailController extends GetxController {
 
   String creditAmount(SalesOrderAccountsDTO? statisticsCustomOrderDTO) {
     if ((statisticsCustomOrderDTO?.orderType == OrderType.SALE_RETURN.value) ||
-        (statisticsCustomOrderDTO?.orderType ==
-            OrderType.PURCHASE_RETURN.value)) {
-      return '￥- ${statisticsCustomOrderDTO?.creditAmount}';
+        (statisticsCustomOrderDTO?.orderType == OrderType.REFUND.value)||
+        (statisticsCustomOrderDTO?.orderType == OrderType.PURCHASE_RETURN.value)) {
+      if (statisticsCustomOrderDTO?.creditAmount == null||statisticsCustomOrderDTO?.creditAmount == Decimal.zero) {
+        return '0';
+      }
+      return '- ${statisticsCustomOrderDTO?.creditAmount}';
     } else if(statisticsCustomOrderDTO?.orderType == OrderType.CREDIT.value){
       return '';
+    } else if((statisticsCustomOrderDTO?.orderType == OrderType.SALE.value)||(statisticsCustomOrderDTO?.orderType == OrderType.PURCHASE.value)){
+      return ' ${statisticsCustomOrderDTO?.creditAmount}';
     }else{
-      return DecimalUtil.formatAmount(statisticsCustomOrderDTO?.creditAmount);
+      return DecimalUtil.formatAmount(statisticsCustomOrderDTO?.discountAmount);
     }
   }
 
   String totalAmount(SalesOrderAccountsDTO? statisticsCustomOrderDTO) {
-    if ((statisticsCustomOrderDTO?.orderType == OrderType.SALE_RETURN.value) ||
-        (statisticsCustomOrderDTO?.orderType ==
-            OrderType.PURCHASE_RETURN.value)) {
-      return '￥- ${statisticsCustomOrderDTO?.totalAmount}';
+    if ((statisticsCustomOrderDTO?.orderType == OrderType.SALE_RETURN.value) ||(statisticsCustomOrderDTO?.orderType == OrderType.REFUND.value)||
+        (statisticsCustomOrderDTO?.orderType == OrderType.PURCHASE_RETURN.value)) {
+      return '- ${(statisticsCustomOrderDTO?.totalAmount??Decimal.zero)-(statisticsCustomOrderDTO?.discountAmount??Decimal.zero)}';
     } else {
-      return DecimalUtil.formatAmount(statisticsCustomOrderDTO?.totalAmount);
+      return DecimalUtil.subtract(statisticsCustomOrderDTO?.totalAmount, statisticsCustomOrderDTO?.discountAmount);
     }
   }
 
@@ -285,13 +290,13 @@ class SupplierDetailController extends GetxController {
       case 1: return '赊账：';
       case 2: return '赊账：';
       case 3: return '赊账：';
-      case 4: return '剩余欠款：';
+      case 4: return '优惠：';
       case 5:return'';
       case 6:return '收入：';
       case 7:return '费用：';
       case 8:return '汇款：';
       case 9:return '入库：';
-      case 10:return '退赊账：';
+      case 10:return '赊账：';
       default:
         throw Exception('网络错误');
     }

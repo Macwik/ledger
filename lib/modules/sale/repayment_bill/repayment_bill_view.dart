@@ -384,7 +384,11 @@ class RepaymentBillView extends StatelessWidget {
                                       ),
                                       Expanded(
                                           child: TextFormField(
-                                            onTap: () => controller.discountAmountUpdate(),
+                                            onTap: () {
+                                              controller.discountAmountUpdate();
+                                              state.discountController.selection = TextSelection(
+                                                  baseOffset: 0,
+                                                  extentOffset: state.discountController.value.text.length);},
                                             controller: state.discountController,
                                             decoration: InputDecoration(
                                                 hintText: '抹零会平摊到还款货物中',

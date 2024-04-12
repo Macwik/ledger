@@ -86,6 +86,7 @@ class MyBottomBarState extends State<MyBottomBar> {
                   offstage: selected,
                   child: LoadAssetImage(
                     item.icon,
+                    color: Colors.grey,
                     width: widget.iconSize,
                     height: widget.iconSize,
                   ),
@@ -94,6 +95,7 @@ class MyBottomBarState extends State<MyBottomBar> {
                   offstage: !selected,
                   child: LoadAssetImage(
                     item.activeIcon,
+                    color: Colours.primary,
                     width: widget.iconSize,
                     height: widget.iconSize,
                   ),
@@ -103,9 +105,8 @@ class MyBottomBarState extends State<MyBottomBar> {
             Text(
               item.title,
               style: TextStyle(
-                fontSize: widget.textFontSize,
-                color:
-                    selected ? widget.textFocusColor : widget.textUnfocusedColor,
+                fontSize: 26.sp,
+                color: selected ? widget.textFocusColor : widget.textUnfocusedColor,
               ),
             ),
           ],

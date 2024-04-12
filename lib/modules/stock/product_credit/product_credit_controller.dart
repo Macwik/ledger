@@ -44,7 +44,7 @@ class ProductCreditController extends GetxController {
 
   String judgeUnit(ProductSalesCreditDTO productSalesCredit) {
     if (productSalesCredit.unitType == UnitType.SINGLE.value) {
-      return '${productSalesCredit.number ?? ''} | ${productSalesCredit.unitName ?? ''}';
+      return '${productSalesCredit.number ?? ''}${productSalesCredit.unitName ?? ''}';
     } else {
       return '${productSalesCredit.masterNumber ?? ''} ${productSalesCredit.masterUnitName ?? ''} | ${productSalesCredit.slaveNumber ?? ''} ${productSalesCredit.slaveUnitName ?? ''}';
     }

@@ -28,6 +28,9 @@ class DecimalUtil {
     if (null == amount) {
       return '';
     }
+    if (Decimal.zero == amount) {
+      return '￥0';
+    }
     return '￥-${Decimal.parse(amount.toStringAsFixed(scale))}';
   }
 

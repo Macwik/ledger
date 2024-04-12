@@ -132,8 +132,9 @@ class HomeView extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 14,
+                        color: Colours.text_333,
+                        fontSize: 38.sp,
+                        fontWeight: FontWeight.w500
                       ),
                     );
                   }),
@@ -142,8 +143,8 @@ class HomeView extends StatelessWidget {
               padding: EdgeInsets.only(left: 10.w),
               child: LoadAssetImage(
                 'common/arrow_right',
-                width: 32.w,
-                color: Colours.text_999,
+                width: 28.w,
+                color: Colours.text_333,
               ),
             ),
           ],
@@ -160,13 +161,16 @@ class HomeView extends StatelessWidget {
                   Text(
                     '成员',
                     style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 14,
+                      color: Colours.text_666,
+                      fontSize: 32.sp,
+                      fontWeight: FontWeight.w500
                     ),
                   ),
+                  SizedBox(width: 8.w,),
                   Icon(
-                    Icons.contact_page_sharp,
-                    color: Colours.text_ccc,
+                    Icons.people_alt_outlined,
+                    color: Colours.text_666,
+                    size: 22,
                   ),
                 ],
               ),
@@ -213,9 +217,9 @@ class HomeView extends StatelessWidget {
                                   Text(
                                     '今日销售情况：',
                                     style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 26.sp,
-                                      color: Colours.text_ccc,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 32.sp,
+                                      color: Colours.text_666,
                                     ),
                                   ),
                                   Expanded(
@@ -225,13 +229,13 @@ class HomeView extends StatelessWidget {
                                         text: '总收入：',
                                         style: TextStyle(
                                           fontWeight: FontWeight.w400,
-                                          fontSize: 20.sp,
+                                          fontSize: 24.sp,
                                           color: Colours.text_ccc,
                                         ),
                                         children: [
                                           TextSpan(
                                               text: DecimalUtil.formatDecimal(
-                                                  state.todaySalesAmount),
+                                                  state.todaySalesAmount??Decimal.zero),
                                               style: TextStyle(
                                                 fontWeight: FontWeight.w500,
                                                 fontSize: 28.sp,
@@ -264,149 +268,124 @@ class HomeView extends StatelessWidget {
                                           children: [
                                             Container(
                                               color: Colors.white,
-                                              padding: EdgeInsets.only(
-                                                  top: 8.w, bottom: 8.w),
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 16.w, horizontal:48.w),
                                               child: Row(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.center,
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.start,
                                                 children: [
-                                                  SizedBox(width: 48.w),
                                                   Expanded(
                                                     child: Container(
-                                                      width: 91.w,
                                                       child: Text(
                                                         salesProductStatistics
                                                                 .productName ??
                                                             '',
                                                         style: TextStyle(
-                                                          fontSize: 30.sp,
-                                                          color:
-                                                              Colours.text_333,
-                                                        ),
+                                                            fontSize: 32.sp,
+                                                            color: Colours.text_666,
+                                                            fontWeight: FontWeight.w400),
                                                       ),
                                                     ),
                                                   ),
                                                   Expanded(
-                                                    child: (Flex(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      direction: Axis.vertical,
-                                                      children: [
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Text(
-                                                              '销售金额：',
-                                                              style: TextStyle(
-                                                                fontSize: 20.sp,
-                                                                color: Colours
-                                                                    .text_ccc,
-                                                              ),
-                                                            ),
-                                                            Expanded(
-                                                                child: Text(
-                                                              DecimalUtil.formatDecimal(((salesProductStatistics
-                                                                          .totalAmount ??
-                                                                      Decimal
-                                                                          .zero) -
-                                                                  (salesProductStatistics
-                                                                          .discountAmount ??
-                                                                      Decimal
-                                                                          .zero))),
-                                                              style: TextStyle(
-                                                                  fontSize:
-                                                                      28.sp,
-                                                                  color: Colors
-                                                                      .red[600],
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500),
-                                                            )),
-                                                          ],
-                                                        ),
-                                                        SizedBox(height: 4.w),
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Text(
-                                                              '销售数量：',
-                                                              style: TextStyle(
-                                                                fontSize: 20.sp,
-                                                                color: Colours
-                                                                    .text_ccc,
-                                                              ),
-                                                            ),
-                                                            Expanded(
-                                                                child: Text(
-                                                              controller
-                                                                  .judgeSlaveUnit(
-                                                                      salesProductStatistics),
-                                                              style: TextStyle(
-                                                                  fontSize:
-                                                                      28.sp,
-                                                                  color: Colors
-                                                                      .teal,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500),
-                                                            )),
-                                                          ],
-                                                        ),
-                                                        Visibility(
-                                                            visible:
-                                                                salesProductStatistics
-                                                                        .unitType !=
-                                                                    UnitType
-                                                                        .SINGLE
-                                                                        .value,
-                                                            child: Column(
-                                                              children: [
-                                                                SizedBox(
-                                                                    height:
-                                                                        4.w),
-                                                                Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .start,
-                                                                  children: [
-                                                                    Text(
-                                                                      '销售数量：',
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontSize:
-                                                                            20.sp,
-                                                                        color: Colours
-                                                                            .text_ccc,
-                                                                      ),
-                                                                    ),
-                                                                    Expanded(
-                                                                        child:
-                                                                            Text(
-                                                                      controller
-                                                                          .judgeMasterUnit(
-                                                                              salesProductStatistics),
-                                                                      style: TextStyle(
-                                                                          fontSize: 28
-                                                                              .sp,
-                                                                          color: Colours
-                                                                              .text_999,
-                                                                          fontWeight:
-                                                                              FontWeight.w500),
-                                                                    )),
-                                                                  ],
+                                                    child:Flex(
+                                                        crossAxisAlignment: CrossAxisAlignment.end,
+                                                        mainAxisAlignment: MainAxisAlignment.end,
+                                                        direction: Axis.vertical,
+                                                        children: [
+                                                          Row(
+                                                          mainAxisAlignment: MainAxisAlignment.end,
+                                                            children: [
+                                                              Text(
+                                                                '金额：',
+                                                                style: TextStyle(
+                                                                  fontSize: 20.sp,
+                                                                  color: Colours
+                                                                      .text_ccc,
                                                                 ),
-                                                              ],
-                                                            ))
-                                                      ],
-                                                    )),
-                                                  ),
+                                                              ),
+                                                            Text(
+                                                                    DecimalUtil.formatDecimal(((salesProductStatistics
+                                                                        .totalAmount ??
+                                                                        Decimal
+                                                                            .zero) -
+                                                                        (salesProductStatistics
+                                                                            .discountAmount ??
+                                                                            Decimal
+                                                                                .zero))),
+                                                                    style: TextStyle(
+                                                                        fontSize: 30.sp,
+                                                                        color: Colors.red[600],
+                                                                        fontWeight: FontWeight.w500),
+                                                                  ),
+                                                            ],
+                                                          ),
+                                                          SizedBox(height: 8.w),
+                                                          Row(
+                                                            mainAxisAlignment: MainAxisAlignment.end,
+                                                            children: [
+                                                              Text(
+                                                                '数量：',
+                                                                style: TextStyle(
+                                                                  fontSize: 20.sp,
+                                                                  color: Colours
+                                                                      .text_ccc,
+                                                                ),
+                                                              ),
+                                                               Text(
+                                                                    controller
+                                                                        .judgeSlaveUnit(
+                                                                        salesProductStatistics),
+                                                                    style: TextStyle(
+                                                                        fontSize: 30.sp,
+                                                                        color: Colours.text_666,
+                                                                        fontWeight: FontWeight.w500),
+                                                                  ),
+                                                            ],
+                                                          ),
+                                                          Visibility(
+                                                              visible:
+                                                              salesProductStatistics
+                                                                  .unitType !=
+                                                                  UnitType
+                                                                      .SINGLE
+                                                                      .value,
+                                                              child: Column(
+                                                                children: [
+                                                                  SizedBox(
+                                                                      height:
+                                                                      8.w),
+                                                                  Row(
+                                                                    mainAxisAlignment: MainAxisAlignment.end,
+                                                                    children: [
+                                                                      Text(
+                                                                        '数量：',
+                                                                        style:
+                                                                        TextStyle(
+                                                                          fontSize:
+                                                                          20.sp,
+                                                                          color: Colours
+                                                                              .text_ccc,
+                                                                        ),
+                                                                      ),
+
+                                                                          Text(
+                                                                            controller
+                                                                                .judgeMasterUnit(
+                                                                                salesProductStatistics),
+                                                                            style: TextStyle(
+                                                                                fontSize: 30.sp,
+                                                                                color: Colours.text_666,
+                                                                                fontWeight: FontWeight.w500),
+                                                                          ),
+                                                                    ],
+                                                                  ),
+                                                                ],
+                                                              ))
+                                                        ],
+                                                      ),)
                                                 ],
                                               ),
                                             ),
@@ -458,11 +437,11 @@ class HomeView extends StatelessWidget {
                                 Expanded(
                                     child: Text(
                                   '今日交易资金情况：',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 26.sp,
-                                    color: Colours.text_ccc,
-                                  ),
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 32.sp,
+                                        color: Colours.text_666,
+                                      ),
                                 )),
                                 Text.rich(
                                   textAlign: TextAlign.right,
@@ -470,7 +449,7 @@ class HomeView extends StatelessWidget {
                                     text: '合计： ',
                                     style: TextStyle(
                                       fontWeight: FontWeight.w400,
-                                      fontSize: 20.sp,
+                                      fontSize: 24.sp,
                                       color: Colours.text_ccc,
                                     ),
                                     children: [
@@ -509,13 +488,12 @@ class HomeView extends StatelessWidget {
                                         children: [
                                           Container(
                                             color: Colors.white,
-                                            padding: EdgeInsets.only(
-                                                top: 24.w, bottom: 24.w),
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 24.w, horizontal: 48.w),
                                             child: Row(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.center,
                                               children: [
-                                                SizedBox(width: 48.w),
                                                 Expanded(
                                                     child: Row(
                                                   children: [
@@ -535,44 +513,22 @@ class HomeView extends StatelessWidget {
                                                       salesPaymentStatistics
                                                               .paymentMethodName ??
                                                           '',
-                                                      style: TextStyle(
-                                                        fontSize: 32.sp,
-                                                        color: Colors.black,
-                                                      ),
+                                                          style: TextStyle(
+                                                              fontSize: 32.sp,
+                                                              color: Colours.text_666,
+                                                              fontWeight: FontWeight.w400),
                                                     )),
                                                   ],
                                                 )),
                                                 Expanded(
-                                                  child: Container(
-                                                    alignment:
-                                                        Alignment.centerRight,
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          '销售金额：',
-                                                          style: TextStyle(
-                                                            fontSize: 20.sp,
-                                                            color: Colours
-                                                                .text_ccc,
-                                                          ),
-                                                        ),
-                                                        Expanded(
-                                                            child: Text(
-                                                          '￥${salesPaymentStatistics.paymentAmount ?? ''}',
-                                                          style: TextStyle(
-                                                              fontSize: 28.sp,
-                                                              color: Colours
-                                                                  .text_666,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500),
-                                                        )),
-                                                      ],
-                                                    ),
-                                                  ),
+                                                  child:Text(
+                                                    '${salesPaymentStatistics.paymentAmount ?? ''}',
+                                                    textAlign: TextAlign.right,
+                                                    style: TextStyle(
+                                                        fontSize: 32.sp,
+                                                        color: Colours.text_666,
+                                                        fontWeight: FontWeight.w500),
+                                                  )
                                                 )
                                               ],
                                             ),
@@ -628,9 +584,9 @@ class HomeView extends StatelessWidget {
                                   Text(
                                     '今日还款情况：',
                                     style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 26.sp,
-                                      color: Colours.text_ccc,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 32.sp,
+                                      color: Colours.text_666,
                                     ),
                                   ),
                                   Expanded(
@@ -640,7 +596,7 @@ class HomeView extends StatelessWidget {
                                         text: '合计：： ',
                                         style: TextStyle(
                                           fontWeight: FontWeight.w400,
-                                          fontSize: 20.sp,
+                                          fontSize: 24.sp,
                                           color: Colours.text_ccc,
                                         ),
                                         children: [
@@ -650,7 +606,7 @@ class HomeView extends StatelessWidget {
                                                   scale: 2),
                                               style: TextStyle(
                                                 fontWeight: FontWeight.w500,
-                                                fontSize: 28.sp,
+                                                fontSize: 32.sp,
                                                 color: Colours.text_666,
                                               )),
                                         ],
@@ -681,13 +637,12 @@ class HomeView extends StatelessWidget {
                                           children: [
                                             Container(
                                               color: Colors.white,
-                                              padding: EdgeInsets.only(
-                                                  top: 24.w, bottom: 24.w),
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 24.w, horizontal: 48.w),
                                               child: Row(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.center,
                                                 children: [
-                                                  SizedBox(width: 48.w),
                                                   Expanded(
                                                       child: Row(
                                                     children: [
@@ -696,81 +651,66 @@ class HomeView extends StatelessWidget {
                                                         salesRepaymentStatistics
                                                                 .customName ??
                                                             '',
-                                                        style: TextStyle(
-                                                          fontSize: 30.sp,
-                                                          color: Colors.black,
-                                                        ),
-                                                      )),
+                                                            style: TextStyle(
+                                                                fontSize: 32.sp,
+                                                                color: Colours.text_666,
+                                                                fontWeight: FontWeight.w400),
+                                                          )),
                                                     ],
                                                   )),
                                                   Expanded(
                                                     child: (Flex(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
                                                       direction: Axis.vertical,
                                                       children: [
                                                         Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .start,
+                                                          mainAxisAlignment: MainAxisAlignment.end,
                                                           children: [
                                                             Text(
-                                                              '还款金额：',
+                                                              '还款：',
                                                               style: TextStyle(
-                                                                fontSize: 20.sp,
-                                                                color: Colours
-                                                                    .text_ccc,
+                                                                fontSize: 24.sp,
+                                                                color: Colours.text_ccc,
                                                               ),
                                                             ),
-                                                            Expanded(
-                                                                child: Text(
+                                                            Text(
                                                               DecimalUtil.subtract(
                                                                   salesRepaymentStatistics
                                                                       .totalAmount,
                                                                   salesRepaymentStatistics
                                                                       .discountAmount),
-                                                              style: TextStyle(
-                                                                fontSize: 28.sp,
-                                                                color: Colours
-                                                                    .text_666,
-                                                              ),
-                                                            )),
+                                                                  style: TextStyle(
+                                                                      fontSize: 32.sp,
+                                                                      color:  Colors.green[600],
+                                                                      fontWeight: FontWeight.w500),
+                                                            ),
                                                           ],
                                                         ),
                                                         SizedBox(height: 4.w),
                                                         Visibility(
                                                           visible:
-                                                              salesRepaymentStatistics
-                                                                      .discountAmount !=
-                                                                  Decimal.zero,
+                                                              salesRepaymentStatistics.discountAmount != Decimal.zero,
                                                           child: Row(
                                                             mainAxisAlignment:
                                                                 MainAxisAlignment
-                                                                    .start,
+                                                                    .end,
                                                             children: [
                                                               Text(
-                                                                '优惠金额：',
+                                                                '优惠：',
                                                                 style:
                                                                     TextStyle(
                                                                   fontSize:
-                                                                      20.sp,
+                                                                      24.sp,
                                                                   color: Colours
                                                                       .text_ccc,
                                                                 ),
                                                               ),
-                                                              Expanded(
-                                                                  child: Text(
-                                                                '￥${salesRepaymentStatistics.discountAmount ?? ''}',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        24.sp,
-                                                                    color: Colours
-                                                                        .text_999,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500),
-                                                              )),
+                                                            Text(
+                                                                '${salesRepaymentStatistics.discountAmount ?? ''}',
+                                                                    style: TextStyle(
+                                                                        fontSize: 32.sp,
+                                                                        color: Colours.text_666,
+                                                                        fontWeight: FontWeight.w500),
+                                                              ),
                                                             ],
                                                           ),
                                                         )
@@ -828,9 +768,9 @@ class HomeView extends StatelessWidget {
                                   Text(
                                     '今日赊账情况：',
                                     style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 26.sp,
-                                      color: Colours.text_ccc,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 32.sp,
+                                      color: Colours.text_666,
                                     ),
                                   ),
                                   Expanded(
@@ -840,7 +780,7 @@ class HomeView extends StatelessWidget {
                                         text: '合计： ',
                                         style: TextStyle(
                                           fontWeight: FontWeight.w400,
-                                          fontSize: 20.sp,
+                                          fontSize: 24.sp,
                                           color: Colours.text_ccc,
                                         ),
                                         children: [
@@ -850,7 +790,7 @@ class HomeView extends StatelessWidget {
                                                   scale: 2),
                                               style: TextStyle(
                                                 fontWeight: FontWeight.w500,
-                                                fontSize: 28.sp,
+                                                fontSize: 32.sp,
                                                 color: Colours.text_666,
                                               )),
                                         ],
@@ -880,50 +820,33 @@ class HomeView extends StatelessWidget {
                                           children: [
                                             Container(
                                               color: Colors.white,
-                                              padding: EdgeInsets.only(
-                                                  top: 24.w, bottom: 24.w),
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 24.w, horizontal: 48.w),
                                               child: Row(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.center,
                                                 children: [
-                                                  SizedBox(width: 48.w),
+                                                 // SizedBox(width: 48.w),
                                                   Expanded(
                                                       child: Text(
                                                     salesCreditStatisticsDTO
                                                             .customName ??
                                                         '',
                                                     style: TextStyle(
-                                                      fontSize: 30.sp,
-                                                      color: Colors.black,
+                                                      fontSize: 32.sp,
+                                                      color: Colours.text_666,
+                                                        fontWeight: FontWeight.w400
                                                     ),
                                                   )),
                                                   Expanded(
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          '赊账金额：',
-                                                          style: TextStyle(
-                                                            fontSize: 20.sp,
-                                                            color: Colours
-                                                                .text_ccc,
-                                                          ),
-                                                        ),
-                                                        Expanded(
-                                                            child: Text(
-                                                          '￥${salesCreditStatisticsDTO.creditAmount ?? '0.00'}',
-                                                          style: TextStyle(
-                                                              fontSize: 28.sp,
-                                                              color: Colours
-                                                                  .text_666,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500),
-                                                        )),
-                                                      ],
-                                                    ),
+                                                    child: Text(
+                                                      '${salesCreditStatisticsDTO.creditAmount ?? '0.00'}',
+                                                      textAlign: TextAlign.right,
+                                                      style: TextStyle(
+                                                          fontSize: 32.sp,
+                                                          color: Colours.text_666,
+                                                          fontWeight: FontWeight.w500),
+                                                    )
                                                   ),
                                                 ],
                                               ),

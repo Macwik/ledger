@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -355,7 +356,7 @@ class RepaymentRecordController extends GetxController
                                                   child: Row(
                                                 children: [
                                                   Text(
-                                                    '本次还款：',
+                                                    '还款：',
                                                     style: TextStyle(
                                                       color: Colours.text_ccc,
                                                       fontSize: 26.sp,
@@ -366,13 +367,9 @@ class RepaymentRecordController extends GetxController
                                                   Expanded(
                                                       child: Text(
                                                     textAlign: TextAlign.left,
-                                                    DecimalUtil.formatAmount(
-                                                        repaymentOrderDTO
-                                                            .totalAmount),
+                                                    DecimalUtil.formatAmount((repaymentOrderDTO.totalAmount??Decimal.zero)-(repaymentOrderDTO.discountAmount??Decimal.zero)),
                                                     style: TextStyle(
-                                                      color: repaymentOrderDTO
-                                                                  .invalid ==
-                                                              0
+                                                      color: repaymentOrderDTO.invalid == 0
                                                           ? Colours.text_333
                                                           : Colours.text_ccc,
                                                       fontSize: 28.sp,
@@ -423,7 +420,7 @@ class RepaymentRecordController extends GetxController
                                                   child: Row(
                                                 children: [
                                                   Text(
-                                                    '其中优惠：',
+                                                    '优惠：',
                                                     style: TextStyle(
                                                       color: Colours.text_ccc,
                                                       fontSize: 26.sp,
