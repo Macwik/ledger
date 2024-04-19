@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/permission_code.dart';
@@ -68,234 +69,200 @@ class CostDetailView extends StatelessWidget {
                     child: SingleChildScrollView(
                         child: Column(
                       children: [
-                        Container(
-                            color: Colors.white,
-                            padding: EdgeInsets.all(40.w),
-                            child: Flex(
-                              direction: Axis.horizontal,
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    '合计：',
-                                    style: TextStyle(
-                                      color: Colours.text_999,
-                                      fontSize: 30.sp,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
-                                Visibility(
-                                    visible:
-                                        state.costIncomeDetailDTO?.invalid ==
-                                            IsDeleted.DELETED.value,
-                                    child: Container(
-                                      padding: EdgeInsets.only(
-                                          top: 2.w,
-                                          bottom: 2.w,
-                                          left: 4.w,
-                                          right: 4.w),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: Colors.red,
-                                          width: 1.0,
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                      ),
-                                      child: Text('已作废',
-                                          style: TextStyle(
-                                            color: Colors.red,
-                                            fontSize: 30.sp,
-                                            fontWeight: FontWeight.w500,
-                                          )),
-                                    )),
-                                Expanded(
-                                  child: Text(
-                                    DecimalUtil.formatAmount(
-                                        state.costIncomeDetailDTO?.totalAmount),
-                                    textAlign: TextAlign.right,
-                                    style: TextStyle(
-                                      color:
-                                          state.costIncomeDetailDTO?.invalid ==
-                                                  IsDeleted.DELETED.value
-                                              ? Colours.text_ccc
-                                              : Colors.orange,
-                                      fontSize: 38.sp,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )),
-                        Container(
-                          color: state.costIncomeDetailDTO?.invalid ==
-                                  IsDeleted.DELETED.value
-                              ? Colours.text_ccc
-                              : Colors.orange,
-                          height: 2.w,
-                          width: double.infinity,
-                        ),
-                        //第二部分费用
-                        Container(
-                          padding: EdgeInsets.all(40.w),
-                          width: double.infinity,
-                          color: Colors.white,
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(bottom: 32.w),
-                                child: Row(
+                            Container(
+                                padding: EdgeInsets.only(
+                                    right: 40.w, left: 40.w, top: 30.w, bottom: 20.w),
+                                child: Column(
                                   children: [
-                                    Container(
-                                      color: Colours.primary,
-                                      height: 32.w,
-                                      width: 8.w,
-                                    ),
-                                    Container(
-                                      color: Colors.white,
-                                      margin: EdgeInsets.only(left: 16.w),
-                                      child: Text(
-                                        state.costIncomeDetailDTO?.orderType ==
-                                                CostOrderType.COST.value
-                                            ? '费用明细'
-                                            : '收入明细',
+                                    Container(child: Text(state.costIncomeOrderDTO?.orderType == CostOrderType.COST.value
+                                        ? '实付金额'
+                                        : '实收金额',
                                         style: TextStyle(
-                                            color: Colours.text_666,
-                                            fontSize: 36.sp,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Flex(
-                                direction: Axis.horizontal,
-                                children: [
-                                  Container(
-                                      alignment: Alignment.centerLeft,
-                                      width: 200.w,
-                                      child: Text(
-                                        state.costIncomeDetailDTO
-                                                ?.costIncomeName ??
-                                            '',
-                                        textAlign: TextAlign.right,
-                                        style: TextStyle(
-                                          color: Colours.text_666,
-                                          fontSize: 30.sp,
+                                          color: Colours.text_999,
+                                          fontSize: 32.sp,
                                           fontWeight: FontWeight.w400,
-                                        ),
-                                      )),
-                                  Expanded(
-                                      child: Text(
-                                    textAlign: TextAlign.right,
-                                    DecimalUtil.formatAmount(
-                                        state.costIncomeDetailDTO?.totalAmount),
-                                    style: TextStyle(
-                                      color: Colours.text_333,
-                                      fontSize: 32.sp,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  )),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          height: 32.w,
-                          color: Colors.white12,
-                        ),
-                        Container(
-                          color: Colors.white,
-                          padding: EdgeInsets.all(40.w),
-                          child: Row(
-                            children: [
-                              Container(
-                                color: Colours.primary,
-                                height: 32.w,
-                                width: 8.w,
-                              ),
-                              Container(
-                                color: Colors.white,
-                                margin: EdgeInsets.only(left: 16.w),
-                                child: Text(
-                                  '付款信息',
-                                  style: TextStyle(
-                                      color: Colours.text_666,
-                                      fontSize: 36.sp,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        state.costIncomeDetailDTO?.paymentDTOList?.isEmpty ??
-                                true
-                            ? EmptyLayout(hintText: '什么都没有')
-                            : ListView.separated(
-                                physics: NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemBuilder: (BuildContext context, int index) {
-                                  var costRepayment = state.costIncomeDetailDTO
-                                      ?.paymentDTOList![index];
-                                  return Container(
-                                    color: Colors.white,
-                                    padding: EdgeInsets.only(
-                                        right: 40.w,
-                                        left: 40.w,
-                                        top: 8.w,
-                                        bottom: 32.w),
-                                    child: Flex(
-                                      direction: Axis.horizontal,
-                                      children: [
-                                        Text(
-                                          costRepayment?.paymentMethodName ??
-                                              '',
-                                          style: TextStyle(
-                                            color: Colours.text_666,
-                                            fontSize: 32.sp,
-                                            fontWeight: FontWeight.w400,
+                                        )),),
+                                    Text(
+                                        DecimalUtil.formatAmount(
+                                            state.costIncomeDetailDTO?.totalAmount),
+                                        style: TextStyle(
+                                          color:  state.costIncomeDetailDTO?.invalid == IsDeleted.DELETED.value
+                                          ?Colours.text_ccc
+                                          :Colors.teal[400],
+                                          fontSize: 48.sp,
+                                          fontWeight: FontWeight.w600,
+                                        )),
+                                  ],
+                                )),
+                        //第二部分费用
+                        Card(
+                            elevation: 6,
+                            shadowColor: Colors.black45,
+                            margin: EdgeInsets.only(left: 24.w, top: 16.w, right: 24.w),
+                            clipBehavior: Clip.antiAlias,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(28.w)),
+                            ),
+                            child:  Container(
+                                      color: Colors.white,
+                                      padding: EdgeInsets.only(
+                                          left: 40.w,
+                                          right: 40.w,
+                                          top: 30.w,
+                                          bottom: 20.w),
+                                      child: Column(
+                                        children: [
+                                          Flex(
+                                            direction: Axis.horizontal,
+                                            children: [
+                                              Expanded(
+                                                  child:Text(
+                                                   state.costIncomeDetailDTO?.costIncomeName ?? '',
+                                                    style: TextStyle(
+                                                      color:  state.costIncomeDetailDTO?.invalid == IsDeleted.DELETED.value
+                                                          ?Colours.text_ccc
+                                                          :Colours.text_333,
+                                                      fontSize: 36.sp,
+                                                      fontWeight: FontWeight.w500,
+                                                    ),
+                                                  )),
+                                              Expanded(
+                                                  child: Text(
+                                                    textAlign: TextAlign.right,
+                                                    DateUtil.formatDefaultDate2(state
+                                                        .costIncomeDetailDTO?.orderDate),
+                                                    style: TextStyle(
+                                                      color: Colours.text_999,
+                                                      fontSize: 30.sp,
+                                                      fontWeight: FontWeight.w400,
+                                                    ),
+                                                  ))
+                                            ],
                                           ),
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            textAlign: TextAlign.right,
-                                            DecimalUtil.formatAmount(
-                                                costRepayment?.paymentAmount),
-                                            style: TextStyle(
-                                              color: Colours.text_333,
-                                              fontSize: 32.sp,
-                                              fontWeight: FontWeight.w500,
-                                            ),
+                                          Container(
+                                            padding: EdgeInsets.only(top: 16.w),
+                                            alignment: Alignment.centerLeft,
+                                            child: Offstage(
+                                                  offstage: state.costIncomeDetailDTO?.invalid != IsDeleted.DELETED.value,
+                                                  child: Text('已作废',
+                                                      style: TextStyle(
+                                                        color: Colors.red,
+                                                        fontSize: 32.sp,
+                                                        fontWeight: FontWeight.w400,
+                                                      )),
+                                                ),
+
                                           ),
-                                        )
-                                      ],
-                                    ),
-                                  );
-                                },
-                                itemCount: state.costIncomeDetailDTO
-                                        ?.paymentDTOList?.length ??
-                                    0,
-                                separatorBuilder: (context, index) => Container(
-                                  height: 1.w,
-                                  color: Colours.divider,
-                                  width: double.infinity,
-                                ),
-                              ),
+                                          Container(
+                                            color: Colours.divider,
+                                            height: 1.w,
+                                            margin:
+                                            EdgeInsets.only(top: 24.w, bottom: 24.w),
+                                            width: double.infinity,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                '业务员',
+                                                style: TextStyle(
+                                                  color: Colours.text_999,
+                                                  fontSize: 32.sp,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              ),
+                                              const Spacer(),
+                                              Text(
+                                                state.costIncomeDetailDTO?.creatorName ?? '',
+                                                style: TextStyle(
+                                                  color: state.costIncomeDetailDTO?.invalid == IsDeleted.DELETED.value
+                                                      ?Colours.text_ccc
+                                                      : Colours.text_333,
+                                                  fontSize: 32.sp,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          SizedBox(height: 32.w,),
+                                          Flex(
+                                            direction: Axis.horizontal,
+                                            children: [
+                                              Expanded(
+                                                child: Text(
+                                                  '支付方式',
+                                                  style: TextStyle(
+                                                    color: Colours.text_999,
+                                                    fontSize: 32.sp,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                              ),
+                                              Expanded(
+                                                flex: 3,
+                                                child: Text(
+                                                  textAlign: TextAlign.right,
+                                                  controller.orderPayment(state.costIncomeDetailDTO?.paymentDTOList),
+                                                  style: TextStyle(
+                                                    color:  state.costIncomeDetailDTO?.invalid == IsDeleted.DELETED.value
+                                                        ?Colours.text_ccc
+                                                        :Colours.text_333,
+                                                    fontSize: 32.sp,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          SizedBox(height: 32.w,),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                '收银时间',
+                                                style: TextStyle(
+                                                  color: Colours.text_999,
+                                                  fontSize: 32.sp,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              ),
+                                              const Spacer(),
+                                              Text(DateUtil.formatDefaultDateTimeMinute(
+                                                  state.costIncomeDetailDTO?.gmtCreate),
+                                                style: TextStyle(
+                                                  color:  state.costIncomeDetailDTO?.invalid == IsDeleted.DELETED.value
+                                                      ?Colours.text_ccc
+                                                      :Colours.text_333,
+                                                  fontSize: 32.sp,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              )
+                                            ],
+                                          ),
+
+                                        ],
+                                      ))),
+
+
                         Container(
                           alignment: Alignment.centerLeft,
-                          color: Colors.white12,
-                          padding: EdgeInsets.only(
-                              bottom: 16.w, top: 16.w, left: 40.w),
+                          padding: EdgeInsets.only(left: 40.w, top: 32.w),
                           child: Text(
-                            '单据详情',
+                            '其他情况',
                             style: TextStyle(
                                 color: Colours.text_ccc,
                                 fontSize: 30.sp,
                                 fontWeight: FontWeight.w600),
                           ),
                         ),
-                        Container(
+                        Card(
+                            elevation: 6,
+                            shadowColor: Colors.black45,
+                            margin: EdgeInsets.only(left: 24.w, top: 16.w, right: 24.w),
+                            clipBehavior: Clip.antiAlias,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(28.w)),
+                            ),
+                            child:
+                            Container(
                           color: Colors.white,
                           padding: EdgeInsets.only(
                               left: 40.w, right: 40.w, bottom: 40.w),
@@ -313,7 +280,9 @@ class CostDetailView extends StatelessWidget {
                                         ? '哪里支付'
                                         : '哪里收取',
                                     style: TextStyle(
-                                      color: Colours.text_666,
+                                      color:  state.costIncomeDetailDTO?.invalid == IsDeleted.DELETED.value
+                                          ?Colours.text_ccc
+                                          : Colours.text_666,
                                       fontSize: 32.sp,
                                       fontWeight: FontWeight.w400,
                                     ),
@@ -325,7 +294,9 @@ class CostDetailView extends StatelessWidget {
                                         : '产地',
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
-                                      color: Colours.text_333,
+                                      color:   state.costIncomeDetailDTO?.invalid == IsDeleted.DELETED.value
+                                          ?Colours.text_ccc
+                                          :Colours.text_333,
                                       fontSize: 32.sp,
                                       fontWeight: FontWeight.w400,
                                     ),
@@ -344,7 +315,9 @@ class CostDetailView extends StatelessWidget {
                                   Text(
                                     '绑定采购单',
                                     style: TextStyle(
-                                      color: Colours.text_666,
+                                      color:   state.costIncomeDetailDTO?.invalid == IsDeleted.DELETED.value
+                                          ?Colours.text_ccc
+                                          :Colours.text_666,
                                       fontSize: 32.sp,
                                       fontWeight: FontWeight.w400,
                                     ),
@@ -364,7 +337,9 @@ class CostDetailView extends StatelessWidget {
                                                     ? '无'
                                                     : '查看详情',
                                                 style: TextStyle(
-                                                  color: Colours.text_666,
+                                                  color:  state.costIncomeDetailDTO?.invalid == IsDeleted.DELETED.value
+                                                      ?Colours.text_ccc
+                                                      :Colours.text_666,
                                                   fontSize: 32.sp,
                                                   fontWeight: FontWeight.w500,
                                                 ),
@@ -382,7 +357,9 @@ class CostDetailView extends StatelessWidget {
                                                   child: LoadAssetImage(
                                                     'common/arrow_right',
                                                     width: 25.w,
-                                                    color: Colours.text_999,
+                                                    color:   state.costIncomeDetailDTO?.invalid == IsDeleted.DELETED.value
+                                                        ?Colours.text_ccc
+                                                        :Colours.text_999,
                                                   ),
                                                 ),
                                               )
@@ -402,7 +379,9 @@ class CostDetailView extends StatelessWidget {
                                   Text(
                                     '绑定货物',
                                     style: TextStyle(
-                                      color: Colours.text_666,
+                                      color:  state.costIncomeDetailDTO?.invalid == IsDeleted.DELETED.value
+                                          ?Colours.text_ccc
+                                          : Colours.text_666,
                                       fontSize: 32.sp,
                                       fontWeight: FontWeight.w400,
                                     ),
@@ -417,7 +396,9 @@ class CostDetailView extends StatelessWidget {
                                               ?.productNameList),
                                       textAlign: TextAlign.right,
                                       style: TextStyle(
-                                        color: Colours.text_333,
+                                        color:  state.costIncomeDetailDTO?.invalid == IsDeleted.DELETED.value
+                                            ?Colours.text_ccc
+                                            : Colours.text_333,
                                         fontSize: 32.sp,
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -427,79 +408,20 @@ class CostDetailView extends StatelessWidget {
                               ),
                             ],
                           ),
-                        ),
-                        Container(
-                          color: Colors.white12,
-                          height: 32.w,
-                          width: double.infinity,
-                        ),
-                        Container(
-                            color: Colors.white,
-                            padding: EdgeInsets.all(40.w),
-                            margin: EdgeInsets.only(bottom: 100.w),
-                            child: IntrinsicHeight(
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        '日期',
-                                        style: TextStyle(
-                                          color: Colours.text_666,
-                                          fontSize: 32.sp,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                      const Spacer(),
-                                      Text(
-                                        DateUtil.formatDefaultDate2(state
-                                            .costIncomeDetailDTO?.orderDate),
-                                        style: TextStyle(
-                                          color: Colours.text_333,
-                                          fontSize: 32.sp,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Container(
-                                    color: Colours.divider,
-                                    height: 1.w,
-                                    margin:
-                                        EdgeInsets.symmetric(vertical: 32.w),
-                                    width: double.infinity,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        '业务员',
-                                        style: TextStyle(
-                                          color: Colours.text_666,
-                                          fontSize: 32.sp,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                      const Spacer(),
-                                      Text(
-                                        state.costIncomeDetailDTO
-                                                ?.creatorName ??
-                                            '',
-                                        style: TextStyle(
-                                          color: Colours.text_333,
-                                          fontSize: 32.sp,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Container(
-                                    color: Colours.divider,
-                                    height: 1.w,
-                                    margin:
-                                        EdgeInsets.symmetric(vertical: 32.w),
-                                    width: double.infinity,
-                                  ),
-                                  LimitedBox(
+                        )),
+                        Visibility(
+                            visible: state.costIncomeDetailDTO?.remark?.isNotEmpty??false,
+                            child:  Card(
+                                elevation: 6,
+                                shadowColor: Colors.black45,
+                                margin: EdgeInsets.only(left: 24.w, top: 16.w, right: 24.w),
+                                clipBehavior: Clip.antiAlias,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(28.w)),
+                                ),
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 40.w,vertical: 32.w),
+                                  child:  LimitedBox(
                                       maxHeight: 200.0, // 设置容器的最大高度
                                       child: Flex(
                                         direction: Axis.horizontal,
@@ -509,7 +431,9 @@ class CostDetailView extends StatelessWidget {
                                             child: Text(
                                               '备注',
                                               style: TextStyle(
-                                                color: Colours.text_666,
+                                                color:  state.costIncomeDetailDTO?.invalid == IsDeleted.DELETED.value
+                                                    ?Colours.text_ccc
+                                                    : Colours.text_666,
                                                 fontSize: 32.sp,
                                                 fontWeight: FontWeight.w400,
                                               ),
@@ -521,19 +445,19 @@ class CostDetailView extends StatelessWidget {
                                                 textAlign: TextAlign.right,
                                                 softWrap: true, // 允许文本自动换行
                                                 state.costIncomeDetailDTO
-                                                        ?.remark ??
+                                                    ?.remark ??
                                                     '-',
                                                 style: TextStyle(
-                                                  color: Colours.text_333,
+                                                  color:   state.costIncomeDetailDTO?.invalid == IsDeleted.DELETED.value
+                                                      ?Colours.text_ccc
+                                                      :Colours.text_333,
                                                   fontSize: 32.sp,
                                                   fontWeight: FontWeight.w500,
                                                 ),
                                               )),
                                         ],
                                       )),
-                                ],
-                              ),
-                            )),
+                                )))
                       ],
                     )));
               }),

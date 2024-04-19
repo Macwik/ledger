@@ -25,7 +25,7 @@ class AddStockDetailController extends GetxController {
       if (result.success) {
         state.orderDetailDTO = result.d;
         update([
-          'sale_detail_delete','sale_detail_title','add_stock_detail_product','sale_detail_other','order_cost'
+          'sale_detail_delete','add_stock_detail_product','order_cost'
         ]);
       } else {
         Toast.show(result.m.toString());

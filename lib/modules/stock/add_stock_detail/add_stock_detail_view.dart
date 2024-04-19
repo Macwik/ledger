@@ -1,9 +1,11 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/enum/is_deleted.dart';
 import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/res/export.dart';
+import 'package:ledger/util/decimal_util.dart';
 import 'package:ledger/util/share_utils.dart';
 import 'package:ledger/widget/permission/permission_widget.dart';
 
@@ -58,118 +60,268 @@ class AddStockDetailView extends StatelessWidget {
           child: RepaintBoundary(
               key: salesDetailKey,
               child: Column(children: [
-                GetBuilder<AddStockDetailController>(
-                    id: 'sale_detail_title',
-                    builder: (_){
-                      return Container(
-                        padding: EdgeInsets.only(left: 40.w, right: 40.w, top: 30.w),
-                        width: double.infinity,
-                        color: Colors.white,
-                        child: Row(
-                          children: [
-                            Container(
-                              color: Colours.primary,
-                              height: 38.w,
-                              width: 8.w,
-                            ),
-                            Container(
-                              color: Colors.white,
-                              margin: EdgeInsets.only(left: 6.w,right:32.w ),
-                              child: Text(
-                                '货物明细',
-                                style: TextStyle(
-                                    color: Colours.text_666,
-                                    fontSize: 36.sp,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                            ),
-                            Visibility(
-                                visible: state.orderDetailDTO?.invalid == IsDeleted.DELETED.value,
-                                child: Container(
-                                  padding: EdgeInsets.only(
-                                      top: 2.w,
-                                      bottom: 2.w,
-                                      left: 4.w,
-                                      right: 4.w),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.red,
-                                      width: 1.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                  child: Text('已作废',
-                                      style: TextStyle(
-                                        color: Colors.red,
-                                        fontSize: 30.sp,
-                                        fontWeight: FontWeight.w500,
-                                      )),
-                                )),
-                          ],
-                        ),
-                      );
-                    }),
-                GetBuilder<AddStockDetailController>(
-                    id: 'add_stock_detail_product',
-                    builder: (_) {
-                      return ListView.separated(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        separatorBuilder: (context, index) => Container(
-                          height: 2.w,
-                          margin: EdgeInsets.symmetric(
-                            horizontal: 40.w,
-                          ),
-                          color: Colours.divider,
-                          width: double.infinity,
-                        ),
-                        itemCount: state.orderDetailDTO?.orderProductDetailList
-                            ?.length ??
-                            0,
-                        itemBuilder: (BuildContext context, int index) {
-                          var orderProductDetail = state.orderDetailDTO?.orderProductDetailList![index];
-                          return Container(
+                  Card(
+                  elevation: 6,
+                  shadowColor: Colors.black45,
+                  margin: EdgeInsets.only(left: 24.w, top: 16.w, right: 24.w),
+                  clipBehavior: Clip.antiAlias,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(28.w)),
+                  ),
+                  child: GetBuilder<AddStockDetailController>(
+                      id: 'order_cost',
+                      builder: (_) {
+                        return Container(
                             color: Colors.white,
                             padding: EdgeInsets.only(
                                 left: 40.w,
                                 right: 40.w,
-                                top: 32.w,
-                                bottom: 16.w),
+                                top: 30.w,
+                                bottom: 20.w),
                             child: Column(
-                              mainAxisSize: MainAxisSize.min,
                               children: [
                                 Flex(
                                   direction: Axis.horizontal,
                                   children: [
                                     Expanded(
-                                        child: Text(
-                                            orderProductDetail?.productName ??
-                                                '',
-                                            style: TextStyle(
-                                              color: Colours.text_333,
-                                              fontSize: 32.sp,
-                                              fontWeight: FontWeight.w500,
-                                            ))),
-                                    Expanded(
-                                      child: Text(
-                                          controller.judgeUnit(orderProductDetail),
-                                          textAlign: TextAlign.right,
+                                        child:Text(
+                                          state.orderDetailDTO?.customName ??
+                                              '默认${state.orderType == OrderType.SALE ? '客户' : '供应商'}',
                                           style: TextStyle(
                                             color: Colours.text_333,
-                                            fontSize: 32.sp,
+                                            fontSize: 36.sp,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        )),
+                                    Expanded(
+                                        child: Text(
+                                          textAlign: TextAlign.right,
+                                          DateUtil.formatDefaultDate2(
+                                              state.orderDetailDTO?.orderDate),
+                                          style: TextStyle(
+                                            color: Colours.text_999,
+                                            fontSize: 30.sp,
                                             fontWeight: FontWeight.w400,
-                                          )),
+                                          ),
+                                        ))
+                                  ],
+                                ),
+                              Offstage(
+                                        offstage: state.orderDetailDTO?.invalid != IsDeleted.DELETED.value,
+                                        child:  Padding(
+                                          padding: EdgeInsets.only(top: 16.w),
+                                          child:  Text('已作废',
+                                            style: TextStyle(
+                                              color: Colors.red,
+                                              fontSize: 32.sp,
+                                              fontWeight: FontWeight.w400,
+                                            )),
+                                      ),
+                                ),
+                                Container(
+                                  color: Colours.divider,
+                                  height: 1.w,
+                                  margin:
+                                  EdgeInsets.only(top: 24.w, bottom: 24.w),
+                                  width: double.infinity,
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      '业务员',
+                                      style: TextStyle(
+                                        color: Colours.text_999,
+                                        fontSize: 32.sp,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                    const Spacer(),
+                                    Text(
+                                      state.orderDetailDTO?.creatorName ?? '',
+                                      style: TextStyle(
+                                        color: Colours.text_333,
+                                        fontSize: 32.sp,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                SizedBox(height: 32.w,),
+                                Flex(
+                                  direction: Axis.horizontal,
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        '实付金额',
+                                        style: TextStyle(
+                                          color: Colours.text_999,
+                                          fontSize: 32.sp,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 3,
+                                      child: Text(
+                                        textAlign: TextAlign.right,
+                                        controller.totalCostAmount(),
+                                        style: TextStyle(
+                                          color: Colours.text_333,
+                                          fontSize: 32.sp,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                SizedBox(height: 32.w,),
+                                Offstage(
+                                    offstage: state.orderDetailDTO?.creditAmount == Decimal.zero,
+                                    child: Container(
+                                        width: double.infinity,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.end,
+                                          children: [
+                                            Text(
+                                              '本单赊账',
+                                              style: TextStyle(
+                                                color: Colours.text_999,
+                                                fontSize: 32.sp,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                            const Spacer(),
+                                            Text(
+                                              (state.orderDetailDTO?.orderType ==OrderType.SALE_RETURN.value) ||
+                                                  (state.orderDetailDTO?.orderType ==OrderType.PURCHASE_RETURN.value)||
+                                                  (state.orderDetailDTO?.orderType ==OrderType.REFUND.value)
+                                                  ? DecimalUtil.formatNegativeAmount(state.orderDetailDTO?.creditAmount):DecimalUtil.formatAmount(state.orderDetailDTO?.creditAmount),
+                                              style: TextStyle(
+                                                color: Colors.red[600],
+                                                fontSize: 32.sp,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            )
+                                          ],
+                                        ))),
+                                Offstage(
+                                    offstage: state.orderDetailDTO?.creditAmount == Decimal.zero,
+                                    child: SizedBox(height: 32.w,)),
+                                Row(
+                                  children: [
+                                    Text(
+                                      '收银时间',
+                                      style: TextStyle(
+                                        color: Colours.text_999,
+                                        fontSize: 32.sp,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                    const Spacer(),
+                                    Text(DateUtil.formatDefaultDateTimeMinute(
+                                        state.orderDetailDTO?.gmtCreate),
+                                      style: TextStyle(
+                                        color: Colours.text_333,
+                                        fontSize: 32.sp,
+                                        fontWeight: FontWeight.w400,
+                                      ),
                                     )
                                   ],
                                 ),
 
-                                //),
                               ],
+                            ));
+                      })
+                  ),
+                Card(
+                  elevation: 6,
+                  shadowColor: Colors.black45,
+                  margin: EdgeInsets.only(left: 24.w, top: 16.w, right: 24.w),
+                  clipBehavior: Clip.antiAlias,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(28.w)),
+                  ),
+                  child:Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 40.w,
+                        vertical: 30.w,
+                      ),
+                      child:Column(
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            color: Colours.primary,
+                            margin: EdgeInsets.only(bottom: 12.w),
+                            height: 38.w,
+                            width: 8.w,
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 12.w,bottom: 12.w),
+                            child: Text(
+                              '货物情况',
+                              style: TextStyle(
+                                  color: Colours.text_666,
+                                  fontSize: 34.sp,
+                                  fontWeight: FontWeight.w600),
                             ),
-                          );
-                        },
-                      );
-                    }),
+                          ),
+                        ],
+                      ),
+                      GetBuilder<AddStockDetailController>(
+                          id: 'add_stock_detail_product',
+                          builder: (_) {
+                            return ListView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: state.orderDetailDTO?.orderProductDetailList
+                                  ?.length ??
+                                  0,
+                              itemBuilder: (BuildContext context, int index) {
+                                var orderProductDetail = state.orderDetailDTO?.orderProductDetailList![index];
+                                return Container(
+                                  color: Colors.white,
+                                  padding: EdgeInsets.symmetric(vertical: 16.w),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Flex(
+                                        direction: Axis.horizontal,
+                                        children: [
+                                          Expanded(
+                                              child: Text(
+                                                  orderProductDetail?.productName ??
+                                                      '',
+                                                  style: TextStyle(
+                                                    color: Colours.text_333,
+                                                    fontSize: 32.sp,
+                                                    fontWeight: FontWeight.w500,
+                                                  ))),
+                                          Expanded(
+                                            child: Text(
+                                                controller.judgeUnit(orderProductDetail),
+                                                textAlign: TextAlign.right,
+                                                style: TextStyle(
+                                                  color: Colours.text_333,
+                                                  fontSize: 32.sp,
+                                                  fontWeight: FontWeight.w400,
+                                                )),
+                                          )
+                                        ],
+                                      ),
+
+                                      //),
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                          }),
+                    ],
+                  ))
+              ),
+
                 GetBuilder<AddStockDetailController>(
                     id: 'order_cost',
                     builder: (_) {
@@ -177,12 +329,15 @@ class AddStockDetailView extends StatelessWidget {
                           visible: controller.state.orderDetailDTO
                               ?.externalOrderBaseDTOList?.isNotEmpty ??
                               false,
-                          child: Column(
-                            children: [
-                              Container(
-                                height: 32.w,
-                                color: Colors.white12,
+                          child: Card(
+                              elevation: 6,
+                              shadowColor: Colors.black45,
+                              margin: EdgeInsets.only(left: 24.w, top: 16.w, right: 24.w),
+                              clipBehavior: Clip.antiAlias,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(28.w)),
                               ),
+                              child:
                               Container(
                                   padding: EdgeInsets.symmetric(
                                     horizontal: 40.w,
@@ -200,12 +355,12 @@ class AddStockDetailView extends StatelessWidget {
                                           ),
                                           Container(
                                             color: Colors.white,
-                                            margin: EdgeInsets.only(left: 6),
+                                            margin: EdgeInsets.only(left: 12.w),
                                             child: Text(
                                               '费用情况',
                                               style: TextStyle(
                                                   color: Colours.text_666,
-                                                  fontSize: 36.sp,
+                                                  fontSize: 34.sp,
                                                   fontWeight: FontWeight.w600),
                                             ),
                                           ),
@@ -257,188 +412,89 @@ class AddStockDetailView extends StatelessWidget {
                                               SizedBox(
                                                 height: 16.w,
                                               ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                                children: [
-                                                  Text(
-                                                    '费用明细',
-                                                    style: TextStyle(
-                                                      color: Colours.text_999,
-                                                      fontSize: 30.sp,
-                                                      fontWeight:
-                                                      FontWeight.w400,
+                                              Container(
+                                                alignment: Alignment.centerRight,
+                                                child: Container(
+                                                  padding: EdgeInsets.symmetric(vertical:8.w,horizontal: 16.w),
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                      color: Colours.text_ccc,
+                                                      width: 1.0,
                                                     ),
+                                                    borderRadius: BorderRadius.circular(12.0),
                                                   ),
-                                                  const Spacer(),
-                                                  Padding(
-                                                    padding:
-                                                    EdgeInsets.symmetric(
-                                                        horizontal: 8.w),
-                                                    child: LoadAssetImage(
-                                                      'common/arrow_right',
-                                                      width: 25.w,
-                                                      color: Colours.text_999,
-                                                    ),
-                                                  )
-                                                ],
-                                              )
+                                                  child:
+                                                  Text(
+                                                    '查看明细',
+                                                    style: TextStyle(
+                                                        color: Colours.text_999,
+                                                        fontSize: 32.sp,
+                                                        fontWeight: FontWeight.w500),
+                                                  ),
+                                                ),
+                                              ),
                                             ],
                                           ))
                                     ],
-                                  ))
-                            ],
-                          ));
+                                  )))
+                           );
                     }),
-                Column(
-                  children: [
-                    Container(
-                      height: 32.w,
-                      color: Colors.white12,
-                    ),
-                    GetBuilder<AddStockDetailController>(
-                        id: 'sale_detail_other',
-                        builder: (_) {
-                          return Container(
-                              color: Colors.white,
-                              padding: EdgeInsets.only(
-                                  left: 40.w,
-                                  right: 40.w,
-                                  top: 30.w,
-                                  bottom: 20.w),
-                              child: Column(
-                                children: [
-                                  Flex(
-                                    direction: Axis.horizontal,
-                                    children: [
-                                      Expanded(
-                                          child: Text(
-                                            '日期',
-                                            style: TextStyle(
-                                              color: Colours.text_666,
-                                              fontSize: 32.sp,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          )),
-                                      Expanded(
-                                          child: Text(
-                                            textAlign: TextAlign.right,
-                                            DateUtil.formatDefaultDate2(
-                                                state.orderDetailDTO?.gmtCreate),
-                                            style: TextStyle(
-                                              color: Colours.text_333,
-                                              fontSize: 32.sp,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ))
-                                    ],
-                                  ),
-                                  Container(
-                                    color: Colours.divider,
-                                    height: 1.w,
-                                    margin:
-                                    EdgeInsets.only(top: 16, bottom: 16),
-                                    width: double.infinity,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        state.orderType == OrderType.SALE
-                                            ? '客户'
-                                            : '供应商',
-                                        style: TextStyle(
-                                          color: Colours.text_666,
-                                          fontSize: 32.sp,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                      const Spacer(),
-                                      Text(
-                                        state.orderDetailDTO?.customName ??
-                                            '默认${state.orderType == OrderType.SALE ? '客户' : '供应商'}',
-                                        style: TextStyle(
-                                          color: Colours.text_333,
-                                          fontSize: 32.sp,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  Container(
-                                    color: Colours.divider,
-                                    height: 1.w,
-                                    margin:
-                                    EdgeInsets.only(top: 16, bottom: 16),
-                                    width: double.infinity,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        '业务员',
-                                        style: TextStyle(
-                                          color: Colours.text_666,
-                                          fontSize: 32.sp,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                      const Spacer(),
-                                      Text(
-                                        state.orderDetailDTO?.creatorName ?? '',
-                                        style: TextStyle(
-                                          color: Colours.text_333,
-                                          fontSize: 32.sp,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  Container(
-                                    color: Colours.divider,
-                                    height: 1.w,
-                                    margin:
-                                    EdgeInsets.only(top: 16, bottom: 16),
-                                    width: double.infinity,
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(bottom: 100.w),
-                                    child: LimitedBox(
-                                        maxHeight: 200.0, // 设置容器的最大高度
-                                        child: Flex(
-                                          direction: Axis.horizontal,
-                                          children: [
-                                            Expanded(
-                                              flex: 1,
-                                              child: Text(
-                                                '备注',
-                                                style: TextStyle(
-                                                  color: Colours.text_666,
-                                                  fontSize: 32.sp,
-                                                  fontWeight: FontWeight.w400,
-                                                ),
-                                              ),
-                                            ),
-                                            Expanded(
-                                                flex: 3,
-                                                child: Text(
-                                                  textAlign: TextAlign.right,
-                                                  softWrap: true, // 允许文本自动换行
-                                                  state.orderDetailDTO
-                                                      ?.remark ??
-                                                      '',
-                                                  style: TextStyle(
-                                                    color: Colours.text_333,
-                                                    fontSize: 32.sp,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                )),
-                                          ],
-                                        )),
-                                  ),
-                                ],
-                              ));
-                        }),
-                  ],
-                ),
+                    // GetBuilder<AddStockDetailController>(
+                    //     id: 'order_cost',
+                    //     builder: (_) {
+                    //       return Offstage(
+                    //           offstage: state.orderDetailDTO?.remark == null,
+                    //           child: Card(
+                    //           elevation: 6,
+                    //           shadowColor: Colors.black45,
+                    //           margin: EdgeInsets.only(left: 24.w, top: 16.w, right: 24.w),
+                    //           clipBehavior: Clip.antiAlias,
+                    //           shape: RoundedRectangleBorder(
+                    //             borderRadius: BorderRadius.all(Radius.circular(28.w)),
+                    //           ),
+                    //           child:Container(
+                    //           color: Colors.white,
+                    //           padding: EdgeInsets.only(
+                    //               left: 40.w,
+                    //               right: 40.w,
+                    //               top: 30.w,
+                    //               bottom: 20.w),
+                    //           child: LimitedBox(
+                    //                     maxHeight: 200.0, // 设置容器的最大高度
+                    //                     child: Flex(
+                    //                       direction: Axis.horizontal,
+                    //                       children: [
+                    //                         Expanded(
+                    //                           flex: 1,
+                    //                           child: Text(
+                    //                             '备注',
+                    //                             style: TextStyle(
+                    //                               color: Colours.text_666,
+                    //                               fontSize: 32.sp,
+                    //                               fontWeight: FontWeight.w400,
+                    //                             ),
+                    //                           ),
+                    //                         ),
+                    //                         Expanded(
+                    //                             flex: 3,
+                    //                             child: Text(
+                    //                               textAlign: TextAlign.right,
+                    //                               softWrap: true, // 允许文本自动换行
+                    //                               state.orderDetailDTO
+                    //                                   ?.remark ??
+                    //                                   '',
+                    //                               style: TextStyle(
+                    //                                 color: Colours.text_333,
+                    //                                 fontSize: 32.sp,
+                    //                                 fontWeight: FontWeight.w500,
+                    //                               ),
+                    //                             )),
+                    //                       ],
+                    //                     )),
+                    //           )));
+                    //     }),
+
+                Container(height: 100.w,)
               ]))),
       //底部按钮
       floatingActionButton: PermissionWidget(

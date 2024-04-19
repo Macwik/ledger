@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:ledger/config/api/cost_income_api.dart';
 import 'package:ledger/entity/costIncome/cost_income_detail_dto.dart';
+import 'package:ledger/entity/order/order_payment_dto.dart';
 import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/enum/process_status.dart';
 import 'package:ledger/http/http_util.dart';
@@ -94,5 +95,17 @@ class CostDetailController extends GetxController {
       default:
         throw Exception('销售单');
     }
+  }
+
+
+  String orderPayment(List<OrderPaymentDTO>? orderPaymentList) {
+    if (null == orderPaymentList || orderPaymentList.isEmpty) {
+      return '0';
+    }
+    String result = '';
+    for (var payment in orderPaymentList) {
+      result = '$result${payment.paymentMethodName ?? ''}  ';
+    }
+    return result;
   }
 }

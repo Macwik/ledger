@@ -33,8 +33,7 @@ class SaleDetailController extends GetxController {
           'product_detail',
           'order_payment',
           'sale_detail_delete',
-          'sale_detail_title',
-         // 'sales_detail_purchase_cost',
+         // 'sale_detail_title',
           'order_cost'
         ]);
       } else {
@@ -116,6 +115,15 @@ class SaleDetailController extends GetxController {
     }
   }
 
+  String orderTotalAmount() {
+    if ((state.orderDetailDTO?.orderType == OrderType.SALE_RETURN.value) ||
+        (state.orderDetailDTO?.orderType == OrderType.PURCHASE_RETURN.value)||
+        (state.orderDetailDTO?.orderType == OrderType.REFUND.value)) {
+      return DecimalUtil.formatNegativeAmount((state.orderDetailDTO?.totalAmount??Decimal.zero)-(state.orderDetailDTO?.discountAmount??Decimal.zero));
+    } else {
+      return DecimalUtil.formatAmount((state.orderDetailDTO?.totalAmount??Decimal.zero)-(state.orderDetailDTO?.discountAmount??Decimal.zero));
+    }
+  }
 
   String productAmount(OrderProductDetail? orderProductDetail) {
     if ((state.orderDetailDTO?.orderType == OrderType.SALE_RETURN.value) ||
@@ -138,13 +146,10 @@ class SaleDetailController extends GetxController {
   }
 
   String countChange() {
-    if (state.orderDetailDTO?.discountAmount == Decimal.zero) {
-      return '0';
-    }
     return (state.orderDetailDTO?.orderType ==OrderType.SALE_RETURN.value) ||
         (state.orderDetailDTO?.orderType ==OrderType.PURCHASE_RETURN.value)||
         (state.orderDetailDTO?.orderType ==OrderType.REFUND.value)
-        ?DecimalUtil.formatNegativeAmount(state.orderDetailDTO?.discountAmount)
-        :DecimalUtil.formatAmount(state.orderDetailDTO?.discountAmount);
+        ?'(应付总额${DecimalUtil.formatNegativeAmount(state.orderDetailDTO?.totalAmount)}-抹零${DecimalUtil.formatNegativeAmount(state.orderDetailDTO?.discountAmount)})'
+        :'(应付总额${DecimalUtil.formatAmount(state.orderDetailDTO?.totalAmount)}-抹零${DecimalUtil.formatAmount(state.orderDetailDTO?.discountAmount)})';
   }
 }

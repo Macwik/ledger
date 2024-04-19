@@ -23,12 +23,24 @@ class RepaymentDetailController extends GetxController {
         queryParameters: {'id': state.id}).then((result){
       if(result.success){
         state.repaymentDetailDTO = result.d;
-        update(['custom_detail','payment_detail','order_binding','repayment_order','repayment_title','repayment_detail']);
+        update(['repayment_order','repayment_title']);
       }else{
         Toast.show(result.m.toString());
       }
     });
 
+  }
+
+  String orderPayment() {
+   var orderPaymentList = state.repaymentDetailDTO?.paymentDTOList;
+    if (null == orderPaymentList || orderPaymentList.isEmpty) {
+      return '0';
+    }
+    String result = '';
+    for (var payment in orderPaymentList) {
+      result = '$result${payment.paymentMethodName ?? ''}：¥${payment.paymentAmount}  ';
+    }
+    return result;
   }
 
   void toDeleteOrder() {

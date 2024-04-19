@@ -1,4 +1,5 @@
 import 'package:decimal/decimal.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/permission_code.dart';
@@ -29,20 +30,25 @@ class GoodsDetailView extends StatelessWidget {
         body: SingleChildScrollView(
           child:  Column(
             children: [
-              Container(
+              Card(
+                  elevation: 6,
+                  shadowColor: Colors.black45,
+                  margin: EdgeInsets.all(16.w),
+                  clipBehavior: Clip.antiAlias,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(28.w)),
+                  ),
+                  child:
+                  Container(
                   color: Colors.white,
-                  padding: EdgeInsets.only(
-                      top: 40.w, left: 40.w, right: 40.w),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: 40.w, vertical: 32.w),
                   child: InkWell(
                       onTap: () {
                         controller.toProductDetail();
                       },
                       child: Column(
                         children: [
-                          // GetBuilder<GoodsDetailController>(
-                          //     id: 'goods_detail_name',
-                          //     builder: (_){
-                          //   return
                               Row(
                               children: [
                                 Expanded(
@@ -132,14 +138,13 @@ class GoodsDetailView extends StatelessWidget {
                                 ),
                               )),
                         ],
-                      ))),
+                      )))),
               PermissionWidget(
                 permissionCode: PermissionCode.goods_detail_check_detail_permission,
                 child:   GetBuilder<GoodsDetailController>(
                   id: 'date_range',
                   builder: (_){
                     return Container(
-                    color: Colors.white,
                     padding: EdgeInsets.symmetric(horizontal: 16.w),
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -269,239 +274,210 @@ class GoodsDetailView extends StatelessWidget {
                                 style: TextStyle(color: Colours.primary),
                               ))
                         ]));})),
+              Container(
+                alignment: Alignment.centerLeft,
+                padding: EdgeInsets.only(left: 40.w, top: 32.w),
+                child: Text(
+                  '销售情况',
+                  style: TextStyle(
+                      color: Colours.text_333,
+                      fontSize: 32.sp,
+                      fontWeight: FontWeight.w600),
+                ),
+              ),
               GetBuilder<GoodsDetailController>(
                   id: 'goods_detail_product_sales_statistics',
                   builder: (_) =>  PermissionWidget(
                       permissionCode: PermissionCode.goods_detail_check_detail_permission,
                       child:Column(
                         children: [
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            color: Colors.white,
-                            margin: EdgeInsets.only(top: 20.w),
-                            padding: EdgeInsets.only(left: 40.w, top: 32.w),
-                            child: Row(
-                              children: [
-                                Container(
-                                  color: Colours.primary,
-                                  height: 38.w,
-                                  width: 8.w,
-                                ),
-                                Container(
-                                  color: Colors.white,
-                                  margin: EdgeInsets.only(left: 6),
-                                  child: Text(
-                                    '销售情况',
-                                    style: TextStyle(
-                                        color: Colours.text_666,
-                                        fontSize: 36.sp,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                              color: Colors.white,
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 40.w, vertical: 20.w),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                          flex: 1,
-                                          child: Text(
-                                            '销售数量：',
-                                            style: TextStyle(
-                                              color: Colours.text_666,
-                                              fontSize: 30.sp,
-                                            ),
-                                          )),
-                                      Expanded(
-                                        flex: 2,
-                                        child: Text(
-                                          controller.judgeUnit(),
-                                          textAlign: TextAlign.right,
-                                          style: TextStyle(
-                                              color: Colours.text_333,
-                                              fontSize: 32.sp,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Container(
-                                    color: Colours.divider,
-                                    height: 1.w,
-                                    margin: EdgeInsets.only(
-                                        top: 32.w, bottom: 32.w),
-                                    width: double.infinity,
-                                  ),
-                                  Row(
-                                    children: [
-                                      InkWell(
-                                          onTap: () => controller.explainSalesAmount(),
-                                          child:Row(
-                                            children: [
-                                              Text('实收金额：',
-                                                  style: TextStyle(
-                                                    color: Colours.text_666,
-                                                    fontSize: 30.sp,
-                                                  )),
-                                              LoadAssetImage(
-                                                'ic_home_question',
-                                                color: Colors.black45,
-                                                width: 24.w,
-                                                height: 24.w,
-                                              ),
-                                            ],
-                                          )
-                                      ),
-                                      Expanded(
-                                          child: Text(
-                                            DecimalUtil.formatAmount(((state.productSalesStatisticsDTO?.salesTotalAmount??Decimal.zero)
-                                                -(state.productSalesStatisticsDTO?.salesRepaymentDiscountAmount??Decimal.zero)
-                                                - (state.productSalesStatisticsDTO?.salesDiscountAmount??Decimal.zero)
-                                                - (state.productSalesStatisticsDTO?.salesCreditAmount??Decimal.zero))),
-                                            textAlign: TextAlign.right,
-                                            style: TextStyle(
-                                                color: Colours.text_333,
-                                                fontSize: 32.sp,
-                                                fontWeight:
-                                                FontWeight.w500),
-                                          )),
-                                    ],
-                                  ),
-                                  Container(
-                                    color: Colours.divider,
-                                    height: 1.w,
-                                    margin: EdgeInsets.only(
-                                        top: 32.w, bottom: 32.w),
-                                    width: double.infinity,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                          flex: 1,
-                                          child: Text('销售赊账：',
+                        Card(
+                        elevation: 6,
+                        shadowColor: Colors.black45,
+                        margin: EdgeInsets.only(left: 24.w, top: 16.w, right: 24.w),
+                        clipBehavior: Clip.antiAlias,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(28.w)),
+                        ),
+                        child: Container(
+                                color: Colors.white,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 40.w, vertical: 32.w),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                            flex: 1,
+                                            child: Text(
+                                              '销售数量',
                                               style: TextStyle(
                                                 color: Colours.text_666,
-                                                fontSize: 30.sp,
-                                              ))),
-                                      Expanded(
+                                                fontSize: 32.sp,
+                                              ),
+                                            )),
+                                        Expanded(
                                           flex: 2,
                                           child: Text(
-                                            DecimalUtil.formatAmount(
-                                                state.productSalesStatisticsDTO
-                                                    ?.salesCreditAmount),
+                                            controller.judgeUnit(),
                                             textAlign: TextAlign.right,
                                             style: TextStyle(
                                                 color: Colours.text_333,
                                                 fontSize: 32.sp,
-                                                fontWeight:
-                                                FontWeight.w500),
-                                          )),
-                                    ],
-                                  ),
-                                  SizedBox(height: 16.w,),
-                                  Container(
-                                    alignment: Alignment.centerRight,
-                                    child:InkWell(
-                                      onTap: () => Get.toNamed(RouteConfig.productCredit,
-                                          arguments:{'id': state.productDTO?.id,
-                                            'creditAmount':state.productSalesStatisticsDTO
-                                                ?.salesCreditAmount,
-                                            'orderType':[OrderType.SALE.value,OrderType.SALE_RETURN.value,OrderType.REFUND.value]} ),
-                                      child:  Container(
-                                        padding: EdgeInsets.symmetric(vertical:8.w,horizontal: 16.w),
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                            color: Colours.text_ccc,
-                                            width: 1.0,
+                                                fontWeight: FontWeight.w500),
                                           ),
-                                          borderRadius: BorderRadius.circular(12.0),
                                         ),
-                                        child:
-                                        Text(
-                                          '查看明细',
-                                          style: TextStyle(
-                                              color: Colours.text_999,
-                                              fontSize: 32.sp,
-                                              fontWeight: FontWeight.w500)),
-                                      )))
-                                ],
-                              )),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 32.w,
+                                    ),
+                                    Row(
+                                      children: [
+                                        InkWell(
+                                            onTap: () => controller.explainSalesAmount(),
+                                            child:Row(
+                                              children: [
+                                                Text('实收金额',
+                                                    style: TextStyle(
+                                                      color: Colours.text_666,
+                                                      fontSize: 32.sp,
+                                                    )),
+                                                SizedBox(width: 16.w,),
+                                                LoadAssetImage(
+                                                  'ic_home_question',
+                                                  color: Colors.black45,
+                                                  width: 24.w,
+                                                  height: 24.w,
+                                                ),
+                                              ],
+                                            )
+                                        ),
+                                        Expanded(
+                                            child: Text(
+                                              DecimalUtil.formatAmount(((state.productSalesStatisticsDTO?.salesTotalAmount??Decimal.zero)
+                                                  -(state.productSalesStatisticsDTO?.salesRepaymentDiscountAmount??Decimal.zero)
+                                                  - (state.productSalesStatisticsDTO?.salesDiscountAmount??Decimal.zero)
+                                                  - (state.productSalesStatisticsDTO?.salesCreditAmount??Decimal.zero))),
+                                              textAlign: TextAlign.right,
+                                              style: TextStyle(
+                                                  color: Colours.text_333,
+                                                  fontSize: 32.sp,
+                                                  fontWeight:
+                                                  FontWeight.w500),
+                                            )),
+                                      ],
+                                    ),
+                                    SizedBox(height: 32.w,),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                            flex: 1,
+                                            child: Text('销售赊账',
+                                                style: TextStyle(
+                                                  color: Colours.text_666,
+                                                  fontSize: 32.sp,
+                                                ))),
+                                        Expanded(
+                                            flex: 2,
+                                            child: Text(
+                                              DecimalUtil.formatAmount(
+                                                  state.productSalesStatisticsDTO
+                                                      ?.salesCreditAmount),
+                                              textAlign: TextAlign.right,
+                                              style: TextStyle(
+                                                  color: Colours.text_333,
+                                                  fontSize: 32.sp,
+                                                  fontWeight:
+                                                  FontWeight.w500),
+                                            )),
+                                      ],
+                                    ),
+                                    SizedBox(height: 16.w,),
+                                    Container(
+                                        alignment: Alignment.centerRight,
+                                        child:InkWell(
+                                            onTap: () => Get.toNamed(RouteConfig.productCredit,
+                                                arguments:{'id': state.productDTO?.id,
+                                                  'creditAmount':state.productSalesStatisticsDTO
+                                                      ?.salesCreditAmount,
+                                                  'orderType':[OrderType.SALE.value,OrderType.SALE_RETURN.value,OrderType.REFUND.value]} ),
+                                            child:  Container(
+                                              padding: EdgeInsets.symmetric(vertical:8.w,horizontal: 16.w),
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: Colours.text_ccc,
+                                                  width: 1.0,
+                                                ),
+                                                borderRadius: BorderRadius.circular(12.0),
+                                              ),
+                                              child:
+                                              Text(
+                                                  '查看明细',
+                                                  style: TextStyle(
+                                                      color: Colours.text_999,
+                                                      fontSize: 32.sp,
+                                                      fontWeight: FontWeight.w500)),
+                                            )))
+                                  ],
+                                )),
+                        ),
                           Container(
                             alignment: Alignment.centerLeft,
-                            color: Colors.white,
-                            margin: EdgeInsets.only(top: 20.w),
-                            padding: EdgeInsets.only(
-                                left: 40.w, top: 20.w, bottom: 20.w),
-                            child: Row(
-                              children: [
-                                Container(
-                                  color: Colours.primary,
-                                  height: 38.w,
-                                  width: 8.w,
-                                ),
-                                Container(
-                                  color: Colors.white,
-                                  margin: EdgeInsets.only(left: 6),
-                                  child: Text(
-                                    '采购情况',
-                                    style: TextStyle(
-                                        color: Colours.text_666,
-                                        fontSize: 36.sp,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                ),
-                              ],
+                            padding: EdgeInsets.only(left: 40.w, top: 32.w),
+                            child: Text(
+                              '采购情况',
+                              style: TextStyle(
+                                  color: Colours.text_333,
+                                  fontSize: 32.sp,
+                                  fontWeight: FontWeight.w600),
                             ),
                           ),
-                          Container(
+                          Card(
+                              elevation: 6,
+                              shadowColor: Colors.black45,
+                              margin: EdgeInsets.only(left: 24.w, top: 16.w, right: 24.w),
+                              clipBehavior: Clip.antiAlias,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(28.w)),
+                              ),
+                              child: Container(
                               color: Colors.white,
                               padding: EdgeInsets.symmetric(
                                   horizontal: 40.w, vertical: 20.w),
                               child: Column(
                                 children: [
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                          flex: 1,
-                                          child: Text('直接入库：',
-                                              style: TextStyle(
-                                                color: Colours.text_666,
-                                                fontSize: 30.sp,
-                                              ))),
-                                      Expanded(
-                                        flex: 2,
-                                        child: Text(
-                                          controller.judgeAddStockUnit(),
-                                          textAlign: TextAlign.right,
-                                          style: TextStyle(
-                                              color: Colours.text_333,
-                                              fontSize: 32.sp,
-                                              fontWeight: FontWeight.w500),
+                                 Row(
+                                      children: [
+                                        Expanded(
+                                            flex: 1,
+                                            child: Text('直接入库',
+                                                style: TextStyle(
+                                                  color: Colours.text_666,
+                                                  fontSize: 32.sp,
+                                                ))),
+                                        Expanded(
+                                          flex: 2,
+                                          child: Text(
+                                            controller.judgeAddStockUnit(),
+                                            textAlign: TextAlign.right,
+                                            style: TextStyle(
+                                                color: Colours.text_333,
+                                                fontSize: 32.sp,
+                                                fontWeight: FontWeight.w500),
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  Container(
-                                    color: Colours.divider,
-                                    height: 1.w,
-                                    margin: EdgeInsets.only(
-                                        top: 32.w, bottom: 32.w),
-                                    width: double.infinity,
-                                  ),
+                                      ],
+                                    ) ,
+                                 SizedBox(height: 32.w,),
                                   Row(
                                     children: [
                                       Expanded(
                                           flex: 1,
-                                          child: Text('采购数量：',
+                                          child: Text('采购数量',
                                               style: TextStyle(
                                                 color: Colours.text_666,
-                                                fontSize: 30.sp,
+                                                fontSize: 32.sp,
                                               ))),
                                       Expanded(
                                         flex: 2,
@@ -516,13 +492,7 @@ class GoodsDetailView extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                  Container(
-                                    color: Colours.divider,
-                                    height: 1.w,
-                                    margin: EdgeInsets.only(
-                                        top: 32.w, bottom: 32.w),
-                                    width: double.infinity,
-                                  ),
+                                  SizedBox(height: 32.w,),
                                   Row(
                                     children: [
                                       InkWell(
@@ -530,10 +500,10 @@ class GoodsDetailView extends StatelessWidget {
                                           child:Row(
                                             children: [
                                               Text(
-                                                '实付金额：',
+                                                '实付金额',
                                                 style: TextStyle(
                                                   color: Colours.text_666,
-                                                  fontSize: 30.sp,
+                                                  fontSize: 32.sp,
                                                 ),
                                               ),
                                               LoadAssetImage(
@@ -560,21 +530,15 @@ class GoodsDetailView extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                  Container(
-                                    color: Colours.divider,
-                                    height: 1.w,
-                                    margin: EdgeInsets.only(
-                                        top: 32.w, bottom: 32.w),
-                                    width: double.infinity,
-                                  ),
+                                  SizedBox(height: 32.w,),
                                   Row(
                                     children: [
                                       Expanded(
                                           flex: 1,
-                                          child: Text('采购赊账：',
+                                          child: Text('采购赊账',
                                               style: TextStyle(
                                                 color: Colours.text_666,
-                                                fontSize: 30.sp,
+                                                fontSize: 32.sp,
                                               ))),
                                       Expanded(
                                           flex: 2,
@@ -620,80 +584,77 @@ class GoodsDetailView extends StatelessWidget {
                                      ),
                                    ),
                                  ),
-                                  Container(
+                              Offstage(
+                                offstage: (state.productSalesStatisticsDTO?.costTotalAmount==null)||(state.productSalesStatisticsDTO?.costTotalAmount==Decimal.zero),
+                                child:
+                                Container(
                                     color: Colours.divider,
                                     height: 1.w,
                                     margin: EdgeInsets.only(
                                         top: 32.w, bottom: 32.w),
                                     width: double.infinity,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                          flex: 1,
-                                          child: Text('费用：',
+                                  )),
+                                  Offstage(
+                                    offstage: (state.productSalesStatisticsDTO?.costTotalAmount==null)||(state.productSalesStatisticsDTO?.costTotalAmount==Decimal.zero),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                            flex: 1,
+                                            child: Text('费用',
+                                                style: TextStyle(
+                                                  color: Colours.text_666,
+                                                  fontSize: 32.sp,
+                                                ))),
+                                        Expanded(
+                                            flex: 2,
+                                            child: Text(
+                                              DecimalUtil.formatAmount(
+                                                  state.productSalesStatisticsDTO?.costTotalAmount),
+                                              textAlign: TextAlign.right,
                                               style: TextStyle(
-                                                color: Colours.text_666,
-                                                fontSize: 30.sp,
-                                              ))),
-                                      Expanded(
-                                          flex: 2,
-                                          child: Text(
-                                            DecimalUtil.formatAmount(
-                                                state.productSalesStatisticsDTO?.costTotalAmount),
-                                            textAlign: TextAlign.right,
-                                            style: TextStyle(
-                                                color: Colours.text_333,
-                                                fontSize: 32.sp,
-                                                fontWeight:
-                                                FontWeight.w500),
-                                          )),
-                                    ],
+                                                  color: Colours.text_333,
+                                                  fontSize: 32.sp,
+                                                  fontWeight:
+                                                  FontWeight.w500),
+                                            )),
+                                      ],
+                                    ),
                                   ),
-
                                 ],
-                              )),
+                              ))),
                           Container(
                             alignment: Alignment.centerLeft,
-                            color: Colors.white,
-                            margin: EdgeInsets.only(top: 32.w),
-                            padding:
-                            EdgeInsets.only(left: 40.w, top: 20.w, bottom: 20.w),
-                            child: Row(
-                              children: [
-                                Container(
-                                  color: Colours.primary,
-                                  height: 38.w,
-                                  width: 8.w,
-                                ),
-                                Container(
-                                  color: Colors.white,
-                                  margin: EdgeInsets.only(left: 6),
-                                  child: Text(
-                                    '利润',
-                                    style: TextStyle(
-                                        color: Colours.text_666,
-                                        fontSize: 36.sp,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                ),
-                              ],
+                            padding: EdgeInsets.only(left: 40.w, top: 32.w),
+                            child: Text(
+                              '利润',
+                              style: TextStyle(
+                                  color: Colours.text_333,
+                                  fontSize: 32.sp,
+                                  fontWeight: FontWeight.w600),
                             ),
                           ),
-                          Container(
+                          Card(
+                              elevation: 6,
+                              shadowColor: Colors.black45,
+                              margin: EdgeInsets.only(left: 24.w, top: 16.w, right: 24.w),
+                              clipBehavior: Clip.antiAlias,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(28.w)),
+                              ),
+                              child: Container(
                               color: Colors.white,
-                              padding: EdgeInsets.only(
-                                  left: 40.w, right:40.w,bottom: 40.w),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 40.w, vertical:32.w),
                               child: Column(
                                 children: [
                                   Row(
                                     children: [
                                       Expanded(
                                           flex: 1,
-                                          child: Text('实收利润：',
+                                          child: Text('实收利润',
                                               style: TextStyle(
                                                 color: Colours.text_666,
-                                                fontSize: 30.sp,
+                                                fontSize: 32.sp,
                                               ))),
                                       Expanded(
                                         flex: 2,
@@ -709,7 +670,8 @@ class GoodsDetailView extends StatelessWidget {
                                     ],
                                   ),
                                 ],
-                              )),
+                              ))),
+                          SizedBox(height: 32.w,)
                         ],
                       ))),
             ],
