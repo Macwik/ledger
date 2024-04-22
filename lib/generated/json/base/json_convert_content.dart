@@ -55,9 +55,7 @@ import 'package:ledger/entity/repayment/custom_credit_dto.dart';
 import 'package:ledger/entity/repayment/repayment_bind_order_dto.dart';
 import 'package:ledger/entity/repayment/repayment_detail_dto.dart';
 import 'package:ledger/entity/repayment/repayment_dto.dart';
-import 'package:ledger/entity/setting/end_time_dto.dart';
 import 'package:ledger/entity/setting/sales_line_dto.dart';
-import 'package:ledger/entity/setting/start_time_dto.dart';
 import 'package:ledger/entity/statistics/external_order_base_dto.dart';
 import 'package:ledger/entity/statistics/money_payment_dto.dart';
 import 'package:ledger/entity/statistics/purchase_money_statistics_dto.dart';
@@ -409,17 +407,9 @@ class JsonConvert {
       return data.map<RepaymentDTO>((Map<String, dynamic> e) =>
           RepaymentDTO.fromJson(e)).toList() as M;
     }
-    if (<EndTimeDTO>[] is M) {
-      return data.map<EndTimeDTO>((Map<String, dynamic> e) =>
-          EndTimeDTO.fromJson(e)).toList() as M;
-    }
     if (<SalesLineDTO>[] is M) {
       return data.map<SalesLineDTO>((Map<String, dynamic> e) =>
           SalesLineDTO.fromJson(e)).toList() as M;
-    }
-    if (<StartTimeDTO>[] is M) {
-      return data.map<StartTimeDTO>((Map<String, dynamic> e) =>
-          StartTimeDTO.fromJson(e)).toList() as M;
     }
     if (<ExternalOrderBaseDTO>[] is M) {
       return data.map<ExternalOrderBaseDTO>((Map<String, dynamic> e) =>
@@ -540,9 +530,7 @@ class JsonConvertClassCollection {
     (RepaymentBindOrderDTO).toString(): RepaymentBindOrderDTO.fromJson,
     (RepaymentDetailDTO).toString(): RepaymentDetailDTO.fromJson,
     (RepaymentDTO).toString(): RepaymentDTO.fromJson,
-    (EndTimeDTO).toString(): EndTimeDTO.fromJson,
     (SalesLineDTO).toString(): SalesLineDTO.fromJson,
-    (StartTimeDTO).toString(): StartTimeDTO.fromJson,
     (ExternalOrderBaseDTO).toString(): ExternalOrderBaseDTO.fromJson,
     (MoneyPaymentDTO).toString(): MoneyPaymentDTO.fromJson,
     (PurchaseMoneyStatisticsDTO).toString(): PurchaseMoneyStatisticsDTO
