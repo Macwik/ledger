@@ -241,17 +241,17 @@ class PendingRetailBillView extends StatelessWidget {
                                     },
                                   ),
                                 )),
-                            Container(
-                              height: 2.w,
-                              color: Colours.divider,
-                            ),
-                            Align(
-                                alignment: Alignment.bottomCenter,
-                                child:IconButton(
-                                  onPressed: () => controller.toProductClassify(),
-                                  icon: Icon(Icons.settings,size: 50.w,color: Colours.text_999),
-                                )
-                            ),
+                            //Container(
+                            //   height: 2.w,
+                            //   color: Colours.divider,
+                            // ),
+                            // Align(
+                            //     alignment: Alignment.bottomCenter,
+                            //     child:IconButton(
+                            //       onPressed: () => controller.toProductClassify(),
+                            //       icon: Icon(Icons.settings,size: 50.w,color: Colours.text_999),
+                            //     )
+                            // ),
                           ],
                         ),
                       ),

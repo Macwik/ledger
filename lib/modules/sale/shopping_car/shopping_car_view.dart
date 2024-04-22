@@ -45,21 +45,40 @@ class ShoppingCarView extends StatelessWidget {
             direction: Axis.horizontal,
             children: [
               Expanded(
-                flex: 1,
-                child: Container(
+                  child: Container(
                     height: 100.w,
-                    padding: EdgeInsets.only(top: 20.w, left: 20.w, right: 20.w),
-                    margin: EdgeInsets.only(bottom: 20.w),
+                    padding: EdgeInsets.symmetric(vertical: 10.w, horizontal: 10.w,),
                     child: SearchBar(
-                        onChanged: (value){
-                          controller.searchShoppingCar(value);
-                        },
-                        leading: Icon(
-                          Icons.search,
-                          color: Colors.grey,
-                        ),
-                        hintText: '请输入货物或供应商名称')),
-              ),
+                      leading: Icon(
+                        Icons.search,
+                        color: Colors.grey,
+                        size: 40.w,
+                      ),
+                      shadowColor: MaterialStatePropertyAll<Color>(Colors.black26),
+                      hintStyle: MaterialStatePropertyAll<TextStyle>(
+                          TextStyle(fontSize: 34.sp, color: Colors.black26)),
+                      onChanged: (value) {
+                        controller.searchShoppingCar(value);
+                      },
+                      hintText: '请输入货物或供应商名称',
+                    ),
+                  )),
+              // Expanded(
+              //   flex: 1,
+              //   child: Container(
+              //       height: 100.w,
+              //       padding: EdgeInsets.only(top: 20.w, left: 20.w, right: 20.w),
+              //       margin: EdgeInsets.only(bottom: 20.w),
+              //       child: SearchBar(
+              //           onChanged: (value){
+              //             controller.searchShoppingCar(value);
+              //           },
+              //           leading: Icon(
+              //             Icons.search,
+              //             color: Colors.grey,
+              //           ),
+              //           hintText: '请输入货物或供应商名称')),
+              // ),
             ],
           ),
         Expanded(
@@ -132,12 +151,12 @@ class ShoppingCarView extends StatelessWidget {
                             },
                           ),
                         )),
-                    Align(
-                        alignment: Alignment.bottomCenter,
-                        child:IconButton(
-                           onPressed: () => controller.toProductClassify(),
-                           icon: Icon(Icons.settings,size: 50.w,color: Colours.text_999),
-                    )),
+                    // Align(
+                    //     alignment: Alignment.bottomCenter,
+                    //     child:IconButton(
+                    //        onPressed: () => controller.toProductClassify(),
+                    //        icon: Icon(Icons.settings,size: 50.w,color: Colours.text_999),
+                    // )),
                   ],
                 ),
               ),

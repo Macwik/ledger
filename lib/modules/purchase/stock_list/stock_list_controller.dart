@@ -270,8 +270,8 @@ class StockListController extends GetxController {
     onRefresh();
   }
 
-  toProductClassify() {
-    Get.toNamed(RouteConfig.productTypeManage)
-        ?.then((value) => _queryProductClassifyList());
-  }
+  // toProductClassify() {
+  //   Get.toNamed(RouteConfig.productTypeManage)
+  //       ?.then((value) => _queryProductClassifyList());
+  // }
 }

@@ -33,6 +33,7 @@ class RetailBillView extends StatelessWidget {
         titleColor: controller.state.orderType == OrderType.SALE
              ?Colors.black87
              :Colors.red,
+        backPressed: () => controller.saleBillGetBack(),
         actionWidget: PermissionOwnerWidget(
             widgetType: LedgerWidgetType.Disable,
             child: InkWell(
@@ -234,7 +235,7 @@ class RetailBillView extends StatelessWidget {
                                                           decoration: BoxDecoration(
                                                             color: controller.state.selectType == classifyDTO.id
                                                                 ? Colors.white
-                                                                : Colours.bg,
+                                                                : Colors.white12,
                                                             border: Border(
                                                               left: BorderSide(
                                                                   width: 3,
@@ -251,7 +252,7 @@ class RetailBillView extends StatelessWidget {
                                                               fontWeight: FontWeight.w500,
                                                               color:controller.state.selectType == classifyDTO.id
                                                                   ? Colours.primary
-                                                                  : Colours.text_999,
+                                                                  : Colors.black45,
                                                               fontSize: 32.sp,
                                                             ),
                                                           ),
@@ -263,17 +264,17 @@ class RetailBillView extends StatelessWidget {
                                                     },
                                                   ),
                                                 )),
-                                            Container(
-                                              height: 2.w,
-                                              color: Colours.divider,
-                                            ),
-                                            Align(
-                                                alignment: Alignment.bottomCenter,
-                                                child:IconButton(
-                                                    onPressed: () => controller.toProductClassify(),
-                                                    icon: Icon(Icons.settings,size: 50.w,color: Colours.text_999),
-                                                   )
-                                            ),
+                                            // Container(
+                                            //   height: 2.w,
+                                            //   color: Colours.divider,
+                                            // ),
+                                            // Align(
+                                            //     alignment: Alignment.bottomCenter,
+                                            //     child:IconButton(
+                                            //         onPressed: () => controller.toProductClassify(),
+                                            //         icon: Icon(Icons.settings,size: 50.w,color: Colours.text_999),
+                                            //        )
+                                            // ),
                                           ],
                                         ),
                                       ),

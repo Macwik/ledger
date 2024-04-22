@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/api/product_api.dart';
@@ -98,7 +99,9 @@ class ProductTypeManageController extends GetxController {
   final formKey = GlobalKey<FormBuilderState>();
   void toEditProductClassify(ProductClassifyDTO? productClassify) {
     Get.dialog(AlertDialog(
-        title: Text('编辑货物分组'),
+        title: Text('编辑货物分组',
+            style: TextStyle(fontSize: 40.sp,
+        fontWeight: FontWeight.w600)),
         content:FormBuilder(
             key: formKey,
             child:SingleChildScrollView(
@@ -106,15 +109,18 @@ class ProductTypeManageController extends GetxController {
           children: [
             Row(
               children: [
-                Text('名称'),
+                Text('名称',
+                    style: TextStyle(fontSize: 34.sp,
+                        fontWeight: FontWeight.w500)),
                 Expanded(child: TextFormField(
                     controller: state.productClassifyNameController,
-                    maxLength: 10,
+                    maxLength: 8,
                     decoration: InputDecoration(
                       counterText: '',
-                      hintText: productClassify?.productClassify??'请输入货物分组名称',
+                      hintText: productClassify?.productClassify??'货物分组名称',
+                      hintStyle: TextStyle(fontSize: 30.sp),
                     ),
-                    validator: FormBuilderValidators.required(errorText: '新货物分组名称不能为空'),
+                    validator: FormBuilderValidators.required(errorText: '货物分组名称不能为空'),
                     textAlign: TextAlign.center,
                     keyboardType: TextInputType.text
                 ) )
@@ -122,13 +128,16 @@ class ProductTypeManageController extends GetxController {
             ),
             Row(
               children: [
-                Text('备注'),
+                Text('备注',
+                    style: TextStyle(fontSize: 34.sp,
+                        fontWeight: FontWeight.w500)),
                 Expanded(child: TextFormField(
                     controller: state.productClassifyRemarkController,
                     maxLength: 20,
                     decoration: InputDecoration(
                       counterText: '',
-                      hintText: '请输入货物分组备注',
+                      hintText: '货物分组备注',
+                      hintStyle: TextStyle(fontSize: 30.sp),
                     ),
                     textAlign: TextAlign.center,
                     keyboardType: TextInputType.text

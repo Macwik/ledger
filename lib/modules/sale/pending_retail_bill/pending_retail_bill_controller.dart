@@ -155,10 +155,10 @@ class PendingRetailBillController extends GetxController {
     onRefresh();
   }
 
-  toProductClassify() {
-    Get.toNamed(RouteConfig.productTypeManage)
-        ?.then((value) => _queryProductClassifyList());
-  }
+  // toProductClassify() {
+  //   Get.toNamed(RouteConfig.productTypeManage)
+  //       ?.then((value) => _queryProductClassifyList());
+  // }
 
   //货物分类
   Future<void> _queryProductClassifyList() async {

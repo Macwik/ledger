@@ -46,14 +46,14 @@ class ProductTypeManageView extends StatelessWidget {
                                             title: Text(
                                                 productClassify.productClassify ?? '',
                                                 style: TextStyle(
-                                                    fontSize: 32.sp,
+                                                    fontSize: 36.sp,
                                                     color: Colours.text_333)),
                                             subtitle: Text(
                                               productClassify.remark ?? '',
                                               style: TextStyle(
                                                 color: Colours.text_ccc,
-                                                fontSize: 24.sp,
-                                                fontWeight: FontWeight.w500,
+                                                fontSize: 28.sp,
+                                                fontWeight: FontWeight.w400,
                                               ),
                                             ),
                                             trailing: IconButton(

@@ -323,14 +323,14 @@ class StockListView extends StatelessWidget {
                                               },
                                             ),
                                 )),
-                                Align(
-                                    alignment: Alignment.bottomCenter,
-                                    child: IconButton(
-                                      onPressed: () =>
-                                          controller.toProductClassify(),
-                                      icon: Icon(Icons.settings,
-                                          size: 50.w, color: Colours.text_999),
-                                    )),
+                                // Align(
+                                //     alignment: Alignment.bottomCenter,
+                                //     child: IconButton(
+                                //       onPressed: () =>
+                                //           controller.toProductClassify(),
+                                //       icon: Icon(Icons.settings,
+                                //           size: 50.w, color: Colours.text_999),
+                                //     )),
                               ],
                             ),
                           ),
@@ -586,7 +586,7 @@ class StockListView extends StatelessWidget {
                                         permissionCode: PermissionCode.purchase_add_stock_order_permission,
                                         child: InkWell(
                                         onTap: () {
-                                          Get.toNamed(RouteConfig.retailBill,arguments: {'orderType':OrderType.ADD_STOCK});
+                                          Get.toNamed(RouteConfig.saleBill,arguments: {'orderType':OrderType.ADD_STOCK});
                                         },
                                         child:Container(
                                                 padding:

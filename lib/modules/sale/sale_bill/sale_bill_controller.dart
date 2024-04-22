@@ -29,7 +29,8 @@ class SaleBillController extends GetxController {
     }
     queryLedgerName();
     initPaymentMethodList();
-    generateBatchNumber(((state.orderType == OrderType.PURCHASE)||(state.orderType == OrderType.ADD_STOCK))? false : true);
+    generateBatchNumber(false);
+    //((state.orderType == OrderType.PURCHASE)||(state.orderType == OrderType.ADD_STOCK))? false : true
   }
 
   //拉取付款方式
@@ -90,12 +91,14 @@ class SaleBillController extends GetxController {
     if (state.shoppingCarList.isEmpty) {
       Toast.show('请添加货物后再试');
       return;
-    } else if (((state.orderType ==OrderType.PURCHASE)||(state.orderType ==OrderType.ADD_STOCK))
-         && (state.textEditingController.text.isEmpty)) {
-      Toast.show('请添填写批号后再试');
-      return;
     }
-    if (state.orderType == OrderType.PURCHASE_RETURN) {
+    if ((state.orderType ==OrderType.PURCHASE)||(state.orderType ==OrderType.ADD_STOCK)) {
+      if((state.textEditingController.text.isEmpty)){
+        Toast.show('请添填写批号后再试');
+        return;
+      }
+    }
+    if ((state.orderType == OrderType.PURCHASE_RETURN)||(state.orderType == OrderType.ADD_STOCK)) {
       if (state.customDTO == null) {
         Toast.show('请选择供应商');
         return;
@@ -230,8 +233,7 @@ class SaleBillController extends GetxController {
   }
 
   void saleBillGetBack() {
-    if ((state.customDTO != null) ||
-        (state.shoppingCarList.isNotEmpty)||( state.textEditingController.text.isNotEmpty)) {
+    if ((state.customDTO != null) || (state.shoppingCarList.isNotEmpty)||( state.textEditingController.text.isNotEmpty)) {
       Get.dialog(AlertDialog(
           title: Text('是否确认退出'),
           content: Text('退出后将无法恢复'),

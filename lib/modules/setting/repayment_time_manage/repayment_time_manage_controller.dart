@@ -15,8 +15,7 @@ class RepaymentTimeManageController extends GetxController {
   }
 
   Future<void> _querySalesLineConfig() async {
-    final result = await Http()
-        .network<SalesLineDTO>(Method.get, SettingApi.GET_REPAYMENT_TIME);
+    final result = await Http().network<SalesLineDTO>(Method.get, SettingApi.GET_REPAYMENT_TIME);
     if (result.success) {
       state.salesLineDTO = result.d!;
       update(['']);
@@ -25,8 +24,7 @@ class RepaymentTimeManageController extends GetxController {
     }
   }
 
-  Future<void> _setSalesLineConfig(
-      TimeOfDay startTime, TimeOfDay endTime) async {
+  Future<void> _setSalesLineConfig(TimeOfDay startTime, TimeOfDay endTime) async {
     final result =
         await Http().network(Method.post, SettingApi.ADD_REPAYMENT_TIME, data: {
       'startTime': DateUtil.formatDefaultTime(startTime),

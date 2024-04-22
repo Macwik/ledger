@@ -165,7 +165,7 @@ class SaleDetailView extends StatelessWidget {
                                                   )),
                                           ),
                                Offstage(
-                                 offstage: state.orderDetailDTO?.invalid != IsDeleted.DELETED.value,
+                                 offstage: (state.orderDetailDTO?.invalid != IsDeleted.DELETED.value),
                                  child:Container(
                                             color: Colours.divider,
                                             height: 36.w,
@@ -173,12 +173,14 @@ class SaleDetailView extends StatelessWidget {
                                             EdgeInsets.only(right: 16.w, left: 16.w),
                                             width: 1.w,
                                           )),
-                               Text(state.orderDetailDTO?.orderStatus == 0 ? '已结清' :'未结清',
+                                          Offstage(
+                                              offstage: (state.orderDetailDTO?.orderType != OrderType.SALE.value),
+                                              child:Text(state.orderDetailDTO?.orderStatus == 1 ? '已结清' :'未结清',
                                      style: TextStyle(
-                                       color:state.orderDetailDTO?.orderStatus == 0 ?Colours.text_ccc:Colors.cyan,
+                                       color:state.orderDetailDTO?.orderStatus == 1 ?Colours.text_ccc:Colors.cyan,
                                        fontSize: 32.sp,
                                        fontWeight: FontWeight.w400,
-                                     )),
+                                     ))),
                                         ],
                                       ),
                                     ),
