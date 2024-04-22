@@ -27,7 +27,7 @@ class AccountSettingView extends StatelessWidget {
           children: [
             Container(
               //color: Colours.divider,
-              height: 20.w,
+              height: 2.w,
               width: double.infinity,
             ),
             InkWell(
@@ -47,7 +47,41 @@ class AccountSettingView extends StatelessWidget {
                       width: 24.w,
                     ),
                     Text(
-                      '支付方式设置',
+                      '支付方式',
+                      style: TextStyle(
+                        color: Colours.text_333,
+                        fontSize: 32.sp,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    const Spacer(),
+                    Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      size: 25.w,
+                      color: Colours.text_ccc,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () => Get.toNamed(RouteConfig.repaymentTimeManage),
+              child: Container(
+                color: Colors.white,
+                padding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 32.w),
+                margin: EdgeInsets.only(top: 2.w),
+                child: Row(
+                  children: [
+                    SizedBox(width: 20.w),
+                    LoadSvg(
+                      'svg/ic_setting_time',
+                      width: 40.w,
+                    ),
+                    SizedBox(
+                      width: 24.w,
+                    ),
+                    Text(
+                      '还款时间',
                       style: TextStyle(
                         color: Colours.text_333,
                         fontSize: 32.sp,

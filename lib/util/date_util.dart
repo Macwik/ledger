@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 /// 一些常用格式参照。可以自定义格式，例如：'yyyy/MM/dd HH:mm:ss'，'yyyy/M/d HH:mm:ss'。
@@ -66,23 +67,37 @@ class DateUtil {
     return DateFormat(DateFormats.y_mo_d).format(dateTime);
   }
 
+  /// 格式化时间，时分秒
+  static String formatDefaultTime(TimeOfDay time) {
+    var dateTime = DateTime(2024, 1, 1, time.hour, time.minute);
+    return DateFormat(DateFormats.h_m_s).format(dateTime);
+  }
+
+  static TimeOfDay ofTimeOfDay(String? timeStr) {
+    if(null == timeStr){
+      return TimeOfDay(hour: 0, minute: 0);
+    }
+    List<String> parts = timeStr.split(':');
+    int hour = int.parse(parts[0]);
+    int minute = int.parse(parts[1]);
+    return TimeOfDay(hour: hour, minute: minute);
+  }
+
   /// 格式化日期
   static String formatDefaultDate2(DateTime? dateTime) {
-    if(null == dateTime) {
+    if (null == dateTime) {
       return '';
     }
     return DateFormat(DateFormats.y_mo_d).format(dateTime);
   }
 
-
   /// 格式化日期
   static String formatDefaultDateTimeMinute(DateTime? dateTime) {
-    if(null == dateTime) {
+    if (null == dateTime) {
       return '';
     }
     return DateFormat(DateFormats.y_mo_d_h_m).format(dateTime);
   }
-
 
   /// get DateTime By Milliseconds.
   static DateTime getDateTimeByMs(int ms, {bool isUtc = false}) {

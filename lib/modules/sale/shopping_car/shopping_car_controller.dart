@@ -614,7 +614,7 @@ class ShoppingCarController extends GetxController {
     var unitType = unitDetailDTO.unitType;
     if (UnitType.MULTI_WEIGHT.value == unitType) {
       if (unitDetailDTO.selectMasterUnit ?? true) {
-        return '${unitDetailDTO.masterStock} ${unitDetailDTO.masterUnitName}';
+        return '${unitDetailDTO.masterNumber} ${unitDetailDTO.masterUnitName}';
       }
     }
     return '/';

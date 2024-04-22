@@ -64,7 +64,11 @@ class AuthUpdateController extends GetxController {
     if (children?.isEmpty ?? true) {
       return;
     }
-    for (var child in children!) {
+
+    children!.sort((a, b) {
+      return a.ordinal!.compareTo(b.ordinal!);
+    });
+    for (var child in children) {
       var sysResDTO = child.value;
       var childNode =
           NodeWrapper<SysResDTO>(data: child.value, select: child.selected);

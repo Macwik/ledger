@@ -63,9 +63,9 @@ class HomeController extends GetxController {
             context: context,
             barrierDismissible: false,
             builder: (_) => AppUpdateDialog(
-              force: appCheckDTO.forceUpdate ?? false,
-              appCheckDTO: result.d!,
-            ));
+                  force: appCheckDTO.forceUpdate ?? false,
+                  appCheckDTO: result.d!,
+                ));
       }
     });
   }
@@ -100,9 +100,11 @@ class HomeController extends GetxController {
         state.salesProductStatisticsDTO = list;
         state.todaySalesAmount = list?.isEmpty ?? true
             ? Decimal.zero
-            : list
-                ?.map((e) => e.totalAmount ?? Decimal.zero)
-                .reduce((value, element) => value + element);
+            : list?.map((e) {
+                var totalAmount = e.totalAmount ?? Decimal.zero;
+                var discountAmount = e.discountAmount ?? Decimal.zero;
+                return totalAmount - discountAmount;
+              }).reduce((value, element) => value + element);
         update(['home_product_statistics']);
       } else {
         Toast.show(result.m.toString());

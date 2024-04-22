@@ -122,6 +122,8 @@ import 'package:ledger/modules/setting/my_account/my_account_binding.dart';
 import 'package:ledger/modules/setting/my_account/my_account_view.dart';
 import 'package:ledger/modules/setting/payment_manage/payment_manage_binding.dart';
 import 'package:ledger/modules/setting/payment_manage/payment_manage_view.dart';
+import 'package:ledger/modules/setting/repayment_time_manage/repayment_time_manage_binding.dart';
+import 'package:ledger/modules/setting/repayment_time_manage/repayment_time_manage_view.dart';
 import 'package:ledger/modules/setting/permission_manage/permission_manage_binding.dart';
 import 'package:ledger/modules/setting/permission_manage/permission_manage_view.dart';
 import 'package:ledger/modules/stock/add_stock_detail/add_stock_detail_binding.dart';
@@ -218,7 +220,7 @@ class RouteConfig {
   static const String shoppingCarList = '/page/shopping/car/list';
   static const String pendingRetailBill = '/page/pending/retail/bill';
   static const String purchaseRecord = '/page/purchase/record';
-
+  static const String repaymentTimeManage = '/page/repayment/time/manage';
 
   static final List<GetPage> getPages = [
     GetPage(name: home, page: () => HomeView(), binding: HomeBinding()),
@@ -464,5 +466,9 @@ class RouteConfig {
         name: purchaseRecord,
         page: () => PurchaseRecordView(),
         binding: PurchaseRecordBinding()),
+    GetPage(
+        name: repaymentTimeManage,
+        page: () => RepaymentTimeManageView(),
+        binding: RepaymentTimeManageBinding()),
   ];
 }
