@@ -18,7 +18,7 @@ class RepaymentTimeManageController extends GetxController {
     final result = await Http().network<SalesLineDTO>(Method.get, SettingApi.GET_REPAYMENT_TIME);
     if (result.success) {
       state.salesLineDTO = result.d!;
-      update(['']);
+      update(['repayment_time_manage']);
     } else {
       Toast.show(result.m.toString());
     }
@@ -31,6 +31,7 @@ class RepaymentTimeManageController extends GetxController {
       'endTime': DateUtil.formatDefaultTime(endTime),
     });
     if (result.success) {
+      _querySalesLineConfig();
       Toast.showSuccess('设置成功');
     } else {
       Toast.show(result.m.toString());

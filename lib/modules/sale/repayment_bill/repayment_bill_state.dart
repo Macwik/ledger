@@ -5,6 +5,7 @@ import 'package:ledger/entity/costIncome/order_pay_request.dart';
 import 'package:ledger/entity/custom/custom_dto.dart';
 import 'package:ledger/entity/payment/payment_method_dto.dart';
 import 'package:ledger/entity/repayment/custom_credit_dto.dart';
+import 'package:ledger/entity/setting/sales_line_dto.dart';
 import 'package:ledger/enum/is_select.dart';
 
 class RepaymentBillState {
@@ -45,6 +46,6 @@ class RepaymentBillState {
 
   int? index;
 
-
+  SalesLineDTO? salesLineDTO;
 
 }

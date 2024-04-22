@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/api/custom_api.dart';
 import 'package:ledger/config/api/repayment_api.dart';
+import 'package:ledger/config/api/setting_api.dart';
 import 'package:ledger/entity/custom/custom_dto.dart';
 import 'package:ledger/entity/repayment/custom_credit_dto.dart';
+import 'package:ledger/entity/setting/sales_line_dto.dart';
 import 'package:ledger/enum/is_select.dart';
 import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/res/export.dart';
+import 'package:ledger/store/store_controller.dart';
 import 'package:ledger/util/decimal_util.dart';
 
 import 'repayment_bill_state.dart';
@@ -32,10 +35,19 @@ class RepaymentBillController extends GetxController {
     //     state.customType = CustomType.SUPPLIER.value;
     //   }
     // }
-
+    _querySalesLineConfig();
     update(['repayment_custom_type']);
   }
 
+  Future<void> _querySalesLineConfig() async {
+    final result = await Http()
+        .network<SalesLineDTO>(Method.get, SettingApi.GET_REPAYMENT_TIME);
+    if (result.success) {
+      state.salesLineDTO = result.d!;
+    } else {
+      Toast.show(result.m.toString());
+    }
+  }
 
   _queryData() {
     Http().network<CustomDTO>(Method.post, CustomApi.supplier_detail_title,
@@ -44,7 +56,7 @@ class RepaymentBillController extends GetxController {
         }).then((result) {
       if (result.success) {
         state.customDTO = result.d;
-        update(['repayment_bill_credit_amount','repayment_custom']);
+        update(['repayment_bill_credit_amount', 'repayment_custom']);
       } else {
         Toast.show(result.m.toString());
       }
@@ -57,6 +69,12 @@ class RepaymentBillController extends GetxController {
   }
 
   Future<void> addRepayment() async {
+    /// 判断时间是否合法
+    if (!check()) {
+      Toast.showError('时间不支持还款');
+      return;
+    }
+
     //填写内容判断
     if (!state.formKey.currentState!.saveAndValidate(focusOnInvalid: false)) {
       return;
@@ -77,7 +95,8 @@ class RepaymentBillController extends GetxController {
       return;
     }
     //判断填写内容是否合规
-    if (IsSelectType.TRUE == state.isSelect && (state.customCreditDTO?.isNotEmpty ?? false)) {
+    if (IsSelectType.TRUE == state.isSelect &&
+        (state.customCreditDTO?.isNotEmpty ?? false)) {
       // 按单结算
       Decimal? selectAmount = state.customCreditDTO
           ?.map((e) => e.repaymentAmount ?? Decimal.zero)
@@ -101,20 +120,20 @@ class RepaymentBillController extends GetxController {
             });
         return;
       }
-    }
-    else {
+    } else {
       //还款金额不能大于总欠款金额
-      var totalAmount = (inputAmount ?? Decimal.zero) + (discountAmount ?? Decimal.zero);
-        if (totalAmount > (state.customDTO?.creditAmount ?? Decimal.zero)) {
-          await Get.defaultDialog(
-              title: '提示', // 设置标题为null，即不显示标题
-              middleText: '还款金额不能大于总欠款金额',
-              onConfirm: () {
-                Get.back();
-              });
-          return;
-        }
-      if (( Decimal.zero) >= (inputAmount ?? Decimal.zero)) {
+      var totalAmount =
+          (inputAmount ?? Decimal.zero) + (discountAmount ?? Decimal.zero);
+      if (totalAmount > (state.customDTO?.creditAmount ?? Decimal.zero)) {
+        await Get.defaultDialog(
+            title: '提示', // 设置标题为null，即不显示标题
+            middleText: '还款金额不能大于总欠款金额',
+            onConfirm: () {
+              Get.back();
+            });
+        return;
+      }
+      if ((Decimal.zero) >= (inputAmount ?? Decimal.zero)) {
         Toast.show('收款金额应大于零');
         return;
       }
@@ -207,7 +226,8 @@ class RepaymentBillController extends GetxController {
             .map((e) => e.repaymentAmount ?? Decimal.zero)
             .reduce((value, element) => value + element);
         state.repaymentAmount = state.repaymentTotalAmount;
-        state.repaymentController.text = DecimalUtil.formatDecimalDefault(state.repaymentAmount);
+        state.repaymentController.text =
+            DecimalUtil.formatDecimalDefault(state.repaymentAmount);
         update([
           'repayment_credit_bill',
           'repayment_bill_btn',
@@ -291,8 +311,7 @@ class RepaymentBillController extends GetxController {
       }
       state.repaymentController.selection = TextSelection(
           baseOffset: 0,
-          extentOffset: state.repaymentController
-              .value.text.length);
+          extentOffset: state.repaymentController.value.text.length);
     }
   }
 
@@ -310,5 +329,16 @@ class RepaymentBillController extends GetxController {
       state.discountController.text = DecimalUtil.formatDecimalNumber(
           state.repaymentTotalAmount - repaymentAmount);
     }
+  }
+
+  bool check() {
+    if (StoreController.to.isCurrentLedgerOwner() ?? false) {
+      return true;
+    }
+    if (DateUtil.currentIsBetween(
+        state.salesLineDTO?.startTime, state.salesLineDTO?.endTime)) {
+      return true;
+    }
+    return false;
   }
 }

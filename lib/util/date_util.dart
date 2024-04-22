@@ -74,7 +74,7 @@ class DateUtil {
   }
 
   static TimeOfDay ofTimeOfDay(String? timeStr) {
-    if(null == timeStr){
+    if (null == timeStr) {
       return TimeOfDay(hour: 0, minute: 0);
     }
     List<String> parts = timeStr.split(':');
@@ -113,6 +113,38 @@ class DateUtil {
   /// get Now Date Milliseconds.
   static int getNowDateMs() {
     return DateTime.now().millisecondsSinceEpoch;
+  }
+
+  static bool currentIsBetween(String? start, String? end) {
+    DateTime startDateTime;
+    DateTime endDateTime;
+    var dateTime = DateTime.now();
+    if (start?.isEmpty ?? true) {
+      startDateTime =
+          DateTime(dateTime.year, dateTime.month, dateTime.day, 0, 0, 0);
+    } else {
+      startDateTime = convertToDateTime(start!);
+    }
+    if (end?.isEmpty ?? true) {
+      endDateTime =
+          DateTime(dateTime.year, dateTime.month, dateTime.day, 19, 0, 0);
+    } else {
+      endDateTime = convertToDateTime(end!);
+    }
+    if (endDateTime.compareTo(startDateTime) < 0) {
+      endDateTime = endDateTime.add(Duration(days: 1));
+    }
+    return dateTime.isAfter(startDateTime) && dateTime.isBefore(endDateTime);
+  }
+
+  static DateTime convertToDateTime(String timeString) {
+    DateTime now = DateTime.now(); // 获取当前日期时间
+    List<String> parts = timeString.split(':');
+    int hour = int.parse(parts[0]);
+    int minute = int.parse(parts[1]);
+    int second = int.parse(parts[2]);
+    // 创建包含当前日期和指定时间的 DateTime 对象
+    return DateTime(now.year, now.month, now.day, hour, minute, second);
   }
 
   /// get Now Date Str.(yyyy-MM-dd HH:mm:ss)
