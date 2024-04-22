@@ -63,7 +63,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
                 : RouteConfig.myAccount
             : RouteConfig.loginVerify,
         getPages: RouteConfig.getPages,
-        debugShowCheckedModeBanner: false,
+        debugShowCheckedModeBanner: true,
         builder: EasyLoading.init(
           builder: (context, child) {
             if (Device.isAndroid) {
