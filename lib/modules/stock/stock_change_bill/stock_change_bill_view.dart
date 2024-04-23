@@ -91,7 +91,7 @@ class StockChangeBillView extends StatelessWidget {
                                       '盘点详情',
                                       style: TextStyle(
                                           color: Colours.text_666,
-                                          fontSize: 30.sp,
+                                          fontSize: 34.sp,
                                           fontWeight: FontWeight.w600),
                                     ),
                                   ),
@@ -145,19 +145,20 @@ class StockChangeBillView extends StatelessWidget {
                           color: Colors.white,
                           child: Row(
                             children: [
+                              Expanded(child:
                               Text(productAdjust.productName??'',
                                   style: TextStyle(
                                     color: Colours.text_333,
                                     fontSize: 30.sp,
                                     fontWeight: FontWeight.w500,
-                                  )),
-                              const Spacer(),
-                              Text(controller.judgeUnit(productAdjust),
+                                  ))),
+                      Expanded(child:
+                      Text(controller.judgeUnit(productAdjust),
                                   style: TextStyle(
                                     color: Colours.text_333,
                                     fontSize: 30.sp,
                                     fontWeight: FontWeight.w400,
-                                  )),
+                                  ))),
                             ],
                           ),
                         ));

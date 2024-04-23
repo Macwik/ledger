@@ -107,6 +107,7 @@ class PaymentDialog extends StatelessWidget {
                   children: [
                 Expanded(child:
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           '订单金额',

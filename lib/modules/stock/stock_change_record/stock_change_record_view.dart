@@ -475,12 +475,13 @@ class StockChangeRecordView extends StatelessWidget {
                                                 fontSize: 30.sp,
                                                 fontWeight: FontWeight.w500,
                                               )) ,
-                                        Text(controller.afterCount(stockChangeRecordDTO),
+                                          Expanded(child:
+                                          Text(controller.afterCount(stockChangeRecordDTO),
                                               style: TextStyle(
                                                 color: Colours.text_999,
                                                 fontSize: 30.sp,
                                                 fontWeight: FontWeight.w500,
-                                              ),)
+                                              ),))
                                         ],)),
 
                                     ],

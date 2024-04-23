@@ -223,7 +223,7 @@ class ProductUnitDialog extends StatelessWidget {
                                       hintText: '请输入重量',
                                     ),
                                     textAlign: TextAlign.center,
-                                    maxLength: 10,
+                                    maxLength: 8,
                                     keyboardType:
                                         TextInputType.numberWithOptions(
                                             signed: true, decimal: true),
@@ -274,7 +274,7 @@ class ProductUnitDialog extends StatelessWidget {
                                   hintText: '请输入数量',
                                 ),
                                 textAlign: TextAlign.center,
-                                maxLength: 10,
+                                maxLength: 8,
                                 keyboardType: TextInputType.numberWithOptions(
                                     signed: true, decimal: true),
                                 validator: (value) {
@@ -322,7 +322,7 @@ class ProductUnitDialog extends StatelessWidget {
                                   hintText: '请输入单价',
                                 ),
                                 textAlign: TextAlign.center,
-                                maxLength: 10,
+                                maxLength: 8,
                                 keyboardType: TextInputType.numberWithOptions(
                                     signed: true, decimal: true),
                                 validator: (value) {
@@ -370,7 +370,7 @@ class ProductUnitDialog extends StatelessWidget {
                                   hintText: '请输入总价',
                                 ),
                                 textAlign: TextAlign.center,
-                                maxLength: 10,
+                                maxLength: 13,
                                 keyboardType: TextInputType.numberWithOptions(
                                     signed: true, decimal: true),
                                 validator: (value) {

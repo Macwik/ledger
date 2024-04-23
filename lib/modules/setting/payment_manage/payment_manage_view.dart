@@ -92,7 +92,7 @@ class PaymentManageView extends StatelessWidget {
                     ));
                 }),
             Container(
-              height: 90.w,
+              height: 100.w,
               width: double.infinity,
               margin: EdgeInsets.only(right: 20.w, left: 20.w, top: 10.w),
               child: ElevatedButton(

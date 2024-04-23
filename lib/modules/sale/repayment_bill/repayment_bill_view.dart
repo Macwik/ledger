@@ -499,7 +499,7 @@ class RepaymentBillView extends StatelessWidget {
                                   child: Visibility(
                                       replacement: ElevatedBtn(
                                         //margin: EdgeInsets.only(top: 80.w),
-                                        size: Size(double.infinity, 90.w),
+                                        size: Size(double.infinity, 100.w),
                                         onPressed: () =>
                                             controller.repayBillGetBack(),
                                         radius: 15.w,
@@ -527,25 +527,26 @@ class RepaymentBillView extends StatelessWidget {
                                                     fontSize: 28.sp,
                                                     fontWeight: FontWeight.w500,
                                                   )),
+                                              Expanded(child:
                                               Text(
                                                   '￥${state.repaymentTotalAmount}',
                                                   style: TextStyle(
                                                     color: Colors.redAccent,
                                                     fontSize: 32.sp,
                                                     fontWeight: FontWeight.w600,
-                                                  )),
+                                                  ))),
                                             ],
                                           )))),
                               Expanded(
                                 child: ElevatedBtn(
-                                  size: Size(double.infinity, 90.w),
+                                  size: Size(double.infinity, 100.w),
                                   onPressed: () => controller.addRepayment(),
                                   radius: 15.w,
                                   backgroundColor: Colours.primary,
-                                  text: '收款',
+                                  text: '收 款',
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 30.sp,
+                                    fontSize: 32.sp,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),

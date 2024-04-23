@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
@@ -80,6 +79,14 @@ class PaymentManageController extends GetxController {
                   keyboardType: TextInputType.name
               )),
       actions: [
+        TextButton(
+
+          onPressed: () {
+            Get.back();
+            state.paymentNameController.clear();
+          },
+          child: Text('取消',style: TextStyle(color: Colours.text_666),),
+        ),
         TextButton(onPressed:() async {
           final result = await Http().network<void>(
               Method.post, PaymentApi.ADD_LEDGER_PAYMENT_METHOD,
@@ -96,30 +103,7 @@ class PaymentManageController extends GetxController {
             Toast.show(result.m.toString());
           }
         } , child: Text('确定'),),
-        TextButton(
-          onPressed: () {
-            Get.back();
-            state.paymentNameController.clear();
-          },
-          child: Text('取消'),
-        )
       ],
-      // onOkPressed: (value) async {
-      //   final result = await Http().network<void>(
-      //       Method.post, PaymentApi.ADD_LEDGER_PAYMENT_METHOD,
-      //       data: {
-      //         'name': value,
-      //         'icon':'payment_common'
-      //       });
-      //   if (result.success) {
-      //     _queryPaymentList();
-      //     Toast.show('添加成功');
-      //     return true;
-      //   } else {
-      //     Toast.show(result.m.toString());
-      //     return false;
-      //   }
-      // },
     ));
   }
 

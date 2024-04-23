@@ -46,14 +46,15 @@ class ChooseRepaymentOrderView extends StatelessWidget {
                                       fontSize: 32.sp,
                                       fontWeight: FontWeight.w500,
                                     )),
-                                const Spacer(),
+                                Expanded(child:
                                 Text(
                                     '¥${state.customDTO?.creditAmount??''}',
+                                    textAlign: TextAlign.end,
                                     style: TextStyle(
                                       color: Colours.primary,
                                       fontSize: 34.sp,
                                       fontWeight: FontWeight.w700,
-                                    )),
+                                    ))),
                               ],
                             ),
                           ),

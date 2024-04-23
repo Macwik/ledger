@@ -20,7 +20,7 @@ class CostTypeView extends StatelessWidget {
     controller.initState();
     return Scaffold(
         appBar: TitleBar(
-          title: '请选择收入类别'.tr,
+          title: state.costOrderType != CostOrderType.INCOME? '请选择费用类别'.tr:'请选择收入类别'.tr,
         ),
         body: SingleChildScrollView(
           child:Column(
@@ -101,29 +101,21 @@ class CostTypeView extends StatelessWidget {
                       }),
                   Container(
                     width: double.infinity,
-                    height: 80.w,
-                    margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+                    height: 100.w,
+                    margin: EdgeInsets.only(right: 20.w, left: 20.w, top: 10.w),
                     child: ElevatedButton(
                       onPressed: ()=> controller.toAddCostType(),
                       child: Text(
-                        '+ 添加采购费用种类',
+                        '+ 添加费用类别',
                         style: TextStyle(
                           color: Colours.primary,
-                          fontSize: 28.sp,
+                          fontSize: 32.sp,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
                       style: ButtonStyle(
-                        side: MaterialStateProperty.all<BorderSide>(
-                          BorderSide(color: Colours.primary),
-                        ),
+                        fixedSize: MaterialStateProperty.all(Size(300, 50)), // 设置
                         backgroundColor: MaterialStateProperty.all(Colors.white),
-                        elevation: MaterialStateProperty.all(5),
-                        overlayColor: MaterialStateProperty.all(
-                            Colours.primary.withOpacity(0.1)),
-                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25.w),
-                        )),
                       ),
                     ),
                   ),
@@ -207,8 +199,8 @@ class CostTypeView extends StatelessWidget {
                       }),
                   Container(
                     width: double.infinity,
-                    height: 80.w,
-                    margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+                    height: 100.w,
+                    margin: EdgeInsets.only(right: 20.w, left: 20.w, top: 10.w),
                     child: ElevatedButton(
                       onPressed: ()=> controller.toAddIncomeType(),
                       child: Text(
@@ -220,16 +212,8 @@ class CostTypeView extends StatelessWidget {
                         ),
                       ),
                       style: ButtonStyle(
-                        side: MaterialStateProperty.all<BorderSide>(
-                          BorderSide(color: Colours.primary),
-                        ),
+                        fixedSize: MaterialStateProperty.all(Size(300, 50)), // 设置
                         backgroundColor: MaterialStateProperty.all(Colors.white),
-                        elevation: MaterialStateProperty.all(5),
-                        overlayColor: MaterialStateProperty.all(
-                            Colours.primary.withOpacity(0.1)),
-                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25.w),
-                        )),
                       ),
                     ),
                   ),

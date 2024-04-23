@@ -1,7 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ledger/enum/custom_type.dart';
 import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/res/export.dart';
 import 'package:ledger/util/decimal_util.dart';
@@ -476,6 +475,7 @@ class DailyAccountView extends StatelessWidget {
                                                   right: 20.w),
                                               width: double.infinity,
                                               child: Row(children: [
+                                                Expanded(child:
                                                 Text(
                                                   salesProductStatisticsDTO
                                                       .productName ??
@@ -484,27 +484,31 @@ class DailyAccountView extends StatelessWidget {
                                                     fontSize: 32.sp,
                                                     color: Colours.text_333,
                                                   ),
-                                                ),
+                                                )),
                                                 SizedBox(width: 32.w,),
+                                    Expanded(child:
                                                 Text(
                                                   salesProductStatisticsDTO
                                                       .productStandard ??
                                                       '',
+                                                  textAlign: TextAlign.right,
                                                   style: TextStyle(
                                                     fontSize: 28.sp,
                                                     color: Colours.text_999,
                                                   ),
-                                                ),
+                                                )),
                                                 SizedBox(width: 16.w,),
+                                    Expanded(child:
                                                 Text(
                                                   salesProductStatisticsDTO
                                                       .productPlace ??
                                                       '',
+                                                  textAlign: TextAlign.right,
                                                   style: TextStyle(
                                                     fontSize: 28.sp,
                                                     color: Colours.text_999,
                                                   ),
-                                                ),
+                                                )),
                                               ],)
                                           ),
                                           Container(
@@ -721,47 +725,6 @@ class DailyAccountView extends StatelessWidget {
                                                         FontWeight.w500,
                                                         color:
                                                         Colours.text_333),
-                                                  ),
-                                                  Container(
-                                                    margin: EdgeInsets.only(
-                                                        left: 16.w),
-                                                    padding:
-                                                    EdgeInsets.symmetric(
-                                                        horizontal: 8.w,
-                                                        vertical: 4.w),
-                                                    decoration: (BoxDecoration(
-                                                        borderRadius:
-                                                        BorderRadius
-                                                            .circular((36)),
-                                                        border: Border.all(
-                                                            color: customCreditDTO
-                                                                .customType ==
-                                                                CustomType
-                                                                    .CUSTOM
-                                                                    .value
-                                                                ? Colours
-                                                                .primary
-                                                                : Colors.orange,
-                                                            width: 3.w),
-                                                        color: Colors.white)),
-                                                    child: Text(
-                                                      customCreditDTO
-                                                          .customType ==
-                                                          CustomType
-                                                              .CUSTOM.value
-                                                          ? '客'
-                                                          : '供',
-                                                      style: TextStyle(
-                                                        fontSize: 28.sp,
-                                                        color: customCreditDTO
-                                                            .customType ==
-                                                            CustomType
-                                                                .CUSTOM
-                                                                .value
-                                                            ? Colours.primary
-                                                            : Colors.orange,
-                                                      ),
-                                                    ),
                                                   ),
                                                   Expanded(
                                                     child: Row(

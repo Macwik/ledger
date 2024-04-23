@@ -290,6 +290,7 @@ class HomeView extends StatelessWidget {
                                                     ),
                                                   ),
                                                   Expanded(
+                                                    flex: 2,
                                                     child:Flex(
                                                         crossAxisAlignment: CrossAxisAlignment.end,
                                                         mainAxisAlignment: MainAxisAlignment.end,
@@ -370,7 +371,6 @@ class HomeView extends StatelessWidget {
                                                                               .text_ccc,
                                                                         ),
                                                                       ),
-
                                                                           Text(
                                                                             controller
                                                                                 .judgeMasterUnit(
@@ -659,6 +659,7 @@ class HomeView extends StatelessWidget {
                                                     ],
                                                   )),
                                                   Expanded(
+                                                    flex: 2,
                                                     child: (Flex(
                                                       direction: Axis.vertical,
                                                       children: [

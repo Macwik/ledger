@@ -88,7 +88,7 @@ class SaleDetailView extends StatelessWidget {
                                Text(
                                    controller.orderTotalAmount(),
                                    style: TextStyle(
-                                     color: Colors.teal[400],
+                                     color:state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc: Colors.teal[400],
                                      fontSize: 48.sp,
                                      fontWeight: FontWeight.w600,
                                    )),
@@ -133,7 +133,7 @@ class SaleDetailView extends StatelessWidget {
                                         state.orderDetailDTO?.customName ??
                                             '默认${state.orderType == OrderType.SALE ? '客户' : '供应商'}',
                                         style: TextStyle(
-                                          color: Colours.text_333,
+                                          color: state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc: Colours.text_333,
                                           fontSize: 36.sp,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -205,7 +205,7 @@ class SaleDetailView extends StatelessWidget {
                                   Text(
                                     state.orderDetailDTO?.creatorName ?? '',
                                     style: TextStyle(
-                                      color: Colours.text_333,
+                                      color:state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc: Colours.text_333,
                                       fontSize: 32.sp,
                                       fontWeight: FontWeight.w500,
                                     ),
@@ -233,7 +233,7 @@ class SaleDetailView extends StatelessWidget {
                                       controller.orderPayment(state
                                           .orderDetailDTO?.orderPaymentList),
                                       style: TextStyle(
-                                        color: Colours.text_333,
+                                        color: state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc: Colours.text_333,
                                         fontSize: 32.sp,
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -265,7 +265,7 @@ class SaleDetailView extends StatelessWidget {
                                                 (state.orderDetailDTO?.orderType ==OrderType.REFUND.value)
                                                 ? DecimalUtil.formatNegativeAmount(state.orderDetailDTO?.creditAmount):DecimalUtil.formatAmount(state.orderDetailDTO?.creditAmount),
                                             style: TextStyle(
-                                              color: Colors.red[600],
+                                              color:state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc: Colors.red[600],
                                               fontSize: 32.sp,
                                               fontWeight: FontWeight.w500,
                                             ),
@@ -289,7 +289,7 @@ class SaleDetailView extends StatelessWidget {
                                   Text(DateUtil.formatDefaultDateTimeMinute(
                                       state.orderDetailDTO?.gmtCreate),
                                     style: TextStyle(
-                                      color: Colours.text_333,
+                                      color:state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc: Colours.text_333,
                                       fontSize: 32.sp,
                                       fontWeight: FontWeight.w400,
                                     ),
@@ -321,7 +321,7 @@ class SaleDetailView extends StatelessWidget {
                                     child: Row(
                                       children: [
                                         Container(
-                                          color: Colours.primary,
+                                          color:state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc: Colours.primary,
                                           height: 32.w,
                                           width: 8.w,
                                         ),
@@ -333,7 +333,7 @@ class SaleDetailView extends StatelessWidget {
                                           child: Text(
                                             '货物详情',
                                             style: TextStyle(
-                                                color: Colours.text_666,
+                                                color:state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc: Colours.text_666,
                                                 fontSize: 34.sp,
                                                 fontWeight: FontWeight.w600),
                                           ),
@@ -369,7 +369,7 @@ class SaleDetailView extends StatelessWidget {
                                                             '',
                                                         style: TextStyle(
                                                           color:
-                                                              Colours.text_333,
+                                                          state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc: Colours.text_333,
                                                           fontSize: 32.sp,
                                                           fontWeight:
                                                               FontWeight.w500,
@@ -381,7 +381,7 @@ class SaleDetailView extends StatelessWidget {
                                                       textAlign:
                                                           TextAlign.right,
                                                       style: TextStyle(
-                                                        color: Colours.text_666,
+                                                        color:state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc: Colours.text_666,
                                                         fontSize: 32.sp,
                                                         fontWeight:
                                                             FontWeight.w400,
@@ -397,7 +397,7 @@ class SaleDetailView extends StatelessWidget {
                                                   controller.judgeUnit(
                                                       orderProductDetail),
                                                   style: TextStyle(
-                                                    color: Colours.text_999,
+                                                    color:state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc: Colours.text_999,
                                                     fontSize: 30.sp,
                                                     fontWeight: FontWeight.w400,
                                                   )),
@@ -419,8 +419,8 @@ class SaleDetailView extends StatelessWidget {
                                                                   ?.productPlace ??
                                                               '',
                                                           style: TextStyle(
-                                                            color: Colours
-                                                                .text_999,
+                                                            color: state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc:
+                                                            Colours.text_999,
                                                             fontSize: 28.sp,
                                                             fontWeight:
                                                                 FontWeight.w500,
@@ -433,8 +433,7 @@ class SaleDetailView extends StatelessWidget {
                                                                   ?.productStandard ??
                                                               '',
                                                           style: TextStyle(
-                                                            color: Colours
-                                                                .text_999,
+                                                            color:state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc: Colours.text_999,
                                                             fontSize: 28.sp,
                                                             fontWeight:
                                                                 FontWeight.w500,
@@ -476,7 +475,7 @@ class SaleDetailView extends StatelessWidget {
                                             Text(
                                               '合计：',
                                               style: TextStyle(
-                                                color: Colours.text_999,
+                                                color:state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc: Colours.text_999,
                                                 fontSize: 28.sp,
                                                 fontWeight: FontWeight.w400,
                                               ),
@@ -509,7 +508,7 @@ class SaleDetailView extends StatelessWidget {
                                                               ?.totalAmount),
                                                   textAlign: TextAlign.right,
                                                   style: TextStyle(
-                                                    color: Colours.text_666,
+                                                    color:state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc: Colours.text_666,
                                                     fontSize: 32.sp,
                                                     fontWeight: FontWeight.w500,
                                                   ),
@@ -550,7 +549,7 @@ class SaleDetailView extends StatelessWidget {
                                         child: Row(
                                           children: [
                                             Container(
-                                              color: Colours.primary,
+                                              color: state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc: Colours.primary,
                                               height: 32.w,
                                               width: 8.w,
                                             ),
@@ -562,7 +561,7 @@ class SaleDetailView extends StatelessWidget {
                                               child: Text(
                                                 '费用详情',
                                                 style: TextStyle(
-                                                    color: Colours.text_666,
+                                                    color: state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc:Colours.text_666,
                                                     fontSize: 34.sp,
                                                     fontWeight: FontWeight.w600),
                                               ),
@@ -590,7 +589,7 @@ class SaleDetailView extends StatelessWidget {
                                                   Text(
                                                     '费用金额',
                                                     style: TextStyle(
-                                                      color: Colours.text_666,
+                                                      color: state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc:Colours.text_666,
                                                       fontSize: 32.sp,
                                                       fontWeight:
                                                           FontWeight.w400,
@@ -603,8 +602,7 @@ class SaleDetailView extends StatelessWidget {
                                                       textAlign:
                                                       TextAlign.right,
                                                       style: TextStyle(
-                                                        color: Colours
-                                                            .text_666,
+                                                        color: state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc:Colours.text_666,
                                                         fontSize: 32.sp,
                                                         fontWeight:
                                                         FontWeight.w500,
@@ -668,7 +666,7 @@ class SaleDetailView extends StatelessWidget {
                                         child: Text(
                                           '备注',
                                           style: TextStyle(
-                                            color: Colours.text_666,
+                                            color:state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc: Colours.text_666,
                                             fontSize: 32.sp,
                                             fontWeight: FontWeight.w400,
                                           ),
@@ -683,7 +681,7 @@ class SaleDetailView extends StatelessWidget {
                                                 ?.remark ??
                                                 '',
                                             style: TextStyle(
-                                              color: Colours.text_333,
+                                              color: state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc:Colours.text_333,
                                               fontSize: 32.sp,
                                               fontWeight: FontWeight.w500,
                                             ),

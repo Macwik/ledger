@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/api/cost_income_api.dart';
 import 'package:ledger/entity/costIncome/cost_income_label_type_dto.dart';
 import 'package:ledger/enum/cost_order_type.dart';
 import 'package:ledger/http/http_util.dart';
+import 'package:ledger/res/colors.dart';
 import 'package:ledger/util/toast_util.dart';
-import 'package:ledger/widget/dialog/single_input_dialog.dart';
 import 'package:ledger/widget/warning.dart';
 
 import 'cost_type_state.dart';
@@ -47,53 +49,126 @@ class CostTypeController extends GetxController {
   }
 
   Future toAddCostType() async {
-    SingleInputDialog().singleInputDialog(
-      title:  '新增费用名称' ,
-      hintText: '请输入费用名称' ,
-      keyboardType: TextInputType.emailAddress,
-      validator: FormBuilderValidators.required(errorText: '费用名称不能为空' ),
-      onOkPressed: (value) async {
-        final result = await Http()
-            .network<void>(Method.post, CostIncomeApi.add_cost_type, data: {
-          'type':CostOrderType.COST.value,
-          'labelName': value,
-        });
-        if (result.success) {
-          Toast.show('添加成功');
-          queryData();
-          return true;
-        } else {
-          Toast.show(result.m.toString());
-          return false;
-        }
-      },
-    );
+    Get.dialog(AlertDialog(
+      title:  Text('新增费用名称',
+          style: TextStyle(fontSize: 40.sp,
+              fontWeight: FontWeight.w600)) ,
+      content:FormBuilder(
+          key: state.formKey,
+          child: TextFormField(
+            controller: state.costNameController,
+            decoration: InputDecoration(
+              counterText: '',
+              hintText: '请输入费用名称',
+              hintStyle: TextStyle(
+                color: Colours.text_ccc,
+                fontSize: 32.sp
+              ),
+            ),
+            keyboardType: TextInputType.name,
+            maxLength: 10,
+            validator: FormBuilderValidators.required(
+                errorText: '费用名称不能为空'),
+          )),
+        actions: [
+          TextButton(
+            onPressed: (){
+              Get.back();
+              state.costNameController.clear();
+            },
+            child:  Text('取消',
+              style: TextStyle(
+                  color: Colours.text_666
+              ),),),
+          TextButton(
+            child: Text('确定'),
+            onPressed: ()  async {
+              (state.formKey.currentState?.saveAndValidate() ?? false)
+                  ? addCostType()
+                  :Null;
+            },
+          ),
+        ]
+    ));
   }
 
+  void addCostType() async {
+      final result = await Http()
+          .network<void>(Method.post, CostIncomeApi.add_cost_type, data: {
+        'type':CostOrderType.COST.value,
+        'labelName': state.costNameController.text,
+      });
+      if (result.success) {
+        Toast.show('添加成功');
+        Get.back();
+        state.costNameController.clear();
+        queryData();
+      } else {
+        Toast.show(result.m.toString());
+      }
+ }
+
   Future toAddIncomeType() async {
-    SingleInputDialog().singleInputDialog(
-      title:  '新增收入名称',
-      hintText:  '请输入收入名称',
-      keyboardType: TextInputType.emailAddress,
-      validator: FormBuilderValidators.required(
-          errorText: '收入名称不能为空'),
-      onOkPressed: (value) async {
-        final result = await Http()
-            .network<void>(Method.post, CostIncomeApi.add_cost_type, data: {
-          'type': CostOrderType.INCOME.value,
-          'labelName': value,
-        });
-        if (result.success) {
-          Toast.show('添加成功');
-          queryData();
-          return true;
-        } else {
-          Toast.show(result.m.toString());
-          return false;
-        }
-      },
-    );
+    Get.dialog(AlertDialog(
+      title:  Text('新增收入名称',
+          style: TextStyle(fontSize: 40.sp,
+              fontWeight: FontWeight.w600)),
+      content:FormBuilder(
+          key: state.formKey,
+          child: TextFormField(
+        controller: state.incomeNameController,
+        decoration: InputDecoration(
+          counterText: '',
+          hintText: '请输入收入名称',
+          hintStyle: TextStyle(
+            color: Colours.text_ccc,
+              fontSize: 32.sp
+          ),
+        ),
+        keyboardType: TextInputType.name,
+        maxLength: 10,
+        validator: FormBuilderValidators.required(
+            errorText: '收入名称不能为空'),
+      )),
+        actions: [
+          TextButton(
+            onPressed: (){
+              Get.back();
+              state.incomeNameController.clear();
+            },
+            child:  Text('取消',
+              style: TextStyle(
+                  color: Colours.text_666
+              ),),),
+          TextButton(
+            child: Text('确定'),
+            onPressed: ()  async {
+              (state.formKey.currentState?.saveAndValidate() ?? false)
+                  ? addIncomeType()
+                  :Null;
+            },
+          ),
+        ]
+    ));
   }
+
+  void addIncomeType() async {
+    final result = await Http()
+        .network<void>(Method.post, CostIncomeApi.add_cost_type, data: {
+      'type': CostOrderType.INCOME.value,
+      'labelName': state.incomeNameController.text,
+    });
+    if (result.success) {
+      Toast.show('添加成功');
+      Get.back();
+      state.incomeNameController.clear();
+      queryData();
+      //return true;
+    } else {
+      Toast.show(result.m.toString());
+      //return false;
+    }
+ }
 
   void toDeleteOrder(int id, int type) {
     Get.dialog(
