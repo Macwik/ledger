@@ -38,6 +38,7 @@ class CostRecordController extends GetxController with GetSingleTickerProviderSt
       state.index = index;
       update(['cost_record_add_bill']);
       clearCondition();
+      state.searchContent = '';
       onRefresh();
     });
     super.onInit();
@@ -188,7 +189,7 @@ class CostRecordController extends GetxController with GetSingleTickerProviderSt
   }
 
   void toCostDetail(CostIncomeOrderDTO? costIncomeOrderDTO) {
-    Get.toNamed(RouteConfig.costDetail, arguments: {'costIncomeOrder': costIncomeOrderDTO})?.then((result) {
+    Get.toNamed(RouteConfig.costDetail, arguments: {'id': costIncomeOrderDTO?.id,'orderType':costIncomeOrderDTO?.orderType})?.then((result) {
       if (ProcessStatus.OK == result) {
         onRefresh();
       }

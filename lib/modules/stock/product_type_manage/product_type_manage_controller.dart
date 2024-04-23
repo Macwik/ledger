@@ -96,14 +96,14 @@ class ProductTypeManageController extends GetxController {
         barrierDismissible: false,
       );
   }
-  final formKey = GlobalKey<FormBuilderState>();
+
   void toEditProductClassify(ProductClassifyDTO? productClassify) {
     Get.dialog(AlertDialog(
         title: Text('编辑货物分组',
             style: TextStyle(fontSize: 40.sp,
         fontWeight: FontWeight.w600)),
         content:FormBuilder(
-            key: formKey,
+            key: state.formKey,
             child:SingleChildScrollView(
             child:Column(
           children: [
@@ -118,7 +118,7 @@ class ProductTypeManageController extends GetxController {
                     decoration: InputDecoration(
                       counterText: '',
                       hintText: productClassify?.productClassify??'货物分组名称',
-                      hintStyle: TextStyle(fontSize: 30.sp),
+                      hintStyle: TextStyle(fontSize: 32.sp),
                     ),
                     validator: FormBuilderValidators.required(errorText: '货物分组名称不能为空'),
                     textAlign: TextAlign.center,
@@ -137,14 +137,13 @@ class ProductTypeManageController extends GetxController {
                     decoration: InputDecoration(
                       counterText: '',
                       hintText: '货物分组备注',
-                      hintStyle: TextStyle(fontSize: 30.sp),
+                      hintStyle: TextStyle(fontSize: 32.sp),
                     ),
                     textAlign: TextAlign.center,
                     keyboardType: TextInputType.text
                 ))
               ],
             )
-            ,
           ],
         ))),
         actions: [
@@ -158,20 +157,11 @@ class ProductTypeManageController extends GetxController {
           TextButton(
             child: Text('确定'),
             onPressed: ()  async {
-              final result = await Http().network<void>(
-                  Method.post, ProductApi.product_classify_edit,
-                  data: {
-                    'id':productClassify?.id,
-                    'productClassify':state.productClassifyNameController.text,
-                    'remark':state.productClassifyRemarkController.text,
-                  });
-              if (result.success) {
-                Toast.show('保存成功');
-                Get.back();
-                _queryProductClassifyList();
-              } else {
-                Toast.show(result.m.toString());
-              }
+              (state.formKey.currentState?.saveAndValidate() ?? false)
+                  ? editProductType(productClassify)
+                  : Null;
+              state.productClassifyRemarkController.clear();
+              state.productClassifyNameController.clear();
             },
           ),
         ]),
@@ -179,10 +169,14 @@ class ProductTypeManageController extends GetxController {
     );
   }
 
+
+
   void addProductClassify(BuildContext context) {
     Get.dialog(AlertDialog(
         title: Text('新增货物分组'),
-        content:SingleChildScrollView(
+        content:FormBuilder(
+            key: state.formKey,
+            child:SingleChildScrollView(
             child:
         Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -197,8 +191,10 @@ class ProductTypeManageController extends GetxController {
                       controller: state.addProductClassifyName,
                       maxLength: 10,
                       decoration: InputDecoration(
-                        hintText: '请输入货物分组名称',
+                        hintText: '货物分组名称',
                         counterText: '',
+                          hintStyle: TextStyle(fontSize: 32.sp,
+                              fontWeight: FontWeight.w500)
                       ),
                       validator: FormBuilderValidators.required(errorText: '货物分组名称不能为空'),
                       textAlign: TextAlign.center,
@@ -216,8 +212,10 @@ class ProductTypeManageController extends GetxController {
                       controller: state.addProductClassifyRemark,
                       maxLength: 20,
                       decoration: InputDecoration(
-                        hintText: '请输入货物分组备注',
+                        hintText: '货物分组备注',
                         counterText: '',
+                        hintStyle: TextStyle(fontSize: 32.sp,
+                        fontWeight: FontWeight.w500)
                       ),
                       textAlign: TextAlign.center,
                       keyboardType: TextInputType.text
@@ -226,7 +224,7 @@ class ProductTypeManageController extends GetxController {
               ],
             )
           ],
-        )),
+        ))),
         actions: [
           TextButton(
             onPressed: (){
@@ -241,19 +239,11 @@ class ProductTypeManageController extends GetxController {
           TextButton(
             child: Text('确定'),
             onPressed: ()  async {
-              final result = await Http().network<void>(
-                  Method.post, ProductApi.product_classify_add,
-                  data: {
-                    'productClassify':state.addProductClassifyName.text,
-                    'remark':state.addProductClassifyRemark.text,
-                  });
-              if (result.success) {
-                Toast.show('保存成功');
-                Get.back();
-                _queryProductClassifyList();
-              } else {
-                Toast.show(result.m.toString());
-              }
+              (state.formKey.currentState?.saveAndValidate() ?? false)
+                  ? addProductType()
+                  :Null;
+              state.addProductClassifyRemark.clear();
+              state.addProductClassifyName.clear();
             },
           ),
         ]),
@@ -264,6 +254,39 @@ class ProductTypeManageController extends GetxController {
   void selectProductClassify(ProductClassifyDTO? productClassify) {
     if(state.isSelectType == IsSelectType.TRUE){
       Get.back(result: productClassify);
+    }
+  }
+
+  Future<void> editProductType(ProductClassifyDTO? productClassify) async {
+    final result = await Http().network<void>(
+        Method.post, ProductApi.product_classify_edit,
+        data: {
+          'id':productClassify?.id,
+          'productClassify':state.productClassifyNameController.text,
+          'remark':state.productClassifyRemarkController.text,
+        });
+    if (result.success) {
+      Toast.show('保存成功');
+      Get.back();
+      _queryProductClassifyList();
+    } else {
+      Toast.show(result.m.toString());
+    }
+  }
+
+  Future<void> addProductType() async {
+    final result = await Http().network<void>(
+        Method.post, ProductApi.product_classify_add,
+        data: {
+          'productClassify':state.addProductClassifyName.text,
+          'remark':state.addProductClassifyRemark.text,
+        });
+    if (result.success) {
+      Toast.show('保存成功');
+      Get.back();
+      _queryProductClassifyList();
+    } else {
+      Toast.show(result.m.toString());
     }
   }
 }

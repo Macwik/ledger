@@ -24,7 +24,7 @@ class StockListController extends GetxController {
     if ((arguments != null) && arguments['select'] != null) {
       state.select = arguments['select'];
     }
-    update(['stock_list_bottom']);
+    update(['stock_list_bottom']);//不执行刷新
     _queryProductClassifyList();
     onRefresh();
   }
@@ -218,6 +218,7 @@ class StockListController extends GetxController {
   void toAddProduct() {
     Get.toNamed(RouteConfig.addProduct)?.then((result) {
       if (ProcessStatus.OK == result) {
+        _queryProductClassifyList();
         onRefresh();
       }
     });

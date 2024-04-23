@@ -25,7 +25,7 @@ class CostDetailView extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: TitleBar(
-        title: state.costIncomeOrderDTO?.orderType == CostOrderType.COST.value
+        title: state.orderType == CostOrderType.COST.value
             ? '费用详情'
             : '收入详情',
         actionWidget: GetBuilder<CostDetailController>(
@@ -74,7 +74,7 @@ class CostDetailView extends StatelessWidget {
                                     right: 40.w, left: 40.w, top: 30.w, bottom: 20.w),
                                 child: Column(
                                   children: [
-                                    Container(child: Text(state.costIncomeOrderDTO?.orderType == CostOrderType.COST.value
+                                    Container(child: Text(state.orderType == CostOrderType.COST.value
                                         ? '实付金额'
                                         : '实收金额',
                                         style: TextStyle(

@@ -40,6 +40,7 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
       tabController.animateTo(state.index);
       update(['sale_record_add_bill','sale_order_status']);
       clearCondition();
+      state.searchContent = '';
       onRefresh();
     });
     super.onInit();

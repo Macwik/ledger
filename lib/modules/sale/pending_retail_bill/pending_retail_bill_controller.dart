@@ -455,8 +455,7 @@ class PendingRetailBillController extends GetxController {
                 onPressed: () {
                   state.shoppingCarList.clear();
                   Get.until((route) {
-                    return (route.settings.name == RouteConfig.pendingOrder)||
-                        (route.settings.name == RouteConfig.main);
+                    return (route.settings.name == RouteConfig.pendingOrder);
                   }
                   );
                 }),

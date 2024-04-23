@@ -1,5 +1,4 @@
 import 'package:ledger/entity/costIncome/cost_income_detail_dto.dart';
-import 'package:ledger/entity/costIncome/cost_income_order_dto.dart';
 
 class CostDetailState {
 
@@ -11,6 +10,9 @@ class CostDetailState {
     ///Initialize variables
   }
 //上页面带过来的
-  CostIncomeOrderDTO? costIncomeOrderDTO;
+ // CostIncomeOrderDTO? costIncomeOrderDTO;
+  int? id;
+
+  int? orderType;
 
 }

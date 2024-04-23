@@ -33,7 +33,7 @@ class StockChangeDetailController extends GetxController {
       return '-';
     }
     if(afterRecordDTO.unitType == UnitType.SINGLE.value){
-      return '${afterRecordDTO.afterStock! - afterRecordDTO.beforeStock!} ${afterRecordDTO.unitName}';
+      return '${afterRecordDTO.afterStock!} ${afterRecordDTO.unitName}';
     }else{
       return '${afterRecordDTO.afterMasterStock!} ${afterRecordDTO.masterUnitName}| ${afterRecordDTO.afterSlaveStock!} ${afterRecordDTO.slaveUnitName}';
     }

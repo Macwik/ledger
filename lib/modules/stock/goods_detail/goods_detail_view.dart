@@ -329,8 +329,12 @@ class GoodsDetailView extends StatelessWidget {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
-                                      height: 32.w,
+                                    Container(
+                                      color: Colours.divider,
+                                      height: 1.w,
+                                      margin:
+                                      EdgeInsets.only(top: 16.w, bottom: 24.w),
+                                      width: double.infinity,
                                     ),
                                     Row(
                                       children: [
@@ -492,7 +496,13 @@ class GoodsDetailView extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(height: 32.w,),
+                                  Container(
+                                    color: Colours.divider,
+                                    height: 1.w,
+                                    margin:
+                                    EdgeInsets.only(top: 16.w, bottom: 24.w),
+                                    width: double.infinity,
+                                  ),
                                   Row(
                                     children: [
                                       InkWell(

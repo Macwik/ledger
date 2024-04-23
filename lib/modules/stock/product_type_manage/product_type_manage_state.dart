@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:ledger/entity/product/product_classify_dto.dart';
 import 'package:ledger/entity/product/product_classify_list_dto.dart';
 import 'package:ledger/enum/is_select.dart';
@@ -19,4 +20,6 @@ class ProductTypeManageState {
   TextEditingController addProductClassifyRemark = TextEditingController();
 
   IsSelectType ? isSelectType;
+
+  final formKey = GlobalKey<FormBuilderState>();
 }

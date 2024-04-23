@@ -105,7 +105,8 @@ class PaymentDialog extends StatelessWidget {
                     top: 20.w, left: 40.w, right: 40.w, bottom: 40.w),
                 child: Row(
                   children: [
-                    Column(
+                Expanded(child:
+                Column(
                       children: [
                         Text(
                           '订单金额',
@@ -126,8 +127,7 @@ class PaymentDialog extends StatelessWidget {
                           ),
                         ),
                       ],
-                    ),
-                    const Spacer(),
+                    )),
                     TextButton(
                         onPressed: () {},
                         style: ButtonStyle(

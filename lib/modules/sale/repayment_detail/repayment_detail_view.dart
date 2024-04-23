@@ -147,7 +147,7 @@ class RepaymentDetailView extends StatelessWidget {
                                     )),),
                                 Text(DecimalUtil.formatAmount((state.repaymentDetailDTO?.totalAmount??Decimal.zero)-(state.repaymentDetailDTO?.discountAmount??Decimal.zero)),
                                     style: TextStyle(
-                                      color: Colors.teal[400],
+                                      color: state.repaymentDetailDTO?.invalid == IsDeleted.DELETED.value ? Colours.text_ccc :Colors.teal[400],
                                       fontSize: 48.sp,
                                       fontWeight: FontWeight.w600,
                                     )),
@@ -189,7 +189,7 @@ class RepaymentDetailView extends StatelessWidget {
                                             child:Text(
                                               state.repaymentDetailDTO?.customName ??'',
                                               style: TextStyle(
-                                                color: Colours.text_333,
+                                                color: state.repaymentDetailDTO?.invalid == IsDeleted.DELETED.value ? Colours.text_ccc :Colours.text_333,
                                                 fontSize: 36.sp,
                                                 fontWeight: FontWeight.w500,
                                               ),
@@ -238,7 +238,7 @@ class RepaymentDetailView extends StatelessWidget {
                                         Text(
                                           state.repaymentDetailDTO?.creatorName ?? '',
                                           style: TextStyle(
-                                            color: Colours.text_333,
+                                            color: state.repaymentDetailDTO?.invalid == IsDeleted.DELETED.value ? Colours.text_ccc :Colours.text_333,
                                             fontSize: 32.sp,
                                             fontWeight: FontWeight.w500,
                                           ),
@@ -265,7 +265,7 @@ class RepaymentDetailView extends StatelessWidget {
                                             textAlign: TextAlign.right,
                                             controller.orderPayment(),
                                             style: TextStyle(
-                                              color: Colours.text_333,
+                                              color: state.repaymentDetailDTO?.invalid == IsDeleted.DELETED.value ? Colours.text_ccc :Colours.text_333,
                                               fontSize: 32.sp,
                                               fontWeight: FontWeight.w500,
                                             ),
@@ -287,7 +287,7 @@ class RepaymentDetailView extends StatelessWidget {
                                         const Spacer(),
                                         Text( state.repaymentDetailDTO?.settlementType == 1?'按单还款':'直接还款',
                                           style: TextStyle(
-                                            color: Colours.text_333,
+                                            color:state.repaymentDetailDTO?.invalid == IsDeleted.DELETED.value ? Colours.text_ccc : Colours.text_333,
                                             fontSize: 32.sp,
                                             fontWeight: FontWeight.w400,
                                           ),
@@ -304,7 +304,7 @@ class RepaymentDetailView extends StatelessWidget {
                             child: Text(
                                   '还款详情',
                               style: TextStyle(
-                                  color: Colours.text_333,
+                                  color:state.repaymentDetailDTO?.invalid == IsDeleted.DELETED.value ? Colours.text_ccc : Colours.text_333,
                                   fontSize: 32.sp,
                                   fontWeight: FontWeight.w600),
                                 ),
@@ -342,7 +342,7 @@ class RepaymentDetailView extends StatelessWidget {
                                                 ? repaymentBindOrder?.creatorName ?? ''
                                                 : TextUtil.listToStr(repaymentBindOrder?.productNameList),
                                             style: TextStyle(
-                                              color: Colours.text_333,
+                                              color: state.repaymentDetailDTO?.invalid == IsDeleted.DELETED.value ? Colours.text_ccc :Colours.text_333,
                                               fontSize: 30.sp,
                                               fontWeight: FontWeight.w500,
                                             ))),
@@ -373,7 +373,7 @@ class RepaymentDetailView extends StatelessWidget {
                                                   child: Text(
                                                       DecimalUtil.formatAmount(repaymentBindOrder?.repaymentAmount),
                                                       style: TextStyle(
-                                                        color: Colours.text_333,
+                                                        color: state.repaymentDetailDTO?.invalid == IsDeleted.DELETED.value ? Colours.text_ccc :Colours.text_333,
                                                         fontSize: 30.sp,
                                                         fontWeight: FontWeight.w500,
                                                       )),)
@@ -448,7 +448,7 @@ class RepaymentDetailView extends StatelessWidget {
                                   child: Text(
                                     '备注',
                                     style: TextStyle(
-                                      color: Colours.text_666,
+                                      color: state.repaymentDetailDTO?.invalid == IsDeleted.DELETED.value ? Colours.text_ccc :Colours.text_666,
                                       fontSize: 32.sp,
                                       fontWeight: FontWeight.w400,
                                     ),
@@ -461,7 +461,7 @@ class RepaymentDetailView extends StatelessWidget {
                                       softWrap: true, // 允许文本自动换行
                                       state.repaymentDetailDTO?.remark ?? '',
                                       style: TextStyle(
-                                        color: Colours.text_333,
+                                        color: state.repaymentDetailDTO?.invalid == IsDeleted.DELETED.value ? Colours.text_ccc :Colours.text_333,
                                         fontSize: 32.sp,
                                         fontWeight: FontWeight.w400,
                                       ),

@@ -119,7 +119,7 @@ class RepaymentDetailController extends GetxController {
       case 5:
         return '欠款单';
       case 10:
-        return '直接退款';
+        return '仅退款';
       default:
         throw Exception('-');
     }

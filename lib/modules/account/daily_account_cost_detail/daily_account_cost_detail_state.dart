@@ -5,5 +5,7 @@ class DailyAccountCostDetailState {
     ///Initialize variables
   }
 
+
+
   List<ExternalOrderBaseDTO>? externalOrderBaseDTOList;
 }

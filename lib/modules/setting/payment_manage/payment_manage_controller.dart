@@ -1,16 +1,17 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/api/payment_api.dart';
 import 'package:ledger/entity/payment/payment_method_dto.dart';
 import 'package:ledger/enum/is_select.dart';
 import 'package:ledger/res/export.dart';
-import 'package:ledger/widget/dialog/single_input_dialog.dart';
 
 import 'payment_manage_state.dart';
 
 class PaymentManageController extends GetxController {
   final PaymentManageState state = PaymentManageState();
+
 
   Future<void> initState() async {
     var arguments = Get.arguments;
@@ -59,28 +60,67 @@ class PaymentManageController extends GetxController {
   }
 
   void addPaymentMethod() {
-    SingleInputDialog().singleInputDialog(
-      title: '新增支付方式',
-      hintText: '请输入支付方式名称',
-      keyboardType: TextInputType.emailAddress,
-      validator: FormBuilderValidators.required(errorText: '支付方式名称不能为空'),
-      onOkPressed: (value) async {
-        final result = await Http().network<void>(
-            Method.post, PaymentApi.ADD_LEDGER_PAYMENT_METHOD,
-            data: {
-              'name': value,
-              'icon':'payment_common'
-            });
-        if (result.success) {
-          _queryPaymentList();
-          Toast.show('添加成功');
-          return true;
-        } else {
-          Toast.show(result.m.toString());
-          return false;
-        }
-      },
-    );
+    Get.dialog(AlertDialog(
+      title: Text('新增支付方式',
+          style: TextStyle(fontSize: 40.sp,
+              fontWeight: FontWeight.w600)),
+      content:SingleChildScrollView(
+              child:TextFormField(
+                  controller: state.paymentNameController,
+                  maxLength: 8,
+                  decoration: InputDecoration(
+                    counterText: '',
+                    hintText: '请输入支付方式名称',
+                    hintStyle: TextStyle(fontSize: 32.sp),
+                  ),
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(errorText: '支付方式名称不能为空'),
+                  ]),
+                  textAlign: TextAlign.center,
+                  keyboardType: TextInputType.name
+              )),
+      actions: [
+        TextButton(onPressed:() async {
+          final result = await Http().network<void>(
+              Method.post, PaymentApi.ADD_LEDGER_PAYMENT_METHOD,
+              data: {
+                'name': state.paymentNameController.text,
+                'icon':'payment_common'
+              });
+          if (result.success) {
+            _queryPaymentList();
+            Get.back();
+            state.paymentNameController.clear();
+            Toast.show('添加成功');
+          } else {
+            Toast.show(result.m.toString());
+          }
+        } , child: Text('确定'),),
+        TextButton(
+          onPressed: () {
+            Get.back();
+            state.paymentNameController.clear();
+          },
+          child: Text('取消'),
+        )
+      ],
+      // onOkPressed: (value) async {
+      //   final result = await Http().network<void>(
+      //       Method.post, PaymentApi.ADD_LEDGER_PAYMENT_METHOD,
+      //       data: {
+      //         'name': value,
+      //         'icon':'payment_common'
+      //       });
+      //   if (result.success) {
+      //     _queryPaymentList();
+      //     Toast.show('添加成功');
+      //     return true;
+      //   } else {
+      //     Toast.show(result.m.toString());
+      //     return false;
+      //   }
+      // },
+    ));
   }
 
   void toSelect(bankDTO) {

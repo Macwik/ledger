@@ -87,6 +87,7 @@ class AddDebtController extends GetxController {
                 child: Text('确定'),
                 onPressed: () {
                   Get.back();
+                  Get.back();
                 }),
           ]));
     } else {

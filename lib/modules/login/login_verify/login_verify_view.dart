@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:ledger/modules/login/login_verify/login_verify_state.dart';
-import 'package:ledger/res/colors.dart';
 import 'package:ledger/res/export.dart';
-import 'package:ledger/route/route_config.dart';
 import 'package:ledger/util/image_util.dart';
 import 'package:ledger/widget/custom_textfield.dart';
-import 'package:ledger/widget/elevated_btn.dart';
-import 'package:ledger/widget/image.dart';
 
 import 'login_verify_controller.dart';
 

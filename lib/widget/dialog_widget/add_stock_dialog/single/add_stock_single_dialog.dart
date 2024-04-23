@@ -50,7 +50,7 @@ class AddStockSingleDialog extends StatelessWidget {
                         child: TextFormField(
                           controller: controller.numberController,
                           textAlign: TextAlign.center,
-                          maxLength: 10,
+                          maxLength: 8,
                           style: TextStyle(fontSize: 32.sp),
                           decoration: InputDecoration(
                               counterText: '',

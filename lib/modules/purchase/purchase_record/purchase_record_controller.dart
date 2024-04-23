@@ -53,6 +53,7 @@ class PurchaseRecordController extends GetxController
       state.index = index;
       update(['purchase_record_add_bill']);
       clearCondition();
+      state.searchContent = '';
       onRefresh();
     });
     super.onInit();

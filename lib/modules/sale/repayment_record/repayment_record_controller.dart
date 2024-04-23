@@ -47,6 +47,7 @@ class RepaymentRecordController extends GetxController
       var index = tabController.index;
       state.index = index;
       clearCondition();
+      state.searchContent = '';
       onRefresh();
     });
     super.onInit();
@@ -219,7 +220,7 @@ class RepaymentRecordController extends GetxController
                           onChanged: (value) {
                             searchRepaymentRecord(value);
                           },
-                          hintText: '请输入名称',
+                          hintText: '请输入人名',
                         ))),
                 Builder(
                   builder: (context) => GestureDetector(

@@ -60,7 +60,7 @@ class ShoppingCarView extends StatelessWidget {
                       onChanged: (value) {
                         controller.searchShoppingCar(value);
                       },
-                      hintText: '请输入货物或供应商名称',
+                      hintText: '请输入货物名',
                     ),
                   )),
               // Expanded(

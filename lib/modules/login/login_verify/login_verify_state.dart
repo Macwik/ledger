@@ -8,7 +8,7 @@ class LoginVerifyState {
 
   bool privacyAgreement = false;
 
-  LoginVerifyType loginVerifyType = LoginVerifyType.VERIFY_CODE;
+  LoginVerifyType loginVerifyType = LoginVerifyType.PASSWORD;
 
 
   GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();

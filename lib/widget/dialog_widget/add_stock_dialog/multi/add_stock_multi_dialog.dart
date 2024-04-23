@@ -54,7 +54,7 @@ class AddStockMultiDialog extends StatelessWidget {
                                 .updateSlaveStock(productDTO.unitDetailDTO);
                           },
                           textAlign: TextAlign.center,
-                          maxLength: 10,
+                          maxLength: 8,
                           decoration: InputDecoration(
                               counterText: '',
                               hintText: '0.00',
@@ -109,7 +109,7 @@ class AddStockMultiDialog extends StatelessWidget {
                           },
                           controller: controller.masterNumberController,
                           textAlign: TextAlign.center,
-                          maxLength: 10,
+                          maxLength: 8,
                           style: TextStyle(fontSize: 32.sp),
                           decoration: InputDecoration(
                               counterText: '',
