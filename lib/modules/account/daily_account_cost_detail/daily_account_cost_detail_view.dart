@@ -23,19 +23,24 @@ class DailyAccountCostDetailView extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 16.w, horizontal: 40.w),
               child: Row(
                 children: [
-                  Text('产地费用'),
+                  Text('产地费用',
+                    style: TextStyle(
+                      color: Colours.text_333,
+                      fontSize: 34.sp,
+                      fontWeight: FontWeight.w600,
+                    ),),
                   const Spacer(),
                   Text('合计：',
                     style: TextStyle(
-                      color: Colours.text_333,
+                      color: Colours.text_999,
                       fontSize: 30.sp,
                       fontWeight: FontWeight.w500,
                     ),),
                   Text(controller.totalExternalOrderAmount(),
                     style: TextStyle(
-                      color: Colours.text_333,
-                      fontSize: 30.sp,
-                      fontWeight: FontWeight.w500,
+                      color: Colours.primary,
+                      fontSize: 36.sp,
+                      fontWeight: FontWeight.w600,
                     ),),
                 ],
               )),
@@ -80,24 +85,29 @@ class DailyAccountCostDetailView extends StatelessWidget {
 
                 itemCount: state.externalOrderDTO.length,
               )),
-
+SizedBox(height: 40.w,),
           Container(
               padding: EdgeInsets.symmetric(vertical: 16.w, horizontal: 40.w),
               child: Row(
                 children: [
-                  Text('销售地费用'),
+                  Text('销售地费用',
+                    style: TextStyle(
+                      color: Colours.text_333,
+                      fontSize: 34.sp,
+                      fontWeight: FontWeight.w600,
+                    ),),
                   const Spacer(),
                   Text('合计：',
                     style: TextStyle(
-                      color: Colours.text_333,
+                      color: Colours.text_999,
                       fontSize: 30.sp,
                       fontWeight: FontWeight.w500,
                     ),),
                   Text(controller.totalDiscountExternalOrderAmount(),
                     style: TextStyle(
-                      color: Colours.text_333,
-                      fontSize: 30.sp,
-                      fontWeight: FontWeight.w500,
+                      color: Colours.primary,
+                      fontSize: 36.sp,
+                      fontWeight: FontWeight.w600,
                     ),),
                 ],
               )),

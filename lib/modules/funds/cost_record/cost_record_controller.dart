@@ -7,6 +7,7 @@ import 'package:ledger/entity/costIncome/cost_income_order_dto.dart';
 import 'package:ledger/entity/user/user_base_dto.dart';
 import 'package:ledger/enum/cost_order_type.dart';
 import 'package:ledger/enum/process_status.dart';
+import 'package:ledger/enum/stock_list_type.dart';
 import 'package:ledger/http/base_page_entity.dart';
 import 'package:ledger/http/http_util.dart';
 import 'package:ledger/route/route_config.dart';
@@ -16,7 +17,9 @@ import 'package:ledger/widget/loading.dart';
 
 import 'cost_record_state.dart';
 
-class CostRecordController extends GetxController with GetSingleTickerProviderStateMixin implements DisposableInterface {
+class CostRecordController extends GetxController
+    with GetSingleTickerProviderStateMixin
+    implements DisposableInterface {
   final CostRecordState state = CostRecordState();
 
   late TabController tabController;
@@ -80,10 +83,12 @@ class CostRecordController extends GetxController with GetSingleTickerProviderSt
           'searchContent': state.searchContent,
           'discount': state.orderStatus,
           'invalid': state.invalid,
-          'orderType':state.index,
+          'orderType': state.index,
           'userIdList': state.selectEmployeeIdList,
           'labelList': state.costLabel == null ? null : [state.costLabel?.id],
-          'bindProduct':state.bindProduct,
+          'bindProduct': state.bindProduct,
+          'productList':
+              state.productDTO == null ? null : [state.productDTO?.id]
         });
   }
 
@@ -156,6 +161,7 @@ class CostRecordController extends GetxController with GetSingleTickerProviderSt
     state.costLabel = null;
     state.invalid = 0;
     state.bindProduct = null;
+    state.productDTO = null;
     update([
       'screen_btn',
       'invalid_visible',
@@ -163,7 +169,8 @@ class CostRecordController extends GetxController with GetSingleTickerProviderSt
       'employee_button',
       'date_range',
       'costType',
-      'switch',
+      'productType'
+          'switch',
       'unbinding_visible'
     ]);
   }
@@ -189,7 +196,10 @@ class CostRecordController extends GetxController with GetSingleTickerProviderSt
   }
 
   void toCostDetail(CostIncomeOrderDTO? costIncomeOrderDTO) {
-    Get.toNamed(RouteConfig.costDetail, arguments: {'id': costIncomeOrderDTO?.id,'orderType':costIncomeOrderDTO?.orderType})?.then((result) {
+    Get.toNamed(RouteConfig.costDetail, arguments: {
+      'id': costIncomeOrderDTO?.id,
+      'orderType': costIncomeOrderDTO?.orderType
+    })?.then((result) {
       if (ProcessStatus.OK == result) {
         onRefresh();
       }
@@ -203,13 +213,15 @@ class CostRecordController extends GetxController with GetSingleTickerProviderSt
 
   Future<void> selectCostType() async {
     if (state.index == 0) {
-      var result = await Get.toNamed(RouteConfig.costType,arguments: {'costOrderType':CostOrderType.COST});
+      var result = await Get.toNamed(RouteConfig.costType,
+          arguments: {'costOrderType': CostOrderType.COST});
       if (result != null) {
         state.costLabel = result;
         update(['costType']);
       }
     } else {
-      var result = await Get.toNamed(RouteConfig.costType,arguments: {'costOrderType':CostOrderType.INCOME});
+      var result = await Get.toNamed(RouteConfig.costType,
+          arguments: {'costOrderType': CostOrderType.INCOME});
       if (result != null) {
         state.costLabel = result;
         update(['costType']);
@@ -217,15 +229,24 @@ class CostRecordController extends GetxController with GetSingleTickerProviderSt
     }
   }
 
+  Future<void> selectProductType() async {
+    var result = await Get.toNamed(RouteConfig.stockList,
+        arguments: {'select': StockListType.SELECT_PRODUCT});
+    if (result != null) {
+      state.productDTO = result;
+      update(['productType']);
+    }
+  }
+
   void toAddBill() {
     if (state.index == 0) {
-      Get.toNamed(RouteConfig.costBill, arguments: {'costOrderType': CostOrderType.COST})
-          ?.then((value) {
+      Get.toNamed(RouteConfig.costBill,
+          arguments: {'costOrderType': CostOrderType.COST})?.then((value) {
         onRefresh();
       });
     } else {
-      Get.toNamed(RouteConfig.costBill, arguments: {'costOrderType': CostOrderType.INCOME})
-          ?.then((value) {
+      Get.toNamed(RouteConfig.costBill,
+          arguments: {'costOrderType': CostOrderType.INCOME})?.then((value) {
         onRefresh();
       });
     }

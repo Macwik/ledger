@@ -374,73 +374,63 @@ class CostRecordView extends StatelessWidget {
                     SizedBox(
                       height: 40.w,
                     ),
-                    GetBuilder<CostRecordController>(
-                        id: 'switch',
-                        builder: (_) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '已作废单据',
-                                style: TextStyle(
-                                  color: Colours.text_333,
-                                  fontSize: 28.sp,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    state.invalid == null ? '显示' : '不显示',
-                                    style: TextStyle(color: Colours.text_999),
-                                  ),
-                                  Switch(
-                                      trackOutlineColor:
-                                      MaterialStateProperty.resolveWith(
-                                              (states) {
-                                            if (states
-                                                .contains(MaterialState.selected)) {
-                                              return Colours.primary; // 设置轨道边框颜色
-                                            }
-                                            return Colors.grey; // 默认的轨道边框颜色
-                                          }),
-                                      inactiveThumbColor: Colors.grey[300],
-                                      value: state.invalid == null,
-                                      onChanged: (value) {
-                                        state.invalid = value ? null : 0;
-                                        controller.update(['switch']);
-                                      }),
-                                ],
-                              )
+                    InkWell(
+                      onTap: () => controller.selectProductType(),
+                      child: Row(
+                        children: [
+                          Expanded(child:
+                          Text(
+                            '绑定货物',
+                            style: TextStyle(
+                              color: Colours.text_333,
+                              fontSize: 30.sp,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          )),
 
-                            ],
-                          );
-                        }),
+                          GetBuilder<CostRecordController>(
+                              id: 'productType',
+                              builder: (_) {
+                                return Text(
+                                     state.productDTO?.productName??'请选择',
+                                    style: TextStyle(
+                                      color:
+                                      state.costLabel?.labelName != null
+                                          ? Colours.text_333
+                                          : Colours.hint,
+                                    )
+                                );
+                              }),
+                          Icon(
+                            Icons.keyboard_arrow_right,
+                            color: Colours.text_ccc,
+                          )
+                        ],
+                      ),
+                    ),
                     SizedBox(
-                      height: 40.w,
+                      height: 32.w,
                     ),
                     GetBuilder<CostRecordController>(
                         id: 'unbinding_visible',
                         builder: (_) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '未绑定货物单据',
-                                style: TextStyle(
-                                  color: Colours.text_333,
-                                  fontSize: 28.sp,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Row(
+                          return  Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  Text(
+                                  Expanded(child: Text(
+                                    '未绑定货物',
+                                    textAlign: TextAlign.start,
+                                    style: TextStyle(
+                                      color: Colours.text_333,
+                                      fontSize: 28.sp,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  )),
+                                  Expanded(child:Text(
                                     state.bindProduct == 0 ? '未绑定货物':'全部' ,
+                                    textAlign: TextAlign.end,
                                     style: TextStyle(color: Colours.text_999),
-                                  ),
+                                  )),
                                   Switch(
                                       trackOutlineColor:
                                       MaterialStateProperty.resolveWith(
@@ -457,8 +447,47 @@ class CostRecordView extends StatelessWidget {
                                         controller.update(['unbinding_visible']);
                                       }),
                                 ],
-                              )
-
+                              );
+                        }),
+                    SizedBox(
+                      height: 32.w,
+                    ),
+                    GetBuilder<CostRecordController>(
+                        id: 'switch',
+                        builder: (_) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Expanded(child: Text(
+                                '已作废单据',
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                  color: Colours.text_333,
+                                  fontSize: 28.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              )),
+                              Expanded(child:  Text(
+                                state.invalid == null ? '显示' : '不显示',
+                                textAlign: TextAlign.end,
+                                style: TextStyle(color: Colours.text_999),
+                              )),
+                              Switch(
+                                  trackOutlineColor:
+                                  MaterialStateProperty.resolveWith(
+                                          (states) {
+                                        if (states
+                                            .contains(MaterialState.selected)) {
+                                          return Colours.primary; // 设置轨道边框颜色
+                                        }
+                                        return Colors.grey; // 默认的轨道边框颜色
+                                      }),
+                                  inactiveThumbColor: Colors.grey[300],
+                                  value: state.invalid == null,
+                                  onChanged: (value) {
+                                    state.invalid = value ? null : 0;
+                                    controller.update(['switch']);
+                                  }),
                             ],
                           );
                         }),

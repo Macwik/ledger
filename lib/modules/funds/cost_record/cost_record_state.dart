@@ -1,6 +1,7 @@
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:ledger/entity/costIncome/cost_income_label_type_dto.dart';
 import 'package:ledger/entity/costIncome/cost_income_order_dto.dart';
+import 'package:ledger/entity/product/product_dto.dart';
 import 'package:ledger/entity/user/user_base_dto.dart';
 
 class CostRecordState {
@@ -47,5 +48,7 @@ class CostRecordState {
   int? get itemCount => employeeList?.length;
 
   int? index;
+
+  ProductDTO?  productDTO;
 
 }
