@@ -142,9 +142,8 @@ class DateUtil {
     List<String> parts = timeString.split(':');
     int hour = int.parse(parts[0]);
     int minute = int.parse(parts[1]);
-    int second = int.parse(parts[2]);
     // 创建包含当前日期和指定时间的 DateTime 对象
-    return DateTime(now.year, now.month, now.day, hour, minute, second);
+    return DateTime(now.year, now.month, now.day, hour, minute);
   }
 
   /// get Now Date Str.(yyyy-MM-dd HH:mm:ss)
