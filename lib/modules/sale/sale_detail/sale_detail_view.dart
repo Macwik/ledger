@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:decimal/decimal.dart';
+import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -275,6 +276,32 @@ class SaleDetailView extends StatelessWidget {
                               Offstage(
                                   offstage: state.orderDetailDTO?.creditAmount == Decimal.zero,
                                   child: SizedBox(height: 32.w,)),
+                              Offstage(
+                                offstage: !(state.orderType == OrderType.PURCHASE),
+                                child:   Row(
+                                  children: [
+                                    Text(
+                                      '批次号',
+                                      style: TextStyle(
+                                        color: Colours.text_999,
+                                        fontSize: 32.sp,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                    const Spacer(),
+                                    Text(state.orderDetailDTO?.batchNo??'',
+                                      style: TextStyle(
+                                        color:state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc: Colours.text_333,
+                                        fontSize: 32.sp,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Offstage(
+                                  offstage:!(state.orderType == OrderType.PURCHASE),
+                                  child: SizedBox(height: 32.w,)),
                               Row(
                                 children: [
                                   Text(
@@ -540,7 +567,7 @@ class SaleDetailView extends StatelessWidget {
                             borderRadius: BorderRadius.all(Radius.circular(28.w)),
                           ),
                           child:Visibility(
-                          visible: controller.state.orderDetailDTO?.externalOrderBaseDTOList?.isNotEmpty ?? false,
+                         visible: (controller.state.orderType == OrderType.PURCHASE)||(controller.state.orderType == OrderType.ADD_STOCK),
                           child: Column(
                                     children: [
                                       Container(

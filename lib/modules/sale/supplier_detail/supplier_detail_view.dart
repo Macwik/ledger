@@ -562,10 +562,7 @@ class SupplierDetailView extends StatelessWidget {
                 Container(
                   color: Colors.white,
                   margin: EdgeInsets.only(left: 6),
-                  child: Text(
-                    state.customType == CustomType.CUSTOM.value
-                        ?'客户对账'
-                        :'供应商对账',
+                  child: Text('对账单',
                     style: TextStyle(
                         color: Colours.text_666,
                         fontSize: 36.sp,
@@ -752,35 +749,33 @@ class SupplierDetailView extends StatelessWidget {
                                           SizedBox(
                                             height: 16.w,
                                           ),
-                                          Row(
-                                            children: [
-                                              Expanded(
-                                                  child: Row(
-                                                children: [
-                                                  Text(controller.creditName(statisticsCustomOrderDTO),
-                                                      style: TextStyle(
-                                                        color: Colours.text_ccc,
-                                                        fontSize: 26.sp,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                      )),
-                                                  Expanded(
-                                                    child: Text(
-                                                      controller.creditAmount(statisticsCustomOrderDTO),
-                                                        style: TextStyle(
-                                                          color:statisticsCustomOrderDTO.invalid == 0
-                                                              ?Colours.text_666
-                                                              :Colours.text_ccc,
-                                                          fontSize: 28.sp,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                        )),
-                                                  )
-                                                ],
-                                              )),
-                                              Visibility(
-                                                  visible:statisticsCustomOrderDTO.productNameList?.isNotEmpty??false,
-                                                  child: Expanded(
+                                              ///暂时不展示
+                                              // Expanded(
+                                              //     child: Row(
+                                              //   children: [
+                                              //     Text(controller.creditName(statisticsCustomOrderDTO),
+                                              //         style: TextStyle(
+                                              //           color: Colours.text_ccc,
+                                              //           fontSize: 26.sp,
+                                              //           fontWeight:
+                                              //               FontWeight.w400,
+                                              //         )),
+                                              //     Expanded(
+                                              //       child: Text(
+                                              //         controller.creditAmount(statisticsCustomOrderDTO),
+                                              //           style: TextStyle(
+                                              //             color:statisticsCustomOrderDTO.invalid == 0
+                                              //                 ?Colours.text_666
+                                              //                 :Colours.text_ccc,
+                                              //             fontSize: 28.sp,
+                                              //             fontWeight:
+                                              //                 FontWeight.w500,
+                                              //           )),
+                                              //     )
+                                              //   ],
+                                              // )),
+                                              Offstage(
+                                                  offstage:statisticsCustomOrderDTO.productNameList?.isEmpty??false,
                                                       child: Row(
                                                         children: [
                                                           Text('货  物：',
@@ -792,21 +787,15 @@ class SupplierDetailView extends StatelessWidget {
                                                               )),
                                                           Expanded(child:
                                                           Text(
-                                                              TextUtil.listToStr(
-                                                                  statisticsCustomOrderDTO
-                                                                      .productNameList),
+                                                              TextUtil.listToStr(statisticsCustomOrderDTO.productNameList),
                                                               style: TextStyle(
                                                                 color: Colours.text_666,
                                                                 fontSize: 26.sp,
-                                                                fontWeight:
-                                                                FontWeight.w500,
+                                                                fontWeight: FontWeight.w500,
                                                               ))),
                                                         ],
                                                       )
-                                                  ))
-                                             ,
-                                            ],
-                                          ),
+                                                  )
                                         ],
                                       ),
                                     ));

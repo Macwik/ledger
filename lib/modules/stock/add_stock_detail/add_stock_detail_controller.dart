@@ -59,7 +59,7 @@ class AddStockDetailController extends GetxController {
               Toast.show('作废成功');
               Get.back(result: ProcessStatus.OK);
             } else {
-              Get.back(result: ProcessStatus.FAIL);
+              //Get.back(result: ProcessStatus.FAIL);
               Toast.show(result.m.toString());
             }
           });

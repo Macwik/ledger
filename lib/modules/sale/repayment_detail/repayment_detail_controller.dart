@@ -59,7 +59,7 @@ class RepaymentDetailController extends GetxController {
               Get.back(result: ProcessStatus.OK);
             } else {
               Toast.show(result.m.toString());
-              Get.back(result: ProcessStatus.FAIL);
+              //Get.back(result: ProcessStatus.FAIL);
             }
           });
         },

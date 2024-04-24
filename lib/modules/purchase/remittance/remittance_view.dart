@@ -92,7 +92,6 @@ class RemittanceView extends StatelessWidget {
                         Container(
                           color: Colours.divider,
                           height: 1.w,
-                          margin: EdgeInsets.symmetric( vertical: 8.w),
                           width: double.infinity,
                         ),
                         Container(
@@ -146,7 +145,6 @@ class RemittanceView extends StatelessWidget {
                         Container(
                           color: Colours.divider,
                           height: 1.w,
-                          margin: EdgeInsets.symmetric( vertical: 8.w),
                           width: double.infinity,
                         ),
                         Container(

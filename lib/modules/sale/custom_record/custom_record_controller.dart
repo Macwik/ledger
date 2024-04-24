@@ -109,7 +109,7 @@ class CustomRecordController extends GetxController {
       //正常客户列表
       Get.toNamed(RouteConfig.supplierDetail, arguments: {
         'customDTO': customDTO,
-        'customType': CustomType.CUSTOM.value
+        'customType': state.customType
       })?.then((value) {
         initState();
       });

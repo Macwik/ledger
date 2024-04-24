@@ -88,7 +88,7 @@ class AddStockDetailView extends StatelessWidget {
                                           state.orderDetailDTO?.customName ??
                                               '默认${state.orderType == OrderType.SALE ? '客户' : '供应商'}',
                                           style: TextStyle(
-                                            color: Colours.text_333,
+                                            color: state.orderDetailDTO?.invalid == IsDeleted.DELETED.value?Colours.text_ccc:Colours.text_333,
                                             fontSize: 36.sp,
                                             fontWeight: FontWeight.w500,
                                           ),
@@ -139,7 +139,7 @@ class AddStockDetailView extends StatelessWidget {
                                     Text(
                                       state.orderDetailDTO?.creatorName ?? '',
                                       style: TextStyle(
-                                        color: Colours.text_333,
+                                        color:  state.orderDetailDTO?.invalid == IsDeleted.DELETED.value?Colours.text_ccc:Colours.text_333,
                                         fontSize: 32.sp,
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -166,7 +166,7 @@ class AddStockDetailView extends StatelessWidget {
                                         textAlign: TextAlign.right,
                                         controller.totalCostAmount(),
                                         style: TextStyle(
-                                          color: Colours.text_333,
+                                          color:  state.orderDetailDTO?.invalid == IsDeleted.DELETED.value?Colours.text_ccc:Colours.text_333,
                                           fontSize: 32.sp,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -198,7 +198,7 @@ class AddStockDetailView extends StatelessWidget {
                                                   (state.orderDetailDTO?.orderType ==OrderType.REFUND.value)
                                                   ? DecimalUtil.formatNegativeAmount(state.orderDetailDTO?.creditAmount):DecimalUtil.formatAmount(state.orderDetailDTO?.creditAmount),
                                               style: TextStyle(
-                                                color: Colors.red[600],
+                                                color:  state.orderDetailDTO?.invalid == IsDeleted.DELETED.value?Colours.text_ccc:Colors.red[600],
                                                 fontSize: 32.sp,
                                                 fontWeight: FontWeight.w500,
                                               ),
@@ -208,6 +208,27 @@ class AddStockDetailView extends StatelessWidget {
                                 Offstage(
                                     offstage: state.orderDetailDTO?.creditAmount == Decimal.zero,
                                     child: SizedBox(height: 32.w,)),
+                                Row(
+                                  children: [
+                                    Text(
+                                      '批次号',
+                                      style: TextStyle(
+                                        color: Colours.text_999,
+                                        fontSize: 32.sp,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                    const Spacer(),
+                                    Text(state.orderDetailDTO?.batchNo??'',
+                                      style: TextStyle(
+                                        color:state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc: Colours.text_333,
+                                        fontSize: 32.sp,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                SizedBox(height: 32.w,),
                                 Row(
                                   children: [
                                     Text(
@@ -222,7 +243,7 @@ class AddStockDetailView extends StatelessWidget {
                                     Text(DateUtil.formatDefaultDateTimeMinute(
                                         state.orderDetailDTO?.gmtCreate),
                                       style: TextStyle(
-                                        color: Colours.text_333,
+                                        color:  state.orderDetailDTO?.invalid == IsDeleted.DELETED.value?Colours.text_ccc:Colours.text_333,
                                         fontSize: 32.sp,
                                         fontWeight: FontWeight.w400,
                                       ),
@@ -247,12 +268,15 @@ class AddStockDetailView extends StatelessWidget {
                         horizontal: 40.w,
                         vertical: 30.w,
                       ),
-                      child:Column(
+                      child:  GetBuilder<AddStockDetailController>(
+                          id: 'add_stock_detail_product',
+                          builder: (_) {
+                            return Column(
                     children: [
                       Row(
                         children: [
                           Container(
-                            color: Colours.primary,
+                            color:  state.orderDetailDTO?.invalid == IsDeleted.DELETED.value?Colours.text_ccc:Colours.primary,
                             margin: EdgeInsets.only(bottom: 12.w),
                             height: 38.w,
                             width: 8.w,
@@ -262,17 +286,14 @@ class AddStockDetailView extends StatelessWidget {
                             child: Text(
                               '货物情况',
                               style: TextStyle(
-                                  color: Colours.text_666,
+                                  color: state.orderDetailDTO?.invalid == IsDeleted.DELETED.value?Colours.text_ccc: Colours.text_666,
                                   fontSize: 34.sp,
                                   fontWeight: FontWeight.w600),
                             ),
                           ),
                         ],
                       ),
-                      GetBuilder<AddStockDetailController>(
-                          id: 'add_stock_detail_product',
-                          builder: (_) {
-                            return ListView.builder(
+                     ListView.builder(
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
                               itemCount: state.orderDetailDTO?.orderProductDetailList
@@ -294,7 +315,7 @@ class AddStockDetailView extends StatelessWidget {
                                                   orderProductDetail?.productName ??
                                                       '',
                                                   style: TextStyle(
-                                                    color: Colours.text_333,
+                                                    color: state.orderDetailDTO?.invalid == IsDeleted.DELETED.value?Colours.text_ccc: Colours.text_333,
                                                     fontSize: 32.sp,
                                                     fontWeight: FontWeight.w500,
                                                   ))),
@@ -303,7 +324,7 @@ class AddStockDetailView extends StatelessWidget {
                                                 controller.judgeUnit(orderProductDetail),
                                                 textAlign: TextAlign.right,
                                                 style: TextStyle(
-                                                  color: Colours.text_333,
+                                                  color:  state.orderDetailDTO?.invalid == IsDeleted.DELETED.value?Colours.text_ccc:Colours.text_333,
                                                   fontSize: 32.sp,
                                                   fontWeight: FontWeight.w400,
                                                 )),
@@ -316,20 +337,16 @@ class AddStockDetailView extends StatelessWidget {
                                   ),
                                 );
                               },
-                            );
-                          }),
+                            )
+
                     ],
-                  ))
+                  );}),)
               ),
 
                 GetBuilder<AddStockDetailController>(
                     id: 'order_cost',
                     builder: (_) {
-                      return Visibility(
-                          visible: controller.state.orderDetailDTO
-                              ?.externalOrderBaseDTOList?.isNotEmpty ??
-                              false,
-                          child: Card(
+                      return  Card(
                               elevation: 6,
                               shadowColor: Colors.black45,
                               margin: EdgeInsets.only(left: 24.w, top: 16.w, right: 24.w),
@@ -349,7 +366,7 @@ class AddStockDetailView extends StatelessWidget {
                                       Row(
                                         children: [
                                           Container(
-                                            color: Colours.primary,
+                                            color:  state.orderDetailDTO?.invalid == IsDeleted.DELETED.value?Colours.text_ccc:Colours.primary,
                                             height: 38.w,
                                             width: 8.w,
                                           ),
@@ -359,7 +376,7 @@ class AddStockDetailView extends StatelessWidget {
                                             child: Text(
                                               '费用情况',
                                               style: TextStyle(
-                                                  color: Colours.text_666,
+                                                  color:  state.orderDetailDTO?.invalid == IsDeleted.DELETED.value?Colours.text_ccc:Colours.text_666,
                                                   fontSize: 34.sp,
                                                   fontWeight: FontWeight.w600),
                                             ),
@@ -386,7 +403,7 @@ class AddStockDetailView extends StatelessWidget {
                                                   Text(
                                                     '费用金额',
                                                     style: TextStyle(
-                                                      color: Colours.text_666,
+                                                      color:  state.orderDetailDTO?.invalid == IsDeleted.DELETED.value?Colours.text_ccc:Colours.text_666,
                                                       fontSize: 32.sp,
                                                       fontWeight:
                                                       FontWeight.w400,
@@ -398,8 +415,7 @@ class AddStockDetailView extends StatelessWidget {
                                                       textAlign:
                                                       TextAlign.right,
                                                       style: TextStyle(
-                                                        color: Colours
-                                                            .text_666,
+                                                        color: state.orderDetailDTO?.invalid == IsDeleted.DELETED.value?Colours.text_ccc: Colours.text_666,
                                                         fontSize: 32.sp,
                                                         fontWeight:
                                                         FontWeight
@@ -436,8 +452,7 @@ class AddStockDetailView extends StatelessWidget {
                                             ],
                                           ))
                                     ],
-                                  )))
-                           );
+                                  )));
                     }),
                     // GetBuilder<AddStockDetailController>(
                     //     id: 'order_cost',
