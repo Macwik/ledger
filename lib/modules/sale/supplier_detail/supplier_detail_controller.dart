@@ -60,7 +60,7 @@ class SupplierDetailController extends GetxController {
           'orderType': state.orderType,
           'startDate': DateUtil.formatDefaultDate(state.startDate),
           'endDate': DateUtil.formatDefaultDate(state.endDate),
-           'invalid':state.invalid,
+          'invalid': state.invalid,
         });
   }
 
@@ -98,9 +98,12 @@ class SupplierDetailController extends GetxController {
   }
 
   void toRepayment() {
-    Get.toNamed(RouteConfig.repaymentBill,
-        arguments: {'customType': state.customType,'customId':state.customDTO?.id})?.then((value) {
+    Get.toNamed(RouteConfig.repaymentBill, arguments: {
+      'customType': state.customType,
+      'customId': state.customDTO?.id
+    })?.then((value) {
       _queryData();
+      onRefresh();
     });
   }
 
@@ -167,7 +170,7 @@ class SupplierDetailController extends GetxController {
           }
         });
       case 5:
-        (){};
+        () {};
       case 6:
         Get.toNamed(RouteConfig.costDetail, arguments: {
           'id': salesOrderAccounts.orderId,
@@ -188,7 +191,7 @@ class SupplierDetailController extends GetxController {
           }
         });
       case 8:
-        (){};
+        () {};
       case 9:
         Get.toNamed(RouteConfig.addStockDetail, arguments: {
           'id': salesOrderAccounts.orderId,
@@ -201,7 +204,7 @@ class SupplierDetailController extends GetxController {
       case 10:
         Get.toNamed(RouteConfig.saleDetail, arguments: {
           'id': salesOrderAccounts.orderId,
-          'orderType':OrderType.REFUND
+          'orderType': OrderType.REFUND
         })?.then((value) {
           if (ProcessStatus.OK == value) {
             onRefresh();
@@ -242,43 +245,60 @@ class SupplierDetailController extends GetxController {
 
   String creditAmount(SalesOrderAccountsDTO? statisticsCustomOrderDTO) {
     if ((statisticsCustomOrderDTO?.orderType == OrderType.SALE_RETURN.value) ||
-        (statisticsCustomOrderDTO?.orderType == OrderType.REFUND.value)||
-        (statisticsCustomOrderDTO?.orderType == OrderType.PURCHASE_RETURN.value)) {
-      if (statisticsCustomOrderDTO?.creditAmount == null||statisticsCustomOrderDTO?.creditAmount == Decimal.zero) {
+        (statisticsCustomOrderDTO?.orderType == OrderType.REFUND.value) ||
+        (statisticsCustomOrderDTO?.orderType ==
+            OrderType.PURCHASE_RETURN.value)) {
+      if (statisticsCustomOrderDTO?.creditAmount == null ||
+          statisticsCustomOrderDTO?.creditAmount == Decimal.zero) {
         return '0';
       }
       return '- ${statisticsCustomOrderDTO?.creditAmount}';
-    } else if(statisticsCustomOrderDTO?.orderType == OrderType.CREDIT.value){
+    } else if (statisticsCustomOrderDTO?.orderType == OrderType.CREDIT.value) {
       return '';
-    } else if((statisticsCustomOrderDTO?.orderType == OrderType.SALE.value)||(statisticsCustomOrderDTO?.orderType == OrderType.PURCHASE.value)){
+    } else if ((statisticsCustomOrderDTO?.orderType == OrderType.SALE.value) ||
+        (statisticsCustomOrderDTO?.orderType == OrderType.PURCHASE.value)) {
       return ' ${statisticsCustomOrderDTO?.creditAmount}';
-    }else{
+    } else {
       return DecimalUtil.formatAmount(statisticsCustomOrderDTO?.discountAmount);
     }
   }
 
   String totalAmount(SalesOrderAccountsDTO? statisticsCustomOrderDTO) {
-    if ((statisticsCustomOrderDTO?.orderType == OrderType.SALE_RETURN.value) ||(statisticsCustomOrderDTO?.orderType == OrderType.REFUND.value)||
-        (statisticsCustomOrderDTO?.orderType == OrderType.PURCHASE_RETURN.value)) {
-      return '- ${(statisticsCustomOrderDTO?.totalAmount??Decimal.zero)-(statisticsCustomOrderDTO?.discountAmount??Decimal.zero)}';
+    if ((statisticsCustomOrderDTO?.orderType == OrderType.SALE_RETURN.value) ||
+        (statisticsCustomOrderDTO?.orderType == OrderType.REFUND.value) ||
+        (statisticsCustomOrderDTO?.orderType ==
+            OrderType.PURCHASE_RETURN.value)) {
+      return '- ${(statisticsCustomOrderDTO?.totalAmount ?? Decimal.zero) - (statisticsCustomOrderDTO?.discountAmount ?? Decimal.zero)}';
     } else {
-      return DecimalUtil.subtract(statisticsCustomOrderDTO?.totalAmount, statisticsCustomOrderDTO?.discountAmount);
+      return DecimalUtil.subtract(statisticsCustomOrderDTO?.totalAmount,
+          statisticsCustomOrderDTO?.discountAmount);
     }
   }
 
   String totalName(SalesOrderAccountsDTO salesOrderAccounts) {
     switch (salesOrderAccounts.orderType) {
-      case 0: return '实付：';
-      case 1: return '实收：';
-      case 2: return '实退：';
-      case 3: return '实退：';
-      case 4: return '还款：';
-      case 5:return '赊账：';
-      case 6:return '收入：';
-      case 7:return '费用：';
-      case 8:return '汇款：';
-      case 9:return '入库：';
-      case 10:return '退款：';
+      case 0:
+        return '实付：';
+      case 1:
+        return '实收：';
+      case 2:
+        return '实退：';
+      case 3:
+        return '实退：';
+      case 4:
+        return '还款：';
+      case 5:
+        return '赊账：';
+      case 6:
+        return '收入：';
+      case 7:
+        return '费用：';
+      case 8:
+        return '汇款：';
+      case 9:
+        return '入库：';
+      case 10:
+        return '退款：';
       default:
         throw Exception('网络错误');
     }
@@ -286,17 +306,28 @@ class SupplierDetailController extends GetxController {
 
   String creditName(SalesOrderAccountsDTO salesOrderAccounts) {
     switch (salesOrderAccounts.orderType) {
-      case 0: return '赊账：';
-      case 1: return '赊账：';
-      case 2: return '赊账：';
-      case 3: return '赊账：';
-      case 4: return '优惠：';
-      case 5:return'';
-      case 6:return '收入：';
-      case 7:return '费用：';
-      case 8:return '汇款：';
-      case 9:return '入库：';
-      case 10:return '赊账：';
+      case 0:
+        return '赊账：';
+      case 1:
+        return '赊账：';
+      case 2:
+        return '赊账：';
+      case 3:
+        return '赊账：';
+      case 4:
+        return '优惠：';
+      case 5:
+        return '';
+      case 6:
+        return '收入：';
+      case 7:
+        return '费用：';
+      case 8:
+        return '汇款：';
+      case 9:
+        return '入库：';
+      case 10:
+        return '赊账：';
       default:
         throw Exception('网络错误');
     }
