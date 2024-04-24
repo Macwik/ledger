@@ -5,7 +5,7 @@ import 'package:ledger/entity/repayment/custom_credit_dto.dart';
 class ChooseRepaymentOrderState {
 
   int currentPage = 1;
-  List<CustomCreditDTO>? items;
+  List<CustomCreditDTO> items = [];
 
   DateTime startDate = DateTime.now().subtract(Duration(days: 180));
   DateTime endDate = DateTime.now();

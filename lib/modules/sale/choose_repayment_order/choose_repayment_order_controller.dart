@@ -85,8 +85,10 @@ class ChooseRepaymentOrderController extends GetxController {
   }
 
   void editRepaymentAmount(CustomCreditDTO customCreditDTO) {
-    var repaymentAmount = DecimalUtil.formatDecimalNumber(customCreditDTO.repaymentAmount ?? customCreditDTO.creditAmount);
-    TextEditingController textEditingController = TextEditingController(text: (repaymentAmount));
+    var repaymentAmount = DecimalUtil.formatDecimalNumber(
+        customCreditDTO.repaymentAmount ?? customCreditDTO.creditAmount);
+    TextEditingController textEditingController =
+        TextEditingController(text: (repaymentAmount));
 
     SingleInputDialog().singleInputDialog(
       title: '还款金额',
@@ -100,14 +102,17 @@ class ChooseRepaymentOrderController extends GetxController {
             return '请正确输入还款金额！';
           } else if (repaymentAmount <= Decimal.zero) {
             return '还款金额不能小于等于0';
-          } else if (repaymentAmount > (customCreditDTO.creditAmount ?? Decimal.zero)) {
+          } else if (repaymentAmount >
+              (customCreditDTO.creditAmount ?? Decimal.zero)) {
             return '本次还款不能大于待还金额';
           }
           return null;
         },
       ]),
-      onTap: (){
-     textEditingController.selection = TextSelection(baseOffset: 0, extentOffset:textEditingController.value.text.length);
+      onTap: () {
+        textEditingController.selection = TextSelection(
+            baseOffset: 0,
+            extentOffset: textEditingController.value.text.length);
       },
       onOkPressed: (value) async {
         var repaymentAmount = Decimal.tryParse(value) ?? Decimal.zero;
@@ -137,11 +142,14 @@ class ChooseRepaymentOrderController extends GetxController {
           'startDate': DateUtil.formatDefaultDate(state.startDate),
           'endDate': DateUtil.formatDefaultDate(state.endDate)
         }).then((result) {
-      if (result.strictSuccess) {
-        if (currentPage == 1) {
-          state.items = result.d!;
-        } else {
-          state.items!.addAll(result.d!);
+      if (result.success) {
+        var list = result.d;
+        if (list?.isNotEmpty ?? false) {
+          if (currentPage == 1) {
+            state.items = list!;
+          } else {
+            state.items.addAll(result.d!);
+          }
         }
         update(['repayment_bill']);
       } else {

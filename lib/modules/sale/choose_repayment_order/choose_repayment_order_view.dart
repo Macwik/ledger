@@ -199,11 +199,11 @@ class ChooseRepaymentOrderView extends StatelessWidget {
                   id: 'repayment_bill',
                   builder: (_) {
                     return Expanded(
-                        child:state.items?.isEmpty ?? true
+                        child:state.items.isEmpty
                         ? EmptyLayout(hintText: '什么都没有')
                         :ListView.separated(
                           itemBuilder: (context, index) {
-                            var customCreditDTO = state.items![index];
+                            var customCreditDTO = state.items[index];
                             return Container(
                                 color: Colors.white,
                                 padding: EdgeInsets.only(
