@@ -6,7 +6,6 @@ import 'package:ledger/config/api/product_api.dart';
 import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/entity/product/product_classify_list_dto.dart';
 import 'package:ledger/entity/product/product_dto.dart';
-import 'package:ledger/enum/process_status.dart';
 import 'package:ledger/enum/sales_channel.dart';
 import 'package:ledger/enum/stock_list_type.dart';
 import 'package:ledger/enum/unit_type.dart';
@@ -24,7 +23,7 @@ class StockListController extends GetxController {
     if ((arguments != null) && arguments['select'] != null) {
       state.select = arguments['select'];
     }
-    update(['stock_list_bottom']);//不执行刷新
+    update(['stock_list_bottom']); //不执行刷新
     _queryProductClassifyList();
     onRefresh();
   }
@@ -86,10 +85,10 @@ class StockListController extends GetxController {
                 }).then((result) {
               if (result.success) {
                 onRefresh();
-                Toast.show('删除成功');
+                Toast.showSuccess('删除成功');
                 Get.back();
               } else {
-                Toast.show(result.m.toString());
+                Toast.showError(result.m.toString());
               }
             });
           },
@@ -120,11 +119,11 @@ class StockListController extends GetxController {
                   'id': stockDTO?.id,
                 }).then((result) {
               if (result.success) {
-                Toast.show('成功停用');
+                Toast.showSuccess('成功停用');
                 onRefresh();
                 Get.back();
               } else {
-                Toast.show(result.m.toString());
+                Toast.showError(result.m.toString());
               }
             });
           } else {
@@ -133,11 +132,11 @@ class StockListController extends GetxController {
                   'id': stockDTO?.id,
                 }).then((result) {
               if (result.success) {
-                Toast.show('成功启用');
+                Toast.showSuccess('成功启用');
                 onRefresh();
                 Get.back();
               } else {
-                Toast.show(result.m.toString());
+                Toast.showError(result.m.toString());
               }
             });
           }
@@ -154,32 +153,33 @@ class StockListController extends GetxController {
     if (productDTO.unitDetailDTO?.unitType == UnitType.SINGLE.value) {
       return '${DecimalUtil.formatDecimalNumber(productDTO.unitDetailDTO?.stock)} ${productDTO.unitDetailDTO?.unitName}';
     } else {
-      return '${DecimalUtil.formatDecimalNumber(productDTO.unitDetailDTO?.masterStock )} ${productDTO.unitDetailDTO?.masterUnitName} | ${productDTO.unitDetailDTO?.slaveStock ?? '0'} ${productDTO.unitDetailDTO?.slaveUnitName}';
+      return '${DecimalUtil.formatDecimalNumber(productDTO.unitDetailDTO?.masterStock)} ${productDTO.unitDetailDTO?.masterUnitName} | ${productDTO.unitDetailDTO?.slaveStock ?? '0'} ${productDTO.unitDetailDTO?.slaveUnitName}';
     }
   }
 
   Future<void> _queryProductClassifyList() async {
-    await Http().network<ProductClassifyListDTO>(
-            Method.post, ProductApi.product_classify_product_list).then((result) {
+    await Http()
+        .network<ProductClassifyListDTO>(
+            Method.post, ProductApi.product_classify_product_list)
+        .then((result) {
       if (result.success) {
         state.productClassifyListDTO = result.d!;
         state.productList = result.d?.productList;
         update(['product_classify_list']);
       } else {
-        Toast.show(result.m.toString());
+        Toast.showError(result.m.toString());
       }
     });
   }
 
   Future<BasePageEntity<ProductDTO>> _queryData(int currentPage) async {
-    return await Http().networkPage<ProductDTO>(
-        Method.post, ProductApi.stockList,
-        data: {
-          'page': currentPage,
-          'invalid': state.invalid,
-          'productClassify': state.selectType,
-          'searchContent': state.searchContent,
-        });
+    return await Http()
+        .networkPage<ProductDTO>(Method.post, ProductApi.stockList, data: {
+      'page': currentPage,
+      'invalid': state.invalid,
+      'productClassify': state.selectType,
+      'searchContent': state.searchContent,
+    });
   }
 
   Future<void> onLoad() async {
@@ -193,7 +193,7 @@ class StockListController extends GetxController {
             ? IndicatorResult.success
             : IndicatorResult.noMore);
       } else {
-        Toast.show(result.m.toString());
+        Toast.showError(result.m.toString());
         state.refreshController.finishLoad(IndicatorResult.fail);
       }
     });
@@ -209,7 +209,7 @@ class StockListController extends GetxController {
         state.refreshController.finishRefresh();
         state.refreshController.resetFooter();
       } else {
-        Toast.show(result.m.toString());
+        Toast.showError(result.m.toString());
         state.refreshController.finishRefresh();
       }
     });
@@ -217,10 +217,8 @@ class StockListController extends GetxController {
 
   void toAddProduct() {
     Get.toNamed(RouteConfig.addProduct)?.then((result) {
-      if (ProcessStatus.OK == result) {
-        _queryProductClassifyList();
-        onRefresh();
-      }
+      _queryProductClassifyList();
+      onRefresh();
     });
   }
 
@@ -228,9 +226,7 @@ class StockListController extends GetxController {
     if (state.select == StockListType.DETAIL) {
       Get.toNamed(RouteConfig.goodsDetail, arguments: {'productDTO': stockDTO})
           ?.then((value) {
-        if (ProcessStatus.OK == value) {
-          onRefresh();
-        }
+        onRefresh();
       });
     } else {
       Get.back(result: stockDTO);
@@ -271,8 +267,8 @@ class StockListController extends GetxController {
     onRefresh();
   }
 
-  // toProductClassify() {
-  //   Get.toNamed(RouteConfig.productTypeManage)
-  //       ?.then((value) => _queryProductClassifyList());
-  // }
+// toProductClassify() {
+//   Get.toNamed(RouteConfig.productTypeManage)
+//       ?.then((value) => _queryProductClassifyList());
+// }
 }
