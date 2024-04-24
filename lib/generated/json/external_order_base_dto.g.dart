@@ -17,6 +17,10 @@ ExternalOrderBaseDTO $ExternalOrderBaseDTOFromJson(Map<String, dynamic> json) {
   if (salesOrderId != null) {
     externalOrderBaseDTO.salesOrderId = salesOrderId;
   }
+  final int? discount = jsonConvert.convert<int>(json['discount']);
+  if (discount != null) {
+    externalOrderBaseDTO.discount = discount;
+  }
   final String? costIncomeName = jsonConvert.convert<String>(
       json['costIncomeName']);
   if (costIncomeName != null) {
@@ -35,6 +39,7 @@ Map<String, dynamic> $ExternalOrderBaseDTOToJson(ExternalOrderBaseDTO entity) {
   data['id'] = entity.id;
   data['ledgerId'] = entity.ledgerId;
   data['salesOrderId'] = entity.salesOrderId;
+  data['discount'] = entity.discount;
   data['costIncomeName'] = entity.costIncomeName;
   data['totalAmount'] = entity.totalAmount?.toJson();
   return data;
@@ -45,6 +50,7 @@ extension ExternalOrderBaseDTOExtension on ExternalOrderBaseDTO {
     int? id,
     int? ledgerId,
     int? salesOrderId,
+    int? discount,
     String? costIncomeName,
     Decimal? totalAmount,
   }) {
@@ -52,6 +58,7 @@ extension ExternalOrderBaseDTOExtension on ExternalOrderBaseDTO {
       ..id = id ?? this.id
       ..ledgerId = ledgerId ?? this.ledgerId
       ..salesOrderId = salesOrderId ?? this.salesOrderId
+      ..discount = discount ?? this.discount
       ..costIncomeName = costIncomeName ?? this.costIncomeName
       ..totalAmount = totalAmount ?? this.totalAmount;
   }

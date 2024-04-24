@@ -5,7 +5,7 @@ class DailyAccountCostDetailState {
     ///Initialize variables
   }
 
+  List<ExternalOrderBaseDTO> discountExternalOrderDTO = []; //销售地扣除
 
-
-  List<ExternalOrderBaseDTO>? externalOrderBaseDTOList;
+  List<ExternalOrderBaseDTO> externalOrderDTO = []; //产地扣除
 }

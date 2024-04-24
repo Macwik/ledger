@@ -71,7 +71,6 @@ class SaleDetailView extends StatelessWidget {
           child: RepaintBoundary(
               key: salesDetailKey,
               child: Column(children: [
-
                 Container(
                     padding: EdgeInsets.only(
                         right: 40.w, left: 40.w, top: 30.w, bottom: 20.w),
@@ -371,14 +370,9 @@ class SaleDetailView extends StatelessWidget {
                                   ListView.builder(
                                     shrinkWrap: true,
                                     physics: NeverScrollableScrollPhysics(),
-                                    itemCount: state.orderDetailDTO
-                                            ?.orderProductDetailList?.length ??
-                                        0,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      var orderProductDetail = state
-                                          .orderDetailDTO
-                                          ?.orderProductDetailList![index];
+                                    itemCount: state.orderDetailDTO?.orderProductDetailList?.length ?? 0,
+                                    itemBuilder: (BuildContext context, int index) {
+                                      var orderProductDetail = state.orderDetailDTO?.orderProductDetailList![index];
                                       return Container(
                                         color: Colors.white,
                                         padding: EdgeInsets.only(

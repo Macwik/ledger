@@ -8,6 +8,7 @@ class ExternalOrderBaseDTO {
   int? id;
   int? ledgerId;
   int? salesOrderId;
+  int? discount;
   String? costIncomeName;
   Decimal? totalAmount;
 
