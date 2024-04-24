@@ -27,14 +27,14 @@ class DailyAccountCostDetailController extends GetxController {
   }
 
   String totalExternalOrderAmount() {
-    return state.externalOrderDTO?.isNotEmpty ?? false
-        ? DecimalUtil.formatAmount(state.externalOrderDTO!.map((e) => e.totalAmount).reduce((value, element) => (value??Decimal.zero) + (element??Decimal.zero)))
+    return state.externalOrderDTO.isNotEmpty
+        ? DecimalUtil.formatAmount(state.externalOrderDTO.map((e) => e.totalAmount).reduce((value, element) => (value??Decimal.zero) + (element??Decimal.zero)))
         : '0.00';
   }
 
   String totalDiscountExternalOrderAmount() {
-    return state.discountExternalOrderDTO?.isNotEmpty ?? false
-        ? DecimalUtil.formatAmount(state.discountExternalOrderDTO!.map((e) => e.totalAmount).reduce((value, element) => (value??Decimal.zero) + (element??Decimal.zero)))
+    return state.discountExternalOrderDTO.isNotEmpty
+        ? DecimalUtil.formatAmount(state.discountExternalOrderDTO.map((e) => e.totalAmount).reduce((value, element) => (value??Decimal.zero) + (element??Decimal.zero)))
         : '0.00';
   }
 }
