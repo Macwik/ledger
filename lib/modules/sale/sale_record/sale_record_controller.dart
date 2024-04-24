@@ -363,8 +363,9 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
                                     children: [
                                       Expanded(
                                         child: Text(
-                                            state.orderType ==
-                                                OrderType.PURCHASE
+                                            (salePurchaseOrderDTO.orderType ==
+                                                OrderType.PURCHASE.value  || salePurchaseOrderDTO.orderType ==
+                                                OrderType.ADD_STOCK.value)
                                                 ? '${salePurchaseOrderDTO.batchNo}'
                                                 : DateUtil
                                                 .formatDefaultDateTimeMinute(
