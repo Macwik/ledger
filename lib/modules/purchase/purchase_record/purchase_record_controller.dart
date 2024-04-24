@@ -85,7 +85,6 @@ class PurchaseRecordController extends GetxController
     });
   }
 
-
   Future<void> onLoad() async {
     state.currentPage += 1;
     await _queryData(state.currentPage).then((result) {
@@ -156,9 +155,11 @@ class PurchaseRecordController extends GetxController
   }
 
   String totalAmountOrNumber(OrderDTO? purchasePurchaseOrderDTO) {
-    if (purchasePurchaseOrderDTO?.orderType == OrderType.PURCHASE_RETURN.value) {
+    if (purchasePurchaseOrderDTO?.orderType ==
+        OrderType.PURCHASE_RETURN.value) {
       return '￥- ${(purchasePurchaseOrderDTO?.totalAmount ?? Decimal.zero) - (purchasePurchaseOrderDTO?.discountAmount ?? Decimal.zero)}';
-    } else if (purchasePurchaseOrderDTO?.orderType == OrderType.PURCHASE.value) {
+    } else if (purchasePurchaseOrderDTO?.orderType ==
+        OrderType.PURCHASE.value) {
       return DecimalUtil.formatAmount(
           (purchasePurchaseOrderDTO?.totalAmount ?? Decimal.zero) -
               (purchasePurchaseOrderDTO?.discountAmount ?? Decimal.zero));
@@ -242,22 +243,30 @@ class PurchaseRecordController extends GetxController
   //权限控制相关--页面跳转
   Future<void> toAddBill() async {
     List<String>? permissionList = StoreController.to.getPermissionCode();
-    if  (((state.orderTypeList[state.index].value)==OrderType.PURCHASE.value)&&(permissionList.contains(PermissionCode.purchase_purchase_order_permission))) {
+    if (((state.orderTypeList[state.index].value) ==
+            OrderType.PURCHASE.value) &&
+        (permissionList
+            .contains(PermissionCode.purchase_purchase_order_permission))) {
       await Get.toNamed(RouteConfig.saleBill,
-          arguments: {'orderType': OrderType.PURCHASE})
-          ?.then((value) {onRefresh();});
-    }
-    if (((state.orderTypeList[state.index].value)==OrderType.PURCHASE_RETURN.value)&&(permissionList.contains(PermissionCode.purchase_purchase_return_order_permission))) {
-      await Get.toNamed(RouteConfig.saleBill,
-          arguments: {'orderType': OrderType.PURCHASE_RETURN})
-          ?.then((value) {
-         onRefresh();
+          arguments: {'orderType': OrderType.PURCHASE})?.then((value) {
+        onRefresh();
       });
     }
-    if (((state.orderTypeList[state.index].value)==OrderType.ADD_STOCK.value)&&(permissionList.contains(PermissionCode.purchase_add_stock_order_permission))) {
+    if (((state.orderTypeList[state.index].value) ==
+            OrderType.PURCHASE_RETURN.value) &&
+        (permissionList.contains(
+            PermissionCode.purchase_purchase_return_order_permission))) {
       await Get.toNamed(RouteConfig.saleBill,
-          arguments: {'orderType': OrderType.ADD_STOCK})
-          ?.then((value) {
+          arguments: {'orderType': OrderType.PURCHASE_RETURN})?.then((value) {
+        onRefresh();
+      });
+    }
+    if (((state.orderTypeList[state.index].value) ==
+            OrderType.ADD_STOCK.value) &&
+        (permissionList
+            .contains(PermissionCode.purchase_add_stock_order_permission))) {
+      await Get.toNamed(RouteConfig.saleBill,
+          arguments: {'orderType': OrderType.ADD_STOCK})?.then((value) {
         onRefresh();
       });
     }
@@ -265,13 +274,14 @@ class PurchaseRecordController extends GetxController
 
   //权限控制相关--开单按钮
   String toAddBillsName() {
-    if ((state.orderTypeList[state.index].value)==OrderType.PURCHASE.value) {
+    if ((state.orderTypeList[state.index].value) == OrderType.PURCHASE.value) {
       return '+ 采购';
     }
-    if  ((state.orderTypeList[state.index].value)==OrderType.PURCHASE_RETURN.value) {
+    if ((state.orderTypeList[state.index].value) ==
+        OrderType.PURCHASE_RETURN.value) {
       return '+ 退货';
     }
-    if  ((state.orderTypeList[state.index].value)==OrderType.ADD_STOCK.value) {
+    if ((state.orderTypeList[state.index].value) == OrderType.ADD_STOCK.value) {
       return '+ 入库';
     }
     return '';
@@ -286,13 +296,16 @@ class PurchaseRecordController extends GetxController
   permissionWidget() {
     List<Widget> widgetList = [];
     List<String>? permissionList = StoreController.to.getPermissionCode();
-    if (permissionList.contains(PermissionCode.purchase_purchase_record_permission)) {
+    if (permissionList
+        .contains(PermissionCode.purchase_purchase_record_permission)) {
       widgetList.add(Tab(text: '采购'));
     }
-    if (permissionList.contains(PermissionCode.purchase_purchase_return_record_permission)) {
+    if (permissionList
+        .contains(PermissionCode.purchase_purchase_return_record_permission)) {
       widgetList.add(Tab(text: '采购退货'));
     }
-    if (permissionList.contains(PermissionCode.purchase_add_stock_record_permission)) {
+    if (permissionList
+        .contains(PermissionCode.purchase_add_stock_record_permission)) {
       widgetList.add(Tab(text: '直接入库'));
     }
     return widgetList;
@@ -311,15 +324,18 @@ class PurchaseRecordController extends GetxController
   permissionCount() {
     int count = 0;
     List<String>? permissionList = StoreController.to.getPermissionCode();
-    if (permissionList.contains(PermissionCode.purchase_purchase_record_permission)) {
+    if (permissionList
+        .contains(PermissionCode.purchase_purchase_record_permission)) {
       state.orderTypeList.add(OrderType.PURCHASE);
       count++;
     }
-    if (permissionList.contains(PermissionCode.purchase_purchase_return_record_permission)) {
+    if (permissionList
+        .contains(PermissionCode.purchase_purchase_return_record_permission)) {
       state.orderTypeList.add(OrderType.PURCHASE_RETURN);
       count++;
     }
-    if (permissionList.contains(PermissionCode.purchase_add_stock_record_permission)) {
+    if (permissionList
+        .contains(PermissionCode.purchase_add_stock_record_permission)) {
       state.orderTypeList.add(OrderType.ADD_STOCK);
       count++;
     }
@@ -330,20 +346,22 @@ class PurchaseRecordController extends GetxController
     return Flex(
       direction: Axis.vertical,
       children: [
-        Flex(direction: Axis.horizontal,
+        Flex(
+          direction: Axis.horizontal,
           children: [
-            Expanded(child:  Container(
+            Expanded(
+                child: Container(
               height: 100.w,
-              padding: EdgeInsets.only(top:10.w,left: 10.w, right: 10.w),
+              padding: EdgeInsets.only(top: 10.w, left: 10.w, right: 10.w),
               child: SearchBar(
                 leading: Icon(
                   Icons.search,
                   color: Colors.grey,
                   size: 40.w,
                 ),
-                shadowColor:MaterialStatePropertyAll<Color>(Colors.black26),
+                shadowColor: MaterialStatePropertyAll<Color>(Colors.black26),
                 hintStyle: MaterialStatePropertyAll<TextStyle>(
-                    TextStyle(fontSize: 34.sp,  color: Colors.black26)),
+                    TextStyle(fontSize: 34.sp, color: Colors.black26)),
                 onChanged: (value) {
                   searchPurchaseRecord(value);
                 },
@@ -355,7 +373,7 @@ class PurchaseRecordController extends GetxController
                 onTap: () {
                   Scaffold.of(context).openEndDrawer();
                 },
-                child:  Row(
+                child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     LoadAssetImage(
@@ -364,17 +382,22 @@ class PurchaseRecordController extends GetxController
                       color: Colours.text_999,
                       height: 40.w,
                       width: 40.w,
-                    ),// 导入的图像
+                    ), // 导入的图像
                     SizedBox(width: 8.w), // 图像和文字之间的间距
-                    Text('筛选',
-                      style: TextStyle(fontSize: 30.sp,
-                          color: Colours.text_666),),
-                    SizedBox(width: 24.w,),
+                    Text(
+                      '筛选',
+                      style:
+                          TextStyle(fontSize: 30.sp, color: Colours.text_666),
+                    ),
+                    SizedBox(
+                      width: 24.w,
+                    ),
                   ],
                 ),
               ),
             ),
-          ],),
+          ],
+        ),
         Expanded(
           child: GetBuilder<PurchaseRecordController>(
               id: 'purchase_order_list',
@@ -388,8 +411,8 @@ class PurchaseRecordController extends GetxController
                   emptyWidget: state.list == null
                       ? LottieIndicator()
                       : state.list?.isEmpty ?? true
-                      ? EmptyLayout(hintText: '什么都没有'.tr)
-                      : null,
+                          ? EmptyLayout(hintText: '什么都没有'.tr)
+                          : null,
                   child: ListView.separated(
                     itemBuilder: (context, index) {
                       var purchasePurchaseOrderDTO = state.list![index];
@@ -421,7 +444,7 @@ class PurchaseRecordController extends GetxController
                                   bottom: 20.w),
                               child: Column(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceEvenly,
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Flex(
                                     direction: Axis.horizontal,
@@ -430,10 +453,12 @@ class PurchaseRecordController extends GetxController
                                         flex: 3,
                                         child: Text(
                                             TextUtil.listToStr(
-                                                purchasePurchaseOrderDTO.productNameList),
+                                                purchasePurchaseOrderDTO
+                                                    .productNameList),
                                             style: TextStyle(
                                               color: purchasePurchaseOrderDTO
-                                                  .invalid == 1
+                                                          .invalid ==
+                                                      1
                                                   ? Colours.text_ccc
                                                   : Colours.text_333,
                                               fontSize: 32.sp,
@@ -441,8 +466,9 @@ class PurchaseRecordController extends GetxController
                                             )),
                                       ),
                                       Visibility(
-                                          visible:
-                                          purchasePurchaseOrderDTO.invalid == 1,
+                                          visible: purchasePurchaseOrderDTO
+                                                  .invalid ==
+                                              1,
                                           child: Container(
                                             padding: EdgeInsets.only(
                                                 top: 2.w,
@@ -455,7 +481,7 @@ class PurchaseRecordController extends GetxController
                                                 width: 1.0,
                                               ),
                                               borderRadius:
-                                              BorderRadius.circular(8.0),
+                                                  BorderRadius.circular(8.0),
                                             ),
                                             child: Text('已作废',
                                                 style: TextStyle(
@@ -467,16 +493,19 @@ class PurchaseRecordController extends GetxController
                                       Expanded(
                                         child: Text(
                                             textAlign: TextAlign.right,
-                                            getOrderStatusDesc(purchasePurchaseOrderDTO),
+                                            getOrderStatusDesc(
+                                                purchasePurchaseOrderDTO),
                                             style: TextStyle(
-                                              color: purchasePurchaseOrderDTO.invalid == 1
+                                              color: purchasePurchaseOrderDTO
+                                                          .invalid ==
+                                                      1
                                                   ? Colours.text_ccc
                                                   : OrderStateType.DEBT_ACCOUNT
-                                                  .value ==
-                                                  purchasePurchaseOrderDTO
-                                                      .orderStatus
-                                                  ? Colors.orange
-                                                  : Colours.text_ccc,
+                                                              .value ==
+                                                          purchasePurchaseOrderDTO
+                                                              .orderStatus
+                                                      ? Colors.orange
+                                                      : Colours.text_ccc,
                                               fontSize: 26.sp,
                                               fontWeight: FontWeight.w400,
                                             )),
@@ -498,7 +527,9 @@ class PurchaseRecordController extends GetxController
                                             totalAmountOrNumber(
                                                 purchasePurchaseOrderDTO),
                                             style: TextStyle(
-                                              color: purchasePurchaseOrderDTO.invalid == 1
+                                              color: purchasePurchaseOrderDTO
+                                                          .invalid ==
+                                                      1
                                                   ? Colours.text_ccc
                                                   : Colours.text_333,
                                               fontSize: 34.sp,
@@ -507,21 +538,22 @@ class PurchaseRecordController extends GetxController
                                       ),
                                       Expanded(
                                           child: Row(children: [
-                                            Text('业务员：',
-                                                style: TextStyle(
-                                                  color: Colours.text_ccc,
-                                                  fontSize: 22.sp,
-                                                  fontWeight: FontWeight.w500,
-                                                )),
-                                            Text(
-                                                purchasePurchaseOrderDTO.creatorName ??
-                                                    '',
-                                                style: TextStyle(
-                                                  color: Colours.text_666,
-                                                  fontSize: 26.sp,
-                                                  fontWeight: FontWeight.w400,
-                                                )),
-                                          ])),
+                                        Text('业务员：',
+                                            style: TextStyle(
+                                              color: Colours.text_ccc,
+                                              fontSize: 22.sp,
+                                              fontWeight: FontWeight.w500,
+                                            )),
+                                        Text(
+                                            purchasePurchaseOrderDTO
+                                                    .creatorName ??
+                                                '',
+                                            style: TextStyle(
+                                              color: Colours.text_666,
+                                              fontSize: 26.sp,
+                                              fontWeight: FontWeight.w400,
+                                            )),
+                                      ])),
                                     ],
                                   ),
                                   SizedBox(
@@ -532,17 +564,22 @@ class PurchaseRecordController extends GetxController
                                     children: [
                                       Expanded(
                                         child: Text(
-                                            state.orderType ==
-                                                OrderType.PURCHASE
+                                            (purchasePurchaseOrderDTO
+                                                            .orderType ==
+                                                        OrderType
+                                                            .PURCHASE.value ||
+                                                    purchasePurchaseOrderDTO
+                                                            .orderType ==
+                                                        OrderType
+                                                            .ADD_STOCK.value)
                                                 ? '${purchasePurchaseOrderDTO.batchNo}'
                                                 : DateUtil
-                                                .formatDefaultDateTimeMinute(
-                                                purchasePurchaseOrderDTO
-                                                    .gmtCreate),
+                                                    .formatDefaultDateTimeMinute(
+                                                        purchasePurchaseOrderDTO
+                                                            .gmtCreate),
                                             style: TextStyle(
-                                              color:
-                                              state.orderType ==
-                                                  OrderType.PURCHASE
+                                              color: state.orderType ==
+                                                      OrderType.PURCHASE
                                                   ? Colours.text_999
                                                   : Colours.text_ccc,
                                               fontSize: 26.sp,
@@ -551,33 +588,34 @@ class PurchaseRecordController extends GetxController
                                       ),
                                       Expanded(
                                           child: Row(
-                                            children: [
-                                              Visibility(
-                                                  visible: purchasePurchaseOrderDTO
+                                        children: [
+                                          Visibility(
+                                              visible: purchasePurchaseOrderDTO
                                                       .customName?.isNotEmpty ??
-                                                      false,
-                                                  child: Text('供应商：',
-                                                      style: TextStyle(
-                                                        color: Colours.text_ccc,
-                                                        fontSize: 22.sp,
-                                                        fontWeight: FontWeight.w500,
-                                                      ))),
-                                              Expanded(
-                                                  child: Text(
-                                                      purchasePurchaseOrderDTO
+                                                  false,
+                                              child: Text('供应商：',
+                                                  style: TextStyle(
+                                                    color: Colours.text_ccc,
+                                                    fontSize: 22.sp,
+                                                    fontWeight: FontWeight.w500,
+                                                  ))),
+                                          Expanded(
+                                              child: Text(
+                                                  purchasePurchaseOrderDTO
                                                           .customName ??
-                                                          '',
-                                                      style: TextStyle(
-                                                        color: purchasePurchaseOrderDTO
-                                                            .invalid ==
-                                                            1
+                                                      '',
+                                                  style: TextStyle(
+                                                    color:
+                                                        purchasePurchaseOrderDTO
+                                                                    .invalid ==
+                                                                1
                                                             ? Colours.text_ccc
                                                             : Colours.text_666,
-                                                        fontSize: 26.sp,
-                                                        fontWeight: FontWeight.w400,
-                                                      )))
-                                            ],
-                                          ))
+                                                    fontSize: 26.sp,
+                                                    fontWeight: FontWeight.w400,
+                                                  )))
+                                        ],
+                                      ))
                                     ],
                                   )
                                 ],
@@ -600,5 +638,4 @@ class PurchaseRecordController extends GetxController
       ],
     );
   }
-
 }
