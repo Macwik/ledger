@@ -266,9 +266,4 @@ class StockListController extends GetxController {
     state.selectType = id;
     onRefresh();
   }
-
-// toProductClassify() {
-//   Get.toNamed(RouteConfig.productTypeManage)
-//       ?.then((value) => _queryProductClassifyList());
-// }
 }
