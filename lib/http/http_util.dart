@@ -12,7 +12,6 @@ import 'package:ledger/store/store_controller.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart' hide Response, FormData, MultipartFile;
-import 'package:ledger/util/logger_util.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'connectivity_utils.dart';

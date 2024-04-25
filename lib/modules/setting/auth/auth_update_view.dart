@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ledger/entity/auth/sys_res_dto.dart';
 import 'package:ledger/res/export.dart';
-
 import 'auth_update_controller.dart';
 import 'node_wrapper.dart';
 
