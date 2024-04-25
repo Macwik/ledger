@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:ledger/res/colors.dart';
 import 'package:ledger/res/export.dart';
-import 'package:ledger/widget/empty_layout.dart';
-import 'package:ledger/widget/lottie_indicator.dart';
 
 import 'product_type_manage_controller.dart';
 

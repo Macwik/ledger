@@ -26,9 +26,9 @@ class AuthUpdateController extends GetxController {
         queryParameters: {
           'roleId': state.roleDTO?.id,
         }).then((result) {
-      Loading.dismiss();
       if (result.success) {
         var treeNodes = buildTreeNodes(result.d!);
+        Loading.dismiss();
         state.treeNode = treeNodes;
         update(['role_permission_update']);
       } else {

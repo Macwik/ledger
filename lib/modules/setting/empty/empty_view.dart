@@ -6,7 +6,7 @@ import 'package:ledger/res/colors.dart';
 
 
 class EmptyView extends StatelessWidget {
-  EmptyView({Key? key}) : super(key: key);
+  EmptyView({super.key});
 
   final controller = Get.find<EmptyController>();
   final state = Get.find<EmptyController>().state;

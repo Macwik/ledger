@@ -1,7 +1,6 @@
 import 'package:ledger/config/constant.dart';
 import 'package:ledger/generated/json/base/json_convert_content.dart';
 import 'package:ledger/http/page_list_result.dart';
-import 'package:ledger/util/logger_util.dart';
 import 'package:ledger/util/object_util.dart';
 
 class BaseEntity<T> {
