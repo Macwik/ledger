@@ -30,7 +30,7 @@ class PurchaseRecordView extends StatelessWidget {
       appBar: TitleBar(
         backPressed:() {
           Get.until((route) {
-            return (route.settings.name == RouteConfig.main);
+            return (route.settings.name == RouteConfig.main)|| (route.settings.name == RouteConfig.more);
           });
         },
         title: '采购记录',
@@ -511,7 +511,7 @@ class PurchaseRecordView extends StatelessWidget {
           onWillPop: () async {
             EasyLoading.dismiss();
             Get.until((route) {
-              return (route.settings.name == RouteConfig.main);
+              return (route.settings.name == RouteConfig.main)|| (route.settings.name == RouteConfig.more);
             });
             return Future(() => true);
           },
@@ -622,7 +622,9 @@ class PurchaseRecordView extends StatelessWidget {
               init: controller,
               global: false,
               builder: (_) {
-                return Container(
+                return PermissionWidget(
+                    permissionCode: controller.showAddBillsName(),
+                child: Container(
                     width: 210.w,
                     height:110.w,
                     margin: EdgeInsets.only(bottom:180.w),
@@ -641,7 +643,7 @@ class PurchaseRecordView extends StatelessWidget {
                               ),
                             ],
                           )), // 按钮上显示的图标
-                    ));
+                    )));
               }),
       floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
     );

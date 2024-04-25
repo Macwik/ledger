@@ -7,7 +7,7 @@ class CustomDetailState {
 
   CustomDTO? customDTO;
 
-  int? customType;
+  //int? customType;
 
   int? customId;
 

@@ -27,7 +27,7 @@ class CustomDetailController extends GetxController {
       state.phoneController.text = result.d?. phone??'';
       state.addressController.text = result.d?.address ??'';
       state.remarkController.text = result.d?.remark ??'';
-        update(['custom_detail', 'custom_detail_title']);
+        update(['custom_detail', 'custom_detail_title','custom_edit']);
       } else {
         Toast.show(result.m.toString());
       }

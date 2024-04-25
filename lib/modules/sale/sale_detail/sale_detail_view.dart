@@ -1,10 +1,5 @@
-import 'dart:ui';
-
 import 'package:decimal/decimal.dart';
-import 'package:flutter/animation.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/enum/is_deleted.dart';
@@ -39,7 +34,7 @@ class SaleDetailView extends StatelessWidget {
               id: 'sale_detail_delete',
               builder: (_) {
                 return PermissionWidget(
-                    permissionCode: (state.orderType == OrderType.SALE)
+                    permissionCode: ((state.orderType == OrderType.SALE)||(state.orderType == OrderType.SALE_RETURN)||(state.orderType == OrderType.REFUND))
                         ? PermissionCode.sales_detail_delete_permission
                         : PermissionCode.purchase_detail_delete_permission,
                     child: Visibility(
@@ -715,7 +710,7 @@ class SaleDetailView extends StatelessWidget {
               ]))),
       //底部按钮
       floatingActionButton: PermissionWidget(
-          permissionCode: (state.orderType == OrderType.SALE)
+          permissionCode: ((state.orderType == OrderType.SALE)||(state.orderType == OrderType.SALE_RETURN)||(state.orderType == OrderType.REFUND))
               ? PermissionCode.sales_detail_share_permission
               : PermissionCode.purchase_detail_share_permission,
           child: Builder(builder: (BuildContext buildContext) {

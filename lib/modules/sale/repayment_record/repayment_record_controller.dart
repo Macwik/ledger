@@ -22,6 +22,7 @@ import 'package:ledger/widget/empty_layout.dart';
 import 'package:ledger/widget/image.dart';
 import 'package:ledger/widget/loading.dart';
 import 'package:ledger/widget/lottie_indicator.dart';
+import 'package:ledger/widget/permission/permission_widget.dart';
 
 import 'repayment_record_state.dart';
 
@@ -48,6 +49,7 @@ class RepaymentRecordController extends GetxController
       state.index = index;
       clearCondition();
       state.searchContent = '';
+      update(['repayment_record_bottom']);
       onRefresh();
     });
     super.onInit();
@@ -155,6 +157,17 @@ class RepaymentRecordController extends GetxController
       widgetList.add(widgetRepaymentRecord());
     }
     return widgetList;
+  }
+
+  //权限控制相关--开单按钮是否展示
+  String showAddBillsName() {
+    if ((state.customTypeList[state.index].value)==CustomType.SUPPLIER.value) {
+      return PermissionCode.supplier_repayment_order_permission;
+    }
+    if((state.customTypeList[state.index].value)==CustomType.CUSTOM.value) {
+      return PermissionCode.supplier_detail_repayment_order_permission;
+    }
+    return '';
   }
 
   //权限控制相关--标签
@@ -476,32 +489,39 @@ class RepaymentRecordController extends GetxController
         Positioned(
             bottom: 20.w,
             right: 20.w,
-            child: Container(
-                width: 210.w,
-                height: 110.w,
-                margin: EdgeInsets.only(bottom: 30.w),
-                child: FloatingActionButton(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30), // 设置圆角大小
-                  ),
-                  onPressed: () => toRepaymentBill(),
-                  child: Container(
-                      child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.add,
-                        size: 30.w,
-                      ),
-                      Text(
-                        '还款',
-                        style: TextStyle(fontSize: 32.sp),
-                      ),
-                    ],
-                  )), // 按钮上显示的图标
-                )))
-      ],
+            child: GetBuilder<RepaymentRecordController>(
+                id: 'repayment_record_bottom',
+                builder: (_){
+              return  PermissionWidget(
+              permissionCode: showAddBillsName(),
+              child: Container(
+              width: 210.w,
+              height: 110.w,
+              margin: EdgeInsets.only(bottom: 30.w),
+              child: FloatingActionButton(
+              shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30), // 设置圆角大小
+              ),
+              onPressed: () => toRepaymentBill(),
+              child: Container(
+              child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+              Icon(
+              Icons.add,
+              size: 30.w,
+    ),
+    Text(
+    '还款',
+    style: TextStyle(fontSize: 32.sp),
+    ),
+    ],
+    )), // 按钮上显示的图标
+    )));
+            })
+
+        )],
     );
   }
 }

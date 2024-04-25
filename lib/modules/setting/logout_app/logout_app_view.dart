@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
-import 'package:ledger/res/colors.dart';
 import 'package:ledger/res/export.dart';
 import 'package:ledger/widget/custom_textfield.dart';
-import 'package:ledger/widget/elevated_btn.dart';
 
 import 'logout_app_controller.dart';
 

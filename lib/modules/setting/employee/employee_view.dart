@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:ledger/res/colors.dart';
 import 'package:ledger/res/export.dart';
-import 'package:ledger/util/date_util.dart';
-import 'package:ledger/widget/elevated_btn.dart';
-import 'package:ledger/widget/image.dart';
 import 'package:ledger/widget/will_pop.dart';
 
 import 'employee_controller.dart';

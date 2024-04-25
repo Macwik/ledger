@@ -62,7 +62,7 @@ class EmployeeManageView extends StatelessWidget {
                   children: [
                     SizedBox(width: 20.w),
                     Text(
-                      '岗位权限管理',
+                      '权限管理',
                       style: TextStyle(
                         color: Colours.text_333,
                         fontSize: 32.sp,

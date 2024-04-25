@@ -289,7 +289,7 @@ class CustomRecordView extends StatelessWidget {
           controller: controller,
           dataArr: controller.state.customList,
           bottomContactsCountText:
-              '共 ${controller.state.customList.length} 位联系人',
+              '共 ${controller.state.customList.length-1} 位联系人',
           onClickCell: (model) {
             // 跳转个人信息页
             controller.onClick(model);

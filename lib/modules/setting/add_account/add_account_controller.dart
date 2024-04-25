@@ -51,6 +51,8 @@ class AddAccountController extends GetxController {
               title: '提醒',
               barrierDismissible: false,
               middleText: '设置当前账本为活跃账本吗？',
+              textCancel: '否',
+              textConfirm: '是',
               onCancel: () {
                 Get.back();
                 Get.back(result: ProcessStatus.OK);
@@ -65,6 +67,7 @@ class AddAccountController extends GetxController {
                         title: '提示',
                         barrierDismissible: false,
                         middleText: '账本切换成功, 请重新登录',
+                        textConfirm: '确定',
                         onConfirm: () {
                           StoreController.to.signOut();
                           Get.offAllNamed(RouteConfig.loginVerify);

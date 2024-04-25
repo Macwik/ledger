@@ -36,9 +36,9 @@ class CustomDetailView extends StatelessWidget {
                       id: 'custom_edit',
                       builder: (_) {
                         return PermissionWidget(
-                            permissionCode: state.customType == CustomType.CUSTOM.value
+                            permissionCode:  state.customDTO?.customType == CustomType.CUSTOM.value
                                 ? PermissionCode.custom_detail_update_permission
-                                :PermissionCode.supplier_custom_detail_update_permission,
+                                : PermissionCode.supplier_custom_detail_update_permission,
                             child:Visibility(
                           visible: !state.isEdit,
                           child: Row(

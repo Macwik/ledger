@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ledger/res/export.dart';
 import 'package:ledger/util/picker_date_utils.dart';
+import 'package:ledger/widget/permission/permission_widget.dart';
 import 'package:ledger/widget/will_pop.dart';
 import 'sale_record_controller.dart';
 
@@ -15,7 +16,7 @@ class SaleRecordView extends StatelessWidget {
       appBar: TitleBar(
           backPressed: () {
             Get.until((route) {
-              return (route.settings.name == RouteConfig.main);
+              return (route.settings.name == RouteConfig.main)|| (route.settings.name == RouteConfig.more);
             });
           },
           title: '销售记录'),
@@ -497,7 +498,7 @@ class SaleRecordView extends StatelessWidget {
           onWillPop: () async {
             EasyLoading.dismiss();
             Get.until((route) {
-              return (route.settings.name == RouteConfig.main);
+              return (route.settings.name == RouteConfig.main)|| (route.settings.name == RouteConfig.more);
             });
             return Future(() => true);
           },
@@ -531,15 +532,14 @@ class SaleRecordView extends StatelessWidget {
             ),
           )),
       floatingActionButton:
-      // PermissionWidget(
-      //     permissionCode: PermissionCode.sales_sale_order_permission,
-      //     child:
-          GetBuilder<SaleRecordController>(
+     GetBuilder<SaleRecordController>(
               id: 'sale_record_add_bill',
               init: controller,
               global: false,
               builder: (_) {
-                return Container(
+                return   PermissionWidget(
+                    permissionCode: controller.showAddBillsName(),
+                    child:Container(
                     width: 210.w,
                     height: 110.w,
                     margin: EdgeInsets.only(bottom: 30.w),
@@ -559,13 +559,9 @@ class SaleRecordView extends StatelessWidget {
                           ),
                         ],
                       )), // 按钮上显示的图标
-                    ));
+                    )));
               }),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
+      //floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
     );
   }
-
-
-
-
 }

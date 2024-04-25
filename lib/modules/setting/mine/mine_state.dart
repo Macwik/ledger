@@ -1,9 +1,9 @@
 import 'package:ledger/entity/user/user_detail_dto.dart';
-import 'package:ledger/entity/user/user_dto_entity.dart';
-import 'package:ledger/store/store_controller.dart';
 
 class MineState {
   UserDetailDTO? userDetailDTO;
+
+  String? version;
 
   MineState() {
     ///Initialize variables

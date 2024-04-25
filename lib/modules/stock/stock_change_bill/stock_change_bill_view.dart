@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:ledger/entity/product/product_stock_adjust_request.dart';
-import 'package:ledger/res/colors.dart';
 import 'package:ledger/res/export.dart';
-import 'package:ledger/widget/empty_layout.dart';
 import 'package:ledger/widget/will_pop.dart';
 
 import 'stock_change_bill_controller.dart';

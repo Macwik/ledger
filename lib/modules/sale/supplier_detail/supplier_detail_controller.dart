@@ -233,7 +233,7 @@ class SupplierDetailController extends GetxController {
 
   Future<void> customDetail() async {
     await Get.toNamed(RouteConfig.customDetail,
-        arguments: {'customId': state.customDTO?.id})?.then((result) {
+        arguments: {'customId': state.customDTO?.id,})?.then((result) {
       _queryData();
     });
   }
