@@ -19,7 +19,7 @@ class MoreController extends GetxController {
       case 2:
          Get.toNamed(RouteConfig.retailBill, arguments: {'orderType': OrderType.REFUND});
       case 3:
-           Get.toNamed(RouteConfig.saleRecord, arguments: {'orderType': OrderType.SALE,'index': 0});
+           Get.toNamed(RouteConfig.saleRecord, arguments: {'index': 0});
       case 4:
            Get.toNamed(RouteConfig.customRecord,arguments: {'customType': CustomType.CUSTOM.value, 'isSelectCustom': false});
       default:
@@ -34,7 +34,7 @@ class MoreController extends GetxController {
       case 1:
           Get.toNamed(RouteConfig.saleBill, arguments: {'orderType': OrderType.PURCHASE_RETURN});
       case 2:
-           Get.toNamed(RouteConfig.saleRecord, arguments: {'orderType': OrderType.PURCHASE});
+           Get.toNamed(RouteConfig.purchaseRecord);
       case 3:
            Get.toNamed(RouteConfig.customRecord,arguments: {'customType': CustomType.SUPPLIER.value, 'isSelectCustom': false});
       default:
@@ -66,7 +66,7 @@ class MoreController extends GetxController {
       case 2:
          Get.toNamed(RouteConfig.costRecord);
       case 3:
-           Get.toNamed(RouteConfig.repaymentBill,arguments: {'customType':CustomType.CUSTOM.value});
+           Get.toNamed(RouteConfig.addDebt);
       case 4:
            Get.toNamed(RouteConfig.repaymentRecord, arguments: {'index': 0});
       case 5:

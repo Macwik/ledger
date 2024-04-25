@@ -21,10 +21,12 @@ class AuthUpdateController extends GetxController {
   }
 
   _queryData() {
+    Loading.showDuration(second: 5);
     Http().network<List<LedgerTreeNode>>(Method.get, AuthApi.query_role_auth,
         queryParameters: {
           'roleId': state.roleDTO?.id,
         }).then((result) {
+      Loading.dismiss();
       if (result.success) {
         var treeNodes = buildTreeNodes(result.d!);
         state.treeNode = treeNodes;

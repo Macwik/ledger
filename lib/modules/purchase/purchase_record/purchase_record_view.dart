@@ -30,7 +30,7 @@ class PurchaseRecordView extends StatelessWidget {
       appBar: TitleBar(
         backPressed:() {
           Get.until((route) {
-            return (route.settings.name == RouteConfig.main);
+            return (route.settings.name == RouteConfig.main)|| (route.settings.name == RouteConfig.more);
           });
         },
         title: '采购记录',
@@ -511,7 +511,7 @@ class PurchaseRecordView extends StatelessWidget {
           onWillPop: () async {
             EasyLoading.dismiss();
             Get.until((route) {
-              return (route.settings.name == RouteConfig.main);
+              return (route.settings.name == RouteConfig.main)|| (route.settings.name == RouteConfig.more);
             });
             return Future(() => true);
           },

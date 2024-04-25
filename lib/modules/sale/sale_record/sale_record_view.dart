@@ -15,7 +15,7 @@ class SaleRecordView extends StatelessWidget {
       appBar: TitleBar(
           backPressed: () {
             Get.until((route) {
-              return (route.settings.name == RouteConfig.main);
+              return (route.settings.name == RouteConfig.main)|| (route.settings.name == RouteConfig.more);
             });
           },
           title: '销售记录'),
@@ -497,7 +497,7 @@ class SaleRecordView extends StatelessWidget {
           onWillPop: () async {
             EasyLoading.dismiss();
             Get.until((route) {
-              return (route.settings.name == RouteConfig.main);
+              return (route.settings.name == RouteConfig.main)|| (route.settings.name == RouteConfig.more);
             });
             return Future(() => true);
           },

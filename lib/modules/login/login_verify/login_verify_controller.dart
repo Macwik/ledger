@@ -4,6 +4,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/api/user_api.dart';
 import 'package:ledger/entity/user/user_dto_entity.dart';
+import 'package:ledger/enum/is_select.dart';
 import 'package:ledger/res/export.dart';
 import 'package:ledger/store/store_controller.dart';
 import 'package:ledger/widget/custom_textfield.dart';
@@ -81,8 +82,7 @@ class LoginVerifyController extends GetxController {
 
     String? password = state.formKey.currentState?.fields['password']?.value;
 
-    final result =
-        await Http().network<UserDTOEntity>(Method.post, UserApi.login, data: {
+    final result = await Http().network<UserDTOEntity>(Method.post, UserApi.login, data: {
       'phone': phone,
       'loginType': state.loginVerifyType.value,
       'verifyCode': verifyCode,
@@ -93,7 +93,7 @@ class LoginVerifyController extends GetxController {
 
       var activeLedger = result.d!.activeLedger;
       if (null == activeLedger) {
-        Get.offAllNamed(RouteConfig.myAccount);
+        Get.offAllNamed(RouteConfig.myAccount,arguments: {'isSelect':IsSelectType.FALSE.value});
       } else {
         await StoreController.to
             .updatePermissionCode()

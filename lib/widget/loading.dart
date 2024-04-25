@@ -9,10 +9,10 @@ class Loading {
     }
   }
 
-  static void showDuration({status = '请稍等~~'}) {
+  static void showDuration({status = '请稍等~~', second = 3}) {
     if (!EasyLoading.isShow) {
       EasyLoading.show(status: status);
-      Timer(Duration(seconds: 3), () {
+      Timer(Duration(seconds: second), () {
         EasyLoading.dismiss(); // 手动关闭 EasyLoading
       });
     }

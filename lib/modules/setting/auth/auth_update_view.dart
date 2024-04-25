@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ledger/entity/auth/sys_res_dto.dart';
 import 'package:ledger/res/export.dart';
-import 'package:ledger/util/logger_util.dart';
 
 import 'auth_update_controller.dart';
 import 'node_wrapper.dart';
@@ -38,9 +37,6 @@ class AuthUpdateView extends StatelessWidget {
                           ),
                           indentation:
                               const Indentation(style: IndentStyle.squareJoint),
-                          onItemTap: (item) {
-                            LoggerUtil.i('onItemTap----------');
-                          },
                           onTreeReady: (controller) {
                             state.treeViewController = controller;
                             controller.expandAllChildren(state.treeNode!);
