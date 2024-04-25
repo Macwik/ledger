@@ -14,7 +14,8 @@ class AboutUsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TitleBar(
-        title: '关于我们',),
+        title: '关于我们',
+      ),
       body: Container(
         width: double.infinity,
         child: Column(
@@ -25,7 +26,7 @@ class AboutUsView extends StatelessWidget {
               width: double.infinity,
             ),
             InkWell(
-              onTap: (){
+              onTap: () {
                 controller.privacyAgreement(context);
               },
               child: Container(
@@ -39,7 +40,9 @@ class AboutUsView extends StatelessWidget {
                       'svg/ic_mine_privacy',
                       width: 40.w,
                     ),
-                    SizedBox(width: 24.w,),
+                    SizedBox(
+                      width: 24.w,
+                    ),
                     Text(
                       '隐私协议',
                       style: TextStyle(
@@ -64,7 +67,7 @@ class AboutUsView extends StatelessWidget {
               width: double.infinity,
             ),
             InkWell(
-              onTap: (){
+              onTap: () {
                 controller.userAgreement(context);
               },
               child: Container(
@@ -78,43 +81,11 @@ class AboutUsView extends StatelessWidget {
                       'svg/ic_mine_userAgreement',
                       width: 40.w,
                     ),
-                    SizedBox(width: 24.w,),
+                    SizedBox(
+                      width: 24.w,
+                    ),
                     Text(
                       '用户协议',
-                      style: TextStyle(
-                        color: Colours.text_333,
-                        fontSize: 30.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    const Spacer(),
-                    Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      size: 25.w,
-                      color: Colours.text_ccc,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            InkWell(
-              onTap: (){
-                controller.toVersionInfo(context);
-              },
-              child: Container(
-                color: Colors.white,
-                height: 100.w,
-                padding: EdgeInsets.symmetric(horizontal: 40.w),
-                child: Row(
-                  children: [
-                    SizedBox(width: 20.w),
-                    LoadSvg(
-                      'svg/ic_mine_checkUpDate',
-                      width: 40.w,
-                    ),
-                    SizedBox(width: 24.w,),
-                    Text(
-                      '当前版本',
                       style: TextStyle(
                         color: Colours.text_333,
                         fontSize: 30.sp,
@@ -137,4 +108,3 @@ class AboutUsView extends StatelessWidget {
     );
   }
 }
-

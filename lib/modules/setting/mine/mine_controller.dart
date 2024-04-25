@@ -28,6 +28,7 @@ class MineController extends GetxController {
         Toast.show(result.m.toString());
       }
     });
+    _buildAppVersion();
   }
 
   void toMineDetail() {
@@ -76,4 +77,12 @@ class MineController extends GetxController {
       update(['mine_active_ledger_name']);
     });
   }
+
+
+  _buildAppVersion() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    state.version = 'v${packageInfo.version}';
+    update(['mine_app_version']);
+  }
+
 }

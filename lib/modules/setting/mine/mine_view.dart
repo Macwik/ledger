@@ -259,6 +259,18 @@ class MineView extends StatelessWidget {
                       ),
                     ),
                     const Spacer(),
+                    GetBuilder<MineController>(
+                        id: 'mine_app_version',
+                        builder: (_) {
+                          return Text(
+                            state.version ?? '',
+                            style: TextStyle(
+                              color: Colours.text_666,
+                              fontSize: 30.sp,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          );
+                        }),
                     Icon(
                       Icons.arrow_forward_ios_rounded,
                       size: 25.w,
@@ -273,39 +285,6 @@ class MineView extends StatelessWidget {
               height: 1.w,
               width: double.infinity,
             ),
-            Visibility(
-                maintainSize: false,
-                visible: false,
-                child: InkWell(
-                  child: Container(
-                    color: Colors.white,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 40.w, vertical: 32.w),
-                    child: Row(
-                      children: [
-                        LoadSvg(
-                          'svg/ic_mine_teach',
-                          width: 40.w,
-                        ),
-                        SizedBox(width: 20.w),
-                        Text(
-                          '新手教学',
-                          style: TextStyle(
-                            color: Colours.text_666,
-                            fontSize: 32.sp,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        const Spacer(),
-                        Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          size: 25.w,
-                          color: Colours.text_ccc,
-                        ),
-                      ],
-                    ),
-                  ),
-                )),
             Container(
               color: Colours.divider,
               height: 1.w,
