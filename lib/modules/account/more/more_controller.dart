@@ -64,7 +64,7 @@ class MoreController extends GetxController {
       case 1:
           Get.toNamed(RouteConfig.costBill, arguments: {'costOrderType': CostOrderType.INCOME});
       case 2:
-         Get.toNamed(RouteConfig.costRecord);
+         Get.toNamed(RouteConfig.costRecord,arguments: {'index': 0});
       case 3:
            Get.toNamed(RouteConfig.addDebt);
       case 4:

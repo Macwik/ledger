@@ -118,6 +118,21 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
     return '';
   }
 
+
+  //权限控制相关--开单按钮是否展示
+  String showAddBillsName() {
+    if ((state.orderTypeList[state.index].value)==OrderType.SALE.value) {
+      return PermissionCode.sales_sale_order_permission;
+    }
+    if((state.orderTypeList[state.index].value)==OrderType.SALE_RETURN.value) {
+      return PermissionCode.sales_sale_return_permission;
+    }
+    if  ((state.orderTypeList[state.index].value)==OrderType.REFUND.value) {
+      return PermissionCode.sales_sale_refund_permission;
+    }
+    return '';
+  }
+
   //权限控制相关--页面跳转
   Future<void> toAddBill() async {
     List<String>? permissionList = StoreController.to.getPermissionCode();

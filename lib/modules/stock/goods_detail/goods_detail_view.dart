@@ -1,5 +1,4 @@
 import 'package:decimal/decimal.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/permission_code.dart';
@@ -274,23 +273,24 @@ class GoodsDetailView extends StatelessWidget {
                                 style: TextStyle(color: Colours.primary),
                               ))
                         ]));})),
-              Container(
-                alignment: Alignment.centerLeft,
-                padding: EdgeInsets.only(left: 40.w, top: 32.w),
-                child: Text(
-                  '销售情况',
-                  style: TextStyle(
-                      color: Colours.text_333,
-                      fontSize: 32.sp,
-                      fontWeight: FontWeight.w600),
-                ),
-              ),
+
               GetBuilder<GoodsDetailController>(
                   id: 'goods_detail_product_sales_statistics',
                   builder: (_) =>  PermissionWidget(
                       permissionCode: PermissionCode.goods_detail_check_detail_permission,
                       child:Column(
                         children: [
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            padding: EdgeInsets.only(left: 40.w, top: 32.w),
+                            child: Text(
+                              '销售情况',
+                              style: TextStyle(
+                                  color: Colours.text_333,
+                                  fontSize: 32.sp,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ),
                         Card(
                         elevation: 6,
                         shadowColor: Colors.black45,

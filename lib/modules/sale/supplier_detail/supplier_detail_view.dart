@@ -548,7 +548,11 @@ class SupplierDetailView extends StatelessWidget {
                 ],
               )),
           SizedBox(height: 16.w),
-          Container(
+          PermissionWidget(
+              permissionCode:controller.state.customType == CustomType.CUSTOM.value
+                  ? PermissionCode.supplier_detail_check_bill_permission
+                  :PermissionCode.supplier_supplier_detail_check_bill_permission,
+              child: Container(
             padding: EdgeInsets.only(left: 20, top: 20.w,bottom: 20.w),
             width: double.infinity,
             color: Colors.white,
@@ -596,7 +600,7 @@ class SupplierDetailView extends StatelessWidget {
                 ),
               ],
             ),
-          ),
+          )),
           Expanded(
               child: GetBuilder<SupplierDetailController>(
                   id: 'custom_record',
@@ -786,8 +790,8 @@ class SupplierDetailView extends StatelessWidget {
                                                                 FontWeight.w400,
                                                               )),
                                                           Expanded(child:
-                                                          Text(
-                                                              TextUtil.listToStr(statisticsCustomOrderDTO.productNameList),
+                                                          Text(statisticsCustomOrderDTO.productNameList?.isEmpty??false
+                                                              ? TextUtil.listToStr(statisticsCustomOrderDTO.productNameList):'-',
                                                               style: TextStyle(
                                                                 color: Colours.text_666,
                                                                 fontSize: 26.sp,

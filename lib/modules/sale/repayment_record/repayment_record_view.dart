@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/res/export.dart';
 import 'package:ledger/util/picker_date_utils.dart';
+import 'package:ledger/widget/permission/permission_widget.dart';
 import 'package:ledger/widget/will_pop.dart';
 
 import 'repayment_record_controller.dart';
@@ -17,9 +19,17 @@ class RepaymentRecordView extends StatelessWidget {
     return  Scaffold(
           appBar: TitleBar(
               title: '还款列表',
-            actionName:'录入欠款' ,
-            actionPressed: ()=> Get.toNamed(RouteConfig.addDebt),
-             ),
+            actionWidget: PermissionWidget(
+                permissionCode:PermissionCode.funds_add_debt_permission,
+                child:
+              InkWell(
+                  onTap: ()=>Get.toNamed(RouteConfig.addDebt),
+                child:Container(
+                    margin: EdgeInsets.only(right: 16.w),
+                    child:Text('录入欠款')) ,
+                )),
+            // actionPressed: ()=>
+              ),
           endDrawer: Drawer(
             width: ScreenUtil().screenWidth * 0.8,
             child: Container(

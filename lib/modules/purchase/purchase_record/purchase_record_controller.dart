@@ -272,6 +272,20 @@ class PurchaseRecordController extends GetxController
     }
   }
 
+  //权限控制相关--开单按钮是否展示
+  String showAddBillsName() {
+    if ((state.orderTypeList[state.index].value)==OrderType.PURCHASE.value) {
+      return PermissionCode.purchase_purchase_order_permission;
+    }
+    if((state.orderTypeList[state.index].value)==OrderType.PURCHASE_RETURN.value) {
+      return PermissionCode.purchase_purchase_return_order_permission;
+    }
+    if  ((state.orderTypeList[state.index].value)==OrderType.ADD_STOCK.value) {
+      return PermissionCode.purchase_add_stock_order_permission;
+    }
+    return '';
+  }
+
   //权限控制相关--开单按钮
   String toAddBillsName() {
     if ((state.orderTypeList[state.index].value) == OrderType.PURCHASE.value) {
@@ -324,18 +338,15 @@ class PurchaseRecordController extends GetxController
   permissionCount() {
     int count = 0;
     List<String>? permissionList = StoreController.to.getPermissionCode();
-    if (permissionList
-        .contains(PermissionCode.purchase_purchase_record_permission)) {
+    if (permissionList.contains(PermissionCode.purchase_purchase_record_permission)) {
       state.orderTypeList.add(OrderType.PURCHASE);
       count++;
     }
-    if (permissionList
-        .contains(PermissionCode.purchase_purchase_return_record_permission)) {
+    if (permissionList.contains(PermissionCode.purchase_purchase_return_record_permission)) {
       state.orderTypeList.add(OrderType.PURCHASE_RETURN);
       count++;
     }
-    if (permissionList
-        .contains(PermissionCode.purchase_add_stock_record_permission)) {
+    if (permissionList.contains(PermissionCode.purchase_add_stock_record_permission)) {
       state.orderTypeList.add(OrderType.ADD_STOCK);
       count++;
     }

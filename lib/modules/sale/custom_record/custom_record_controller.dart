@@ -131,7 +131,7 @@ class CustomRecordController extends GetxController {
         onPressed: () {
           toDeleteCustom(customDTO?.id);
         },
-        child: Text('删除客户'),
+        child: Text( state.customType == CustomType.CUSTOM.value ?'删除客户':'删除供应商'),
         isDestructiveAction: true,
       ));
     }
@@ -170,7 +170,9 @@ class CustomRecordController extends GetxController {
           onPressed: () {
             toInvalidCustom(customDTO);
           },
-          child: Text(customDTO?.invalid == 1 ? '启用客户' : '停用客户'),
+          child: Text(customDTO?.invalid == 1
+              ? state.customType == CustomType.CUSTOM.value ? '启用客户' :'启用供应商'
+              : state.customType == CustomType.CUSTOM.value ? '停用客户' : '停用供应商'),
         )));
 
     showCupertinoModalPopup(
@@ -194,7 +196,7 @@ class CustomRecordController extends GetxController {
       Warning(
         cancel: '取消',
         confirm: '确定',
-        content: '确认删除此客户吗？',
+        content:  state.customType == CustomType.CUSTOM.value ?'确认删除此客户吗？':'确定删除此供应商吗？',
         onCancel: () => Get.back(),
         onConfirm: () {
           Http()
@@ -221,7 +223,9 @@ class CustomRecordController extends GetxController {
       Warning(
         cancel: '取消',
         confirm: '确定',
-        content: customDTO?.invalid == 0 ? '确认停用此客户吗？' : '确定启用此客户吗？',
+        content: customDTO?.invalid == 0
+            ?  state.customType == CustomType.CUSTOM.value ?'确认停用此客户吗？' :'确定停用此供应商吗？'
+            :  state.customType == CustomType.CUSTOM.value ?'确定启用此客户吗？':'确定启用此供应商吗？',
         onCancel: () => Get.back(),
         onConfirm: () {
           if (customDTO?.invalid == 0) {
