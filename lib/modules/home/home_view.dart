@@ -16,7 +16,6 @@ import 'package:flutter/material.dart';
 import 'package:ledger/store/store_controller.dart';
 import 'package:ledger/util/decimal_util.dart';
 import 'package:ledger/util/image_util.dart';
-import 'package:ledger/widget/permission/permission_multi_widget.dart';
 import 'package:ledger/widget/permission/permission_owner_widget.dart';
 import 'package:ledger/widget/permission/permission_widget.dart';
 
@@ -56,8 +55,8 @@ class HomeView extends StatelessWidget {
                         childAspectRatio: 0.639,
                       ),
                       delegate: SliverChildBuilderDelegate((context, index) {
-                        return gridItem(index);
-                      }, childCount: 7),
+                        return getGridWidgetsIndex(index);
+                      }, childCount: getGridWidgetCount()),
                     ),
                   );
                 }),
@@ -984,47 +983,83 @@ const List<List<String>> gridItemPermission = [
   [PermissionCode.common_permission],
 ];
 
-Widget gridItem(int index) {
-  return PermissionMultiWidget(
-    permissionCodes: gridItemPermission[index],
-    child: InkWell(
-      onTap: gridItemRoutes[index],
-      child: Flex(
-        direction: Axis.vertical,
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Expanded(
-              child: AspectRatio(
-            aspectRatio: 1,
-            child: ClipOval(
-              child: Container(
-                width: double.infinity,
-                color: Color(gridItemColors[index]),
-                child: Center(
-                  child: LoadAssetImage(
-                    gridItemPaths[index],
-                    width: 66.w,
-                    height: 66.w,
-                    fit: BoxFit.fill,
-                  ),
+int getGridWidgetCount() {
+  if (gridWidgets?.isEmpty ?? true) {
+    return getGridWidgets().length;
+  }
+  return gridWidgets?.length ?? 0;
+}
+
+getGridWidgetsIndex(index) {
+  if (gridWidgets?.isEmpty ?? true) {
+    return getGridWidgets().elementAt(index);
+  }
+  return gridWidgets!.elementAt(index);
+}
+
+List<Widget>? gridWidgets;
+
+List<Widget> getGridWidgets() {
+  List<String>? permissionList = StoreController.to.getPermissionCode();
+  List<Widget> result = [];
+  for (int index = 0; index < gridItemPermission.length; index++) {
+    var elements = gridItemPermission[index];
+    if (elements.isEmpty) {
+      continue;
+    }
+    if (elements.contains(PermissionCode.common_permission)) {
+      result.add(buildGridWidget(index));
+      continue;
+    }
+    if (permissionList.isEmpty) {
+      continue;
+    }
+    if (elements.any((element) => permissionList.contains(element))) {
+      result.add(buildGridWidget(index));
+    }
+  }
+  gridWidgets = result;
+  return result;
+}
+
+Widget buildGridWidget(int index) {
+  return InkWell(
+    onTap: gridItemRoutes[index],
+    child: Flex(
+      direction: Axis.vertical,
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Expanded(
+            child: AspectRatio(
+          aspectRatio: 1,
+          child: ClipOval(
+            child: Container(
+              width: double.infinity,
+              color: Color(gridItemColors[index]),
+              child: Center(
+                child: LoadAssetImage(
+                  gridItemPaths[index],
+                  width: 66.w,
+                  height: 66.w,
+                  fit: BoxFit.fill,
                 ),
               ),
             ),
-          )),
-          Padding(
-            padding: const EdgeInsets.only(top: 13),
-            child: Text(
-              gridItemNames[index],
-              style: TextStyle(
-                fontSize: 28.sp,
-                fontWeight: FontWeight.w700,
-                color: Colours.text_999,
-              ),
+          ),
+        )),
+        Padding(
+          padding: const EdgeInsets.only(top: 13),
+          child: Text(
+            gridItemNames[index],
+            style: TextStyle(
+              fontSize: 28.sp,
+              fontWeight: FontWeight.w700,
+              color: Colours.text_999,
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     ),
   );
 }

@@ -24,6 +24,7 @@ class HomeState {
   Decimal?  todayRepaymentAmount;
   Decimal?  todayCreditAmount;
 
+
   HomeState() {
     ///Initialize variables
   }
