@@ -119,7 +119,7 @@ class RegisterView extends StatelessWidget {
                             controller: controller.state.passwordController,
                             decoration: InputDecoration(
                               counterText: '',
-                              hintText: '请填写',
+                              hintText: '请设置密码',
                             ),
                             style: TextStyle(
                                 fontSize: 32.sp
@@ -137,7 +137,7 @@ class RegisterView extends StatelessWidget {
                             controller: controller.state.passwordVerifyController,
                             decoration: InputDecoration(
                               counterText: '',
-                              hintText: '请填写',
+                              hintText: '请再次输入密码',
                             ),
                             style: TextStyle(
                                 fontSize: 32.sp
