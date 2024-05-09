@@ -51,13 +51,13 @@ class AddAccountView extends StatelessWidget {
                   Container(
                       padding: EdgeInsets.all(24.w),
                       decoration: BoxDecoration(
-                        color: Colours.primary,
+                        color: Colours.divider,
                         shape: BoxShape.circle,
                       ),
                       child: Text(
                         '1',
                         style: TextStyle(
-                            color: Colors.white,
+                            color: Colors.grey,
                             fontSize: 30.sp,
                             fontWeight: FontWeight.w600
                         ),
@@ -71,13 +71,13 @@ class AddAccountView extends StatelessWidget {
                   Container(
                       padding: EdgeInsets.all(24.w),
                       decoration: BoxDecoration(
-                        color: Colours.divider,
+                        color: Colours.primary,
                         shape: BoxShape.circle,
                       ),
                       child: Text(
                         '2',
                         style: TextStyle(
-                            color: Colors.grey,
+                            color: Colors.white,
                             fontSize: 30.sp,
                             fontWeight: FontWeight.w600
                         ),
