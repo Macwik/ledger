@@ -71,7 +71,12 @@ class RepaymentBillController extends GetxController {
   Future<void> addRepayment() async {
     /// 判断时间是否合法
     if (!check()) {
-      Toast.showError('时间不支持还款');
+      Get.defaultDialog(
+          title: '时间不支持还款', // 设置标题为null，即不显示标题
+          middleText: '老板账本中：设置-记账设置-还款时间，可修改还款时间 ',
+          onConfirm: () {
+            Get.back();
+          });
       return;
     }
 

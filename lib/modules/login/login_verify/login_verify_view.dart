@@ -140,8 +140,7 @@ class LoginVerifyView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         GetBuilder<LoginVerifyController>(
-                            id: LoginVerifyController
-                                .GET_VAR_ID_LOGIN_PRIVATE_AGREEMENT,
+                            id: LoginVerifyController.GET_VAR_ID_LOGIN_PRIVATE_AGREEMENT,
                             builder: (_) {
                               return Checkbox(
                                 value: state.privacyAgreement,

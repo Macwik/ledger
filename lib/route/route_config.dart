@@ -110,6 +110,8 @@ import 'package:ledger/modules/setting/employee_manage/employee_manage_binding.d
 import 'package:ledger/modules/setting/employee_manage/employee_manage_view.dart';
 import 'package:ledger/modules/setting/empty/empty_binding.dart';
 import 'package:ledger/modules/setting/empty/empty_view.dart';
+import 'package:ledger/modules/setting/first_index/first_index_binding.dart';
+import 'package:ledger/modules/setting/first_index/first_index_view.dart';
 import 'package:ledger/modules/setting/invite_employee/invite_employee_binding.dart';
 import 'package:ledger/modules/setting/invite_employee/invite_employee_view.dart';
 import 'package:ledger/modules/setting/logout_app/logout_app_binding.dart';
@@ -221,6 +223,7 @@ class RouteConfig {
   static const String pendingRetailBill = '/page/pending/retail/bill';
   static const String purchaseRecord = '/page/purchase/record';
   static const String repaymentTimeManage = '/page/repayment/time/manage';
+  static const String firstIndex = '/page/first/index';
 
   static final List<GetPage> getPages = [
     GetPage(name: home, page: () => HomeView(), binding: HomeBinding()),
@@ -470,5 +473,9 @@ class RouteConfig {
         name: repaymentTimeManage,
         page: () => RepaymentTimeManageView(),
         binding: RepaymentTimeManageBinding()),
+    GetPage(
+        name: firstIndex,
+        page: () => FirstIndexView(),
+        binding: FirstIndexBinding()),
   ];
 }

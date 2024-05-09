@@ -948,8 +948,7 @@ const List<String> gridItemPaths = [
 final List<Function()> gridItemRoutes = [
   () => Get.toNamed(RouteConfig.saleRecord, arguments: {'index': 0}),
   () => Get.toNamed(RouteConfig.purchaseRecord, arguments: {'index': 0}),
-  () => Get.toNamed(RouteConfig.stockList,
-      arguments: {'select': StockListType.DETAIL}),
+  () => Get.toNamed(RouteConfig.stockList, arguments: {'select': StockListType.DETAIL}),
   () => Get.toNamed(RouteConfig.costRecord, arguments: {'index': 0}),
   () => Get.toNamed(RouteConfig.repaymentRecord, arguments: {'index': 0}),
   () => Get.toNamed(RouteConfig.dailyAccount),
@@ -957,8 +956,7 @@ final List<Function()> gridItemRoutes = [
 ];
 
 const List<List<String>> gridItemPermission = [
-  [
-    PermissionCode.sales_sale_record_permission,
+  [PermissionCode.sales_sale_record_permission,
     PermissionCode.sales_return_sale_record_permission,
     PermissionCode.sales_refund_sale_record_permission
   ],
@@ -967,19 +965,13 @@ const List<List<String>> gridItemPermission = [
     PermissionCode.purchase_purchase_return_record_permission,
     PermissionCode.purchase_add_stock_record_permission
   ],
-  [
-    PermissionCode.stock_page_permission,
-  ],
-  [
-    PermissionCode.funds_cost_record_permission,
-  ],
+  [PermissionCode.stock_page_permission,],
+  [PermissionCode.funds_cost_record_permission,],
   [
     PermissionCode.funds_repayment_record_permission,
     PermissionCode.supplier_custom_repayment_record_permission
   ],
-  [
-    PermissionCode.account_page_permission,
-  ],
+  [PermissionCode.account_page_permission,],
   [PermissionCode.common_permission],
 ];
 
