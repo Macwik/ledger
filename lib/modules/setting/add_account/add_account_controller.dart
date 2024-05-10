@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:ledger/config/api/ledger_api.dart';
 import 'package:ledger/enum/process_status.dart';
 import 'package:ledger/res/export.dart';
-import 'package:ledger/store/store_controller.dart';
 
 import 'add_account_state.dart';
 
@@ -15,6 +14,7 @@ class AddAccountController extends GetxController {
     if ((arguments != null) && arguments['firstIndex'] != null) {
       state.firstIndex = arguments['firstIndex'];
     }
+    update(['add_account_form']);
   }
 
   bool isSelectedBusinessScope(int index) {
@@ -52,49 +52,58 @@ class AddAccountController extends GetxController {
     }).then((result) {
       Loading.dismiss();
       if (result.success) {
-        var activeLedgerId = StoreController.to.getActiveLedgerId();
-        if (null == activeLedgerId) {
-          Get.defaultDialog(
-              title: '提醒',
-              barrierDismissible: false,
-              middleText: '设置当前账本为活跃账本吗？',
-              textCancel: '否',
-              textConfirm: '是',
-              onCancel: () {
-                Get.back();
-                Get.back(result: ProcessStatus.OK);
-              },
-              onConfirm: () {
-                Http().network(Method.put, LedgerApi.ledger_change,
-                    queryParameters: {
-                      'ledgerId': result.d,
-                    }).then((result) {
-                  if (result.success) {
-                    Get.defaultDialog(
-                        title: '提示',
-                        barrierDismissible: false,
-                        middleText: '账本切换成功, 请重新登录',
-                        textConfirm: '确定',
-                        onConfirm: () {
-                          StoreController.to.signOut();
-                          Get.offAllNamed(RouteConfig.loginVerify);
-                        });
-                  } else {
-                    Toast.show(result.m.toString());
-                    Get.back(result: ProcessStatus.OK);
-                  }
-                });
-              });
-        }else{
-          if(state.firstIndex){
-            Get.back(result: ProcessStatus.OK);
-          }else{
-            Get.toNamed(RouteConfig.myAccount);
-          }
-        }
+        if(state.firstIndex){//ToDo 不走这儿的代码
+              Get.back(result: ProcessStatus.OK);
+            }else{
+              Get.toNamed(RouteConfig.myAccount);
+            }
+        // var activeLedgerId = StoreController.to.getActiveLedgerId();
+        // if (null == activeLedgerId) {
+        //   Get.defaultDialog(
+        //       title: '提醒',
+        //       barrierDismissible: false,
+        //       middleText: '设置当前账本为活跃账本吗？',
+        //       textCancel: '否',
+        //       textConfirm: '是',
+        //       onCancel: () {
+        //         Get.back();
+        //         Get.back(result: ProcessStatus.OK);
+        //       },
+        //       onConfirm: () {
+        //         Http().network(Method.put, LedgerApi.ledger_change,
+        //             queryParameters: {
+        //               'ledgerId': result.d,
+        //             }).then((result) {
+        //           if (result.success) {
+        //             Get.defaultDialog(
+        //                 title: '提示',
+        //                 barrierDismissible: false,
+        //                 middleText: '账本切换成功, 请重新登录',
+        //                 textConfirm: '确定',
+        //                 onConfirm: () {
+        //                   StoreController.to.signOut();
+        //                   Get.offAllNamed(RouteConfig.loginVerify);
+        //                 });
+        //           } else {
+        //             Toast.show(result.m.toString());
+        //             Get.back(result: ProcessStatus.OK);
+        //           }
+        //         });
+        //       });
+        // }else{
+        //   if(!state.firstIndex){
+        //     Get.back(result: ProcessStatus.OK);
+        //   }else{
+        //     Get.toNamed(RouteConfig.myAccount);
+        //   }
+        // }
       } else {
-        Get.back(result: ProcessStatus.FAIL);
-        Toast.show(result.m.toString());
+        if(!state.firstIndex){
+          Get.back(result: ProcessStatus.FAIL);
+          Toast.show(result.m.toString());
+            }else{
+          Toast.show(result.m.toString());
+            }
       }
     });
   }

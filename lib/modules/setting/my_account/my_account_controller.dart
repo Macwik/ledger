@@ -137,4 +137,10 @@ class MyAccountController extends GetxController {
       Toast.show('不能选择我参与的账本');
     }
   }
+
+  void myAccountGetBack() {
+    Get.until((route) {
+      return (route.settings.name == RouteConfig.main)|| (route.settings.name == RouteConfig.mine);
+    });
+  }
 }

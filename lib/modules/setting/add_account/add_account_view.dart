@@ -18,6 +18,7 @@ class AddAccountView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    controller.initState();
     return   MyWillPop(
         onWillPop: () async {
           controller.addAccountGetBack();
@@ -26,100 +27,106 @@ class AddAccountView extends StatelessWidget {
         child:FormBuilder(
             key: state.formKey,
             onChanged: controller.onFormChange,
-            child:Column(
-      children: [InkWell(
-        onTap: ()=>Get.back(),
-        child:Container(
-          alignment: Alignment.centerLeft,
-          margin: EdgeInsets.only(top: 120.w,right: 100.w),
-          padding: EdgeInsets.symmetric(horizontal: 40.w),
-          child: LoadAssetImage(
-            'get_back',
-            width: 40.w,
-            height: 40.w,
-            color: Colors.black87,
-          ),
-        ) ,
-      ),
-        Expanded(child: ListView(
-          children: [
-            Offstage(
-              offstage: state.firstIndex,
-              child: Row(
-                children: [
-                  SizedBox(width: 80.w,),
-                  Container(
-                      padding: EdgeInsets.all(24.w),
-                      decoration: BoxDecoration(
-                        color: Colours.divider,
-                        shape: BoxShape.circle,
+            child:Container(
+              color: Colors.white,
+              child: Column(children: [
+                InkWell(
+                  onTap: ()=>Get.back(),
+                  child:Container(
+                    alignment: Alignment.centerLeft,
+                    margin: EdgeInsets.only(top: 120.w,right: 100.w),
+                    padding: EdgeInsets.symmetric(horizontal: 40.w),
+                    child: LoadAssetImage(
+                      'get_back',
+                      width: 40.w,
+                      height: 40.w,
+                      color: Colors.black87,
+                    ),
+                  ) ,
+                ),
+                Expanded(
+                    child: ListView(
+                  children: [
+                    GetBuilder<AddAccountController>(
+                        id:'add_account_form',
+                        builder: (_){
+                      return Offstage(
+                      offstage: !state.firstIndex,
+                      child: Row(
+                        children: [
+                          SizedBox(width: 80.w,),
+                          Container(
+                              padding: EdgeInsets.all(24.w),
+                              decoration: BoxDecoration(
+                                color: Colours.divider,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Text(
+                                '1',
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 30.sp,
+                                    fontWeight: FontWeight.w600
+                                ),
+                                textAlign: TextAlign.center,
+                              )),
+                          Container(
+                            width: 100.w,
+                            height: 3.w,
+                            color: Colours.divider,
+                          ),
+                          Container(
+                              padding: EdgeInsets.all(24.w),
+                              decoration: BoxDecoration(
+                                color: Colours.primary,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Text(
+                                '2',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 30.sp,
+                                    fontWeight: FontWeight.w600
+                                ),
+                                textAlign: TextAlign.center,
+                              )),
+                          Container(
+                            width: 100.w,
+                            height: 3.w,
+                            color: Colours.divider,
+                          ),
+                          Container(
+                              padding: EdgeInsets.all(24.w),
+                              decoration: BoxDecoration(
+                                color: Colours.divider,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Text(
+                                '3',
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 30.sp,
+                                    fontWeight: FontWeight.w600
+                                ),
+                                textAlign: TextAlign.center,
+                              )),
+                        ],
                       ),
-                      child: Text(
-                        '1',
+                    );}),
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      margin: EdgeInsets.only(top: 80.w,left: 80.w),
+                      child: Text('新建账本',
                         style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 30.sp,
+                            color: Colours.text_333,
+                            fontSize: 40.sp,
                             fontWeight: FontWeight.w600
-                        ),
-                        textAlign: TextAlign.center,
-                      )),
-                  Container(
-                    width: 100.w,
-                    height: 3.w,
-                    color: Colours.divider,
-                  ),
-                  Container(
-                      padding: EdgeInsets.all(24.w),
-                      decoration: BoxDecoration(
-                        color: Colours.primary,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Text(
-                        '2',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 30.sp,
-                            fontWeight: FontWeight.w600
-                        ),
-                        textAlign: TextAlign.center,
-                      )),
-                  Container(
-                    width: 100.w,
-                    height: 3.w,
-                    color: Colours.divider,
-                  ),
-                  Container(
-                      padding: EdgeInsets.all(24.w),
-                      decoration: BoxDecoration(
-                        color: Colours.divider,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Text(
-                        '3',
-                        style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 30.sp,
-                            fontWeight: FontWeight.w600
-                        ),
-                        textAlign: TextAlign.center,
-                      )),
-                ],
-              ),
-            ),
-            Container(
-              alignment: Alignment.centerLeft,
-              margin: EdgeInsets.only(top: 80.w,left: 80.w),
-              child: Text('建立账本',
-                style: TextStyle(
-                    color: Colours.text_333,
-                    fontSize: 40.sp,
-                    fontWeight: FontWeight.w600
-                ),),
-            ),
-            GestureDetector(
-                    behavior: HitTestBehavior.translucent,
-                    onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
-                    child: Container(
+                        ),),
+                    ),
+                    GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+                      child: Container(
                         padding: EdgeInsets.only(
                             top: 40.w, left: 80.w, right: 40.w, bottom: 40.w),
                         child: Column(
@@ -131,21 +138,21 @@ class AddAccountView extends StatelessWidget {
                                     Text('店铺名'),
                                     Expanded(
                                         child:  TextFormField(
-                                              controller: state.nameController,
-                                              decoration: InputDecoration(
-                                                counterText: '',
-                                                border: InputBorder.none,
-                                                hintText: '请填写店铺名',
-                                              ),
-                                              style: TextStyle(
-                                                  fontSize: 32.sp
-                                              ),
-                                              keyboardType: TextInputType.name,
-                                              textAlign: TextAlign.center,
-                                              maxLength: 10,
-                                              validator: FormBuilderValidators.required(
-                                                  errorText: '请填写店铺名称'.tr),
-                                            )),
+                                          controller: state.nameController,
+                                          decoration: InputDecoration(
+                                            counterText: '',
+                                            border: InputBorder.none,
+                                            hintText: '请填写店铺名',
+                                          ),
+                                          style: TextStyle(
+                                              fontSize: 32.sp
+                                          ),
+                                          keyboardType: TextInputType.name,
+                                          textAlign: TextAlign.center,
+                                          maxLength: 10,
+                                          validator: FormBuilderValidators.required(
+                                              errorText: '请填写店铺名称'.tr),
+                                        )),
                                   ],
                                 )),
                             Container(
@@ -180,7 +187,7 @@ class AddAccountView extends StatelessWidget {
                                             onPressed: () =>
                                                 controller.changeStoreType(0),
                                             child: Text('批发商',style:TextStyle(
-                                              fontSize: 30.sp
+                                                fontSize: 30.sp
                                             ) ,),
                                           ),
                                           SizedBox(width: 10),
@@ -275,34 +282,36 @@ class AddAccountView extends StatelessWidget {
                           ],
                         ),
                       ),
-                  ),
-          ],
-        )),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: GetBuilder<AddAccountController>(
-              id: 'saveBtn',
-              builder: (controller) {
-                return ElevatedBtn(
-                  margin: EdgeInsets.all( 80.w),
-                  size: Size(double.infinity, 90.w),
-                  onPressed: () =>
-                  (state.formKey.currentState?.saveAndValidate() ??
-                      false)
-                      ? controller.addAccount()
-                      : null,
-                  radius: 15.w,
-                  backgroundColor: Colours.primary,
-                  text: state.firstIndex ?'保存':'下一步',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 30.sp,
-                    fontWeight: FontWeight.w500,
-                  ),
-                );
-              }),
-        ),
-      ],
-    )));
+                    ),
+                  ],
+                )),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: GetBuilder<AddAccountController>(
+                      id: 'saveBtn',
+                      builder: (controller) {
+                        return ElevatedBtn(
+                          margin: EdgeInsets.all( 80.w),
+                          size: Size(double.infinity, 90.w),
+                          onPressed: () =>
+                          (state.formKey.currentState?.saveAndValidate() ??
+                              false)
+                              ? controller.addAccount()
+                              : null,
+                          radius: 15.w,
+                          backgroundColor: Colours.primary,
+                          text: state.firstIndex ?'保存':'下一步',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 30.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        );
+                      }),
+                ),
+              ],
+              ),
+            )
+            ));
   }
 }
