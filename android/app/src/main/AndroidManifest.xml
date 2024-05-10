@@ -32,8 +32,7 @@
     </queries>
 
     <application
-        android:name="${applicationName}"
-        android:label="@string/app_name"
+        android:label="ledger"
         android:requestLegacyExternalStorage="true"
         android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher_ledger">

@@ -669,6 +669,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.6.7"
+  jverify:
+    dependency: "direct main"
+    description:
+      name: jverify
+      sha256: f3d06faa4d77a7b1deb7869e97c9adc76695d2361f4bb8ca0407d1ff876311eb
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.4.4"
   leak_tracker:
     dependency: transitive
     description:
