@@ -11,4 +11,6 @@ class AddAccountState {
   final formKey = GlobalKey<FormBuilderState>();
 
   TextEditingController nameController = TextEditingController();
+
+  bool firstIndex = false;
 }

@@ -498,7 +498,6 @@ class RepaymentBillView extends StatelessWidget {
                               Expanded(
                                   child: Visibility(
                                       replacement: ElevatedBtn(
-                                        //margin: EdgeInsets.only(top: 80.w),
                                         size: Size(double.infinity, 100.w),
                                         onPressed: () =>
                                             controller.repayBillGetBack(),
@@ -511,12 +510,10 @@ class RepaymentBillView extends StatelessWidget {
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ),
-                                      visible:
-                                          state.isSelect == IsSelectType.TRUE,
+                                      visible: state.isSelect == IsSelectType.TRUE,
                                       child: Container(
                                           padding: EdgeInsets.only(left: 20.w),
                                           height: 90.w,
-                                          //  margin: EdgeInsets.only(top: 80.w),
                                           color: Colors.white,
                                           alignment: Alignment.center,
                                           child: Row(

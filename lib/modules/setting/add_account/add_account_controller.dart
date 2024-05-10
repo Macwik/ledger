@@ -10,6 +10,13 @@ import 'add_account_state.dart';
 class AddAccountController extends GetxController {
   final AddAccountState state = AddAccountState();
 
+  Future<void> initState() async {
+    var arguments = Get.arguments;
+    if ((arguments != null) && arguments['firstIndex'] != null) {
+      state.firstIndex = arguments['firstIndex'];
+    }
+  }
+
   bool isSelectedBusinessScope(int index) {
     return state.selectedBusinessScope == index;
   }
@@ -79,7 +86,11 @@ class AddAccountController extends GetxController {
                 });
               });
         }else{
-          Get.back(result: ProcessStatus.OK);
+          if(state.firstIndex){
+            Get.back(result: ProcessStatus.OK);
+          }else{
+            Get.toNamed(RouteConfig.myAccount);
+          }
         }
       } else {
         Get.back(result: ProcessStatus.FAIL);
