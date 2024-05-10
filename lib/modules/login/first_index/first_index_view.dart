@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:ledger/res/export.dart';
@@ -13,7 +14,10 @@ class FirstIndexView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return  FormBuilder(
+        key: state.formKey,
+        onChanged: controller.onFormChange,
+        child:Container(
       color: Colors.white,
       child: Column(
         children: [
@@ -33,7 +37,6 @@ class FirstIndexView extends StatelessWidget {
           ),
           Expanded(child: ListView(
             children: [
-              // SizedBox(height: 200.w,),
               Row(
                 children: [
                   SizedBox(width: 80.w,),
@@ -183,9 +186,12 @@ class FirstIndexView extends StatelessWidget {
                         fontSize: 32.sp
                     ),
                     maxLength: 9,
-                    validator: FormBuilderValidators.compose([
-                      FormBuilderValidators.required(errorText: '确认密码不能为空')
-                    ]),
+                    validator: (value) {
+                      if (controller.state.passwordController.text == value) {
+                        return null;
+                      }
+                      return '两次输入密码不一致';
+                    },
                     keyboardType: TextInputType.number,
                   ))
                 ],
@@ -200,22 +206,29 @@ class FirstIndexView extends StatelessWidget {
           )),
           Align(
             alignment: Alignment.bottomCenter,
-            child:    ElevatedBtn(
+            child: GetBuilder<FirstIndexController>(
+                id: 'first_index_btn',
+                builder: (_){
+              return  ElevatedBtn(
               margin: EdgeInsets.all( 80.w),
               size: Size(double.infinity, 90.w),
               radius: 20.w,
               backgroundColor: Colours.primary,
-              onPressed: ()=>Get.toNamed(RouteConfig.addAccount,arguments: {'firstIndex':true}),
+              onPressed: ()=>
+              (state.formKey.currentState?.saveAndValidate() ??
+                  false)
+                  ? Get.toNamed(RouteConfig.addAccount,arguments: {'firstIndex':true})
+                  : null,
               text: '下一步',
               style: TextStyle(
-                color: Colors.white,
-                fontSize: 30.sp,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
+              color: Colors.white,
+              fontSize: 30.sp,
+              fontWeight: FontWeight.w500,
+                      ),
+                    );
+                  })),
         ],
       ),
-    );
+    ));
   }
 }

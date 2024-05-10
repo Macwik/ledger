@@ -25,6 +25,8 @@ import 'package:ledger/modules/funds/funds/funds_binding.dart';
 import 'package:ledger/modules/funds/funds/funds_view.dart';
 import 'package:ledger/modules/home/home_binding.dart';
 import 'package:ledger/modules/home/home_view.dart';
+import 'package:ledger/modules/login/choose_account/choose_account_binding.dart';
+import 'package:ledger/modules/login/choose_account/choose_account_view.dart';
 import 'package:ledger/modules/login/login_index/login_index_binding.dart';
 import 'package:ledger/modules/login/login_index/login_index_view.dart';
 import 'package:get/get.dart';
@@ -224,6 +226,7 @@ class RouteConfig {
   static const String purchaseRecord = '/page/purchase/record';
   static const String repaymentTimeManage = '/page/repayment/time/manage';
   static const String firstIndex = '/page/first/index';
+  static const String chooseAccount = '/page/choose/account';
 
   static final List<GetPage> getPages = [
     GetPage(name: home, page: () => HomeView(), binding: HomeBinding()),
@@ -477,5 +480,9 @@ class RouteConfig {
         name: firstIndex,
         page: () => FirstIndexView(),
         binding: FirstIndexBinding()),
+    GetPage(
+        name: chooseAccount,
+        page: () => ChooseAccountView(),
+        binding: ChooseAccountBinding()),
   ];
 }

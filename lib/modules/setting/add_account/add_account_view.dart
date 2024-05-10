@@ -300,7 +300,7 @@ class AddAccountView extends StatelessWidget {
                               : null,
                           radius: 15.w,
                           backgroundColor: Colours.primary,
-                          text: state.firstIndex ?'保存':'下一步',
+                          text: !state.firstIndex ? '保存':'下一步',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 30.sp,

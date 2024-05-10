@@ -52,10 +52,10 @@ class AddAccountController extends GetxController {
     }).then((result) {
       Loading.dismiss();
       if (result.success) {
-        if(state.firstIndex){//ToDo 不走这儿的代码
+        if(!state.firstIndex){
               Get.back(result: ProcessStatus.OK);
             }else{
-              Get.toNamed(RouteConfig.myAccount);
+              Get.toNamed(RouteConfig.chooseAccount);
             }
         // var activeLedgerId = StoreController.to.getActiveLedgerId();
         // if (null == activeLedgerId) {
