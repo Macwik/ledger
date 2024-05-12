@@ -380,7 +380,7 @@ class CostRecordView extends StatelessWidget {
                         children: [
                           Expanded(child:
                           Text(
-                            '绑定货物',
+                            '货物名称',
                             style: TextStyle(
                               color: Colours.text_333,
                               fontSize: 30.sp,
@@ -667,6 +667,45 @@ class CostRecordView extends StatelessWidget {
               ),
             ),
           ],),
+        Container(
+          color: Colors.white38,
+            margin: EdgeInsets.symmetric(vertical: 4.w),
+            padding: EdgeInsets.symmetric(vertical: 16.w),
+            child:
+           Row(
+               children: [
+             Expanded(child: Row(
+               mainAxisAlignment: MainAxisAlignment.center,
+               children: [
+               Text('笔数：',
+                 style: TextStyle(
+                     fontSize: 28.sp,
+                   color: Colours.text_666
+                 ),),
+               Text('000',
+                 style: TextStyle(
+                     fontSize: 28.sp,
+                     color: Colors.orange[600]
+                 ),)
+             ],)),
+             Expanded(child: Row(
+               mainAxisAlignment: MainAxisAlignment.center,
+               children: [
+               Text('总额：',
+                 style: TextStyle(
+                     fontSize: 28.sp,
+                     color: Colours.text_666
+                 ),),
+               Text('000',
+                 style: TextStyle(
+                     fontSize: 28.sp,
+                     color: Colors.orange[600]
+                 ),)
+             ],))
+            ]),
+
+
+       ),
         Expanded(
           child: GetBuilder<CostRecordController>(
               id: 'costRecord',
@@ -772,10 +811,9 @@ class CostRecordView extends StatelessWidget {
                                           child: Text(
                                               '￥${costIncomeOrderDTO.totalAmount??''}',
                                               style: TextStyle(
-                                                color: costIncomeOrderDTO.invalid == 0 ?  Colors.red[600] : Colours.text_999,
+                                                color: costIncomeOrderDTO.invalid == 0 ?  Colours.text_333 : Colours.text_999,
                                                 fontSize: 30.sp,
-                                                fontWeight:
-                                                FontWeight.w500,
+                                                fontWeight: FontWeight.w500,
                                               )),),
                                         Expanded(child:
                                         Row(
@@ -792,8 +830,7 @@ class CostRecordView extends StatelessWidget {
                                             ),
                                             Expanded(child:
                                             Text(
-                                                costIncomeOrderDTO
-                                                    .creatorName ??
+                                                costIncomeOrderDTO.creatorName ??
                                                     '',
                                                 style: TextStyle(
                                                   color: Colours.text_999,

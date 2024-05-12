@@ -19,7 +19,10 @@ class DecimalUtil {
 
   static String formatAmount(Decimal? amount, {int scale = 2}) {
     if (null == amount) {
-      return '';
+      return '￥0';
+    }
+    if (Decimal.zero == amount) {
+      return '￥0';
     }
     return '￥${Decimal.parse(amount.toStringAsFixed(scale))}';
   }

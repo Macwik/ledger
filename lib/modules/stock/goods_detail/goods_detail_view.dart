@@ -417,7 +417,52 @@ class GoodsDetailView extends StatelessWidget {
                                               ),
                                               child:
                                               Text(
-                                                  '查看明细',
+                                                  '赊账明细',
+                                                  style: TextStyle(
+                                                      color: Colours.text_999,
+                                                      fontSize: 32.sp,
+                                                      fontWeight: FontWeight.w500)),
+                                            ))),
+                                    SizedBox(height: 32.w,),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                            flex: 1,
+                                            child: Text('销售地费用',
+                                                style: TextStyle(
+                                                  color: Colours.text_666,
+                                                  fontSize: 32.sp,
+                                                ))),
+                                        Expanded(
+                                            flex: 2,
+                                            child: Text(
+                                             '0000',
+                                              textAlign: TextAlign.right,
+                                              style: TextStyle(
+                                                  color: Colours.text_333,
+                                                  fontSize: 32.sp,
+                                                  fontWeight:
+                                                  FontWeight.w500),
+                                            )),
+                                      ],
+                                    ),
+                                    SizedBox(height: 16.w,),
+                                    Container(
+                                        alignment: Alignment.centerRight,
+                                        child:InkWell(
+                                            onTap: () => Get.toNamed(RouteConfig.productCostDetail,arguments: {'discount':1}),//扣除，销售地支付
+                                            child:  Container(
+                                              padding: EdgeInsets.symmetric(vertical:8.w,horizontal: 16.w),
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: Colours.text_ccc,
+                                                  width: 1.0,
+                                                ),
+                                                borderRadius: BorderRadius.circular(12.0),
+                                              ),
+                                              child:
+                                              Text(
+                                                  '费用收入明细',
                                                   style: TextStyle(
                                                       color: Colours.text_999,
                                                       fontSize: 32.sp,
@@ -585,7 +630,7 @@ class GoodsDetailView extends StatelessWidget {
                                        ),
                                        child:
                                        Text(
-                                         '查看明细',
+                                         '赊账明细',
                                          style: TextStyle(
                                              color: Colours.text_999,
                                              fontSize: 32.sp,
@@ -594,42 +639,51 @@ class GoodsDetailView extends StatelessWidget {
                                      ),
                                    ),
                                  ),
-                              Offstage(
-                                offstage: (state.productSalesStatisticsDTO?.costTotalAmount==null)||(state.productSalesStatisticsDTO?.costTotalAmount==Decimal.zero),
-                                child:
-                                Container(
-                                    color: Colours.divider,
-                                    height: 1.w,
-                                    margin: EdgeInsets.only(
-                                        top: 32.w, bottom: 32.w),
-                                    width: double.infinity,
-                                  )),
-                                  Offstage(
-                                    offstage: (state.productSalesStatisticsDTO?.costTotalAmount==null)||(state.productSalesStatisticsDTO?.costTotalAmount==Decimal.zero),
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                            flex: 1,
-                                            child: Text('费用',
-                                                style: TextStyle(
-                                                  color: Colours.text_666,
-                                                  fontSize: 32.sp,
-                                                ))),
-                                        Expanded(
-                                            flex: 2,
-                                            child: Text(
-                                              DecimalUtil.formatAmount(
-                                                  state.productSalesStatisticsDTO?.costTotalAmount),
-                                              textAlign: TextAlign.right,
+                                  SizedBox(height: 32.w,),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                          flex: 1,
+                                          child: Text('产地费用',
                                               style: TextStyle(
-                                                  color: Colours.text_333,
-                                                  fontSize: 32.sp,
-                                                  fontWeight:
-                                                  FontWeight.w500),
-                                            )),
-                                      ],
-                                    ),
+                                                color: Colours.text_666,
+                                                fontSize: 32.sp,
+                                              ))),
+                                      Expanded(
+                                          flex: 2,
+                                          child: Text(
+                                            DecimalUtil.formatAmount(state.productSalesStatisticsDTO?.costTotalAmount),
+                                            textAlign: TextAlign.right,
+                                            style: TextStyle(
+                                                color: Colours.text_333,
+                                                fontSize: 32.sp,
+                                                fontWeight:
+                                                FontWeight.w500),
+                                          )),
+                                    ],
                                   ),
+                                  SizedBox(height: 16.w,),
+                                  Container(
+                                      alignment: Alignment.centerRight,
+                                      child:InkWell(
+                                          onTap: () => Get.toNamed(RouteConfig.productCostDetail,arguments: {'discount':0 }),//不扣除,产地费用
+                                          child:  Container(
+                                            padding: EdgeInsets.symmetric(vertical:8.w,horizontal: 16.w),
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                color: Colours.text_ccc,
+                                                width: 1.0,
+                                              ),
+                                              borderRadius: BorderRadius.circular(12.0),
+                                            ),
+                                            child:
+                                            Text(
+                                                '费用收入明细',
+                                                style: TextStyle(
+                                                    color: Colours.text_999,
+                                                    fontSize: 32.sp,
+                                                    fontWeight: FontWeight.w500)),
+                                          )))
                                 ],
                               ))),
                           Container(

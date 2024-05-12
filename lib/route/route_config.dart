@@ -134,6 +134,8 @@ import 'package:ledger/modules/stock/add_stock_detail/add_stock_detail_binding.d
 import 'package:ledger/modules/stock/add_stock_detail/add_stock_detail_view.dart';
 import 'package:ledger/modules/stock/goods_detail/goods_detail_binding.dart';
 import 'package:ledger/modules/stock/goods_detail/goods_detail_view.dart';
+import 'package:ledger/modules/stock/product_cost_detail/product_cost_detail_binding.dart';
+import 'package:ledger/modules/stock/product_cost_detail/product_cost_detail_view.dart';
 import 'package:ledger/modules/stock/product_credit/product_credit_binding.dart';
 import 'package:ledger/modules/stock/product_credit/product_credit_view.dart';
 import 'package:ledger/modules/stock/product_detail/product_detail_binding.dart';
@@ -227,6 +229,7 @@ class RouteConfig {
   static const String repaymentTimeManage = '/page/repayment/time/manage';
   static const String firstIndex = '/page/first/index';
   static const String chooseAccount = '/page/choose/account';
+  static const String productCostDetail = '/page/product/cost/detail';
 
   static final List<GetPage> getPages = [
     GetPage(name: home, page: () => HomeView(), binding: HomeBinding()),
@@ -484,5 +487,9 @@ class RouteConfig {
         name: chooseAccount,
         page: () => ChooseAccountView(),
         binding: ChooseAccountBinding()),
+    GetPage(
+        name: productCostDetail,
+        page: () => ProductCostDetailView(),
+        binding: ProductCostDetailBinding()),
   ];
 }

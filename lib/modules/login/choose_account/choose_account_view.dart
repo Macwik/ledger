@@ -114,7 +114,7 @@ class ChooseAccountView extends StatelessWidget {
                       padding: EdgeInsets.symmetric(vertical:24.w,horizontal: 56.w),
                       width: double.infinity,
                       child: Text(
-                        '我的建立账本',
+                        '我创建的账本',
                         style: TextStyle(fontSize: 32.sp,color: Colours.text_999,fontWeight: FontWeight.w600),
                       ),
                     ),
@@ -125,7 +125,7 @@ class ChooseAccountView extends StatelessWidget {
                             id: 'own_account',
                             builder: (_) {
                               return state.userLedger?.ownerList?.isEmpty ?? true
-                                  ?  EmptyLayout(hintText: '什么都没有'.tr)
+                                  ?  EmptyLayout(hintText: '还没有创建账本'.tr)
                                   : ListView.builder(
                                 shrinkWrap: true,
                                 physics: NeverScrollableScrollPhysics(),
@@ -220,7 +220,7 @@ class ChooseAccountView extends StatelessWidget {
                             id: 'join_account',
                             builder: (_) {
                               return state.userLedger?.joinList?.isEmpty ?? true
-                                  ?  EmptyLayout(hintText: '什么都没有'.tr)
+                                  ?  EmptyLayout(hintText: '还没有人邀请加入'.tr)
                                   : ListView.builder(
                                 shrinkWrap: true,
                                 physics: NeverScrollableScrollPhysics(),

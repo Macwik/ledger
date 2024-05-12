@@ -179,18 +179,18 @@ class LedgerContactsCell extends StatelessWidget {
           lineLeftEdge: leftSpace,
           customDTO: model,
           controller: controller,
-          leftWidget: Container(
-            height: imgWH,
-            width: imgWH,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(3),
-            ),
-            child: Center(
-              child: Text(model.customName!.substring(0, 1),
-                  style: const TextStyle(color: Colours.primary, fontSize: 20)),
-            ),
-          ),
+          // leftWidget: Container(
+          //   height: imgWH,
+          //   width: imgWH,
+          //   decoration: BoxDecoration(
+          //     color: Colors.white,
+          //     borderRadius: BorderRadius.circular(3),
+          //   ),
+          //   child: Center(
+          //     child: Text(model.customName!.substring(0, 1),
+          //         style: const TextStyle(color: Colours.bg, fontSize: 20)),
+          //   ),
+          // ),
           clickCallBack: () => onClickCell?.call(model),
         ),
         Offstage(

@@ -17,9 +17,7 @@ import 'package:ledger/widget/loading.dart';
 
 import 'cost_record_state.dart';
 
-class CostRecordController extends GetxController
-    with GetSingleTickerProviderStateMixin
-    implements DisposableInterface {
+class CostRecordController extends GetxController with GetSingleTickerProviderStateMixin implements DisposableInterface {
   final CostRecordState state = CostRecordState();
 
   late TabController tabController;
