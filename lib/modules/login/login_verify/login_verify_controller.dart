@@ -2,10 +2,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
+import 'package:jverify/jverify.dart';
 import 'package:ledger/config/api/user_api.dart';
 import 'package:ledger/entity/user/user_dto_entity.dart';
 import 'package:ledger/res/export.dart';
 import 'package:ledger/store/store_controller.dart';
+import 'package:ledger/util/logger_util.dart';
 import 'package:ledger/widget/custom_textfield.dart';
 import 'package:ledger/widget/dialog_widget/privacy_agreement.dart';
 import 'package:ledger/widget/dialog_widget/user_agreement.dart';
@@ -13,7 +15,6 @@ import 'dart:async';
 import 'login_verify_state.dart';
 
 class LoginVerifyController extends GetxController {
-
   final LoginVerifyState state = LoginVerifyState();
   static const String GET_VAR_ID_PAGE_TITLE = 'GET_VAR_ID_PAGE_TITLE';
   static const String GET_VAR_ID_LOGIN_TYPE = 'GET_VAR_ID_LOGIN_TYPE';
@@ -21,6 +22,18 @@ class LoginVerifyController extends GetxController {
       'GET_VAR_ID_LOGIN_VERIFY_BUTTON';
   static const String GET_VAR_ID_LOGIN_PRIVATE_AGREEMENT =
       'GET_VAR_ID_LOGIN_PRIVATE_AGREEMENT';
+
+  /// 统一 key
+  static const String f_result_key = 'result';
+
+  /// 错误码
+  static const String f_code_key = 'code';
+
+  /// 回调的提示信息，统一返回 flutter 为 message
+  static const String f_msg_key = 'message';
+
+  /// 运营商信息
+  static const String f_opr_key = 'operator';
 
   var countdown = 0.obs;
   Timer? _timer;
@@ -81,7 +94,8 @@ class LoginVerifyController extends GetxController {
 
     String? password = state.formKey.currentState?.fields['password']?.value;
 
-    final result = await Http().network<UserDTOEntity>(Method.post, UserApi.login, data: {
+    final result =
+        await Http().network<UserDTOEntity>(Method.post, UserApi.login, data: {
       'phone': phone,
       'loginType': state.loginVerifyType.value,
       'verifyCode': verifyCode,
@@ -94,7 +108,9 @@ class LoginVerifyController extends GetxController {
       if (null == activeLedger) {
         Get.offAllNamed(RouteConfig.firstIndex);
       } else {
-        await StoreController.to.updatePermissionCode().then((value) => Get.offAllNamed(RouteConfig.main));
+        await StoreController.to
+            .updatePermissionCode()
+            .then((value) => Get.offAllNamed(RouteConfig.main));
       }
     } else {
       Toast.show(result.m.toString());
@@ -284,5 +300,31 @@ class LoginVerifyController extends GetxController {
             child: UserAgreement(),
           );
         });
+  }
+
+  void verifyPhone() {
+    Jverify jVerify = Jverify();
+    jVerify.addLoginAuthCallBackListener((event) {
+      LoggerUtil.e('监听获取返回数据：[${event.code}] message = ${event.message}');
+    });
+    jVerify.checkVerifyEnable().then((map) {
+      bool result = map[f_result_key];
+      if (result) {
+        // jVerify.getToken().then((map) {
+        //   int code = map[f_code_key];
+        //   String token = map[f_msg_key];
+        //   String operator = map[f_opr_key];
+        //   LoggerUtil.e(' $code   $token  $operator');
+        // });
+        jVerify.loginAuth(true).then((map) {
+          int code = map[f_code_key];
+          String message = map[f_msg_key];
+          LoggerUtil.e(' $code   $message');
+        });
+      }
+    });
+
+
+
   }
 }

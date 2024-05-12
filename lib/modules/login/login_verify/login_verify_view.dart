@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
-import 'package:jverify/jverify.dart';
 import 'package:ledger/modules/login/login_verify/login_verify_state.dart';
 import 'package:ledger/res/export.dart';
 import 'package:ledger/util/image_util.dart';
-import 'package:ledger/util/logger_util.dart';
 import 'package:ledger/widget/custom_textfield.dart';
 
 import 'login_verify_controller.dart';
@@ -17,24 +15,7 @@ class LoginVerifyView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Jverify jVerify = Jverify();
-    jVerify.setup(
-        appKey: 'e80e82f4a596945f83c44db0', channel: 'devloper-default');
-    jVerify.isInitSuccess().then((value) {
-      print('isInitSuccess:$value');
-    });
-    Future.delayed(Duration(seconds: 15));
-    jVerify.preLogin().then((value) {
-      print('preLogin:$value');
-    });
-    jVerify.checkVerifyEnable().then((value) {
-      print('checkVerifyEnable:$value');
-    });
-    jVerify.getToken().then((value) {
-      print('token:$value');
-      LoggerUtil.e('token:$value');
-    });
-
+    controller.verifyPhone();
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
