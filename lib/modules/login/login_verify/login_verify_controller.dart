@@ -7,7 +7,6 @@ import 'package:ledger/config/api/user_api.dart';
 import 'package:ledger/entity/user/user_dto_entity.dart';
 import 'package:ledger/res/export.dart';
 import 'package:ledger/store/store_controller.dart';
-import 'package:ledger/util/logger_util.dart';
 import 'package:ledger/widget/custom_textfield.dart';
 import 'package:ledger/widget/dialog_widget/privacy_agreement.dart';
 import 'package:ledger/widget/dialog_widget/user_agreement.dart';
@@ -303,28 +302,20 @@ class LoginVerifyController extends GetxController {
   }
 
   void verifyPhone() {
-    Jverify jVerify = Jverify();
-    jVerify.addLoginAuthCallBackListener((event) {
-      LoggerUtil.e('监听获取返回数据：[${event.code}] message = ${event.message}');
-    });
-    jVerify.checkVerifyEnable().then((map) {
-      bool result = map[f_result_key];
-      if (result) {
-        // jVerify.getToken().then((map) {
-        //   int code = map[f_code_key];
-        //   String token = map[f_msg_key];
-        //   String operator = map[f_opr_key];
-        //   LoggerUtil.e(' $code   $token  $operator');
-        // });
-        jVerify.loginAuth(true).then((map) {
-          int code = map[f_code_key];
-          String message = map[f_msg_key];
-          LoggerUtil.e(' $code   $message');
-        });
-      }
-    });
-
-
-
+    // Jverify jVerify = Jverify();
+    // jVerify.checkVerifyEnable().then((map) {
+    //   bool result = map[f_result_key];
+    //   if (result) {
+    //     jVerify.loginAuth(true).then((map) {
+    //       int code = map[f_code_key];
+    //       String? message = map[f_msg_key];
+    //       //获取手机号成功
+    //       if (6000 == code && (message?.isNotEmpty ?? false)) {
+    //         Get.offAndToNamed(RouteConfig.firstIndex,
+    //             arguments: {'token': message});
+    //       }
+    //     });
+    //   }
+    // });
   }
 }

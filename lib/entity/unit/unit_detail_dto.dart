@@ -56,6 +56,7 @@ class UnitDetailDTO {
   }
 }
 
+
 extension UnitDetailDTOExtension on UnitDetailDTO {
   UnitDetailDTO copyWith({
     int? unitType,
