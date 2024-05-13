@@ -31,7 +31,7 @@ class AccountManageView extends StatelessWidget {
                   id: 'account_edit',
                   builder: (_) {
                     return Visibility(
-                      visible: !state.isEdit,
+                      visible: !state.isEdit ,
                       child: Row(
                         children: [
                           LoadAssetImage(

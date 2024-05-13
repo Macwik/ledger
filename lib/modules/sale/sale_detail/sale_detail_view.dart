@@ -1,4 +1,5 @@
 import 'package:decimal/decimal.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/permission_code.dart';
@@ -418,22 +419,15 @@ class SaleDetailView extends StatelessWidget {
                                                     fontWeight: FontWeight.w400,
                                                   )),
                                             ),
-                                            Offstage(
-                                              offstage: (orderProductDetail
-                                                          ?.productPlace !=
-                                                      null) ||
-                                                  (orderProductDetail
-                                                          ?.productStandard !=
-                                                      null),
+                                            Visibility(
+                                              visible: (orderProductDetail?.productPlace != null) || (orderProductDetail?.productStandard != null),
                                               child: Container(
                                                   padding: EdgeInsets.only(
                                                       top: 10.w),
                                                   child: Row(
                                                     children: [
                                                       Text(
-                                                          orderProductDetail
-                                                                  ?.productPlace ??
-                                                              '',
+                                                          orderProductDetail?.productPlace ?? '',
                                                           style: TextStyle(
                                                             color: state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc:
                                                             Colours.text_999,
@@ -445,9 +439,7 @@ class SaleDetailView extends StatelessWidget {
                                                         width: 10,
                                                       ),
                                                       Text(
-                                                          orderProductDetail
-                                                                  ?.productStandard ??
-                                                              '',
+                                                          orderProductDetail?.productStandard ?? '',
                                                           style: TextStyle(
                                                             color:state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc: Colours.text_999,
                                                             fontSize: 28.sp,
@@ -526,7 +518,7 @@ class SaleDetailView extends StatelessWidget {
                                                   style: TextStyle(
                                                     color:state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc: Colours.text_666,
                                                     fontSize: 32.sp,
-                                                    fontWeight: FontWeight.w500,
+                                                    fontWeight: FontWeight.w600,
                                                   ),
                                                 )
                                               ],

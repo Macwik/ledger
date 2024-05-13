@@ -72,13 +72,26 @@ class EmptyView extends StatelessWidget {
 
 Widget tabBarWidget1(BuildContext context) {
     //继承AutomaticKeepAliveClientMixin类
-    return ListView.builder(
-        shrinkWrap: true,
-        itemCount: 100,
-        itemBuilder: (BuildContext context, int index) {
-          return Container(
-           child: Text('l'),
-          );
+    return ReorderableListView(
+        header: Container(
+          height: 50,
+        ),
+        children: _data.map((s) => Card(
+          color: s,
+          key: Key(s.toString()),
+          child: Container(
+            width: 300,
+            height: 100,
+          ),
+        ))
+            .toList(),
+        onReorder: (int oldIndex, int newIndex) {
+          print('$oldIndex --- $newIndex');
         });
-
 }
+List<Color> _data = [
+  Colors.blue,
+  Colors.pinkAccent,
+  Colors.deepPurple,
+  Colors.orangeAccent
+];

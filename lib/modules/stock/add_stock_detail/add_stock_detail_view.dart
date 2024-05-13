@@ -293,12 +293,17 @@ class AddStockDetailView extends StatelessWidget {
                           ),
                         ],
                       ),
-                     ListView.builder(
+                     ListView.separated(
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
                               itemCount: state.orderDetailDTO?.orderProductDetailList
                                   ?.length ??
                                   0,
+                       separatorBuilder: (context, index) => Container(
+                         height: 2.w,
+                         color: Colours.bg,
+                         width: double.infinity,
+                       ),
                               itemBuilder: (BuildContext context, int index) {
                                 var orderProductDetail = state.orderDetailDTO?.orderProductDetailList![index];
                                 return Container(
@@ -320,19 +325,41 @@ class AddStockDetailView extends StatelessWidget {
                                                     fontWeight: FontWeight.w500,
                                                   ))),
                                           Expanded(
-                                            child: Text(
-                                                controller.judgeUnit(orderProductDetail),
-                                                textAlign: TextAlign.right,
-                                                style: TextStyle(
-                                                  color:  state.orderDetailDTO?.invalid == IsDeleted.DELETED.value?Colours.text_ccc:Colours.text_333,
-                                                  fontSize: 32.sp,
-                                                  fontWeight: FontWeight.w400,
-                                                )),
+                                            child:  Row(
+                                              mainAxisAlignment: MainAxisAlignment.end,
+                                              children: [
+                                                Text(
+                                                    orderProductDetail?.productPlace ??
+                                                        '',
+                                                    style: TextStyle(
+                                                      color: state.orderDetailDTO?.invalid == IsDeleted.DELETED.value?Colours.text_ccc: Colours.text_999,
+                                                      fontSize: 28.sp,
+                                                      fontWeight: FontWeight.w500,
+                                                    )),
+                                                Text(
+                                                    orderProductDetail?.productStandard ??
+                                                        '',
+                                                    style: TextStyle(
+                                                      color: state.orderDetailDTO?.invalid == IsDeleted.DELETED.value?Colours.text_ccc: Colours.text_999,
+                                                      fontSize: 28.sp,
+                                                      fontWeight: FontWeight.w500,
+                                                    )),],
+                                            ),
                                           )
                                         ],
                                       ),
-
-                                      //),
+                                  SizedBox(height: 16.w,),
+                                      Container(
+                                        alignment: Alignment.centerRight,
+                                        child:  Text(
+                                            controller.judgeUnit(orderProductDetail),
+                                            textAlign: TextAlign.right,
+                                            style: TextStyle(
+                                              color:  state.orderDetailDTO?.invalid == IsDeleted.DELETED.value?Colours.text_ccc:Colours.text_333,
+                                              fontSize: 32.sp,
+                                              fontWeight: FontWeight.w400,
+                                            )),
+                                      )
                                     ],
                                   ),
                                 );

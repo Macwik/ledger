@@ -322,68 +322,17 @@ class AddProductView extends StatelessWidget {
                         ),
                         Container(
                             color: Colors.white,
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 40.w, vertical: 30.w),
-                            child: Flex(
-                              direction: Axis.horizontal,
-                              children: [
-                                Text(
-                                  '供应商',
-                                  style: TextStyle(
-                                      color: Colours.text_666,
-                                      fontSize: 30.sp,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                                const Spacer(),
-                                InkWell(
-                                  onTap: () => controller.selectCustom(),
-                                  child: Row(children: [
-                                    GetBuilder<AddProductController>(
-                                        id: 'custom',
-                                        init: controller,
-                                        global: false,
-                                        builder: (_) => Text(
-                                            controller.state.customDTO
-                                                    ?.customName ??
-                                                '请选择',
-                                            textAlign: TextAlign.right,
-                                            style: TextStyle(
-                                              color: controller.state.customDTO
-                                                          ?.customName !=
-                                                      null
-                                                  ? Colours.text_333
-                                                  : Colours.text_ccc,
-                                            ))),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 10),
-                                      child: LoadAssetImage(
-                                        'common/arrow_right',
-                                        width: 25.w,
-                                        color: Colours.text_999,
-                                      ),
-                                    ),
-                                  ]),
-                                )
-                              ],
-                            )),
-                        Container(
-                          color: Colours.divider,
-                          height: 1.w,
-                          width: double.infinity,
-                        ),
-                        Container(
-                            color: Colors.white,
                             padding: EdgeInsets.symmetric(horizontal: 40.w),
                             child: Row(
                               children: [
                                 Expanded(
                                     child: Text(
-                                  '销售类型',
-                                  style: TextStyle(
-                                      color: Colours.text_666,
-                                      fontSize: 30.sp,
-                                      fontWeight: FontWeight.w400),
-                                )),
+                                      '销售类型',
+                                      style: TextStyle(
+                                          color: Colours.text_666,
+                                          fontSize: 30.sp,
+                                          fontWeight: FontWeight.w400),
+                                    )),
                                 GetBuilder<AddProductController>(
                                   id: 'saleType',
                                   init: controller,
@@ -395,11 +344,11 @@ class AddProductView extends StatelessWidget {
                                             controller.changeSalesChannel(0),
                                         style: ElevatedButton.styleFrom(
                                           backgroundColor: controller
-                                                  .isSelectedSalesChannel(0)
+                                              .isSelectedSalesChannel(0)
                                               ? Colours.primary
                                               : Colors.white,
                                           foregroundColor: controller
-                                                  .isSelectedSalesChannel(0)
+                                              .isSelectedSalesChannel(0)
                                               ? Colors.white
                                               : Colors.black,
                                         ),
@@ -417,11 +366,11 @@ class AddProductView extends StatelessWidget {
                                             )),
                                         style: ElevatedButton.styleFrom(
                                           backgroundColor: controller
-                                                  .isSelectedSalesChannel(1)
+                                              .isSelectedSalesChannel(1)
                                               ? Colours.primary
                                               : Colors.white,
                                           foregroundColor: controller
-                                                  .isSelectedSalesChannel(1)
+                                              .isSelectedSalesChannel(1)
                                               ? Colors.white
                                               : Colors.black,
                                         ),
@@ -435,11 +384,11 @@ class AddProductView extends StatelessWidget {
                                             )),
                                         style: ElevatedButton.styleFrom(
                                           backgroundColor: controller
-                                                  .isSelectedSalesChannel(2)
+                                              .isSelectedSalesChannel(2)
                                               ? Colours.primary
                                               : Colors.white,
                                           foregroundColor: controller
-                                                  .isSelectedSalesChannel(2)
+                                              .isSelectedSalesChannel(2)
                                               ? Colors.white
                                               : Colors.black,
                                         ),
@@ -454,6 +403,63 @@ class AddProductView extends StatelessWidget {
                           height: 1.w,
                           width: double.infinity,
                         ),
+                        Container(
+                            color: Colors.white,
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 40.w, vertical: 30.w),
+                            child:  GetBuilder<AddProductController>(
+                                id: 'custom',
+                                init: controller,
+                                global: false,
+                                builder: (_) =>Flex(
+                              direction: Axis.horizontal,
+                              children: [
+                                Visibility(
+                                  visible: controller.state.saleChannel == 1,
+                                  child:  Text(
+                                    '* ',
+                                    style: TextStyle(color: Colors.red),
+                                  ),),
+                                Text(
+                                  '供应商',
+                                  style: TextStyle(
+                                      color: Colours.text_666,
+                                      fontSize: 30.sp,
+                                      fontWeight: FontWeight.w400),
+                                ),
+
+                                const Spacer(),
+                                InkWell(
+                                  onTap: () => controller.selectCustom(),
+                                  child: Row(children: [
+                                    Text(controller.state.customDTO?.customName ?? '请添加',
+                                            textAlign: TextAlign.right,
+                                            style: TextStyle(
+                                              color: controller.state.customDTO
+                                                          ?.customName !=
+                                                      null
+                                                  ? Colours.text_333
+                                                  : Colours.text_ccc,
+                                            )),
+                                    Padding(
+                                      padding: EdgeInsets.only(left: 10),
+                                      child: LoadAssetImage(
+                                        'common/arrow_right',
+                                        width: 25.w,
+                                        color: Colours.text_999,
+                                      ),
+                                    ),
+                                  ]),
+                                )
+                              ],
+                            ))),
+                        Container(
+                          color: Colours.divider,
+                          height: 1.w,
+                          width: double.infinity,
+                        ),
+
+
                         Container(
                             color: Colors.white,
                             padding: EdgeInsets.symmetric(

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ledger/entity/custom/custom_dto.dart';
 import 'package:ledger/enum/custom_type.dart';
@@ -193,6 +194,7 @@ class LedgerContactsCell extends StatelessWidget {
           // ),
           clickCallBack: () => onClickCell?.call(model),
         ),
+        Container(color:Colors.white38,height: 2.w,),
         Offstage(
           offstage: dataArr[dataArr.length - 1].id != model.id,
           child: Container(
