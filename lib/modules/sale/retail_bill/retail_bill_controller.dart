@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:decimal/decimal.dart';
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
@@ -458,7 +460,7 @@ class RetailBillController extends GetxController with GetSingleTickerProviderSt
       var product = shoppingCarCheckList
           .firstWhereOrNull((element) => element.productId == result.productId);
       if (null == product) {
-        shoppingCarCheckList.add(result.copyWith());
+        shoppingCarCheckList.add(ProductShoppingCarDTO.fromJson(result.toJson()));
       } else {
         if (result.unitDetailDTO?.unitType == UnitType.SINGLE.value) {
           var number = product.unitDetailDTO?.number ?? Decimal.zero;

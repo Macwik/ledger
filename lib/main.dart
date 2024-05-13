@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_bugly/flutter_bugly.dart';
-import 'package:intl/intl.dart';
 import 'package:jverify/jverify.dart';
 import 'package:ledger/config/application.dart';
 import 'package:ledger/lang/lang.dart';
