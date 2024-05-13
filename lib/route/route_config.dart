@@ -188,7 +188,6 @@ class RouteConfig {
   static const String remittanceRecord = '/page/remittance/record';
   static const String costRecord = '/page/cost/record';
   static const String saleDetail = '/page/sale/detail';
-  static const String purchaseDetail = '/page/purchase/detail';
   static const String costBill = '/page/cost/bill';
   static const String customRecord = '/page/custom/record';
   static const String supplierDetail = '/page/supplier/detail';
