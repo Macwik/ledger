@@ -67,6 +67,7 @@ import 'package:ledger/entity/unit/unit_group_dto.dart';
 import 'package:ledger/entity/user/user_base_dto.dart';
 import 'package:ledger/entity/user/user_detail_dto.dart';
 import 'package:ledger/entity/user/user_dto_entity.dart';
+import 'package:ledger/entity/user/user_status_dto.dart';
 
 JsonConvert jsonConvert = JsonConvert();
 
@@ -455,6 +456,10 @@ class JsonConvert {
       return data.map<UserDTOEntity>((Map<String, dynamic> e) =>
           UserDTOEntity.fromJson(e)).toList() as M;
     }
+    if (<UserStatusDTO>[] is M) {
+      return data.map<UserStatusDTO>((Map<String, dynamic> e) =>
+          UserStatusDTO.fromJson(e)).toList() as M;
+    }
 
     debugPrint("$M not found");
 
@@ -543,6 +548,7 @@ class JsonConvertClassCollection {
     (UserBaseDTO).toString(): UserBaseDTO.fromJson,
     (UserDetailDTO).toString(): UserDetailDTO.fromJson,
     (UserDTOEntity).toString(): UserDTOEntity.fromJson,
+    (UserStatusDTO).toString(): UserStatusDTO.fromJson,
   };
 
   bool containsKey(String type) {

@@ -7,6 +7,8 @@ class UserApi{
 
   static const String verify_code = '/api/erp/v2/msg/verify';
 
+  static const String user_status = '/api/erp/v2/verify/check';
+
   //注册
   static const String register = '/api/erp/v2/user/register';
 
