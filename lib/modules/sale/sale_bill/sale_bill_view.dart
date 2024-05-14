@@ -439,7 +439,8 @@ class SaleBillView extends StatelessWidget {
                             onTap: ()=>controller.addAddStoreRemark(),
                             child:Container(
                               padding: EdgeInsets.only(left: 16.w),
-                              child:  Text(TextUtil.mostStr(controller.state.addStoreRemarkController?.text??'添加备注')),
+                              child:  Text(controller.state.addStoreRemarkController.text.isEmpty?'添加备注':
+                                  TextUtil.mostStr(controller.state.addStoreRemarkController.text)),
                             ),
                           ),
                             visible: controller.state.orderType != OrderType.ADD_STOCK,

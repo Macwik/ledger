@@ -79,7 +79,7 @@ class SaleBillController extends GetxController {
   }
 
   Future<void> pickerCustom() async {
-    var result = await Get.toNamed(RouteConfig.customRecord, arguments: {
+    var result = await Get.toNamed(RouteConfig.chooseCustom, arguments: {
       'customType': CustomType.SUPPLIER.value,
       'isSelectCustom': true,
       'orderType': state.orderType
@@ -374,6 +374,10 @@ class SaleBillController extends GetxController {
         ),
         TextButton(
           onPressed:() {
+            if(state.addStoreRemarkController.text.isEmpty){
+              Toast.show('请填写备注');
+              return;
+            }
           update(['sale_bill_btn']);
           Get.back();
         },

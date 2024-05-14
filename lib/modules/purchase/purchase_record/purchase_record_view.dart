@@ -562,7 +562,7 @@ class PurchaseRecordView extends StatelessWidget {
                                 child: InkWell(
                                     onTap: () => Get.toNamed(RouteConfig.customRecord,arguments: {'customType': CustomType.SUPPLIER.value, 'isSelectCustom': false}),
                                     child: PermissionWidget(
-                                        permissionCode: PermissionCode.purchase_purchase_order_permission,//供应商列表暂无单独权限，和采购开单共用
+                                        permissionCode: PermissionCode.supplier_list_check_permission,
                                         child: Container(
                                             padding: EdgeInsets.only(top: 16.w),
                                             alignment: Alignment.center,

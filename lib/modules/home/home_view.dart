@@ -1350,7 +1350,7 @@ List<String> functionRoutes = [
 const List<String> functionItemPermission = [
   PermissionCode.sales_sale_order_permission,
   PermissionCode.sales_sale_record_permission,
-  PermissionCode.common_permission, //客户默认所有岗位都可见
+  PermissionCode.custom_list_check_permission
 ];
 
 Widget functionCard(int index) {

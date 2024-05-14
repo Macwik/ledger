@@ -63,7 +63,7 @@ class PaymentDialog extends StatelessWidget {
                         left: 20.w, right: 20.w, top: 10.w, bottom: 15.w),
                     child: ElevatedButton(
                       onPressed: () async {
-                        var result = await Get.toNamed(RouteConfig.customRecord,
+                        var result = await Get.toNamed(RouteConfig.chooseCustom,
                             arguments: {
                               'customType': (orderType == OrderType.SALE) ||
                                       (orderType == OrderType.SALE_RETURN) || (orderType == OrderType.REFUND)

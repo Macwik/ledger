@@ -182,7 +182,7 @@ class RepaymentBillController extends GetxController {
   }
 
   Future<void> selectCustom() async {
-    var result = await Get.toNamed(RouteConfig.customRecord, arguments: {
+    var result = await Get.toNamed(RouteConfig.chooseCustom, arguments: {
       'customType': state.customType,
       'isSelectCustom': true,
       'orderType': OrderType.REPAYMENT

@@ -50,39 +50,38 @@ class CustomRecordController extends GetxController {
       if (result.success) {
         state.customList.clear();
         state.customList.addAll(result.d!);
-
-        for (var element in state.customList) {
-          String pinyin = PinyinHelper.getPinyinE(element.customName!);
-          String tag = pinyin.substring(0, 1).toUpperCase();
-          element.namePinyin = pinyin;
-          if (RegExp('[A-Z]').hasMatch(tag)) {
-            element.tagIndex = tag;
-          } else {
-            element.tagIndex = '#';
-          }
-        }
-
-        if ((state.customList.isNotEmpty)) {
-          state.totalCreditAmount = state.customList
-              .map((e) => e.creditAmount ?? Decimal.zero)
-              .reduce((value, element) => value + element);
-          state.totalCreditCustom = state.customList
-              .where((e) => (e.creditAmount ?? Decimal.zero) > Decimal.zero)
-              .length;
-        }
-        // 根据A-Z排序
-        SuspensionUtil.sortListBySuspensionTag(state.customList);
-
-        // show sus tag.
-        SuspensionUtil.setShowSuspensionStatus(state.customList);
-
-        // add header.
-        state.customList
-            .insert(0, CustomDTO(customName: 'header', tagIndex: '🔍'));
-
-        state.contactsCount = '${state.customList.length} 位朋友及联系人';
-
-        update(['custom_list', 'custom_custom_header']);
+        //
+        // for (var element in state.customList) {
+        //   String pinyin = PinyinHelper.getPinyinE(element.customName!);
+        //   String tag = pinyin.substring(0, 1).toUpperCase();
+        //   element.namePinyin = pinyin;
+        //   if (RegExp('[A-Z]').hasMatch(tag)) {
+        //     element.tagIndex = tag;
+        //   } else {
+        //     element.tagIndex = '#';
+        //   }
+        // }
+        //
+        // if ((state.customList.isNotEmpty)) {
+        //   state.totalCreditAmount = state.customList
+        //       .map((e) => e.creditAmount ?? Decimal.zero)
+        //       .reduce((value, element) => value + element);
+        //   state.totalCreditCustom = state.customList
+        //       .where((e) => (e.creditAmount ?? Decimal.zero) > Decimal.zero)
+        //       .length;
+        // }
+        // // 根据A-Z排序
+        // SuspensionUtil.sortListBySuspensionTag(state.customList);
+        //
+        // // show sus tag.
+        // SuspensionUtil.setShowSuspensionStatus(state.customList);
+        //
+        // // add header.
+        // state.customList
+        //     .insert(0, CustomDTO(customName: 'header', tagIndex: '🔍'));
+        //
+        // state.contactsCount = '${state.customList.length} 位朋友及联系人';
+        update(['custom_list',]);
       }
     });
   }

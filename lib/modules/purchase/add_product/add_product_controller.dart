@@ -92,7 +92,7 @@ class AddProductController extends GetxController {
         update(['custom']);
       }
     }else{
-      var result = await Get.toNamed(RouteConfig.customRecord,
+      var result = await Get.toNamed(RouteConfig.chooseCustom,
           arguments: {'customType': CustomType.SUPPLIER.value, 'isSelectCustom': true});
       if (result != null) {
         state.customDTO = result;

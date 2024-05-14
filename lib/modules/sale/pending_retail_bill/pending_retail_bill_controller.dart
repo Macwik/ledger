@@ -87,7 +87,7 @@ class PendingRetailBillController extends GetxController {
   }
 
   Future<void> pickerCustom() async {
-    var result = await Get.toNamed(RouteConfig.customRecord, arguments: {
+    var result = await Get.toNamed(RouteConfig.chooseCustom, arguments: {
       'customType': CustomType.CUSTOM.value,
       'isSelectCustom': true,
       'orderType': OrderType.SALE

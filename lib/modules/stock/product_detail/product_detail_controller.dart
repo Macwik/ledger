@@ -78,7 +78,7 @@ class ProductDetailController extends GetxController {
 
 
   Future<void> selectCustom() async {
-    await Get.toNamed(RouteConfig.customRecord,
+    await Get.toNamed(RouteConfig.chooseCustom,
         arguments: {'customType': CustomType.SUPPLIER.value, 'isSelectCustom': true})?.then((value) {
       CustomDTO? result = value as CustomDTO?;
       if (result != null) {

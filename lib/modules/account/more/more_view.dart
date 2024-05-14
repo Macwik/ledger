@@ -505,7 +505,7 @@ const List<String> gridItemSalePermission = [
   PermissionCode.sales_sale_return_permission,
   PermissionCode.sales_sale_refund_permission,
   PermissionCode.sales_sale_record_permission,
-  PermissionCode.common_permission, //客户目前默认所有岗位都可见
+  PermissionCode.custom_list_check_permission
 ];
 
 const List<String> gridItemPurchaseNames = ['采购开单', '采购退货', '采购记录', '供应商'];
@@ -521,7 +521,7 @@ const List<String> gridItemPurchasePermission = [
   PermissionCode.purchase_purchase_order_permission,
   PermissionCode.purchase_purchase_return_order_permission,
   PermissionCode.purchase_purchase_record_permission,
-  PermissionCode.purchase_purchase_order_permission, // 供应商没有单独控制,同步采购开单
+  PermissionCode.supplier_list_check_permission,
 ];
 
 const List<String> gridItemStoreNames = ['库存列表', '直接入库', '库存调整', '调整记录'];

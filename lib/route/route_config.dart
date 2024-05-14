@@ -60,6 +60,8 @@ import 'package:ledger/modules/purchase/unit/unit_binding.dart';
 import 'package:ledger/modules/purchase/unit/unit_view.dart';
 import 'package:ledger/modules/sale/add_custom/add_custom_binding.dart';
 import 'package:ledger/modules/sale/add_custom/add_custom_view.dart';
+import 'package:ledger/modules/sale/choose_custom/choose_custom_binding.dart';
+import 'package:ledger/modules/sale/choose_custom/choose_custom_view.dart';
 import 'package:ledger/modules/sale/custom_detail/custom_detail_binding.dart';
 import 'package:ledger/modules/sale/custom_detail/custom_detail_view.dart';
 import 'package:ledger/modules/sale/custom_list/custom_list_binding.dart';
@@ -232,6 +234,7 @@ class RouteConfig {
   static const String chooseAccount = '/page/choose/account';
   static const String productCostDetail = '/page/product/cost/detail';
   static const String productOwnerList = '/page/product/owner/List';
+  static const String chooseCustom = '/page/choose/custom';
 
   static final List<GetPage> getPages = [
     GetPage(name: home, page: () => HomeView(), binding: HomeBinding()),
@@ -497,5 +500,9 @@ class RouteConfig {
         name: productOwnerList,
         page: () => ProductOwnerListView(),
         binding: ProductOwnerListBinding()),
+    GetPage(
+        name: chooseCustom,
+        page: () => ChooseCustomView(),
+        binding: ChooseCustomBinding()),
   ];
 }

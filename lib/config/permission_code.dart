@@ -83,10 +83,12 @@ class PermissionCode{
   static const String funds_repayment_record_permission = 'WIDGET_FUNDS_REPAYMENT_RECORD';
   //作废客户还款记录 6
   static const String repayment_detail_delete_permission = 'WIDGET_REPAYMENT_DETAIL_DELETE';
-  //录入欠款7
+  //录入欠款 8
   static const String funds_add_debt_permission = 'WIDGET_FUNDS_ADD_DEBT';
   //录入欠款修改日期15 delete
   static const String add_debt_time_permission = 'WIDGET_ADD_DEBT_TIME';
+  //查看客户 7
+  static const String custom_list_check_permission = 'WIDGET_CUSTOM_LIST_CHECK';
 
   /// parentId 49
   //新增供应0
@@ -103,6 +105,8 @@ class PermissionCode{
   static const String supplier_custom_repayment_record_permission = 'WIDGET_SUPPLIER_CUSTOM_REPAYMENT_RECORD';
   //作废供应商还款记录6
   static const String supplier_custom_repayment_detail_delete_permission = 'WIDGET_SUPPLIER_CUSTOM_REPAYMENT_DETAIL_DELETE';
+  //查看供应商  7
+  static const String supplier_list_check_permission = 'WIDGET_SUPPLIER_LIST_CHECK';
 
   /// parentId 4
   //新增货物0

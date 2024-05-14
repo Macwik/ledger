@@ -40,6 +40,6 @@ class SaleBillState {
 
   bool visible = false;
 
-  TextEditingController? addStoreRemarkController ;
+  TextEditingController addStoreRemarkController = TextEditingController() ;
 
 }

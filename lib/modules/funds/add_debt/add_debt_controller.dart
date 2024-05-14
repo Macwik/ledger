@@ -62,7 +62,7 @@ class AddDebtController extends GetxController {
   }
 
  Future<void> chooseCustom() async {
-   var result = await Get.toNamed(RouteConfig.customRecord,
+   var result = await Get.toNamed(RouteConfig.chooseCustom,
        arguments: {'customType': CustomType.CUSTOM.value,'isSelectCustom': true,'orderType':OrderType.CREDIT});
    if (result != null) {
      state.customDTO = result;
