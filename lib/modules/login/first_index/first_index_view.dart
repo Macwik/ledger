@@ -14,6 +14,7 @@ class FirstIndexView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    controller.initState();
     return  FormBuilder(
         key: state.formKey,
         onChanged: controller.onFormChange,
@@ -217,7 +218,7 @@ class FirstIndexView extends StatelessWidget {
               onPressed: ()=>
               (state.formKey.currentState?.saveAndValidate() ??
                   false)
-                  ? Get.toNamed(RouteConfig.addAccount,arguments: {'firstIndex':true})
+                  ? controller.registerUserAndRedirect()
                   : null,
               text: '下一步',
               style: TextStyle(

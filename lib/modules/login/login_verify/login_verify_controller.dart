@@ -5,8 +5,12 @@ import 'package:get/get.dart';
 import 'package:jverify/jverify.dart';
 import 'package:ledger/config/api/user_api.dart';
 import 'package:ledger/entity/user/user_dto_entity.dart';
+import 'package:ledger/entity/user/user_status_dto.dart';
+import 'package:ledger/enum/is_select.dart';
+import 'package:ledger/enum/user_status.dart';
 import 'package:ledger/res/export.dart';
 import 'package:ledger/store/store_controller.dart';
+import 'package:ledger/util/logger_util.dart';
 import 'package:ledger/widget/custom_textfield.dart';
 import 'package:ledger/widget/dialog_widget/privacy_agreement.dart';
 import 'package:ledger/widget/dialog_widget/user_agreement.dart';
@@ -301,21 +305,44 @@ class LoginVerifyController extends GetxController {
         });
   }
 
-  void verifyPhone() {
-    // Jverify jVerify = Jverify();
-    // jVerify.checkVerifyEnable().then((map) {
-    //   bool result = map[f_result_key];
-    //   if (result) {
-    //     jVerify.loginAuth(true).then((map) {
-    //       int code = map[f_code_key];
-    //       String? message = map[f_msg_key];
-    //       //获取手机号成功
-    //       if (6000 == code && (message?.isNotEmpty ?? false)) {
-    //         Get.offAndToNamed(RouteConfig.firstIndex,
-    //             arguments: {'token': message});
-    //       }
-    //     });
-    //   }
-    // });
+  Future<void> verifyPhone() async {
+    Jverify jVerify = Jverify();
+    var map = await jVerify.checkVerifyEnable();
+    bool result = map[f_result_key];
+    if (result) {
+      await jVerify.loginAuth(true).then((map) {
+        int code = map[f_code_key];
+        String? message = map[f_msg_key];
+        //获取手机号成功
+        if (6000 == code && (message?.isNotEmpty ?? false)) {
+          queryUserStatus(message!);
+        }
+      });
+    }
+  }
+
+  Future<void> queryUserStatus(String message) async {
+    final result = await Http().network<UserStatusDTO>(
+        Method.get, UserApi.user_status,
+        queryParameters: {'token': message});
+    if (!result.strictSuccess) {
+      Toast.show(result.m.toString());
+    } else {
+      var userStatusDTO = result.d;
+      if (UserStatus.ACTIVE.value == userStatusDTO?.statusCode) {
+        await StoreController.to.signIn(userStatusDTO!.userDTO!);
+        await StoreController.to
+            .updatePermissionCode()
+            .then((value) => Get.offAllNamed(RouteConfig.main));
+      } else if (UserStatus.NO_REGISTER.value == userStatusDTO?.statusCode) {
+        Get.offAndToNamed(RouteConfig.firstIndex,
+            arguments: {'phone': userStatusDTO?.phone});
+      } else if (UserStatus.NO_ACTIVE.value == userStatusDTO?.statusCode) {
+        Get.offAllNamed(RouteConfig.addAccount,
+            arguments: {'firstIndex':true});
+      } else {
+        LoggerUtil.e('未知异常$userStatusDTO');
+      }
+    }
   }
 }

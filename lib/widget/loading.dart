@@ -18,6 +18,12 @@ class Loading {
     }
   }
 
+  static void showMessage({status = '请稍等~~'}) {
+    if (!EasyLoading.isShow) {
+      EasyLoading.show(status: status);
+    }
+  }
+
   static void dismiss() {
     EasyLoading.dismiss();
   }
