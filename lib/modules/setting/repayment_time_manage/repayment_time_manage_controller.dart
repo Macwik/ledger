@@ -39,21 +39,26 @@ class RepaymentTimeManageController extends GetxController {
   }
 
   showTimeRange(BuildContext context) async {
+    var startTime = DateUtil.ofTimeOfDay(state.salesLineDTO?.startTime);
+    var endTime = DateUtil.ofTimeOfDay(state.salesLineDTO?.endTime);
     Get.dialog(TimePicker(
-        initTime: PickedTime(h: 0, m: 0),
-        endTime: PickedTime(h: 8, m: 0),
+        initTime: PickedTime(h: startTime.hour, m: startTime.minute),
+        endTime: PickedTime(h: endTime.hour, m: endTime.minute),
         onSelectionChange: (start, end, isDisableRange) =>
             print(
-                'onSelectionChange => init : ${start.h}:${start.m}, end : ${end.h}:${end.m}, isDisableRangeRange: $isDisableRange'),
+                'onSelectionChange => init : ${start.h}:${start.m}, end : ${end
+                    .h}:${end.m}, isDisableRangeRange: $isDisableRange'),
         onSelectionEnd: (start, end, isDisableRange) =>
-            _setSalesLineConfig(TimeOfDay(hour: start.h, minute: start.m), TimeOfDay(hour: end.h, minute: end.m))
+            _setSalesLineConfig(TimeOfDay(hour: start.h, minute: start.m),
+                TimeOfDay(hour: end.h, minute: end.m))
     ));
 
-    // TimeRange result = await showTimeRangePicker(
-    //   start: DateUtil.ofTimeOfDay(state.salesLineDTO?.startTime),
-    //   end: DateUtil.ofTimeOfDay(state.salesLineDTO?.endTime),
-    //   context: context,
-    // );
-    // _setSalesLineConfig(result.startTime, result.endTime);
+    //   TimeRange result = await showTimeRangePicker(
+    //     start: DateUtil.ofTimeOfDay(state.salesLineDTO?.startTime),
+    //     end: DateUtil.ofTimeOfDay(state.salesLineDTO?.endTime),
+    //     context: context,
+    //   );
+    //   _setSalesLineConfig(result.startTime, result.endTime);
+    // }
   }
 }
