@@ -5,7 +5,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 /// 描述: 检查当前网络连接状态
 /// 作者: 杨亮
 
-enum ConnectivityState { mobile, ethernet, wifi, none }
+enum ConnectivityState { mobile, ethernet, wifi, vpn, bluetooth, other, none }
 
 class ConnectivityUtils {
   /// 检查当前状态
@@ -13,16 +13,23 @@ class ConnectivityUtils {
     late ConnectivityState state;
 
     var connectivityResult = await (Connectivity().checkConnectivity());
-    if (connectivityResult == ConnectivityResult.mobile) {
+    if (connectivityResult.contains(ConnectivityResult.mobile)) {
       /// Mobile: Device connected to cellular network
       state = ConnectivityState.mobile;
-    } else if (connectivityResult == ConnectivityResult.ethernet) {
+    } else if (connectivityResult.contains(ConnectivityResult.ethernet)) {
       /// Ethernet: Device connected to ethernet network
       state = ConnectivityState.ethernet;
-    } else if (connectivityResult == ConnectivityResult.wifi) {
+    } else if (connectivityResult.contains(ConnectivityResult.wifi)) {
       /// WiFi: Device connected via Wi-Fi
       state = ConnectivityState.wifi;
-    } else if (connectivityResult == ConnectivityResult.none) {
+    } else if (connectivityResult.contains(ConnectivityResult.vpn)) {
+      state = ConnectivityState.vpn;
+    } else if (connectivityResult.contains(ConnectivityResult.bluetooth)) {
+      state = ConnectivityState.bluetooth;
+    }else if (connectivityResult.contains(ConnectivityResult.other)){
+      state = ConnectivityState.other;
+    }
+    else if (connectivityResult.contains(ConnectivityResult.none)) {
       /// None: Device not connected to any network
       state = ConnectivityState.none;
     }
