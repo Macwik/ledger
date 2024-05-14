@@ -250,6 +250,37 @@ class AddStockDetailView extends StatelessWidget {
                                     )
                                   ],
                                 ),
+                                SizedBox(height: 32.w,),
+                                LimitedBox(
+                                      maxHeight: 200.0, // 设置容器的最大高度
+                                      child: Flex(
+                                        direction: Axis.horizontal,
+                                        children: [
+                                          Expanded(
+                                            flex: 1,
+                                            child: Text(
+                                              '备注',
+                                              style: TextStyle(
+                                                color: Colours.text_999,
+                                                fontSize: 32.sp,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                              flex: 3,
+                                              child: Text(
+                                                textAlign: TextAlign.right,
+                                                softWrap: true, // 允许文本自动换行
+                                                state.orderDetailDTO?.remark ?? '',
+                                                style: TextStyle(
+                                                  color: Colours.text_333,
+                                                  fontSize: 32.sp,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              )),
+                                        ],
+                                      )),
 
                               ],
                             ));
@@ -293,12 +324,17 @@ class AddStockDetailView extends StatelessWidget {
                           ),
                         ],
                       ),
-                     ListView.builder(
+                     ListView.separated(
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
                               itemCount: state.orderDetailDTO?.orderProductDetailList
                                   ?.length ??
                                   0,
+                       separatorBuilder: (context, index) => Container(
+                         height: 2.w,
+                         color: Colours.bg,
+                         width: double.infinity,
+                       ),
                               itemBuilder: (BuildContext context, int index) {
                                 var orderProductDetail = state.orderDetailDTO?.orderProductDetailList![index];
                                 return Container(
@@ -320,19 +356,41 @@ class AddStockDetailView extends StatelessWidget {
                                                     fontWeight: FontWeight.w500,
                                                   ))),
                                           Expanded(
-                                            child: Text(
-                                                controller.judgeUnit(orderProductDetail),
-                                                textAlign: TextAlign.right,
-                                                style: TextStyle(
-                                                  color:  state.orderDetailDTO?.invalid == IsDeleted.DELETED.value?Colours.text_ccc:Colours.text_333,
-                                                  fontSize: 32.sp,
-                                                  fontWeight: FontWeight.w400,
-                                                )),
+                                            child:  Row(
+                                              mainAxisAlignment: MainAxisAlignment.end,
+                                              children: [
+                                                Text(
+                                                    orderProductDetail?.productPlace ??
+                                                        '',
+                                                    style: TextStyle(
+                                                      color: state.orderDetailDTO?.invalid == IsDeleted.DELETED.value?Colours.text_ccc: Colours.text_999,
+                                                      fontSize: 28.sp,
+                                                      fontWeight: FontWeight.w500,
+                                                    )),
+                                                Text(
+                                                    orderProductDetail?.productStandard ??
+                                                        '',
+                                                    style: TextStyle(
+                                                      color: state.orderDetailDTO?.invalid == IsDeleted.DELETED.value?Colours.text_ccc: Colours.text_999,
+                                                      fontSize: 28.sp,
+                                                      fontWeight: FontWeight.w500,
+                                                    )),],
+                                            ),
                                           )
                                         ],
                                       ),
-
-                                      //),
+                                  SizedBox(height: 16.w,),
+                                      Container(
+                                        alignment: Alignment.centerRight,
+                                        child:  Text(
+                                            controller.judgeUnit(orderProductDetail),
+                                            textAlign: TextAlign.right,
+                                            style: TextStyle(
+                                              color:  state.orderDetailDTO?.invalid == IsDeleted.DELETED.value?Colours.text_ccc:Colours.text_333,
+                                              fontSize: 32.sp,
+                                              fontWeight: FontWeight.w400,
+                                            )),
+                                      )
                                     ],
                                   ),
                                 );
@@ -342,7 +400,6 @@ class AddStockDetailView extends StatelessWidget {
                     ],
                   );}),)
               ),
-
                 GetBuilder<AddStockDetailController>(
                     id: 'order_cost',
                     builder: (_) {
@@ -454,61 +511,6 @@ class AddStockDetailView extends StatelessWidget {
                                     ],
                                   )));
                     }),
-                    // GetBuilder<AddStockDetailController>(
-                    //     id: 'order_cost',
-                    //     builder: (_) {
-                    //       return Offstage(
-                    //           offstage: state.orderDetailDTO?.remark == null,
-                    //           child: Card(
-                    //           elevation: 6,
-                    //           shadowColor: Colors.black45,
-                    //           margin: EdgeInsets.only(left: 24.w, top: 16.w, right: 24.w),
-                    //           clipBehavior: Clip.antiAlias,
-                    //           shape: RoundedRectangleBorder(
-                    //             borderRadius: BorderRadius.all(Radius.circular(28.w)),
-                    //           ),
-                    //           child:Container(
-                    //           color: Colors.white,
-                    //           padding: EdgeInsets.only(
-                    //               left: 40.w,
-                    //               right: 40.w,
-                    //               top: 30.w,
-                    //               bottom: 20.w),
-                    //           child: LimitedBox(
-                    //                     maxHeight: 200.0, // 设置容器的最大高度
-                    //                     child: Flex(
-                    //                       direction: Axis.horizontal,
-                    //                       children: [
-                    //                         Expanded(
-                    //                           flex: 1,
-                    //                           child: Text(
-                    //                             '备注',
-                    //                             style: TextStyle(
-                    //                               color: Colours.text_666,
-                    //                               fontSize: 32.sp,
-                    //                               fontWeight: FontWeight.w400,
-                    //                             ),
-                    //                           ),
-                    //                         ),
-                    //                         Expanded(
-                    //                             flex: 3,
-                    //                             child: Text(
-                    //                               textAlign: TextAlign.right,
-                    //                               softWrap: true, // 允许文本自动换行
-                    //                               state.orderDetailDTO
-                    //                                   ?.remark ??
-                    //                                   '',
-                    //                               style: TextStyle(
-                    //                                 color: Colours.text_333,
-                    //                                 fontSize: 32.sp,
-                    //                                 fontWeight: FontWeight.w500,
-                    //                               ),
-                    //                             )),
-                    //                       ],
-                    //                     )),
-                    //           )));
-                    //     }),
-
                 Container(height: 100.w,)
               ]))),
       //底部按钮

@@ -40,4 +40,6 @@ class SaleBillState {
 
   bool visible = false;
 
+  TextEditingController? addStoreRemarkController ;
+
 }

@@ -140,6 +140,8 @@ import 'package:ledger/modules/stock/product_credit/product_credit_binding.dart'
 import 'package:ledger/modules/stock/product_credit/product_credit_view.dart';
 import 'package:ledger/modules/stock/product_detail/product_detail_binding.dart';
 import 'package:ledger/modules/stock/product_detail/product_detail_view.dart';
+import 'package:ledger/modules/stock/product_owner_list/product_owner_list_binding.dart';
+import 'package:ledger/modules/stock/product_owner_list/product_owner_list_view.dart';
 import 'package:ledger/modules/stock/product_type_manage/product_type_manage_binding.dart';
 import 'package:ledger/modules/stock/product_type_manage/product_type_manage_view.dart';
 import 'package:ledger/modules/stock/stock/stock_binding.dart';
@@ -188,7 +190,6 @@ class RouteConfig {
   static const String remittanceRecord = '/page/remittance/record';
   static const String costRecord = '/page/cost/record';
   static const String saleDetail = '/page/sale/detail';
-  static const String purchaseDetail = '/page/purchase/detail';
   static const String costBill = '/page/cost/bill';
   static const String customRecord = '/page/custom/record';
   static const String supplierDetail = '/page/supplier/detail';
@@ -230,6 +231,7 @@ class RouteConfig {
   static const String firstIndex = '/page/first/index';
   static const String chooseAccount = '/page/choose/account';
   static const String productCostDetail = '/page/product/cost/detail';
+  static const String productOwnerList = '/page/product/owner/List';
 
   static final List<GetPage> getPages = [
     GetPage(name: home, page: () => HomeView(), binding: HomeBinding()),
@@ -491,5 +493,9 @@ class RouteConfig {
         name: productCostDetail,
         page: () => ProductCostDetailView(),
         binding: ProductCostDetailBinding()),
+    GetPage(
+        name: productOwnerList,
+        page: () => ProductOwnerListView(),
+        binding: ProductOwnerListBinding()),
   ];
 }

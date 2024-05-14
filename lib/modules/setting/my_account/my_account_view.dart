@@ -18,7 +18,7 @@ class MyAccountView extends StatelessWidget {
       appBar: TitleBar(
         title:
           state.isSelect == IsSelectType.FALSE.value
-              ? '账本管理'
+              ?'账本管理'
               :'请选择账本',
         backPressed: ()=> controller.myAccountGetBack(),
         actionWidget:
@@ -213,17 +213,14 @@ class MyAccountView extends StatelessWidget {
                               direction: Axis.horizontal,
                               children: [
                                 Expanded(
-                                    child: InkWell(
-                                      onTap: () => controller.joiningAccountManage(userRelationDetailDTO?.ledgerId),
-
-                                      child: Text(
+                                    child: Text(
                                         userRelationDetailDTO?.ledgerName ?? '',
                                         style: TextStyle(
                                           fontSize: 30.w,
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ),
-                                    )),
+                                    ),
                                 Visibility(
                                     visible: state.isSelect ==
                                         IsSelectType.FALSE.value,
@@ -235,8 +232,13 @@ class MyAccountView extends StatelessWidget {
                                 Visibility(
                                     visible: state.isSelect ==
                                         IsSelectType.FALSE.value,
-                                    child: Expanded(
-                                        child: Row(
+                                    child:  Expanded(
+                                        child:InkWell(
+                                            onTap: () =>
+                                                controller.toChangeAccount(
+                                                    userRelationDetailDTO!
+                                                        .ledgerId!),
+                                            child: Row(
                                           mainAxisAlignment: MainAxisAlignment.end,
                                           children: [
                                             LoadSvg(
@@ -248,12 +250,7 @@ class MyAccountView extends StatelessWidget {
                                             SizedBox(
                                               width: 15.w,
                                             ),
-                                            InkWell(
-                                                onTap: () =>
-                                                    controller.toChangeAccount(
-                                                        userRelationDetailDTO!
-                                                            .ledgerId!),
-                                                child: Text(
+                                            Text(
                                                   userRelationDetailDTO?.active ??
                                                       false
                                                       ? '当前账本'
@@ -267,9 +264,9 @@ class MyAccountView extends StatelessWidget {
                                                     fontSize: 28.sp,
                                                     fontWeight: FontWeight.w500,
                                                   ),
-                                                )),
+                                                ),
                                           ],
-                                        )))
+                                        ))))
                               ],
                             ),
                           ));

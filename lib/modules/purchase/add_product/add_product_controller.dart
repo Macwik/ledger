@@ -36,6 +36,10 @@ class AddProductController extends GetxController {
       Toast.show('请填写货物单位');
       return;
     }
+    if((state.saleChannel == 1)&&((state.customDTO?.customName?.isEmpty??false)||(state.customDTO == null))){
+      Toast.show('请填添加供应商');
+      return;
+    }
     Loading.showDuration();
     Http().network(Method.post, ProductApi.addProduct, data: {
       'productName': productName,
@@ -73,7 +77,7 @@ class AddProductController extends GetxController {
 
   void changeSalesChannel(int index) {
     state.saleChannel = index;
-    update(['saleType']);
+    update(['saleType','custom']);
   }
 
   bool isSelectedSalesChannel(int index) {
@@ -81,11 +85,19 @@ class AddProductController extends GetxController {
   }
 
   Future<void> selectCustom() async {
-    var result = await Get.toNamed(RouteConfig.customRecord,
-        arguments: {'customType': CustomType.SUPPLIER.value, 'isSelectCustom': true});
-    if (result != null) {
-      state.customDTO = result;
-      update(['custom']);
+    if(state.saleChannel == 1){
+      var result = await Get.toNamed(RouteConfig.productOwnerList);
+      if (result != null) {
+        state.customDTO = result;
+        update(['custom']);
+      }
+    }else{
+      var result = await Get.toNamed(RouteConfig.customRecord,
+          arguments: {'customType': CustomType.SUPPLIER.value, 'isSelectCustom': true});
+      if (result != null) {
+        state.customDTO = result;
+        update(['custom']);
+      }
     }
   }
 
@@ -146,4 +158,5 @@ class AddProductController extends GetxController {
       update(['productClassify']);
     }
   }
+
 }
