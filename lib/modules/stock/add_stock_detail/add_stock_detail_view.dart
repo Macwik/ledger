@@ -250,6 +250,37 @@ class AddStockDetailView extends StatelessWidget {
                                     )
                                   ],
                                 ),
+                                SizedBox(height: 32.w,),
+                                LimitedBox(
+                                      maxHeight: 200.0, // 设置容器的最大高度
+                                      child: Flex(
+                                        direction: Axis.horizontal,
+                                        children: [
+                                          Expanded(
+                                            flex: 1,
+                                            child: Text(
+                                              '备注',
+                                              style: TextStyle(
+                                                color: Colours.text_999,
+                                                fontSize: 32.sp,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                              flex: 3,
+                                              child: Text(
+                                                textAlign: TextAlign.right,
+                                                softWrap: true, // 允许文本自动换行
+                                                state.orderDetailDTO?.remark ?? '',
+                                                style: TextStyle(
+                                                  color: Colours.text_333,
+                                                  fontSize: 32.sp,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              )),
+                                        ],
+                                      )),
 
                               ],
                             ));
@@ -369,7 +400,6 @@ class AddStockDetailView extends StatelessWidget {
                     ],
                   );}),)
               ),
-
                 GetBuilder<AddStockDetailController>(
                     id: 'order_cost',
                     builder: (_) {
@@ -481,61 +511,6 @@ class AddStockDetailView extends StatelessWidget {
                                     ],
                                   )));
                     }),
-                    // GetBuilder<AddStockDetailController>(
-                    //     id: 'order_cost',
-                    //     builder: (_) {
-                    //       return Offstage(
-                    //           offstage: state.orderDetailDTO?.remark == null,
-                    //           child: Card(
-                    //           elevation: 6,
-                    //           shadowColor: Colors.black45,
-                    //           margin: EdgeInsets.only(left: 24.w, top: 16.w, right: 24.w),
-                    //           clipBehavior: Clip.antiAlias,
-                    //           shape: RoundedRectangleBorder(
-                    //             borderRadius: BorderRadius.all(Radius.circular(28.w)),
-                    //           ),
-                    //           child:Container(
-                    //           color: Colors.white,
-                    //           padding: EdgeInsets.only(
-                    //               left: 40.w,
-                    //               right: 40.w,
-                    //               top: 30.w,
-                    //               bottom: 20.w),
-                    //           child: LimitedBox(
-                    //                     maxHeight: 200.0, // 设置容器的最大高度
-                    //                     child: Flex(
-                    //                       direction: Axis.horizontal,
-                    //                       children: [
-                    //                         Expanded(
-                    //                           flex: 1,
-                    //                           child: Text(
-                    //                             '备注',
-                    //                             style: TextStyle(
-                    //                               color: Colours.text_666,
-                    //                               fontSize: 32.sp,
-                    //                               fontWeight: FontWeight.w400,
-                    //                             ),
-                    //                           ),
-                    //                         ),
-                    //                         Expanded(
-                    //                             flex: 3,
-                    //                             child: Text(
-                    //                               textAlign: TextAlign.right,
-                    //                               softWrap: true, // 允许文本自动换行
-                    //                               state.orderDetailDTO
-                    //                                   ?.remark ??
-                    //                                   '',
-                    //                               style: TextStyle(
-                    //                                 color: Colours.text_333,
-                    //                                 fontSize: 32.sp,
-                    //                                 fontWeight: FontWeight.w500,
-                    //                               ),
-                    //                             )),
-                    //                       ],
-                    //                     )),
-                    //           )));
-                    //     }),
-
                 Container(height: 100.w,)
               ]))),
       //底部按钮

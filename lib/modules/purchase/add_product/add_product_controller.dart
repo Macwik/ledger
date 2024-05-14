@@ -1,15 +1,12 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
-import 'package:ledger/config/api/ledger_api.dart';
 import 'package:ledger/config/api/product_api.dart';
 import 'package:ledger/enum/custom_type.dart';
 import 'package:ledger/enum/is_select.dart';
 import 'package:ledger/enum/process_status.dart';
 import 'package:ledger/enum/unit_type.dart';
 import 'package:ledger/res/export.dart';
-import 'package:ledger/widget/dialog/single_input_dialog.dart';
 
 import 'add_product_state.dart';
 
@@ -89,7 +86,11 @@ class AddProductController extends GetxController {
 
   Future<void> selectCustom() async {
     if(state.saleChannel == 1){
-      inviteSupplier();
+      var result = await Get.toNamed(RouteConfig.productOwnerList);
+      if (result != null) {
+        state.customDTO = result;
+        update(['custom']);
+      }
     }else{
       var result = await Get.toNamed(RouteConfig.customRecord,
           arguments: {'customType': CustomType.SUPPLIER.value, 'isSelectCustom': true});
@@ -158,38 +159,4 @@ class AddProductController extends GetxController {
     }
   }
 
-  ///添加供应商--代办情况下
-  Future<void> inviteSupplier() async {
-    SingleInputDialog().singleInputDialog(
-      title:'请输入供应商手机号',
-      hintText: '请输入员工手机号',
-      keyboardType: TextInputType.phone,
-      validator: FormBuilderValidators.required(errorText: '手机号不能为空'.tr),
-      onOkPressed: (value) async {
-        final result = await Http()// ToDo 后期需要修改下面一行代码，暂时抄的别人的
-            .network<void>(Method.post, LedgerApi.ledger_invite, data: {
-          'phone': value,
-        });
-        ///ToDo 需要判断下该供应商，是否注册账号
-        if (true) {
-          Get.defaultDialog(
-              title: '该供应商未注册“货主鲜生”', // 设置标题为null，即不显示标题
-              middleText: '该供应商用此手机号注册登录后才能看到账目 ',
-              onConfirm: () {
-                Get.back();
-              });
-        }
-        if (result.success) {
-          Toast.show('添加成功');
-          //controller.state.customDTO?.customName = 供应商名字
-          update(['custom']);
-          Get.back(result: ProcessStatus.OK);
-          return true;
-        } else {
-          Toast.show(result.m.toString());
-          return false;
-        }
-      },
-    );
-  }
 }

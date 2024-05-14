@@ -421,7 +421,7 @@ class AddProductView extends StatelessWidget {
                                     style: TextStyle(color: Colors.red),
                                   ),),
                                 Text(
-                                  '供应商',
+                                  controller.state.saleChannel==1 ? '货主':'供应商',
                                   style: TextStyle(
                                       color: Colours.text_666,
                                       fontSize: 30.sp,

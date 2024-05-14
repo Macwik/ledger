@@ -1,5 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/api/ledger_api.dart';
 import 'package:ledger/config/api/order_api.dart';
@@ -21,6 +22,7 @@ import 'sale_bill_state.dart';
 
 class SaleBillController extends GetxController {
   final SaleBillState state = SaleBillState();
+
 
   Future<void> initState() async {
     var arguments = Get.arguments;
@@ -132,7 +134,7 @@ class SaleBillController extends GetxController {
       'customId': state.customDTO?.id,
       'batchNo': batchNumber,
       'orderProductRequest': state.shoppingCarList,
-      'remark': state.orderPayDialogResult?.remark,
+      'remark': state.addStoreRemarkController?.text,
       'orderDate': DateUtil.formatDefaultDate(state.date),
       'orderType': state.orderType.value,
     }).then((result) {
@@ -341,5 +343,42 @@ class SaleBillController extends GetxController {
             },
           ),
         ]));
+  }
+
+  void addAddStoreRemark() {
+    Get.dialog(AlertDialog(
+      title: Text('填写备注',
+          style: TextStyle(fontSize: 40.sp,
+              fontWeight: FontWeight.w600)),
+      content:SingleChildScrollView(
+          child:TextFormField(
+              controller: state.addStoreRemarkController,
+              maxLength: 28,
+              decoration: InputDecoration(
+                counterText: '',
+                hintText: '请输入备注内容',
+                hintStyle: TextStyle(fontSize: 32.sp),
+              ),
+              validator: FormBuilderValidators.compose([
+                FormBuilderValidators.required(errorText: '备注内容不能为空'),
+              ]),
+              textAlign: TextAlign.center,
+              keyboardType: TextInputType.name
+          )),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Get.back();
+          },
+          child: Text('取消',style: TextStyle(color: Colours.text_666),),
+        ),
+        TextButton(
+          onPressed:() {
+          update(['sale_bill_btn']);
+          Get.back();
+        },
+          child: Text('确定'),),
+      ],
+    ));
   }
 }

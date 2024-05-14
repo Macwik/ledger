@@ -103,6 +103,16 @@ class TextUtil {
     return result;
   }
 
+  static String mostStr(String? oriString, {int length = 8}) {
+    if (oriString?.isEmpty ?? true) {
+      return '';
+    }
+    if (oriString!.length >= length) {
+      return '${oriString.substring(0, length)}...';
+    }
+    return oriString;
+  }
+
   static bool isPhone(String? phone) {
     if (phone == null) {
       return false;
