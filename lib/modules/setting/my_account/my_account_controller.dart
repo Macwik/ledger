@@ -5,6 +5,10 @@ import 'package:ledger/entity/ledger/user_ledger_dto.dart';
 import 'package:ledger/entity/user/user_dto_entity.dart';
 import 'package:ledger/enum/is_select.dart';
 import 'package:ledger/enum/process_status.dart';
+import 'package:ledger/modules/home/home_binding.dart';
+import 'package:ledger/modules/home/home_controller.dart';
+import 'package:ledger/modules/main/main_binding.dart';
+import 'package:ledger/modules/main/main_controller.dart';
 import 'package:ledger/res/export.dart';
 import 'package:ledger/store/store_controller.dart';
 
@@ -46,7 +50,7 @@ class MyAccountController extends GetxController {
         cancel: '取消',
         confirm: '确定',
         content: '确认切换账本吗',
-        onCancel: (){},
+        onCancel: () {},
         onConfirm: () async {
           Loading.showDuration(status: '账本切换中...');
           await Http()
@@ -67,8 +71,10 @@ class MyAccountController extends GetxController {
                   Get.defaultDialog(
                       title: '提示',
                       barrierDismissible: false,
-                      middleText: '账本切换成功',
-                      onConfirm: () => Get.back());
+                      middleText: '账本切换成功, 点击确定会进入首页',
+                      onConfirm: () {
+                        Get.offAndToNamed(RouteConfig.main);
+                      });
                 } else {
                   Loading.dismiss();
                   Toast.showError('账本切换失败，请稍后再试');
@@ -126,7 +132,8 @@ class MyAccountController extends GetxController {
         }
       });
     } else {
-      Get.toNamed(RouteConfig.customList, arguments: {'ledgerId': id,'customType':state.customType});
+      Get.toNamed(RouteConfig.customList,
+          arguments: {'ledgerId': id, 'customType': state.customType});
     }
   }
 
@@ -140,7 +147,8 @@ class MyAccountController extends GetxController {
 
   void myAccountGetBack() {
     Get.until((route) {
-      return (route.settings.name == RouteConfig.main)|| (route.settings.name == RouteConfig.mine);
+      return (route.settings.name == RouteConfig.main) ||
+          (route.settings.name == RouteConfig.mine);
     });
   }
 }

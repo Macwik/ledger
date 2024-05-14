@@ -330,6 +330,7 @@ class LoginVerifyController extends GetxController {
     } else {
       var userStatusDTO = result.d;
       if (UserStatus.ACTIVE.value == userStatusDTO?.statusCode) {
+        await StoreController.to.signIn(userStatusDTO!.userDTO!);
         await StoreController.to
             .updatePermissionCode()
             .then((value) => Get.offAllNamed(RouteConfig.main));
@@ -337,8 +338,8 @@ class LoginVerifyController extends GetxController {
         Get.offAndToNamed(RouteConfig.firstIndex,
             arguments: {'phone': userStatusDTO?.phone});
       } else if (UserStatus.NO_ACTIVE.value == userStatusDTO?.statusCode) {
-        Get.offAllNamed(RouteConfig.myAccount,
-            arguments: {'isSelect': IsSelectType.FALSE.value});
+        Get.offAllNamed(RouteConfig.addAccount,
+            arguments: {'firstIndex':true});
       } else {
         LoggerUtil.e('未知异常$userStatusDTO');
       }

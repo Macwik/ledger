@@ -4,6 +4,7 @@ import 'package:ledger/config/api/user_api.dart';
 import 'package:ledger/entity/ledger/user_ledger_dto.dart';
 import 'package:ledger/entity/user/user_dto_entity.dart';
 import 'package:ledger/http/http_util.dart';
+import 'package:ledger/route/route_config.dart';
 import 'package:ledger/store/store_controller.dart';
 import 'package:ledger/util/toast_util.dart';
 import 'package:ledger/widget/loading.dart';
@@ -45,7 +46,9 @@ class ChooseAccountController extends GetxController {
                       title: '提示',
                       barrierDismissible: false,
                       middleText: '可以记账啦',
-                      onConfirm: () => Get.back());
+                      onConfirm: (){
+                        Get.offAndToNamed(RouteConfig.main);
+                      });
                 } else {
                   Loading.dismiss();
                   Toast.showError('账本进入失败，请稍后再试');

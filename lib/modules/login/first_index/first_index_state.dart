@@ -8,6 +8,8 @@ class FirstIndexState {
 
   final formKey = GlobalKey<FormBuilderState>();
 
+  String? phone;
+
   String? password;
 
   TextEditingController nameController = TextEditingController();

@@ -1,3 +1,4 @@
+import 'package:ledger/generated/json/base/json_field.dart';
 import 'package:ledger/entity/user/user_dto_entity.dart';
 import 'package:ledger/generated/json/user_status_dto.g.dart';
 import 'package:ledger/generated/json/user_dto_entity.g.dart';
