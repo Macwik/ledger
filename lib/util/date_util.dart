@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:progressive_time_picker/progressive_time_picker.dart';
 
 /// 一些常用格式参照。可以自定义格式，例如：'yyyy/MM/dd HH:mm:ss'，'yyyy/M/d HH:mm:ss'。
 /// 格式要求
@@ -68,8 +69,8 @@ class DateUtil {
   }
 
   /// 格式化时间，时分秒
-  static String formatDefaultTime(TimeOfDay time) {
-    var dateTime = DateTime(2024, 1, 1, time.hour, time.minute);
+  static String formatDefaultTime(PickedTime time) {
+    var dateTime = DateTime(2000, 1, 1, time.h, time.m);
     return DateFormat(DateFormats.h_m_s).format(dateTime);
   }
 

@@ -36,7 +36,7 @@ class RepaymentTimeManageView extends StatelessWidget {
                       ),
                       Expanded(
                           child: Text(
-                        '${state.salesLineDTO?.startTime}',
+                        state.salesLineDTO?.startTime??'00',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontWeight: FontWeight.w500,
@@ -52,7 +52,7 @@ class RepaymentTimeManageView extends StatelessWidget {
                       ),
                       Expanded(
                           child: Text(
-                        '${state.salesLineDTO?.endTime}',
+                        state.salesLineDTO?.endTime??'00',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontWeight: FontWeight.w500,
