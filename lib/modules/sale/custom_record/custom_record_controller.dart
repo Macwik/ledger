@@ -1,4 +1,3 @@
-import 'package:azlistview_plus/azlistview_plus.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -12,7 +11,6 @@ import 'package:ledger/route/route_config.dart';
 import 'package:ledger/util/toast_util.dart';
 import 'package:ledger/widget/permission/permission_widget.dart';
 import 'package:ledger/widget/warning.dart';
-import 'package:lpinyin/lpinyin.dart';
 
 import 'custom_record_state.dart';
 

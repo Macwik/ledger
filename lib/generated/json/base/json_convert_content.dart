@@ -48,6 +48,7 @@ import 'package:ledger/entity/product/product_sales_statistics_dto.dart';
 import 'package:ledger/entity/product/product_shopping_car_dto.dart';
 import 'package:ledger/entity/product/product_stock_adjust_request.dart';
 import 'package:ledger/entity/product/stock_change_record_dto.dart';
+import 'package:ledger/entity/productOwner/supplier_dto.dart';
 import 'package:ledger/entity/remittance/payment_dto.dart';
 import 'package:ledger/entity/remittance/remittance_detail_dto.dart';
 import 'package:ledger/entity/remittance/remittance_dto.dart';
@@ -380,6 +381,10 @@ class JsonConvert {
       return data.map<StockChangeRecordDTO>((Map<String, dynamic> e) =>
           StockChangeRecordDTO.fromJson(e)).toList() as M;
     }
+    if (<SupplierDTO>[] is M) {
+      return data.map<SupplierDTO>((Map<String, dynamic> e) =>
+          SupplierDTO.fromJson(e)).toList() as M;
+    }
     if (<PaymentDTO>[] is M) {
       return data.map<PaymentDTO>((Map<String, dynamic> e) =>
           PaymentDTO.fromJson(e)).toList() as M;
@@ -528,6 +533,7 @@ class JsonConvertClassCollection {
     (ProductShoppingCarDTO).toString(): ProductShoppingCarDTO.fromJson,
     (ProductStockAdjustRequest).toString(): ProductStockAdjustRequest.fromJson,
     (StockChangeRecordDTO).toString(): StockChangeRecordDTO.fromJson,
+    (SupplierDTO).toString(): SupplierDTO.fromJson,
     (PaymentDTO).toString(): PaymentDTO.fromJson,
     (RemittanceDetailDTO).toString(): RemittanceDetailDTO.fromJson,
     (RemittanceDTO).toString(): RemittanceDTO.fromJson,

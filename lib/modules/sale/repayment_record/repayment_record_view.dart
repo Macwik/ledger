@@ -78,13 +78,13 @@ class RepaymentRecordView extends StatelessWidget {
                                   Expanded(
                                     child: ElevatedButton(
                                       style: ButtonStyle(
-                                        padding: MaterialStateProperty.all(
+                                        padding: WidgetStateProperty.all(
                                             EdgeInsets.symmetric(
                                                 vertical: 12, horizontal: 10)),
                                         backgroundColor:
-                                            MaterialStateProperty.all(
+                                            WidgetStateProperty.all(
                                                 Colors.white), // 背景色
-                                        shape: MaterialStateProperty.all(
+                                        shape: WidgetStateProperty.all(
                                           RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(
                                                 35.0), // 圆角
@@ -137,14 +137,14 @@ class RepaymentRecordView extends StatelessWidget {
                                   Expanded(
                                       child: ElevatedButton(
                                           style: ButtonStyle(
-                                            padding: MaterialStateProperty.all(
+                                            padding: WidgetStateProperty.all(
                                                 EdgeInsets.symmetric(
                                                     vertical: 12,
                                                     horizontal: 10)),
                                             backgroundColor:
-                                                MaterialStateProperty.all(
+                                                WidgetStateProperty.all(
                                                     Colors.white), // 背景色
-                                            shape: MaterialStateProperty.all(
+                                            shape: WidgetStateProperty.all(
                                               RoundedRectangleBorder(
                                                 borderRadius:
                                                     BorderRadius.circular(
@@ -209,10 +209,10 @@ class RepaymentRecordView extends StatelessWidget {
                                   ),
                                   Switch(
                                       trackOutlineColor:
-                                      MaterialStateProperty.resolveWith(
+                                      WidgetStateProperty.resolveWith(
                                               (states) {
                                             if (states.contains(
-                                                MaterialState.selected)) {
+                                                WidgetState.selected)) {
                                               return Colours.primary; // 设置轨道边框颜色
                                             }
                                             return Colors.grey; // 默认的轨道边框颜色
@@ -304,6 +304,7 @@ class RepaymentRecordView extends StatelessWidget {
                     labelPadding: EdgeInsets.all(0),
                     isScrollable: false,
                     indicatorColor: Colours.primary,
+                    dividerColor: Colours.bg,
                     unselectedLabelColor: Colours.text_999,
                     unselectedLabelStyle:
                     const TextStyle(fontWeight: FontWeight.w500),

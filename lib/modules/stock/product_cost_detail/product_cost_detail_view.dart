@@ -39,6 +39,7 @@ class ProductCostDetailView extends StatelessWidget {
                   labelPadding: EdgeInsets.all(0),
                   isScrollable: false,
                   indicatorColor: Colours.primary,
+                  dividerColor: Colours.bg,
                   unselectedLabelColor: Colours.text_999,
                   unselectedLabelStyle:
                   const TextStyle(fontWeight: FontWeight.w500),

@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:ledger/entity/productOwner/supplier_dto.dart';
 
 class ProductOwnerListState {
   ProductOwnerListState() {
@@ -6,5 +7,9 @@ class ProductOwnerListState {
   }
 
   TextEditingController productOwnerNameController = TextEditingController();
+
+  bool isSelectSupplier = true;
+
+ List<SupplierDTO>  productOwnerList = [];
 
 }

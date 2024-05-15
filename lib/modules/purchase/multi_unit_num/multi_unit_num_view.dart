@@ -25,7 +25,16 @@ class MultiUnitNumView extends StatelessWidget {
             backPressed: ()=>Get.back(),
               bottomWidget: TabBar(
                 onTap: (index) => controller.switchTab(index),
+                dividerColor: Colours.bg,
+                indicatorWeight: 3.w,
+                indicatorPadding: EdgeInsets.all(0),
+                labelPadding: EdgeInsets.all(0),
+                isScrollable: false,
                 indicatorColor: Colours.primary,
+                unselectedLabelColor: Colours.text_999,
+                unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w500),
+                labelStyle: TextStyle(fontWeight: FontWeight.w500),
+                labelColor: Colours.primary,
                 tabs: [
                   Tab(
                       child: Text(

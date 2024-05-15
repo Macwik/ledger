@@ -44,8 +44,8 @@ class DailyAccountView extends StatelessWidget {
                     isScrollable: false,
                     indicatorColor: Colours.primary,
                     unselectedLabelColor: Colours.text_999,
-                    unselectedLabelStyle:
-                        const TextStyle(fontWeight: FontWeight.w500),
+                    dividerColor: Colours.bg,
+                    unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w500),
                     labelStyle: TextStyle(fontWeight: FontWeight.w500),
                     labelColor: Colours.primary,
                   )),
@@ -372,10 +372,10 @@ class DailyAccountView extends StatelessWidget {
                                   children: [
                                     TextButton(
                                       style: ButtonStyle(
-                                        padding: MaterialStateProperty.all(
+                                        padding: WidgetStateProperty.all(
                                             EdgeInsets.zero),
                                         backgroundColor:
-                                            MaterialStateProperty.all(
+                                        WidgetStateProperty.all(
                                                 Colors.white),
                                       ),
                                       onPressed: () {
@@ -419,10 +419,10 @@ class DailyAccountView extends StatelessWidget {
                                     ),
                                     TextButton(
                                         style: ButtonStyle(
-                                          padding: MaterialStateProperty.all(
+                                          padding: WidgetStateProperty.all(
                                               EdgeInsets.zero),
                                           backgroundColor:
-                                              MaterialStateProperty.all(
+                                          WidgetStateProperty.all(
                                                   Colors.white), // 背景色
                                         ),
                                         onPressed: () {
@@ -453,14 +453,14 @@ class DailyAccountView extends StatelessWidget {
                                         )),
                                     TextButton(
                                         style: ButtonStyle(
-                                          padding: MaterialStateProperty.all(
+                                          padding: WidgetStateProperty.all(
                                               EdgeInsets.symmetric(
                                                   horizontal: 12)),
                                           backgroundColor:
-                                              MaterialStateProperty.all(
+                                          WidgetStateProperty.all(
                                                   Colors.white),
                                           // 背景色
-                                          shape: MaterialStateProperty.all(
+                                          shape: WidgetStateProperty.all(
                                             RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(

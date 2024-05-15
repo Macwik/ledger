@@ -70,11 +70,11 @@ class CostRecordView extends StatelessWidget {
                                 Expanded(
                                   child: ElevatedButton(
                                     style: ButtonStyle(
-                                      padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 24.w, horizontal: 20.w)),
+                                      padding: WidgetStateProperty.all(EdgeInsets.symmetric(vertical: 24.w, horizontal: 20.w)),
                                       backgroundColor:
-                                      MaterialStateProperty.all(
+                                      WidgetStateProperty.all(
                                           Colors.white), // 背景色
-                                      shape: MaterialStateProperty.all(
+                                      shape: WidgetStateProperty.all(
                                         RoundedRectangleBorder(
                                           borderRadius:
                                           BorderRadius.circular(35.0), // 圆角
@@ -126,11 +126,11 @@ class CostRecordView extends StatelessWidget {
                                 Expanded(
                                     child: ElevatedButton(
                                         style: ButtonStyle(
-                                          padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 24.w, horizontal: 20.w)),
+                                          padding: WidgetStateProperty.all(EdgeInsets.symmetric(vertical: 24.w, horizontal: 20.w)),
                                           backgroundColor:
-                                          MaterialStateProperty.all(
+                                          WidgetStateProperty.all(
                                               Colors.white), // 背景色
-                                          shape: MaterialStateProperty.all(
+                                          shape: WidgetStateProperty.all(
                                             RoundedRectangleBorder(
                                               borderRadius:
                                               BorderRadius.circular(
@@ -269,7 +269,7 @@ class CostRecordView extends StatelessWidget {
                     ),
                     GetBuilder<CostRecordController>(
                       id: 'sale_order_status',
-                      builder: (controller) => ButtonBar(
+                      builder: (controller) => OverflowBar(
                         overflowDirection:VerticalDirection.down,
                         alignment: MainAxisAlignment.start,
                         children: [
@@ -433,9 +433,9 @@ class CostRecordView extends StatelessWidget {
                                   )),
                                   Switch(
                                       trackOutlineColor:
-                                      MaterialStateProperty.resolveWith(
+                                      WidgetStateProperty.resolveWith(
                                               (states) {
-                                            if (states.contains(MaterialState.selected)) {
+                                            if (states.contains(WidgetState.selected)) {
                                               return Colours.primary; // 设置轨道边框颜色
                                             }
                                             return Colors.grey; // 默认的轨道边框颜色
@@ -474,10 +474,10 @@ class CostRecordView extends StatelessWidget {
                               )),
                               Switch(
                                   trackOutlineColor:
-                                  MaterialStateProperty.resolveWith(
+                                  WidgetStateProperty.resolveWith(
                                           (states) {
                                         if (states
-                                            .contains(MaterialState.selected)) {
+                                            .contains(WidgetState.selected)) {
                                           return Colours.primary; // 设置轨道边框颜色
                                         }
                                         return Colors.grey; // 默认的轨道边框颜色
@@ -569,6 +569,7 @@ class CostRecordView extends StatelessWidget {
                     isScrollable: false,
                     indicatorColor: Colours.primary,
                     unselectedLabelColor: Colours.text_999,
+                    dividerColor: Colours.bg,
                     unselectedLabelStyle:
                     const TextStyle(fontWeight: FontWeight.w500),
                     labelStyle: TextStyle(fontWeight: FontWeight.w500),
@@ -636,9 +637,9 @@ class CostRecordView extends StatelessWidget {
                     color: Colors.grey,
                     size: 40.w,
                   ),
-                  hintStyle: MaterialStatePropertyAll<TextStyle>(
+                  hintStyle: WidgetStatePropertyAll<TextStyle>(
                       TextStyle(fontSize: 34.sp,  color: Colors.black26)),
-                  shadowColor:MaterialStatePropertyAll<Color>(Colors.black26),
+                  shadowColor:WidgetStatePropertyAll<Color>(Colors.black26),
                   hintText: '请输入费用、收入名称',
 
                 )), ),
