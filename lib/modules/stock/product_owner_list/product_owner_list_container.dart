@@ -85,7 +85,7 @@ class ProductOwnerListContainer extends GetxController {
                   Text('备注'),
                   Expanded(child:TextFormField(
                       controller: state.productOwnerRemarkController,
-                      maxLength: 18,
+                      maxLength: 8,
                       decoration: InputDecoration(
                         counterText: '',
                         hintText: '请输入备注',
