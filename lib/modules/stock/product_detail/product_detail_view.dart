@@ -375,53 +375,7 @@ class ProductDetailView extends StatelessWidget {
                             height: 1.w,
                             width: double.infinity,
                           ),
-                          Container(
-                              color: Colors.white,
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 40.w, vertical: 40.w),
-                              child: InkWell(
-                                  onTap: () {
-                                    if (controller.state.isEdit) {
-                                      controller.selectCustom();
-                                    }
-                                  },
-                                  child: Flex(
-                                    direction: Axis.horizontal,
-                                    children: [
-                                      Text(
-                                        '供应商',
-                                        style: TextStyle(
-                                          color: Colours.text_666,
-                                          fontSize: 30.sp,
-                                        ),
-                                      ),
-                                      Expanded(
-                                          child: Text(
-                                        controller.state.supplier ?? '',
-                                        textAlign: TextAlign.end,
-                                        style: TextStyle(
-                                          color: Colours.text_333,
-                                          fontSize: 30.sp,
-                                        ),
-                                      )),
-                                      Visibility(
-                                        visible: controller.state.isEdit,
-                                        child: Padding(
-                                          padding: EdgeInsets.only(left: 10),
-                                          child: LoadAssetImage(
-                                            'common/arrow_right',
-                                            width: 25.w,
-                                            color: Colours.text_999,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ))),
-                          Container(
-                            color: Colours.divider,
-                            height: 1.w,
-                            width: double.infinity,
-                          ),
+
                           Container(
                               color: Colors.white,
                               padding: EdgeInsets.symmetric(
@@ -436,7 +390,7 @@ class ProductDetailView extends StatelessWidget {
                                       fontSize: 30.sp,
                                     ),
                                   )),
-                                  ButtonBar(
+                                  OverflowBar(
                                     children: [
                                       ElevatedButton(
                                         onPressed: () {
@@ -499,6 +453,59 @@ class ProductDetailView extends StatelessWidget {
                                   ),
                                 ],
                               )),
+                          Container(
+                            color: Colours.divider,
+                            height: 1.w,
+                            width: double.infinity,
+                          ),
+                          Container(
+                              color: Colors.white,
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 40.w, vertical: 40.w),
+                              child: InkWell(
+                                  onTap: () {
+                                    if (controller.state.isEdit) {
+                                      controller.selectCustom();
+                                    }
+                                  },
+                                  child: Flex(
+                                    direction: Axis.horizontal,
+                                    children: [
+                                      Visibility(
+                                        visible: controller.state.selectedSalesType == 1,
+                                        child:  Text(
+                                          '* ',
+                                          style: TextStyle(color: Colors.red),
+                                        ),),
+                                      Text(
+                                        controller.state.selectedSalesType==1 ? '货主':'供应商',
+                                        style: TextStyle(
+                                            color: Colours.text_666,
+                                            fontSize: 30.sp,
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                      Expanded(
+                                          child: Text(
+                                            controller.state.supplier ?? '',
+                                            textAlign: TextAlign.end,
+                                            style: TextStyle(
+                                              color: Colours.text_333,
+                                              fontSize: 30.sp,
+                                            ),
+                                          )),
+                                      Visibility(
+                                        visible: controller.state.isEdit,
+                                        child: Padding(
+                                          padding: EdgeInsets.only(left: 10),
+                                          child: LoadAssetImage(
+                                            'common/arrow_right',
+                                            width: 25.w,
+                                            color: Colours.text_999,
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ))),
                           Container(
                             color: Colours.divider,
                             height: 1.w,

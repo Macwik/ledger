@@ -9,5 +9,7 @@ class ProductOwnerApi{
   static const String enable_product_owner = '/api/erp/v2/supplier/enable';
 //拉取货主
   static const String get_product_owner = '/api/erp/v2/supplier/list';
+  //更新货主
+  static  const String refresh_product_owner = '/api/erp/v2/supplier/update';
 
 }

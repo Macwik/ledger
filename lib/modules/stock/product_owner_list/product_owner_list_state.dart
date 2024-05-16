@@ -8,8 +8,14 @@ class ProductOwnerListState {
 
   TextEditingController productOwnerNameController = TextEditingController();
 
+  TextEditingController productOwnerRemarkController = TextEditingController();
+
   bool isSelectSupplier = true;
 
  List<SupplierDTO>  productOwnerList = [];
+
+  int? invalid = 0;
+
+  String? supplierName ='';
 
 }

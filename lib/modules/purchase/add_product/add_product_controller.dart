@@ -36,7 +36,7 @@ class AddProductController extends GetxController {
       Toast.show('请填写货物单位');
       return;
     }
-    if((state.saleChannel == 1)&&((state.customDTO?.customName?.isEmpty??false)||(state.customDTO == null))){
+    if((state.saleChannel == 1)&&((state.supplierDTO?.supplierName?.isEmpty??false)||(state.supplierDTO == null))){
       Toast.show('请填添加供应商');
       return;
     }
@@ -62,7 +62,7 @@ class AddProductController extends GetxController {
           : null,
       'slavePrice': null,
       'remark': productRemark,
-      'supplier': state.customDTO?.id,
+      'supplier': state.saleChannel ==1 ?state.supplierDTO?.id:state.customDTO?.id,
       'salesChannel': state.saleChannel,
       'productClassify': state.productClassifyDTO?.id,
     }).then((result) {
@@ -88,7 +88,7 @@ class AddProductController extends GetxController {
     if(state.saleChannel == 1){
       var result = await Get.toNamed(RouteConfig.productOwnerList);
       if (result != null) {
-        state.customDTO = result;
+        state.supplierDTO = result;
         update(['custom']);
       }
     }else{

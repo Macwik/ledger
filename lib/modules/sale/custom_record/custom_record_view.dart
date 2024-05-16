@@ -85,7 +85,7 @@ class CustomRecordView extends StatelessWidget {
                       id: 'custom_status',
                       init: controller,
                       global: false,
-                      builder: (controller) => ButtonBar(
+                      builder: (controller) => OverflowBar(
                         overflowDirection: VerticalDirection.down,
                         alignment: MainAxisAlignment.start,
                         children: [
@@ -182,10 +182,10 @@ class CustomRecordView extends StatelessWidget {
                                       ),
                                       Switch(
                                           trackOutlineColor:
-                                              MaterialStateProperty.resolveWith(
+                                              WidgetStateProperty.resolveWith(
                                                   (states) {
                                             if (states.contains(
-                                                MaterialState.selected)) {
+                                                WidgetState.selected)) {
                                               return Colours
                                                   .primary; // 设置轨道边框颜色
                                             }
@@ -274,8 +274,8 @@ class CustomRecordView extends StatelessWidget {
                       color: Colors.grey,
                       size: 40.w,
                     ),
-                    shadowColor: MaterialStatePropertyAll<Color>(Colors.black26),
-                    hintStyle: MaterialStatePropertyAll<TextStyle>(
+                    shadowColor: WidgetStatePropertyAll<Color>(Colors.black26),
+                    hintStyle: WidgetStatePropertyAll<TextStyle>(
                         TextStyle(fontSize: 34.sp, color: Colors.black26)),
                     hintText: '请输入客户名称',
                     //onChanged: (value) => controller.searchCustom(value),

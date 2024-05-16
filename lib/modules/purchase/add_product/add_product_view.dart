@@ -337,7 +337,7 @@ class AddProductView extends StatelessWidget {
                                   id: 'saleType',
                                   init: controller,
                                   global: false,
-                                  builder: (controller) => ButtonBar(
+                                  builder: (controller) => OverflowBar(
                                     children: [
                                       ElevatedButton(
                                         onPressed: () =>
@@ -427,19 +427,18 @@ class AddProductView extends StatelessWidget {
                                       fontSize: 30.sp,
                                       fontWeight: FontWeight.w400),
                                 ),
-
                                 const Spacer(),
                                 InkWell(
                                   onTap: () => controller.selectCustom(),
                                   child: Row(children: [
-                                    Text(controller.state.customDTO?.customName ?? '请添加',
+                                    Text(controller.state.saleChannel==1
+                                        ?controller.state.supplierDTO?.supplierName ?? '请添加'
+                                        :controller.state.customDTO?.customName ?? '请添加',
                                             textAlign: TextAlign.right,
                                             style: TextStyle(
-                                              color: controller.state.customDTO
-                                                          ?.customName !=
-                                                      null
-                                                  ? Colours.text_333
-                                                  : Colours.text_ccc,
+                                              color: (controller.state.customDTO?.customName?.isEmpty??true)&&(controller.state.supplierDTO?.supplierName?.isEmpty??true)
+                                                  ? Colours.text_ccc
+                                                  : Colours.text_333,
                                             )),
                                     Padding(
                                       padding: EdgeInsets.only(left: 10),

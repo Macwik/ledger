@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:ledger/config/api/product_api.dart';
 import 'package:ledger/entity/custom/custom_dto.dart';
 import 'package:ledger/entity/product/product_detail_dto.dart';
+import 'package:ledger/entity/productOwner/supplier_dto.dart';
 import 'package:ledger/enum/custom_type.dart';
 import 'package:ledger/enum/is_select.dart';
 import 'package:ledger/enum/process_status.dart';
@@ -78,15 +79,26 @@ class ProductDetailController extends GetxController {
 
 
   Future<void> selectCustom() async {
-    await Get.toNamed(RouteConfig.chooseCustom,
-        arguments: {'customType': CustomType.SUPPLIER.value, 'isSelectCustom': true})?.then((value) {
-      CustomDTO? result = value as CustomDTO?;
-      if (result != null) {
-        state.supplierId = result.id;
-        state.supplier = result.customName;
-        update(['product_detail_body']);
-      }
-    });
+    if(state.selectedSalesType == 1){
+      await Get.toNamed(RouteConfig.productOwnerList)?.then((value) {
+        SupplierDTO? result = value as SupplierDTO?;
+        if (result != null) {
+          state.supplierId = result.id;
+          state.supplier = result.supplierName;
+          update(['product_detail_body']);
+        }
+      });
+    }else{
+      await Get.toNamed(RouteConfig.chooseCustom,
+          arguments: {'customType': CustomType.SUPPLIER.value, 'isSelectCustom': true})?.then((value) {
+        CustomDTO? result = value as CustomDTO?;
+        if (result != null) {
+          state.supplierId = result.id;
+          state.supplier = result.customName;
+          update(['product_detail_body']);
+        }
+      });
+    }
   }
 
   String judgeUnit(ProductDetailDTO? productDetailDTO) {

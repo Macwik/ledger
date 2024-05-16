@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:ledger/entity/custom/custom_dto.dart';
 import 'package:ledger/entity/product/product_classify_dto.dart';
+import 'package:ledger/entity/productOwner/supplier_dto.dart';
 import 'package:ledger/entity/unit/unit_detail_dto.dart';
 
 class AddProductState {
@@ -11,6 +12,9 @@ class AddProductState {
   ProductClassifyDTO? productClassifyDTO;
 
   CustomDTO? customDTO;
+
+  SupplierDTO? supplierDTO;
+
   int saleChannel = 0;
 
   final formKey = GlobalKey<FormBuilderState>();

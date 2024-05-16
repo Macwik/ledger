@@ -24,8 +24,8 @@ class ProductOwnerListContainer extends GetxController {
   _queryProductOwnerList() async {
     await Http().network<List<SupplierDTO>>(Method.post, ProductOwnerApi.get_product_owner,
         queryParameters: {
-          'invalid':null
-          //state.isSelectSupplier == true ? 0 : null,// 0 启用 | 1 未启用 | null 全部
+          'name':state.supplierName,
+          'invalid':  state.invalid,// 0 启用 | 1 未启用 | null 全部
         }).then((result) {
       if (result.success) {
         state.productOwnerList.clear();
@@ -35,43 +35,92 @@ class ProductOwnerListContainer extends GetxController {
     });
   }
 
+  //筛选里清空条件
+  void clearCondition() {
+    state.invalid = 0;
+    update(['switch',]);
+  }
+
+  //筛选里‘确定’
+  void confirmCondition() {
+    _queryProductOwnerList();
+    Get.back();
+  }
+
+  void searchCustom(String searchValue) {
+    state.supplierName = searchValue;
+    _queryProductOwnerList();
+  }
+
   void addProductOwner() {
     Get.dialog(AlertDialog(
       title: Text('新增货主',
           style: TextStyle(fontSize: 40.sp,
               fontWeight: FontWeight.w600)),
       content:SingleChildScrollView(
-          child:TextFormField(
-              controller: state.productOwnerNameController,
-              maxLength: 11,
-              decoration: InputDecoration(
-                counterText: '',
-                hintText: '请输入货主手机号',
-                hintStyle: TextStyle(fontSize: 32.sp),
+          child:Column(
+            children: [
+              Row(
+                children: [
+                  Text('手机号'),
+                  Expanded(child: TextFormField(
+                      controller: state.productOwnerNameController,
+                      maxLength: 11,
+                      decoration: InputDecoration(
+                        counterText: '',
+                        hintText: '请输入货主手机号',
+                        hintStyle: TextStyle(fontSize: 32.sp),
+                      ),
+                      validator: FormBuilderValidators.compose([
+                        FormBuilderValidators.required(errorText: '货主手机号不能为空'),
+                      ]),
+                      textAlign: TextAlign.center,
+                      keyboardType: TextInputType.name
+                  ))
+
+                ],
               ),
-              validator: FormBuilderValidators.compose([
-                FormBuilderValidators.required(errorText: '货主手机号不能为空'),
-              ]),
-              textAlign: TextAlign.center,
-              keyboardType: TextInputType.name
-          )),
+              Row(
+                children: [
+                  Text('备注'),
+                  Expanded(child:TextFormField(
+                      controller: state.productOwnerRemarkController,
+                      maxLength: 18,
+                      decoration: InputDecoration(
+                        counterText: '',
+                        hintText: '请输入备注',
+                        hintStyle: TextStyle(fontSize: 32.sp),
+                      ),
+                      textAlign: TextAlign.center,
+                      keyboardType: TextInputType.name
+                  ))
+                ],
+              )
+            ],
+          )
+          ),
       actions: [
         TextButton(
 
           onPressed: () {
             Get.back();
             state.productOwnerNameController.clear();
+            state.productOwnerRemarkController.clear();
           },
           child: Text('取消',style: TextStyle(color: Colours.text_666),),
         ),
         TextButton(onPressed:() async {
           final result = await Http().network<void>(
               Method.post, ProductOwnerApi.add_product_owner,
-              data: {'phone': state.productOwnerNameController.text});
+              data: {
+                'phone': state.productOwnerNameController.text,
+                'remark':state.productOwnerRemarkController.text
+              });
           if (result.success) {
             _queryProductOwnerList();
-            state.productOwnerNameController.clear();
             Get.back();
+            state.productOwnerNameController.clear();
+            state.productOwnerRemarkController.clear();
             Toast.show('添加成功');
           } else {
             Toast.show(result.m.toString());
@@ -82,8 +131,13 @@ class ProductOwnerListContainer extends GetxController {
   }
 
   void toSelectProductOwner(SupplierDTO supplierDTO) {
-    Get.back(result:supplierDTO);
-    _queryProductOwnerList();
+    if(supplierDTO.invalid == 1){
+        Toast.show('停用客户不可选');
+    }else{
+      Get.back(result:supplierDTO);
+      _queryProductOwnerList();
+    }
+
   }
 
  void toDeleteProductOwner(int? id) {
@@ -101,6 +155,8 @@ class ProductOwnerListContainer extends GetxController {
               }).then((result) {
             Loading.dismiss();
             if (result.success) {
+              _queryProductOwnerList();
+              Get.back();
               Toast.show('删除成功');
             } else {
               Toast.show(result.m.toString());
@@ -112,14 +168,14 @@ class ProductOwnerListContainer extends GetxController {
     );
   }
 
-  void addProductOwnerRemark() {
-    Get.dialog(AlertDialog(
+  Future<void> addProductOwnerRemark(int? id) async {
+  await  Get.dialog(AlertDialog(
       title: Text('填写备注',
           style: TextStyle(fontSize: 40.sp,
               fontWeight: FontWeight.w600)),
       content:SingleChildScrollView(
           child:TextFormField(
-              controller: state.productOwnerNameController,
+              controller: state.productOwnerRemarkController,
               maxLength: 8,
               decoration: InputDecoration(
                 counterText: '',
@@ -134,29 +190,30 @@ class ProductOwnerListContainer extends GetxController {
           )),
       actions: [
         TextButton(
-
           onPressed: () {
             Get.back();
-            state.productOwnerNameController.clear();
+            state.productOwnerRemarkController.clear();
           },
           child: Text('取消',style: TextStyle(color: Colours.text_666),),
         ),
         TextButton(onPressed:() async {
-          final result = await Http().network<void>(//ToDO 需要一个更新的接口
-              Method.post, ProductOwnerApi.add_product_owner,
+          final result = await Http().network<void>(
+              Method.post, ProductOwnerApi.refresh_product_owner,
               data: {
-                // 'name': state.paymentNameController.text,
-                // 'icon':'payment_common'
+               'id':id,
+                'remark':state.productOwnerRemarkController.text,
               });
           if (result.success) {
-            // _queryPaymentList();
+            state.productOwnerRemarkController.clear();
+            _queryProductOwnerList();
             Get.back();
-            state.productOwnerNameController.clear();
+            Get.back();
             Toast.show('添加成功');
           } else {
             Toast.show(result.m.toString());
           }
-        } , child: Text('确定'),),
+        },
+          child: Text('确定'),),
       ],
     ));
   }
@@ -167,6 +224,7 @@ class ProductOwnerListContainer extends GetxController {
       actions.add(CupertinoActionSheetAction(
         onPressed: () {
           toDeleteProductOwner(supplierDTO.id);
+
         },
         child: Text('删除货主'),
         isDestructiveAction: true,
@@ -177,7 +235,7 @@ class ProductOwnerListContainer extends GetxController {
       actions.add(
          CupertinoActionSheetAction(
              onPressed: () {
-               addProductOwnerRemark();
+               addProductOwnerRemark(supplierDTO.id);
              },
             child: Text('添加备注')),
       );
@@ -225,9 +283,9 @@ class ProductOwnerListContainer extends GetxController {
               'supplierId': supplierDTO?.id,
             }).then((result) {
               if (result.success) {
-                Toast.show('成功停用');
                 _queryProductOwnerList();
                 Get.back();
+                Toast.show('成功停用');
               } else {
                 Toast.show(result.m.toString());
               }
@@ -237,12 +295,13 @@ class ProductOwnerListContainer extends GetxController {
               'supplierId': supplierDTO?.id,
             }).then((result) {
               if (result.success) {
-                Toast.show('成功启用');
                 _queryProductOwnerList();
                 Get.back();
+                Toast.show('成功启用');
               } else {
                 Toast.show(result.m.toString());
               }
+
             });
           }
         },
