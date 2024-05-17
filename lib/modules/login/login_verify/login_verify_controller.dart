@@ -103,6 +103,7 @@ class LoginVerifyController extends GetxController {
       'loginType': state.loginVerifyType.value,
       'verifyCode': verifyCode,
       'password': password,
+      'userType': 0
     });
     if (result.success) {
       await StoreController.to.signIn(result.d!);
@@ -339,7 +340,7 @@ class LoginVerifyController extends GetxController {
             arguments: {'phone': userStatusDTO?.phone});
       } else if (UserStatus.NO_ACTIVE.value == userStatusDTO?.statusCode) {
         Get.offAllNamed(RouteConfig.addAccount,
-            arguments: {'firstIndex':true});
+            arguments: {'firstIndex': true});
       } else {
         LoggerUtil.e('未知异常$userStatusDTO');
       }

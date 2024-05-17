@@ -8,7 +8,7 @@ class ExternalOrderStatisticDTO {
 
   int? salesOrderId;
   String? batchNo;
-  List<ExternalOrderBaseDTO>? externalOrderBaseDTO;
+  List<ExternalOrderBaseDTO>? externalOrderList;
 
   ExternalOrderStatisticDTO();
 

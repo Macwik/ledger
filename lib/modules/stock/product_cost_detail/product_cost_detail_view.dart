@@ -3,11 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger/res/colors.dart';
 import 'package:ledger/route/route_config.dart';
+import 'package:ledger/util/decimal_util.dart';
 import 'package:ledger/widget/custom_easy_refresh.dart';
 import 'package:ledger/widget/empty_layout.dart';
 import 'package:ledger/widget/lottie_indicator.dart';
 import 'package:ledger/widget/title_bar.dart';
-import 'package:rxdart/rxdart.dart';
 
 import 'product_cost_detail_controller.dart';
 
@@ -25,7 +25,7 @@ class ProductCostDetailView extends StatelessWidget {
       ),
       body: DefaultTabController(
         initialIndex: 0,
-        length:  2,
+        length: 2,
         child: Column(
           children: [
             Container(
@@ -34,8 +34,12 @@ class ProductCostDetailView extends StatelessWidget {
                 child: TabBar(
                   controller: controller.tabController,
                   tabs: [
-                    Tab(text:'费用',),
-                    Tab(text:'收入',),
+                    Tab(
+                      text: '费用',
+                    ),
+                    Tab(
+                      text: '收入',
+                    ),
                   ],
                   indicatorWeight: 3.w,
                   indicatorPadding: EdgeInsets.all(0),
@@ -45,18 +49,17 @@ class ProductCostDetailView extends StatelessWidget {
                   dividerColor: Colours.bg,
                   unselectedLabelColor: Colours.text_999,
                   unselectedLabelStyle:
-                  const TextStyle(fontWeight: FontWeight.w500),
+                      const TextStyle(fontWeight: FontWeight.w500),
                   labelStyle: TextStyle(fontWeight: FontWeight.w500),
                   labelColor: Colours.primary,
                 )),
             //  }),
             Expanded(
-                child: TabBarView(
-                    controller: controller.tabController,
-                    children: [
-                      widgetSaleRecord(),
-                      widgetSaleRecord(),
-                    ]))
+                child:
+                    TabBarView(controller: controller.tabController, children: [
+              widgetSaleRecord(),
+              widgetSaleRecord(),
+            ]))
           ],
         ),
       ),
@@ -64,158 +67,172 @@ class ProductCostDetailView extends StatelessWidget {
   }
 
   widgetSaleRecord() {
-   return  GetBuilder<ProductCostDetailController>(
-         id: 'product_cost_detail',
-         builder: (_) {
-           return CustomEasyRefresh(
-             controller: state.refreshController,
-             onLoad: controller.onLoad,
-             onRefresh: controller.onRefresh,
-             emptyWidget: state.list == null
-                 ? LottieIndicator()
-                 : state.list?.isEmpty ?? true
-                 ? EmptyLayout(hintText: '什么都没有'.tr)
-                 : null,
-             child: ListView(
-               shrinkWrap: true,
-               physics: NeverScrollableScrollPhysics(),
-                 //var externalOrderStatisticDTO = state.list![index];
-               children: [
-                 InkWell(
-                   onTap: () => Get.toNamed(RouteConfig.costDetail,arguments: {}),
-                   child: Column(
-                     children: [
-                       Container(
-                           width: double.infinity,
-                           padding: EdgeInsets.symmetric(
-                               vertical: 16.w, horizontal: 40.w),
-                           color: Colors.white12,
-                           child: Row(
-                             children: [
-                               Text(//externalOrderStatisticDTO.batchNo??'',
-                                 '111',
-                                 style: TextStyle(
-                                   color: Colours.text_999,
-                                   fontSize: 28.sp,
-                                   fontWeight: FontWeight.w500,
-                                 ),
-                               ),
-                               const Spacer(),
-                               Text('合计：',
-                                 style: TextStyle(
-                                   color: Colours.text_ccc,
-                                   fontSize: 24.sp,
-                                   fontWeight: FontWeight.w500,
-                                 ),
-                               ),
-                               Text('￥222',
-                                 style: TextStyle(
-                                   color: Colours.primary,
-                                   fontSize: 32.sp,
-                                   fontWeight: FontWeight.w500,
-                                 ),
-                               ),
-                             ],
-                           )
-
-                       ),
-
-                       Container(
-                         color: Colors.white,
-                         padding: EdgeInsets.only(
-                             left: 40.w,
-                             right: 40.w,
-                             top: 20.w,
-                             bottom: 20.w),
-                         child: Column(
-                           mainAxisAlignment:
-                           MainAxisAlignment.spaceEvenly,
-                           children: [
-                             Flex(
-                               direction: Axis.horizontal,
-                               children: [
-                                 Expanded(
-                                   child: Text(
-                                       '2024-09-08',
-                                       style: TextStyle(
-                                         color: Colours.text_999,
-                                         fontSize: 28.sp,
-                                         fontWeight: FontWeight.w400,
-                                       )),
-                                 ),
-                                 Visibility(
-                                   // visible: salePurchaseOrderDTO.invalid == 1,
-                                     child: Container(
-                                       padding: EdgeInsets.only(
-                                           top: 2.w,
-                                           bottom: 2.w,
-                                           left: 4.w,
-                                           right: 4.w),
-                                       decoration: BoxDecoration(
-                                         border: Border.all(
-                                           color: Colours.text_999,
-                                           width: 1.0,
-                                         ),
-                                         borderRadius:
-                                         BorderRadius.circular(8.0),
-                                       ),
-                                       child: Text('已作废',
-                                           style: TextStyle(
-                                             color: Colours.text_999,
-                                             fontSize: 26.sp,
-                                             fontWeight: FontWeight.w500,
-                                           )),
-                                     )),
-                               ],
-                             ),
-                             SizedBox(height: 24.w,),
-                             Flex(
-                               direction: Axis.horizontal,
-                               children: [
-                                 Expanded(
-                                   child: Text(
-                                       '管理费',
-                                       style: TextStyle(
-                                         color: Colours.text_333,
-                                         fontSize: 32.sp,
-                                         fontWeight: FontWeight.w500,
-                                       )),
-                                 ),
-                                 Expanded(
-                                   child: Text('￥2000',
-                                       textAlign: TextAlign.right,
-                                       style: TextStyle(
-                                         color: Colours.text_333,
-                                         fontSize: 32.sp,
-                                         fontWeight: FontWeight.w500,
-                                       )),),
-                               ],
-                             ),
-                           ],
-                         ),
-                       )
-                     ],
-                   ),
-                 ),
-                 // ListView.separated(
-                 //     itemBuilder: (context, index) {
-                 //       return
-                 //     },
-                 //     separatorBuilder: (context, index) => Container(
-                 //       height: 2.w,
-                 //       color: Colours.divider,
-                 //       width: double.infinity,
-                 //     ),
-                 //     itemCount: state.list?.length??0)
-               ],
-               // separatorBuilder: (context, index) => Container(
-               //   height: 2.w,
-               //   color: Colors.white12,
-               //   width: double.infinity,
-               // ),
-               // itemCount: 5,
-             ),
-           );
-         });
+    return GetBuilder<ProductCostDetailController>(
+        id: 'product_cost_detail',
+        builder: (_) {
+          return CustomEasyRefresh(
+            controller: state.refreshController,
+            onLoad: controller.onLoad,
+            onRefresh: controller.onRefresh,
+            emptyWidget: state.list == null
+                ? LottieIndicator()
+                : state.list?.isEmpty ?? true
+                    ? EmptyLayout(hintText: '什么都没有'.tr)
+                    : null,
+            child: ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: state.list?.length ?? 0,
+              itemBuilder: (context, index) {
+                var externalOrderStatisticDTO = state.list![index];
+                return InkWell(
+                  onTap: () =>
+                      Get.toNamed(RouteConfig.costDetail, arguments: {}),
+                  child: Column(
+                    children: [
+                      Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.symmetric(
+                              vertical: 16.w, horizontal: 40.w),
+                          color: Colors.white12,
+                          child: Row(
+                            children: [
+                              Text(
+                                //externalOrderStatisticDTO.batchNo??'',
+                                '111',
+                                style: TextStyle(
+                                  color: Colours.text_999,
+                                  fontSize: 28.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              const Spacer(),
+                              Text(
+                                '合计：',
+                                style: TextStyle(
+                                  color: Colours.text_ccc,
+                                  fontSize: 24.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              Text(
+                                '￥222',
+                                style: TextStyle(
+                                  color: Colours.primary,
+                                  fontSize: 32.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          )),
+                      Container(
+                        color: Colors.white,
+                        padding: EdgeInsets.only(
+                            left: 40.w, right: 40.w, top: 20.w, bottom: 20.w),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Flex(
+                              direction: Axis.horizontal,
+                              children: [
+                                Expanded(
+                                  child: Text('2024-09-08',
+                                      style: TextStyle(
+                                        color: Colours.text_999,
+                                        fontSize: 28.sp,
+                                        fontWeight: FontWeight.w400,
+                                      )),
+                                ),
+                                Visibility(
+                                    // visible: salePurchaseOrderDTO.invalid == 1,
+                                    child: Container(
+                                  padding: EdgeInsets.only(
+                                      top: 2.w,
+                                      bottom: 2.w,
+                                      left: 4.w,
+                                      right: 4.w),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colours.text_999,
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  child: Text('已作废',
+                                      style: TextStyle(
+                                        color: Colours.text_999,
+                                        fontSize: 26.sp,
+                                        fontWeight: FontWeight.w500,
+                                      )),
+                                )),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 24.w,
+                            ),
+                            ListView(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              children: externalOrderStatisticDTO
+                                  .externalOrderList!
+                                  .map((item) {
+                                return Flex(
+                                  direction: Axis.horizontal,
+                                  children: [
+                                    Expanded(
+                                      child: Text(item.costIncomeName ?? '',
+                                          style: TextStyle(
+                                            color: Colours.text_333,
+                                            fontSize: 32.sp,
+                                            fontWeight: FontWeight.w500,
+                                          )),
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                          DecimalUtil.formatDecimalDefault(
+                                              item.totalAmount),
+                                          textAlign: TextAlign.right,
+                                          style: TextStyle(
+                                            color: Colours.text_333,
+                                            fontSize: 32.sp,
+                                            fontWeight: FontWeight.w500,
+                                          )),
+                                    ),
+                                  ],
+                                );
+                              }).toList(),
+                            ),
+                            // Flex(
+                            //   direction: Axis.horizontal,
+                            //   children: [
+                            //     Expanded(
+                            //       child: Text('管理费',
+                            //           style: TextStyle(
+                            //             color: Colours.text_333,
+                            //             fontSize: 32.sp,
+                            //             fontWeight: FontWeight.w500,
+                            //           )),
+                            //     ),
+                            //     Expanded(
+                            //       child: Text('￥2000',
+                            //           textAlign: TextAlign.right,
+                            //           style: TextStyle(
+                            //             color: Colours.text_333,
+                            //             fontSize: 32.sp,
+                            //             fontWeight: FontWeight.w500,
+                            //           )),
+                            //     ),
+                            //   ],
+                            // ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              },
+            ),
+          );
+        });
   }
 }

@@ -10,7 +10,9 @@ import 'package:ledger/widget/loading.dart';
 
 import 'product_cost_detail_state.dart';
 
-class ProductCostDetailController extends GetxController  with GetSingleTickerProviderStateMixin implements DisposableInterface{
+class ProductCostDetailController extends GetxController
+    with GetSingleTickerProviderStateMixin
+    implements DisposableInterface {
   final ProductCostDetailState state = ProductCostDetailState();
 
   late TabController tabController;
@@ -31,9 +33,8 @@ class ProductCostDetailController extends GetxController  with GetSingleTickerPr
       update(['product_cost_detail']);
     });
     super.onInit();
-    _queryData(state.currentPage);
+    onRefresh();
   }
-
 
   Future<void> onLoad() async {
     state.currentPage += 1;
@@ -70,13 +71,16 @@ class ProductCostDetailController extends GetxController  with GetSingleTickerPr
     });
   }
 
-
-  Future<BasePageEntity<ExternalOrderStatisticDTO>> _queryData(int currentPage) async {
+  Future<BasePageEntity<ExternalOrderStatisticDTO>> _queryData(
+      int currentPage) async {
     return await Http().networkPage<ExternalOrderStatisticDTO>(
-        Method.post, CostIncomeApi.product_cost_statistic,queryParameters: {
-          'productId':state.productId,
-          'orderType':state.discount,
-          'page':currentPage,
-    });
+        Method.post, CostIncomeApi.product_cost_statistic,
+        queryParameters: {
+          'productId': state.productId,
+          'orderType': 0,
+          'discount': 1,
+          'page': currentPage,
+          'size':10
+        });
   }
 }

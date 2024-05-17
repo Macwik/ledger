@@ -58,7 +58,9 @@ class RegisterController extends GetxController {
       'verifyCode': state.verifyController.text,
       'password': state.password,
       'username': state.nameController.text,
-      'gender': 2 //未知
+      'gender': 2, //未知
+      'userType': 0,
+      'channel': 0
     });
     Loading.dismiss();
     if (result.success) {

@@ -1,6 +1,6 @@
 import 'package:ledger/generated/json/base/json_convert_content.dart';
 import 'package:ledger/entity/costIncome/external_order_statistic_dto.dart';
-import 'package:ledger/entity/costIncome/external_order_base_dto.dart';
+import 'package:ledger/entity/statistics/external_order_base_dto.dart';
 
 
 ExternalOrderStatisticDTO $ExternalOrderStatisticDTOFromJson(
@@ -15,14 +15,14 @@ ExternalOrderStatisticDTO $ExternalOrderStatisticDTOFromJson(
     externalOrderStatisticDTO.batchNo = batchNo;
   }
   final List<
-      ExternalOrderBaseDTO>? externalOrderBaseDTO = (json['externalOrderBaseDTO'] as List<
+      ExternalOrderBaseDTO>? externalOrderList = (json['externalOrderList'] as List<
       dynamic>?)
       ?.map(
           (e) =>
       jsonConvert.convert<ExternalOrderBaseDTO>(e) as ExternalOrderBaseDTO)
       .toList();
-  if (externalOrderBaseDTO != null) {
-    externalOrderStatisticDTO.externalOrderBaseDTO = externalOrderBaseDTO;
+  if (externalOrderList != null) {
+    externalOrderStatisticDTO.externalOrderList = externalOrderList;
   }
   return externalOrderStatisticDTO;
 }
@@ -32,8 +32,8 @@ Map<String, dynamic> $ExternalOrderStatisticDTOToJson(
   final Map<String, dynamic> data = <String, dynamic>{};
   data['salesOrderId'] = entity.salesOrderId;
   data['batchNo'] = entity.batchNo;
-  data['externalOrderBaseDTO'] =
-      entity.externalOrderBaseDTO?.map((v) => v.toJson()).toList();
+  data['externalOrderList'] =
+      entity.externalOrderList?.map((v) => v.toJson()).toList();
   return data;
 }
 
@@ -41,12 +41,11 @@ extension ExternalOrderStatisticDTOExtension on ExternalOrderStatisticDTO {
   ExternalOrderStatisticDTO copyWith({
     int? salesOrderId,
     String? batchNo,
-    List<ExternalOrderBaseDTO>? externalOrderBaseDTO,
+    List<ExternalOrderBaseDTO>? externalOrderList,
   }) {
     return ExternalOrderStatisticDTO()
       ..salesOrderId = salesOrderId ?? this.salesOrderId
       ..batchNo = batchNo ?? this.batchNo
-      ..externalOrderBaseDTO = externalOrderBaseDTO ??
-          this.externalOrderBaseDTO;
+      ..externalOrderList = externalOrderList ?? this.externalOrderList;
   }
 }
