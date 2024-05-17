@@ -228,6 +228,23 @@ class DailyAccountController extends GetxController
         start: state.startDateSalesProduct,
         end: state.endDateSalesProduct,
       ),
+      currentDateDecoration: const BoxDecoration(),
+      currentDateTextStyle: const TextStyle(),
+      daysOfTheWeekTextStyle: const TextStyle(),
+      disabledCellsDecoration: const BoxDecoration(),
+      disabledCellsTextStyle: const TextStyle(),
+      enabledCellsDecoration: const BoxDecoration(),
+      enabledCellsTextStyle: const TextStyle(),
+      initialPickerType: PickerType.days,
+      selectedCellsDecoration: const BoxDecoration(),
+      selectedCellsTextStyle: const TextStyle(),
+      leadingDateTextStyle: const TextStyle(),
+      slidersColor: Colors.lightBlue,
+      highlightColor: Colors.redAccent,
+      slidersSize: 20,
+      splashColor: Colors.lightBlueAccent,
+      splashRadius: 40,
+      centerLeadingDate: true,
     );
     if (date != null) {
       state.startDateSalesProduct = date.start;

@@ -358,6 +358,8 @@ class DailyAccountView extends StatelessWidget {
                     children: [
                       GetBuilder<DailyAccountController>(
                           id: 'sales_product_data_range',
+                          init: controller,
+                          global: false,
                           builder: (_) {
                             return InkWell(
                                 onTap: () => controller
