@@ -223,7 +223,7 @@ class DailyAccountController extends GetxController
     final date = await showRangePickerDialog(
       context: context,
       minDate: DateTime(2000, 1, 1),
-      maxDate: DateTime.now().add(Duration(days: 1)),
+      maxDate: DateTime.now().add(Duration(days: 30)),
       selectedRange: DateTimeRange(
         start: state.startDateSalesProduct,
         end: state.endDateSalesProduct,
