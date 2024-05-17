@@ -360,7 +360,8 @@ class DailyAccountView extends StatelessWidget {
                           id: 'sales_product_data_range',
                           builder: (_) {
                             return InkWell(
-                              onTap: ()=> controller.pickerSalesProductDateRange(context),
+                                onTap: () => controller
+                                    .pickerSalesProductDateRange(context),
                                 child: Text(
                                     ' ${DateUtil.formatDefaultDate(controller.state.startDateSalesProduct)} ~ ${DateUtil.formatDefaultDate(controller.state.endDateSalesProduct)}',
                                     style: TextStyle(
@@ -368,133 +369,6 @@ class DailyAccountView extends StatelessWidget {
                                       fontSize: 30.sp,
                                       fontWeight: FontWeight.w500,
                                     )));
-                          }),
-                      GetBuilder<DailyAccountController>(
-                          id: 'sales_product_data_range_dep',
-                          init: controller,
-                          global: false,
-                          builder: (_) {
-                            return Container(
-                                color: Colors.white,
-                                padding:
-                                    EdgeInsets.only(left: 30.w, right: 20.w),
-                                margin: EdgeInsets.only(bottom: 10.w),
-                                alignment: Alignment.center,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    TextButton(
-                                      style: ButtonStyle(
-                                        padding: WidgetStateProperty.all(
-                                            EdgeInsets.zero),
-                                        backgroundColor:
-                                            WidgetStateProperty.all(
-                                                Colors.white),
-                                      ),
-                                      onPressed: () {
-                                        PickerDateUtils.pickerDate(context,
-                                            (result) {
-                                          if (null != result) {
-                                            if (result.compareTo(controller
-                                                    .state
-                                                    .endDateSalesProduct) >
-                                                0) {
-                                              Toast.show('起始时间需要小于结束时间');
-                                              return;
-                                            }
-                                            controller.state
-                                                .startDateSalesProduct = result;
-                                            controller.update(
-                                                ['sales_product_data_range']);
-                                          }
-                                        });
-                                      },
-                                      child: Text(
-                                        ' ${DateUtil.formatDefaultDate(controller.state.startDateSalesProduct)}',
-                                        style: TextStyle(
-                                          color: Colours.button_text,
-                                          fontSize: 30.sp,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 16.w),
-                                      child: Text(
-                                        '至',
-                                        style: TextStyle(
-                                          color: Colours.text_ccc,
-                                          fontSize: 28.sp,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                    TextButton(
-                                        style: ButtonStyle(
-                                          padding: WidgetStateProperty.all(
-                                              EdgeInsets.zero),
-                                          backgroundColor:
-                                              WidgetStateProperty.all(
-                                                  Colors.white), // 背景色
-                                        ),
-                                        onPressed: () {
-                                          PickerDateUtils.pickerDate(context,
-                                              (result) {
-                                            if (null != result) {
-                                              if (result.compareTo(controller
-                                                      .state
-                                                      .startDateSalesProduct) <
-                                                  0) {
-                                                Toast.show('结束时间需要大于起始时间');
-                                                return;
-                                              }
-                                              controller.state
-                                                  .endDateSalesProduct = result;
-                                              controller.update(
-                                                  ['sales_product_data_range']);
-                                            }
-                                          });
-                                        },
-                                        child: Text(
-                                          ' ${DateUtil.formatDefaultDate(controller.state.endDateSalesProduct)}',
-                                          style: TextStyle(
-                                            color: Colours.button_text,
-                                            fontSize: 30.sp,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        )),
-                                    TextButton(
-                                        style: ButtonStyle(
-                                          padding: WidgetStateProperty.all(
-                                              EdgeInsets.symmetric(
-                                                  horizontal: 12)),
-                                          backgroundColor:
-                                              WidgetStateProperty.all(
-                                                  Colors.white),
-                                          // 背景色
-                                          shape: WidgetStateProperty.all(
-                                            RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                      35.0), // 圆角
-                                              side: BorderSide(
-                                                width: 1.0, // 边框宽度
-                                                color: Colours.primary, // 边框颜色
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        onPressed: () =>
-                                            controller.changeDateSaleProduct(),
-                                        child: Text(
-                                          '查询',
-                                          style:
-                                              TextStyle(color: Colours.primary),
-                                        ))
-                                  ],
-                                ));
                           }),
                       GetBuilder<DailyAccountController>(
                           id: 'daily_sales_product_statistics',
