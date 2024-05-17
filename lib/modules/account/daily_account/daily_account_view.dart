@@ -45,7 +45,8 @@ class DailyAccountView extends StatelessWidget {
                     indicatorColor: Colours.primary,
                     unselectedLabelColor: Colours.text_999,
                     dividerColor: Colours.bg,
-                    unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w500),
+                    unselectedLabelStyle:
+                        const TextStyle(fontWeight: FontWeight.w500),
                     labelStyle: TextStyle(fontWeight: FontWeight.w500),
                     labelColor: Colours.primary,
                   )),
@@ -357,6 +358,19 @@ class DailyAccountView extends StatelessWidget {
                     children: [
                       GetBuilder<DailyAccountController>(
                           id: 'sales_product_data_range',
+                          builder: (_) {
+                            return InkWell(
+                              onTap: ()=> controller.pickerSalesProductDateRange(context),
+                                child: Text(
+                                    ' ${DateUtil.formatDefaultDate(controller.state.startDateSalesProduct)} ~ ${DateUtil.formatDefaultDate(controller.state.endDateSalesProduct)}',
+                                    style: TextStyle(
+                                      color: Colours.button_text,
+                                      fontSize: 30.sp,
+                                      fontWeight: FontWeight.w500,
+                                    )));
+                          }),
+                      GetBuilder<DailyAccountController>(
+                          id: 'sales_product_data_range_dep',
                           init: controller,
                           global: false,
                           builder: (_) {
@@ -375,7 +389,7 @@ class DailyAccountView extends StatelessWidget {
                                         padding: WidgetStateProperty.all(
                                             EdgeInsets.zero),
                                         backgroundColor:
-                                        WidgetStateProperty.all(
+                                            WidgetStateProperty.all(
                                                 Colors.white),
                                       ),
                                       onPressed: () {
@@ -422,7 +436,7 @@ class DailyAccountView extends StatelessWidget {
                                           padding: WidgetStateProperty.all(
                                               EdgeInsets.zero),
                                           backgroundColor:
-                                          WidgetStateProperty.all(
+                                              WidgetStateProperty.all(
                                                   Colors.white), // 背景色
                                         ),
                                         onPressed: () {
@@ -457,7 +471,7 @@ class DailyAccountView extends StatelessWidget {
                                               EdgeInsets.symmetric(
                                                   horizontal: 12)),
                                           backgroundColor:
-                                          WidgetStateProperty.all(
+                                              WidgetStateProperty.all(
                                                   Colors.white),
                                           // 背景色
                                           shape: WidgetStateProperty.all(

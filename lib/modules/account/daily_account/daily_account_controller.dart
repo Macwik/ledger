@@ -1,3 +1,4 @@
+import 'package:date_picker_plus/date_picker_plus.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -215,6 +216,24 @@ class DailyAccountController extends GetxController
         return OrderType.PURCHASE_RETURN;
       default:
         throw Exception('销售单');
+    }
+  }
+
+  Future<void> pickerSalesProductDateRange(BuildContext context) async {
+    final date = await showRangePickerDialog(
+      context: context,
+      minDate: DateTime(2000, 1, 1),
+      maxDate: DateTime.now().add(Duration(days: 1)),
+      selectedRange: DateTimeRange(
+        start: state.startDateSalesProduct,
+        end: state.endDateSalesProduct,
+      ),
+    );
+    if (date != null) {
+      state.startDateSalesProduct = date.start;
+      state.endDateSalesProduct = date.end;
+      update(['sales_product_data_range']);
+      changeDateSaleProduct();
     }
   }
 }
