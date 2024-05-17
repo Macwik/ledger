@@ -78,7 +78,7 @@ class ProductCostDetailController extends GetxController
         queryParameters: {
           'productId': state.productId,
           'orderType': state.index,
-          'discount': 1,
+          'discount': state.discount,
           'page': currentPage,
           'size':10
         });
