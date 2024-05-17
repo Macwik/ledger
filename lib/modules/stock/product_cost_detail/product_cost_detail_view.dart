@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger/res/colors.dart';
 import 'package:ledger/route/route_config.dart';
+import 'package:ledger/util/date_util.dart';
 import 'package:ledger/util/decimal_util.dart';
 import 'package:ledger/widget/custom_easy_refresh.dart';
 import 'package:ledger/widget/empty_layout.dart';
@@ -85,10 +86,15 @@ class ProductCostDetailView extends StatelessWidget {
               itemCount: state.list?.length ?? 0,
               itemBuilder: (context, index) {
                 var externalOrderStatisticDTO = state.list![index];
-                return InkWell(
-                  onTap: () =>
-                      Get.toNamed(RouteConfig.costDetail, arguments: {}),
-                  child: Column(
+                return  Card(
+                      elevation: 6,
+                      shadowColor: Colors.black45,
+                      margin: EdgeInsets.only(left: 24.w, top: 16.w, right: 24.w),
+                      clipBehavior: Clip.antiAlias,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(28.w)),
+                      ),
+                      child:Column(
                     children: [
                       Container(
                           width: double.infinity,
@@ -98,8 +104,15 @@ class ProductCostDetailView extends StatelessWidget {
                           child: Row(
                             children: [
                               Text(
-                                //externalOrderStatisticDTO.batchNo??'',
-                                '111',
+                                '批次号：',
+                                style: TextStyle(
+                                  color: Colours.text_ccc,
+                                  fontSize: 24.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              Text(
+                                externalOrderStatisticDTO.batchNo??'',
                                 style: TextStyle(
                                   color: Colours.text_999,
                                   fontSize: 28.sp,
@@ -129,54 +142,27 @@ class ProductCostDetailView extends StatelessWidget {
                         color: Colors.white,
                         padding: EdgeInsets.only(
                             left: 40.w, right: 40.w, top: 20.w, bottom: 20.w),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Flex(
-                              direction: Axis.horizontal,
-                              children: [
-                                Expanded(
-                                  child: Text('2024-09-08',
-                                      style: TextStyle(
-                                        color: Colours.text_999,
-                                        fontSize: 28.sp,
-                                        fontWeight: FontWeight.w400,
-                                      )),
-                                ),
-                                Visibility(
-                                    // visible: salePurchaseOrderDTO.invalid == 1,
-                                    child: Container(
-                                  padding: EdgeInsets.only(
-                                      top: 2.w,
-                                      bottom: 2.w,
-                                      left: 4.w,
-                                      right: 4.w),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colours.text_999,
-                                      width: 1.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                  child: Text('已作废',
-                                      style: TextStyle(
-                                        color: Colours.text_999,
-                                        fontSize: 26.sp,
-                                        fontWeight: FontWeight.w500,
-                                      )),
-                                )),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 24.w,
-                            ),
-                            ListView(
+                        child: ListView(
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
-                              children: externalOrderStatisticDTO
-                                  .externalOrderList!
-                                  .map((item) {
-                                return Flex(
+                              children: externalOrderStatisticDTO.externalOrderList!.map((item) {
+                                return InkWell(
+                                    onTap: () =>
+                                        Get.toNamed(RouteConfig.costDetail, arguments: {'id':item.id,'orderType':state.index}),
+                                    child:Column(
+                                  children: [
+                                    Container(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text( DateUtil.formatDefaultDate2(
+                                          item.externalDate),
+                                          style: TextStyle(
+                                            color: Colours.text_999,
+                                            fontSize: 26.sp,
+                                            fontWeight: FontWeight.w500,
+                                          )),
+                                    ),
+                                 SizedBox(height: 16.w,),
+                                  Flex(
                                   direction: Axis.horizontal,
                                   children: [
                                     Expanded(
@@ -189,47 +175,30 @@ class ProductCostDetailView extends StatelessWidget {
                                     ),
                                     Expanded(
                                       child: Text(
-                                          DecimalUtil.formatDecimalDefault(
+                                          DecimalUtil.formatAmount(
                                               item.totalAmount),
                                           textAlign: TextAlign.right,
                                           style: TextStyle(
-                                            color: Colours.text_333,
+                                            color: Colours.text_666,
                                             fontSize: 32.sp,
                                             fontWeight: FontWeight.w500,
                                           )),
                                     ),
                                   ],
-                                );
+                                ),
+                                Container(
+                                  height: 1.w,
+                                  width: double.infinity,
+                                  color: Colours.divider,
+                                  margin: EdgeInsets.symmetric(vertical: 16.w),
+                                )
+                                  ],
+                                ));
                               }).toList(),
                             ),
-                            // Flex(
-                            //   direction: Axis.horizontal,
-                            //   children: [
-                            //     Expanded(
-                            //       child: Text('管理费',
-                            //           style: TextStyle(
-                            //             color: Colours.text_333,
-                            //             fontSize: 32.sp,
-                            //             fontWeight: FontWeight.w500,
-                            //           )),
-                            //     ),
-                            //     Expanded(
-                            //       child: Text('￥2000',
-                            //           textAlign: TextAlign.right,
-                            //           style: TextStyle(
-                            //             color: Colours.text_333,
-                            //             fontSize: 32.sp,
-                            //             fontWeight: FontWeight.w500,
-                            //           )),
-                            //     ),
-                            //   ],
-                            // ),
-                          ],
-                        ),
                       )
                     ],
-                  ),
-                );
+                  ));
               },
             ),
           );

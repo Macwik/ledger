@@ -13,6 +13,11 @@ ExternalOrderBaseDTO $ExternalOrderBaseDTOFromJson(Map<String, dynamic> json) {
   if (ledgerId != null) {
     externalOrderBaseDTO.ledgerId = ledgerId;
   }
+  final DateTime? externalDate = jsonConvert.convert<DateTime>(
+      json['externalDate']);
+  if (externalDate != null) {
+    externalOrderBaseDTO.externalDate = externalDate;
+  }
   final int? salesOrderId = jsonConvert.convert<int>(json['salesOrderId']);
   if (salesOrderId != null) {
     externalOrderBaseDTO.salesOrderId = salesOrderId;
@@ -38,6 +43,7 @@ Map<String, dynamic> $ExternalOrderBaseDTOToJson(ExternalOrderBaseDTO entity) {
   final Map<String, dynamic> data = <String, dynamic>{};
   data['id'] = entity.id;
   data['ledgerId'] = entity.ledgerId;
+  data['externalDate'] = entity.externalDate?.toIso8601String();
   data['salesOrderId'] = entity.salesOrderId;
   data['discount'] = entity.discount;
   data['costIncomeName'] = entity.costIncomeName;
@@ -49,6 +55,7 @@ extension ExternalOrderBaseDTOExtension on ExternalOrderBaseDTO {
   ExternalOrderBaseDTO copyWith({
     int? id,
     int? ledgerId,
+    DateTime? externalDate,
     int? salesOrderId,
     int? discount,
     String? costIncomeName,
@@ -57,6 +64,7 @@ extension ExternalOrderBaseDTOExtension on ExternalOrderBaseDTO {
     return ExternalOrderBaseDTO()
       ..id = id ?? this.id
       ..ledgerId = ledgerId ?? this.ledgerId
+      ..externalDate = externalDate ?? this.externalDate
       ..salesOrderId = salesOrderId ?? this.salesOrderId
       ..discount = discount ?? this.discount
       ..costIncomeName = costIncomeName ?? this.costIncomeName

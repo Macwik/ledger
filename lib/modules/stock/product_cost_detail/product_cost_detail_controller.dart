@@ -30,7 +30,7 @@ class ProductCostDetailController extends GetxController
     tabController.addListener(() {
       var index = tabController.index;
       state.index = index;
-      update(['product_cost_detail']);
+      onRefresh();
     });
     super.onInit();
     onRefresh();
@@ -77,7 +77,7 @@ class ProductCostDetailController extends GetxController
         Method.post, CostIncomeApi.product_cost_statistic,
         queryParameters: {
           'productId': state.productId,
-          'orderType': 0,
+          'orderType': state.index,
           'discount': 1,
           'page': currentPage,
           'size':10

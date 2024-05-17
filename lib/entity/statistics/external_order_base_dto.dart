@@ -7,6 +7,7 @@ import 'dart:convert';
 class ExternalOrderBaseDTO {
   int? id;
   int? ledgerId;
+  DateTime? externalDate;
   int? salesOrderId;
   int? discount;
   String? costIncomeName;

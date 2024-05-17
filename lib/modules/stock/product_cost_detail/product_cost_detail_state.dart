@@ -6,7 +6,7 @@ class ProductCostDetailState {
     ///Initialize variables
   }
 
-  int? index;
+  int? index = 0;
 
   final refreshController = EasyRefreshController(
     controlFinishRefresh: true,
