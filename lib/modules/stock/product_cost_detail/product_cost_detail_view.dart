@@ -4,7 +4,10 @@ import 'package:get/get.dart';
 import 'package:ledger/res/colors.dart';
 import 'package:ledger/route/route_config.dart';
 import 'package:ledger/widget/custom_easy_refresh.dart';
+import 'package:ledger/widget/empty_layout.dart';
+import 'package:ledger/widget/lottie_indicator.dart';
 import 'package:ledger/widget/title_bar.dart';
+import 'package:rxdart/rxdart.dart';
 
 import 'product_cost_detail_controller.dart';
 
@@ -65,54 +68,58 @@ class ProductCostDetailView extends StatelessWidget {
          id: 'product_cost_detail',
          builder: (_) {
            return CustomEasyRefresh(
-             // controller: state.refreshController,
-             // onLoad: onLoad,
-             // onRefresh: onRefresh,
-             // emptyWidget: state.list == null
-             //     ? LottieIndicator()
-             //     : state.list?.isEmpty ?? true
-             //     ? EmptyLayout(hintText: '什么都没有'.tr)
-             //     : null,
-             child: ListView.separated(
-               itemBuilder: (context, index) {
-                // var salePurchaseOrderDTO = state.list![index];
-                 return InkWell(
+             controller: state.refreshController,
+             onLoad: controller.onLoad,
+             onRefresh: controller.onRefresh,
+             emptyWidget: state.list == null
+                 ? LottieIndicator()
+                 : state.list?.isEmpty ?? true
+                 ? EmptyLayout(hintText: '什么都没有'.tr)
+                 : null,
+             child: ListView(
+               shrinkWrap: true,
+               physics: NeverScrollableScrollPhysics(),
+                 //var externalOrderStatisticDTO = state.list![index];
+               children: [
+                 InkWell(
                    onTap: () => Get.toNamed(RouteConfig.costDetail,arguments: {}),
                    child: Column(
                      children: [
                        Container(
-                         width: double.infinity,
-                         padding: EdgeInsets.symmetric(
-                             vertical: 16.w, horizontal: 40.w),
-                         color: Colors.white12,
-                         child: Row(
-                           children: [
-                             Text('第一车',
-                               style: TextStyle(
-                                 color: Colours.text_999,
-                                 fontSize: 28.sp,
-                                 fontWeight: FontWeight.w500,
+                           width: double.infinity,
+                           padding: EdgeInsets.symmetric(
+                               vertical: 16.w, horizontal: 40.w),
+                           color: Colors.white12,
+                           child: Row(
+                             children: [
+                               Text(//externalOrderStatisticDTO.batchNo??'',
+                                 '111',
+                                 style: TextStyle(
+                                   color: Colours.text_999,
+                                   fontSize: 28.sp,
+                                   fontWeight: FontWeight.w500,
+                                 ),
                                ),
-                             ),
-                             const Spacer(),
-                             Text('合计：',
-                               style: TextStyle(
-                                 color: Colours.text_ccc,
-                                 fontSize: 24.sp,
-                                 fontWeight: FontWeight.w500,
+                               const Spacer(),
+                               Text('合计：',
+                                 style: TextStyle(
+                                   color: Colours.text_ccc,
+                                   fontSize: 24.sp,
+                                   fontWeight: FontWeight.w500,
+                                 ),
                                ),
-                             ),
-                             Text('￥222',
-                               style: TextStyle(
-                                 color: Colours.primary,
-                                 fontSize: 32.sp,
-                                 fontWeight: FontWeight.w500,
+                               Text('￥222',
+                                 style: TextStyle(
+                                   color: Colours.primary,
+                                   fontSize: 32.sp,
+                                   fontWeight: FontWeight.w500,
+                                 ),
                                ),
-                             ),
-                           ],
-                         )
+                             ],
+                           )
 
                        ),
+
                        Container(
                          color: Colors.white,
                          padding: EdgeInsets.only(
@@ -129,7 +136,7 @@ class ProductCostDetailView extends StatelessWidget {
                                children: [
                                  Expanded(
                                    child: Text(
-                                      '2024-09-08',
+                                       '2024-09-08',
                                        style: TextStyle(
                                          color: Colours.text_999,
                                          fontSize: 28.sp,
@@ -137,7 +144,7 @@ class ProductCostDetailView extends StatelessWidget {
                                        )),
                                  ),
                                  Visibility(
-                                    // visible: salePurchaseOrderDTO.invalid == 1,
+                                   // visible: salePurchaseOrderDTO.invalid == 1,
                                      child: Container(
                                        padding: EdgeInsets.only(
                                            top: 2.w,
@@ -167,7 +174,7 @@ class ProductCostDetailView extends StatelessWidget {
                                children: [
                                  Expanded(
                                    child: Text(
-                                      '管理费',
+                                       '管理费',
                                        style: TextStyle(
                                          color: Colours.text_333,
                                          fontSize: 32.sp,
@@ -175,13 +182,13 @@ class ProductCostDetailView extends StatelessWidget {
                                        )),
                                  ),
                                  Expanded(
-                                     child: Text('￥2000',
-                                         textAlign: TextAlign.right,
-                                         style: TextStyle(
-                                           color: Colours.text_333,
-                                           fontSize: 32.sp,
-                                           fontWeight: FontWeight.w500,
-                                         )),),
+                                   child: Text('￥2000',
+                                       textAlign: TextAlign.right,
+                                       style: TextStyle(
+                                         color: Colours.text_333,
+                                         fontSize: 32.sp,
+                                         fontWeight: FontWeight.w500,
+                                       )),),
                                ],
                              ),
                            ],
@@ -189,14 +196,24 @@ class ProductCostDetailView extends StatelessWidget {
                        )
                      ],
                    ),
-                 );
-               },
-               separatorBuilder: (context, index) => Container(
-                 height: 2.w,
-                 color: Colors.white12,
-                 width: double.infinity,
-               ),
-               itemCount: 5,
+                 ),
+                 // ListView.separated(
+                 //     itemBuilder: (context, index) {
+                 //       return
+                 //     },
+                 //     separatorBuilder: (context, index) => Container(
+                 //       height: 2.w,
+                 //       color: Colours.divider,
+                 //       width: double.infinity,
+                 //     ),
+                 //     itemCount: state.list?.length??0)
+               ],
+               // separatorBuilder: (context, index) => Container(
+               //   height: 2.w,
+               //   color: Colors.white12,
+               //   width: double.infinity,
+               // ),
+               // itemCount: 5,
              ),
            );
          });

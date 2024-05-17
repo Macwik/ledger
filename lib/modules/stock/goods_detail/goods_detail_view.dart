@@ -151,12 +151,12 @@ class GoodsDetailView extends StatelessWidget {
                           Expanded(
                             child: ElevatedButton(
                               style: ButtonStyle(
-                                padding: MaterialStateProperty.all(
+                                padding: WidgetStateProperty.all(
                                     EdgeInsets.zero),
                                 backgroundColor:
-                                MaterialStateProperty.all(Colors.white),
+                                WidgetStateProperty.all(Colors.white),
                                 // 背景色
-                                shape: MaterialStateProperty.all(
+                                shape: WidgetStateProperty.all(
                                   RoundedRectangleBorder(
                                     borderRadius:
                                     BorderRadius.circular(35.0), // 圆角
@@ -207,12 +207,12 @@ class GoodsDetailView extends StatelessWidget {
                           Expanded(
                               child: ElevatedButton(
                                   style: ButtonStyle(
-                                    padding: MaterialStateProperty.all(
+                                    padding: WidgetStateProperty.all(
                                         EdgeInsets.zero),
                                     backgroundColor:
-                                    MaterialStateProperty.all(
+                                    WidgetStateProperty.all(
                                         Colors.white), // 背景色
-                                    shape: MaterialStateProperty.all(
+                                    shape: WidgetStateProperty.all(
                                       RoundedRectangleBorder(
                                         borderRadius:
                                         BorderRadius.circular(35.0), // 圆角
@@ -250,13 +250,13 @@ class GoodsDetailView extends StatelessWidget {
                                   ))),
                           TextButton(
                               style: ButtonStyle(
-                                padding: MaterialStateProperty.all(
+                                padding: WidgetStateProperty.all(
                                     EdgeInsets.symmetric(horizontal: 12)),
                                 backgroundColor:
-                                MaterialStateProperty.all(
+                                WidgetStateProperty.all(
                                     Colors.white),
                                 // 背景色
-                                shape: MaterialStateProperty.all(
+                                shape: WidgetStateProperty.all(
                                   RoundedRectangleBorder(
                                     borderRadius:
                                     BorderRadius.circular(35.0), // 圆角
@@ -450,7 +450,7 @@ class GoodsDetailView extends StatelessWidget {
                                     Container(
                                         alignment: Alignment.centerRight,
                                         child:InkWell(
-                                            onTap: () => Get.toNamed(RouteConfig.productCostDetail,arguments: {'discount':1}),//扣除，销售地支付
+                                            onTap: () => Get.toNamed(RouteConfig.productCostDetail,arguments: {'discount':1,'productId': state.productDTO?.id}),//扣除，销售地支付
                                             child:  Container(
                                               padding: EdgeInsets.symmetric(vertical:8.w,horizontal: 16.w),
                                               decoration: BoxDecoration(
@@ -666,7 +666,7 @@ class GoodsDetailView extends StatelessWidget {
                                   Container(
                                       alignment: Alignment.centerRight,
                                       child:InkWell(
-                                          onTap: () => Get.toNamed(RouteConfig.productCostDetail,arguments: {'discount':0 }),//不扣除,产地费用
+                                          onTap: () => Get.toNamed(RouteConfig.productCostDetail,arguments: {'discount':0, 'productId': state.productDTO?.id }),//不扣除,产地费用
                                           child:  Container(
                                             padding: EdgeInsets.symmetric(vertical:8.w,horizontal: 16.w),
                                             decoration: BoxDecoration(

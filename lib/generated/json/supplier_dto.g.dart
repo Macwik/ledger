@@ -1,7 +1,5 @@
 import 'package:ledger/generated/json/base/json_convert_content.dart';
 import 'package:ledger/entity/productOwner/supplier_dto.dart';
-import 'package:decimal/decimal.dart';
-
 
 SupplierDTO $SupplierDTOFromJson(Map<String, dynamic> json) {
   final SupplierDTO supplierDTO = SupplierDTO();
