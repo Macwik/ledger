@@ -159,7 +159,8 @@ class FirstIndexView extends StatelessWidget {
                     validator: FormBuilderValidators.compose([
                       FormBuilderValidators.required(errorText: '密码不能为空')
                     ]),
-                    keyboardType: TextInputType.number,
+                    obscureText: true,
+                    keyboardType: TextInputType.visiblePassword,
                   ))
                 ],
                 ),
@@ -193,7 +194,8 @@ class FirstIndexView extends StatelessWidget {
                       }
                       return '两次输入密码不一致';
                     },
-                    keyboardType: TextInputType.number,
+                    obscureText: true,
+                    keyboardType: TextInputType.visiblePassword,
                   ))
                 ],
                 ),
