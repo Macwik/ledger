@@ -24,6 +24,7 @@ class OrderDTO {//采购，销售开单分页展示
   int? creator;
   String? creatorName;
   DateTime? gmtCreate;
+  bool? showDateTime;
 
   OrderDTO();
 

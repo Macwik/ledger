@@ -15,10 +15,13 @@ import 'package:ledger/res/export.dart';
 import 'package:ledger/store/store_controller.dart';
 import 'package:ledger/util/decimal_util.dart';
 import 'package:ledger/util/image_util.dart';
+import 'package:ledger/util/logger_util.dart';
 
 import 'sale_record_state.dart';
 
-class SaleRecordController extends GetxController with GetSingleTickerProviderStateMixin implements DisposableInterface {
+class SaleRecordController extends GetxController
+    with GetSingleTickerProviderStateMixin
+    implements DisposableInterface {
   final SaleRecordState state = SaleRecordState();
 
   late TabController tabController;
@@ -38,7 +41,7 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
     tabController.addListener(() {
       state.index = tabController.index;
       tabController.animateTo(state.index);
-      update(['sale_record_add_bill','sale_order_status']);
+      update(['sale_record_add_bill', 'sale_order_status']);
       clearCondition();
       state.searchContent = '';
       onRefresh();
@@ -47,7 +50,8 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
   }
 
   Future<BasePageEntity<OrderDTO>> _queryData(int currentPage) async {
-    return await Http().networkPage<OrderDTO>(Method.post, OrderApi.order_page, data: {
+    return await Http()
+        .networkPage<OrderDTO>(Method.post, OrderApi.order_page, data: {
       'page': currentPage,
       'orderTypeList': [state.orderTypeList[state.index].value],
       'userIdList': state.selectEmployeeIdList,
@@ -58,7 +62,6 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
       'endDate': DateUtil.formatDefaultDate(state.endDate),
     });
   }
-
 
   //权限控制相关--内容body
   widgetTabBarViews() {
@@ -77,11 +80,13 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
       state.orderTypeList.add(OrderType.SALE);
       count++;
     }
-    if (permissionList.contains(PermissionCode.sales_return_sale_record_permission)) {
+    if (permissionList
+        .contains(PermissionCode.sales_return_sale_record_permission)) {
       state.orderTypeList.add(OrderType.SALE_RETURN);
       count++;
     }
-    if (permissionList.contains(PermissionCode.sales_refund_sale_record_permission)) {
+    if (permissionList
+        .contains(PermissionCode.sales_refund_sale_record_permission)) {
       state.orderTypeList.add(OrderType.REFUND);
       count++;
     }
@@ -95,10 +100,12 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
     if (permissionList.contains(PermissionCode.sales_sale_record_permission)) {
       widgetList.add(Tab(text: '销售'));
     }
-    if (permissionList.contains(PermissionCode.sales_return_sale_record_permission)) {
+    if (permissionList
+        .contains(PermissionCode.sales_return_sale_record_permission)) {
       widgetList.add(Tab(text: '销售退货'));
     }
-    if (permissionList.contains(PermissionCode.sales_refund_sale_record_permission)) {
+    if (permissionList
+        .contains(PermissionCode.sales_refund_sale_record_permission)) {
       widgetList.add(Tab(text: '仅退款'));
     }
     return widgetList;
@@ -106,28 +113,29 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
 
   //权限控制相关--开单按钮
   String toAddBillsName() {
-    if ((state.orderTypeList[state.index].value)==OrderType.SALE.value) {
+    if ((state.orderTypeList[state.index].value) == OrderType.SALE.value) {
       return '+ 销售';
     }
-    if  ((state.orderTypeList[state.index].value)==OrderType.SALE_RETURN.value) {
+    if ((state.orderTypeList[state.index].value) ==
+        OrderType.SALE_RETURN.value) {
       return '+ 退货';
     }
-    if  ((state.orderTypeList[state.index].value)==OrderType.REFUND.value) {
+    if ((state.orderTypeList[state.index].value) == OrderType.REFUND.value) {
       return '+退款';
     }
     return '';
   }
 
-
   //权限控制相关--开单按钮是否展示
   String showAddBillsName() {
-    if ((state.orderTypeList[state.index].value)==OrderType.SALE.value) {
+    if ((state.orderTypeList[state.index].value) == OrderType.SALE.value) {
       return PermissionCode.sales_sale_order_permission;
     }
-    if((state.orderTypeList[state.index].value)==OrderType.SALE_RETURN.value) {
+    if ((state.orderTypeList[state.index].value) ==
+        OrderType.SALE_RETURN.value) {
       return PermissionCode.sales_sale_return_permission;
     }
-    if  ((state.orderTypeList[state.index].value)==OrderType.REFUND.value) {
+    if ((state.orderTypeList[state.index].value) == OrderType.REFUND.value) {
       return PermissionCode.sales_sale_refund_permission;
     }
     return '';
@@ -136,27 +144,39 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
   //权限控制相关--页面跳转
   Future<void> toAddBill() async {
     List<String>? permissionList = StoreController.to.getPermissionCode();
-    if  (((state.orderTypeList[state.index].value)==OrderType.SALE.value)&&(permissionList.contains(PermissionCode.sales_sale_order_permission))) {
+    if (((state.orderTypeList[state.index].value) == OrderType.SALE.value) &&
+        (permissionList.contains(PermissionCode.sales_sale_order_permission))) {
       await Get.toNamed(RouteConfig.retailBill,
-          arguments: {'orderType': OrderType.SALE})
-          ?.then((value) {
+          arguments: {'orderType': OrderType.SALE})?.then((value) {
         onRefresh();
       });
     }
-     if (((state.orderTypeList[state.index].value)==OrderType.SALE_RETURN.value)&&(permissionList.contains(PermissionCode.sales_sale_return_permission))) {
+    if (((state.orderTypeList[state.index].value) ==
+            OrderType.SALE_RETURN.value) &&
+        (permissionList
+            .contains(PermissionCode.sales_sale_return_permission))) {
       await Get.toNamed(RouteConfig.retailBill,
-          arguments: {'orderType': OrderType.SALE_RETURN})
-          ?.then((value)  {
-         onRefresh();
-      });
-    }
-     if (((state.orderTypeList[state.index].value)==OrderType.REFUND.value)&&(permissionList.contains(PermissionCode.sales_sale_refund_permission))){
-      await Get.toNamed(RouteConfig.retailBill,
-          arguments: {'orderType': OrderType.REFUND})
-          ?.then((value) {
+          arguments: {'orderType': OrderType.SALE_RETURN})?.then((value) {
         onRefresh();
       });
     }
+    if (((state.orderTypeList[state.index].value) == OrderType.REFUND.value) &&
+        (permissionList
+            .contains(PermissionCode.sales_sale_refund_permission))) {
+      await Get.toNamed(RouteConfig.retailBill,
+          arguments: {'orderType': OrderType.REFUND})?.then((value) {
+        onRefresh();
+      });
+    }
+  }
+
+  showDate(String? dateTimeStr) {
+    if (dateTimeStr?.isEmpty ?? true) {
+      return false;
+    }
+    var contains = state.datetimeSet.contains(dateTimeStr);
+    state.datetimeSet.add(dateTimeStr!);
+    return contains;
   }
 
   //主体布局
@@ -169,23 +189,23 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
           children: [
             Expanded(
                 child: Container(
-                  height: 100.w,
-                  padding: EdgeInsets.only(top: 10.w, left: 10.w, right: 10.w),
-                  child: SearchBar(
-                    leading: Icon(
-                      Icons.search,
-                      color: Colors.grey,
-                      size: 40.w,
-                    ),
-                    shadowColor: MaterialStatePropertyAll<Color>(Colors.black26),
-                    hintStyle: MaterialStatePropertyAll<TextStyle>(
-                        TextStyle(fontSize: 34.sp, color: Colors.black26)),
-                    onChanged: (value) {
-                      searchSalesRecord(value);
-                    },
-                    hintText: '请输入货物名称',
-                  ),
-                )),
+              height: 100.w,
+              padding: EdgeInsets.only(top: 10.w, left: 10.w, right: 10.w),
+              child: SearchBar(
+                leading: Icon(
+                  Icons.search,
+                  color: Colors.grey,
+                  size: 40.w,
+                ),
+                shadowColor: WidgetStatePropertyAll<Color>(Colors.black26),
+                hintStyle: WidgetStatePropertyAll<TextStyle>(
+                    TextStyle(fontSize: 34.sp, color: Colors.black26)),
+                onChanged: (value) {
+                  searchSalesRecord(value);
+                },
+                hintText: '请输入货物名称',
+              ),
+            )),
             Builder(
               builder: (context) => GestureDetector(
                 onTap: () {
@@ -205,7 +225,7 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
                     Text(
                       '筛选',
                       style:
-                      TextStyle(fontSize: 30.sp, color: Colours.text_666),
+                          TextStyle(fontSize: 30.sp, color: Colours.text_666),
                     ),
                     SizedBox(
                       width: 24.w,
@@ -229,28 +249,31 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
                   emptyWidget: state.list == null
                       ? LottieIndicator()
                       : state.list?.isEmpty ?? true
-                      ? EmptyLayout(hintText: '什么都没有'.tr)
-                      : null,
+                          ? EmptyLayout(hintText: '什么都没有'.tr)
+                          : null,
                   child: ListView.separated(
                     itemBuilder: (context, index) {
                       var salePurchaseOrderDTO = state.list![index];
                       return InkWell(
-                        onTap: () =>
-                            toSalesDetail(salePurchaseOrderDTO),
+                        onTap: () => toSalesDetail(salePurchaseOrderDTO),
                         child: Column(
                           children: [
-                            Container(
-                              width: double.infinity,
-                              padding: EdgeInsets.only(
-                                  left: 40.w, top: 10.w, bottom: 10.w),
-                              color: Colors.white12,
-                              child: Text(
-                                DateUtil.formatDefaultDate2(
-                                    salePurchaseOrderDTO.orderDate),
-                                style: TextStyle(
-                                  color: Colours.text_ccc,
-                                  fontSize: 24.sp,
-                                  fontWeight: FontWeight.w500,
+                            Offstage(
+                              offstage:
+                                  salePurchaseOrderDTO.showDateTime ?? true,
+                              child: Container(
+                                width: double.infinity,
+                                padding: EdgeInsets.only(
+                                    left: 40.w, top: 10.w, bottom: 10.w),
+                                color: Colors.white12,
+                                child: Text(
+                                  DateUtil.formatDefaultDate2(
+                                      salePurchaseOrderDTO.orderDate),
+                                  style: TextStyle(
+                                    color: Colours.text_ccc,
+                                    fontSize: 24.sp,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
                               ),
                             ),
@@ -263,7 +286,7 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
                                   bottom: 20.w),
                               child: Column(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceEvenly,
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Flex(
                                     direction: Axis.horizontal,
@@ -276,8 +299,8 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
                                                     .productNameList),
                                             style: TextStyle(
                                               color: salePurchaseOrderDTO
-                                                  .invalid ==
-                                                  1
+                                                          .invalid ==
+                                                      1
                                                   ? Colours.text_ccc
                                                   : Colours.text_333,
                                               fontSize: 32.sp,
@@ -286,7 +309,7 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
                                       ),
                                       Visibility(
                                           visible:
-                                          salePurchaseOrderDTO.invalid == 1,
+                                              salePurchaseOrderDTO.invalid == 1,
                                           child: Container(
                                             padding: EdgeInsets.only(
                                                 top: 2.w,
@@ -299,7 +322,7 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
                                                 width: 1.0,
                                               ),
                                               borderRadius:
-                                              BorderRadius.circular(8.0),
+                                                  BorderRadius.circular(8.0),
                                             ),
                                             child: Text('已作废',
                                                 style: TextStyle(
@@ -311,18 +334,19 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
                                       Expanded(
                                         child: Text(
                                             textAlign: TextAlign.right,
-                                            getOrderStatusDesc(salePurchaseOrderDTO),
+                                            getOrderStatusDesc(
+                                                salePurchaseOrderDTO),
                                             style: TextStyle(
                                               color: salePurchaseOrderDTO
-                                                  .invalid ==
-                                                  1
+                                                          .invalid ==
+                                                      1
                                                   ? Colours.text_ccc
                                                   : OrderStateType.DEBT_ACCOUNT
-                                                  .value ==
-                                                  salePurchaseOrderDTO
-                                                      .orderStatus
-                                                  ? Colors.orange
-                                                  : Colours.text_ccc,
+                                                              .value ==
+                                                          salePurchaseOrderDTO
+                                                              .orderStatus
+                                                      ? Colors.orange
+                                                      : Colours.text_ccc,
                                               fontSize: 26.sp,
                                               fontWeight: FontWeight.w400,
                                             )),
@@ -341,10 +365,11 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
                                     children: [
                                       Expanded(
                                         child: Text(
-                                            totalAmount(
-                                                salePurchaseOrderDTO),
+                                            totalAmount(salePurchaseOrderDTO),
                                             style: TextStyle(
-                                              color: salePurchaseOrderDTO.invalid == 1
+                                              color: salePurchaseOrderDTO
+                                                          .invalid ==
+                                                      1
                                                   ? Colours.text_ccc
                                                   : Colours.text_333,
                                               fontSize: 34.sp,
@@ -353,21 +378,21 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
                                       ),
                                       Expanded(
                                           child: Row(children: [
-                                            Text('业务员：',
-                                                style: TextStyle(
-                                                  color: Colours.text_ccc,
-                                                  fontSize: 22.sp,
-                                                  fontWeight: FontWeight.w500,
-                                                )),
-                                            Text(
-                                                salePurchaseOrderDTO.creatorName ??
-                                                    '',
-                                                style: TextStyle(
-                                                  color: Colours.text_666,
-                                                  fontSize: 26.sp,
-                                                  fontWeight: FontWeight.w400,
-                                                )),
-                                          ])),
+                                        Text('业务员：',
+                                            style: TextStyle(
+                                              color: Colours.text_ccc,
+                                              fontSize: 22.sp,
+                                              fontWeight: FontWeight.w500,
+                                            )),
+                                        Text(
+                                            salePurchaseOrderDTO.creatorName ??
+                                                '',
+                                            style: TextStyle(
+                                              color: Colours.text_666,
+                                              fontSize: 26.sp,
+                                              fontWeight: FontWeight.w400,
+                                            )),
+                                      ])),
                                     ],
                                   ),
                                   SizedBox(
@@ -377,14 +402,14 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
                                     direction: Axis.horizontal,
                                     children: [
                                       Expanded(
-                                        child: Text(DateUtil
+                                        child: Text(
+                                            DateUtil
                                                 .formatDefaultDateTimeMinute(
-                                                salePurchaseOrderDTO
-                                                    .gmtCreate),
+                                                    salePurchaseOrderDTO
+                                                        .gmtCreate),
                                             style: TextStyle(
-                                              color:
-                                              state.orderType ==
-                                                  OrderType.PURCHASE
+                                              color: state.orderType ==
+                                                      OrderType.PURCHASE
                                                   ? Colours.text_999
                                                   : Colours.text_ccc,
                                               fontSize: 26.sp,
@@ -393,34 +418,33 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
                                       ),
                                       Expanded(
                                           child: Row(
-                                            children: [
-                                              Visibility(
-                                                  visible: salePurchaseOrderDTO
+                                        children: [
+                                          Visibility(
+                                              visible: salePurchaseOrderDTO
                                                       .customName?.isNotEmpty ??
-                                                      false,
-                                                  child: Text(
-                                                    '客户：',
-                                                      style: TextStyle(
-                                                        color: Colours.text_ccc,
-                                                        fontSize: 22.sp,
-                                                        fontWeight: FontWeight.w500,
-                                                      ))),
-                                              Expanded(
-                                                  child: Text(
-                                                      salePurchaseOrderDTO
+                                                  false,
+                                              child: Text('客户：',
+                                                  style: TextStyle(
+                                                    color: Colours.text_ccc,
+                                                    fontSize: 22.sp,
+                                                    fontWeight: FontWeight.w500,
+                                                  ))),
+                                          Expanded(
+                                              child: Text(
+                                                  salePurchaseOrderDTO
                                                           .customName ??
-                                                          '',
-                                                      style: TextStyle(
-                                                        color: salePurchaseOrderDTO
-                                                            .invalid ==
+                                                      '',
+                                                  style: TextStyle(
+                                                    color: salePurchaseOrderDTO
+                                                                .invalid ==
                                                             1
-                                                            ? Colours.text_ccc
-                                                            : Colours.text_666,
-                                                        fontSize: 26.sp,
-                                                        fontWeight: FontWeight.w400,
-                                                      )))
-                                            ],
-                                          ))
+                                                        ? Colours.text_ccc
+                                                        : Colours.text_666,
+                                                    fontSize: 26.sp,
+                                                    fontWeight: FontWeight.w400,
+                                                  )))
+                                        ],
+                                      ))
                                     ],
                                   )
                                 ],
@@ -448,7 +472,8 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
   bool checkOrderStatus(int? orderStatus) {
     return state.orderStatus == orderStatus;
   }
-   //收款状态
+
+  //收款状态
   String getOrderStatusDesc(OrderDTO? salePurchaseOrderDTO) {
     if (salePurchaseOrderDTO?.orderType == OrderType.SALE.value) {
       var list = OrderStateType.values;
@@ -465,7 +490,11 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
   Future<void> onLoad() async {
     state.currentPage += 1;
     await _queryData(state.currentPage).then((result) {
-      if (true == result.success) {
+      if (true == result.strictSuccess) {
+        result.d?.result?.forEach((element) {
+          element.showDateTime =
+              showDate(DateUtil.formatDefaultDate2(element.orderDate));
+        });
         state.list!.addAll(result.d!.result!);
         state.hasMore = result.d?.hasMore;
         update(['sales_order_list']);
@@ -483,8 +512,13 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
     state.currentPage = 1;
     Loading.showDuration();
     await _queryData(state.currentPage).then((result) {
+      state.datetimeSet = {};
       if (true == result.success) {
         state.list = result.d?.result;
+        state.list?.forEach((element) {
+          element.showDateTime =
+              showDate(DateUtil.formatDefaultDate2(element.orderDate));
+        });
         state.hasMore = result.d?.hasMore;
         state.refreshController.finishRefresh();
         state.refreshController.resetFooter();
@@ -600,5 +634,4 @@ class SaleRecordController extends GetxController with GetSingleTickerProviderSt
       return '￥- ${(salePurchaseOrderDTO.totalAmount ?? Decimal.zero) - (salePurchaseOrderDTO.discountAmount ?? Decimal.zero)}';
     }
   }
-
 }

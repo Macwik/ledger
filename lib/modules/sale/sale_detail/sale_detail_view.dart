@@ -25,17 +25,19 @@ class SaleDetailView extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: TitleBar(
-        title: controller.title(),
-        titleColor:  (state.orderType == OrderType.SALE) ||
-          (state.orderType == OrderType.PURCHASE)|| (state.orderType == OrderType.ADD_STOCK)
-          ? Colors.black87
-          : Colors.red,
-        actionWidget:
-          GetBuilder<SaleDetailController>(
+          title: controller.title(),
+          titleColor: (state.orderType == OrderType.SALE) ||
+                  (state.orderType == OrderType.PURCHASE) ||
+                  (state.orderType == OrderType.ADD_STOCK)
+              ? Colors.black87
+              : Colors.red,
+          actionWidget: GetBuilder<SaleDetailController>(
               id: 'sale_detail_delete',
               builder: (_) {
                 return PermissionWidget(
-                    permissionCode: ((state.orderType == OrderType.SALE)||(state.orderType == OrderType.SALE_RETURN)||(state.orderType == OrderType.REFUND))
+                    permissionCode: ((state.orderType == OrderType.SALE) ||
+                            (state.orderType == OrderType.SALE_RETURN) ||
+                            (state.orderType == OrderType.REFUND))
                         ? PermissionCode.sales_detail_delete_permission
                         : PermissionCode.purchase_detail_delete_permission,
                     child: Visibility(
@@ -61,8 +63,7 @@ class SaleDetailView extends StatelessWidget {
                             ),
                           ],
                         )));
-              })
-      ),
+              })),
       body: SingleChildScrollView(
           child: RepaintBoundary(
               key: salesDetailKey,
@@ -75,21 +76,27 @@ class SaleDetailView extends StatelessWidget {
                         builder: (_) {
                           return Column(
                             children: [
-                              Container(child: Text('成交金额',
+                              Container(
+                                child: Text('成交金额',
+                                    style: TextStyle(
+                                      color: Colours.text_999,
+                                      fontSize: 32.sp,
+                                      fontWeight: FontWeight.w400,
+                                    )),
+                              ),
+                              Text(controller.orderTotalAmount(),
                                   style: TextStyle(
-                                    color: Colours.text_999,
-                                    fontSize: 32.sp,
-                                    fontWeight: FontWeight.w400,
-                                  )),),
-                               Text(
-                                   controller.orderTotalAmount(),
-                                   style: TextStyle(
-                                     color:state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc: Colors.teal[400],
-                                     fontSize: 48.sp,
-                                     fontWeight: FontWeight.w600,
-                                   )),
+                                    color: state.orderDetailDTO?.invalid ==
+                                            IsDeleted.DELETED.value
+                                        ? Colours.text_ccc
+                                        : Colors.teal[400],
+                                    fontSize: 48.sp,
+                                    fontWeight: FontWeight.w600,
+                                  )),
                               Offstage(
-                                offstage:state.orderDetailDTO?.discountAmount == Decimal.zero,
+                                offstage:
+                                    state.orderDetailDTO?.discountAmount ==
+                                        Decimal.zero,
                                 child: Text(
                                   controller.countChange(),
                                   style: TextStyle(
@@ -101,41 +108,45 @@ class SaleDetailView extends StatelessWidget {
                             ],
                           );
                         })),
-                  Card(
-                  elevation: 6,
-                  shadowColor: Colors.black45,
-                  margin: EdgeInsets.only(left: 24.w, top: 16.w, right: 24.w),
-                  clipBehavior: Clip.antiAlias,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(28.w)),
-                  ),
-                  child: GetBuilder<SaleDetailController>(
-                    id: 'order_detail',
-                    builder: (_) {
-                      return Container(
-                          color: Colors.white,
-                          padding: EdgeInsets.only(
-                              left: 40.w,
-                              right: 40.w,
-                              top: 30.w,
-                              bottom: 20.w),
-                          child: Column(
-                            children: [
-                              Flex(
-                                direction: Axis.horizontal,
+                Card(
+                    elevation: 6,
+                    shadowColor: Colors.black45,
+                    margin: EdgeInsets.only(left: 24.w, top: 16.w, right: 24.w),
+                    clipBehavior: Clip.antiAlias,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(28.w)),
+                    ),
+                    child: GetBuilder<SaleDetailController>(
+                        id: 'order_detail',
+                        builder: (_) {
+                          return Container(
+                              color: Colors.white,
+                              padding: EdgeInsets.only(
+                                  left: 40.w,
+                                  right: 40.w,
+                                  top: 30.w,
+                                  bottom: 20.w),
+                              child: Column(
                                 children: [
-                                  Expanded(
-                                      child:Text(
+                                  Flex(
+                                    direction: Axis.horizontal,
+                                    children: [
+                                      Expanded(
+                                          child: Text(
                                         state.orderDetailDTO?.customName ??
                                             '默认${state.orderType == OrderType.SALE ? '客户' : '供应商'}',
                                         style: TextStyle(
-                                          color: state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc: Colours.text_333,
+                                          color:
+                                              state.orderDetailDTO?.invalid ==
+                                                      IsDeleted.DELETED.value
+                                                  ? Colours.text_ccc
+                                                  : Colours.text_333,
                                           fontSize: 36.sp,
                                           fontWeight: FontWeight.w500,
                                         ),
                                       )),
-                                  Expanded(
-                                      child: Text(
+                                      Expanded(
+                                          child: Text(
                                         textAlign: TextAlign.right,
                                         DateUtil.formatDefaultDate2(
                                             state.orderDetailDTO?.orderDate),
@@ -145,183 +156,329 @@ class SaleDetailView extends StatelessWidget {
                                           fontWeight: FontWeight.w400,
                                         ),
                                       ))
-                                ],
-                              ),
-                             Padding(
-                                      padding: EdgeInsets.only(top: 16.w),
-                                      child: Row(
-                                        children: [
-                                          Offstage(
-                                              offstage: state.orderDetailDTO?.invalid != IsDeleted.DELETED.value,
-                                              child: Text('已作废',
-                                                  style: TextStyle(
-                                                    color: Colors.red,
-                                                    fontSize: 32.sp,
-                                                    fontWeight: FontWeight.w400,
-                                                  )),
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(top: 16.w),
+                                    child: Row(
+                                      children: [
+                                        Offstage(
+                                          offstage:
+                                              state.orderDetailDTO?.invalid !=
+                                                  IsDeleted.DELETED.value,
+                                          child: Text('已作废',
+                                              style: TextStyle(
+                                                color: Colors.red,
+                                                fontSize: 32.sp,
+                                                fontWeight: FontWeight.w400,
+                                              )),
+                                        ),
+                                        Offstage(
+                                            offstage: (state
+                                                    .orderDetailDTO?.invalid !=
+                                                IsDeleted.DELETED.value),
+                                            child: Container(
+                                              color: Colours.divider,
+                                              height: 36.w,
+                                              margin: EdgeInsets.only(
+                                                  right: 16.w, left: 16.w),
+                                              width: 1.w,
+                                            )),
+                                        Offstage(
+                                            offstage: (state.orderDetailDTO
+                                                    ?.orderType !=
+                                                OrderType.SALE.value),
+                                            child: Text(
+                                                state.orderDetailDTO
+                                                            ?.orderStatus ==
+                                                        1
+                                                    ? '已结清'
+                                                    : '未结清',
+                                                style: TextStyle(
+                                                  color: state.orderDetailDTO
+                                                              ?.orderStatus ==
+                                                          1
+                                                      ? Colours.text_ccc
+                                                      : Colors.cyan,
+                                                  fontSize: 32.sp,
+                                                  fontWeight: FontWeight.w400,
+                                                ))),
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    color: Colours.divider,
+                                    height: 1.w,
+                                    margin: EdgeInsets.only(
+                                        top: 24.w, bottom: 24.w),
+                                    width: double.infinity,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        '业务员',
+                                        style: TextStyle(
+                                          color: Colours.text_999,
+                                          fontSize: 32.sp,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                      const Spacer(),
+                                      Text(
+                                        state.orderDetailDTO?.creatorName ?? '',
+                                        style: TextStyle(
+                                          color:
+                                              state.orderDetailDTO?.invalid ==
+                                                      IsDeleted.DELETED.value
+                                                  ? Colours.text_ccc
+                                                  : Colours.text_333,
+                                          fontSize: 32.sp,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 32.w,
+                                  ),
+                                  Flex(
+                                    direction: Axis.horizontal,
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          '实付金额',
+                                          style: TextStyle(
+                                            color: Colours.text_999,
+                                            fontSize: 32.sp,
+                                            fontWeight: FontWeight.w400,
                                           ),
-                               Offstage(
-                                 offstage: (state.orderDetailDTO?.invalid != IsDeleted.DELETED.value),
-                                 child:Container(
-                                            color: Colours.divider,
-                                            height: 36.w,
-                                            margin:
-                                            EdgeInsets.only(right: 16.w, left: 16.w),
-                                            width: 1.w,
-                                          )),
-                                          Offstage(
-                                              offstage: (state.orderDetailDTO?.orderType != OrderType.SALE.value),
-                                              child:Text(state.orderDetailDTO?.orderStatus == 1 ? '已结清' :'未结清',
-                                     style: TextStyle(
-                                       color:state.orderDetailDTO?.orderStatus == 1 ?Colours.text_ccc:Colors.cyan,
-                                       fontSize: 32.sp,
-                                       fontWeight: FontWeight.w400,
-                                     ))),
-                                        ],
+                                        ),
                                       ),
-                                    ),
-                              Container(
-                                color: Colours.divider,
-                                height: 1.w,
-                                margin:
-                                EdgeInsets.only(top: 24.w, bottom: 24.w),
-                                width: double.infinity,
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    '业务员',
-                                    style: TextStyle(
-                                      color: Colours.text_999,
-                                      fontSize: 32.sp,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                  const Spacer(),
-                                  Text(
-                                    state.orderDetailDTO?.creatorName ?? '',
-                                    style: TextStyle(
-                                      color:state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc: Colours.text_333,
-                                      fontSize: 32.sp,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  )
-                                ],
-                              ),
-                              SizedBox(height: 32.w,),
-                              Flex(
-                                direction: Axis.horizontal,
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      '实付金额',
-                                      style: TextStyle(
-                                        color: Colours.text_999,
-                                        fontSize: 32.sp,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    flex: 3,
-                                    child: Text(
-                                      textAlign: TextAlign.right,
-                                      controller.orderPayment(state
-                                          .orderDetailDTO?.orderPaymentList),
-                                      style: TextStyle(
-                                        color: state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc: Colours.text_333,
-                                        fontSize: 32.sp,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                              SizedBox(height: 32.w,),
-                              Offstage(
-                                  offstage: state.orderDetailDTO?.creditAmount == Decimal.zero,
-                                  child: Container(
-                                      width: double.infinity,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.end,
-                                        children: [
-                                          Text(
-                                            '本单赊账',
-                                            style: TextStyle(
-                                              color: Colours.text_999,
-                                              fontSize: 32.sp,
-                                              fontWeight: FontWeight.w500,
-                                            ),
+                                      Expanded(
+                                        flex: 3,
+                                        child: Text(
+                                          textAlign: TextAlign.right,
+                                          controller.orderPayment(state
+                                              .orderDetailDTO
+                                              ?.orderPaymentList),
+                                          style: TextStyle(
+                                            color:
+                                                state.orderDetailDTO?.invalid ==
+                                                        IsDeleted.DELETED.value
+                                                    ? Colours.text_ccc
+                                                    : Colours.text_333,
+                                            fontSize: 32.sp,
+                                            fontWeight: FontWeight.w500,
                                           ),
-                                          const Spacer(),
-                                          Text(
-                                            (state.orderDetailDTO?.orderType ==OrderType.SALE_RETURN.value) ||
-                                                (state.orderDetailDTO?.orderType ==OrderType.PURCHASE_RETURN.value)||
-                                                (state.orderDetailDTO?.orderType ==OrderType.REFUND.value)
-                                                ? DecimalUtil.formatNegativeAmount(state.orderDetailDTO?.creditAmount):DecimalUtil.formatAmount(state.orderDetailDTO?.creditAmount),
-                                            style: TextStyle(
-                                              color:state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc: Colors.red[600],
-                                              fontSize: 32.sp,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          )
-                                        ],
-                                      ))),
-                              Offstage(
-                                  offstage: state.orderDetailDTO?.creditAmount == Decimal.zero,
-                                  child: SizedBox(height: 32.w,)),
-                              Offstage(
-                                offstage: !(state.orderType == OrderType.PURCHASE),
-                                child:   Row(
-                                  children: [
-                                    Text(
-                                      '批次号',
-                                      style: TextStyle(
-                                        color: Colours.text_999,
-                                        fontSize: 32.sp,
-                                        fontWeight: FontWeight.w400,
+                                        ),
                                       ),
-                                    ),
-                                    const Spacer(),
-                                    Text(state.orderDetailDTO?.batchNo??'',
-                                      style: TextStyle(
-                                        color:state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc: Colours.text_333,
-                                        fontSize: 32.sp,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Offstage(
-                                  offstage:!(state.orderType == OrderType.PURCHASE),
-                                  child: SizedBox(height: 32.w,)),
-                              Row(
-                                children: [
-                                  Text(
-                                    '收银时间',
-                                    style: TextStyle(
-                                      color: Colours.text_999,
-                                      fontSize: 32.sp,
-                                      fontWeight: FontWeight.w400,
+                                      // Expanded(
+                                      //     flex: 3,
+                                      //     child:
+                                      //         state
+                                      //                     .orderDetailDTO
+                                      //                     ?.orderPaymentList
+                                      //                     ?.isEmpty ??
+                                      //                 true
+                                      //             ? Text('')
+                                      //             : ListView(
+                                      //                 shrinkWrap: true,
+                                      //                 scrollDirection:
+                                      //                     Axis.horizontal,
+                                      //                 physics:
+                                      //                     NeverScrollableScrollPhysics(),
+                                      //                 children: state
+                                      //                     .orderDetailDTO!
+                                      //                     .orderPaymentList!
+                                      //                     .map((item) {
+                                      //                   return InkWell(
+                                      //                       onTap: () =>
+                                      //                           Get.toNamed(
+                                      //                               RouteConfig
+                                      //                                   .costDetail),
+                                      //                       child: Column(
+                                      //                           children: [
+                                      //                             Container(
+                                      //                               alignment:
+                                      //                                   Alignment
+                                      //                                       .centerLeft,
+                                      //                               child: Text(
+                                      //                                   item.paymentMethodName ??
+                                      //                                       '',
+                                      //                                   style:
+                                      //                                       TextStyle(
+                                      //                                     color:
+                                      //                                         Colours.text_999,
+                                      //                                     fontSize:
+                                      //                                         26.sp,
+                                      //                                     fontWeight:
+                                      //                                         FontWeight.w500,
+                                      //                                   )),
+                                      //                             ),
+                                      //                             SizedBox(
+                                      //                               height:
+                                      //                                   16.w,
+                                      //                             ),
+                                      //                             Expanded(
+                                      //                               child: Text(
+                                      //                                   DecimalUtil.formatAmount(item
+                                      //                                       .paymentAmount),
+                                      //                                   textAlign:
+                                      //                                       TextAlign
+                                      //                                           .right,
+                                      //                                   style:
+                                      //                                       TextStyle(
+                                      //                                     color:
+                                      //                                         Colours.text_666,
+                                      //                                     fontSize:
+                                      //                                         32.sp,
+                                      //                                     fontWeight:
+                                      //                                         FontWeight.w500,
+                                      //                                   )),
+                                      //                             ),
+                                      //                             Container(
+                                      //                               height: 1.w,
+                                      //                               width: double
+                                      //                                   .infinity,
+                                      //                               color: Colours
+                                      //                                   .divider,
+                                      //                               margin: EdgeInsets.symmetric(
+                                      //                                   vertical:
+                                      //                                       16.w),
+                                      //                             )
+                                      //                           ]));
+                                      //                 }).toList(),
+                                      //               )),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 32.w,
+                                  ),
+                                  Offstage(
+                                      offstage:
+                                          state.orderDetailDTO?.creditAmount ==
+                                              Decimal.zero,
+                                      child: Container(
+                                          width: double.infinity,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Text(
+                                                '本单赊账',
+                                                style: TextStyle(
+                                                  color: Colours.text_999,
+                                                  fontSize: 32.sp,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                              const Spacer(),
+                                              Text(
+                                                (state.orderDetailDTO
+                                                                ?.orderType ==
+                                                            OrderType
+                                                                .SALE_RETURN
+                                                                .value) ||
+                                                        (state.orderDetailDTO
+                                                                ?.orderType ==
+                                                            OrderType
+                                                                .PURCHASE_RETURN
+                                                                .value) ||
+                                                        (state.orderDetailDTO
+                                                                ?.orderType ==
+                                                            OrderType
+                                                                .REFUND.value)
+                                                    ? DecimalUtil
+                                                        .formatNegativeAmount(
+                                                            state.orderDetailDTO
+                                                                ?.creditAmount)
+                                                    : DecimalUtil.formatAmount(
+                                                        state.orderDetailDTO
+                                                            ?.creditAmount),
+                                                style: TextStyle(
+                                                  color: state.orderDetailDTO
+                                                              ?.invalid ==
+                                                          IsDeleted
+                                                              .DELETED.value
+                                                      ? Colours.text_ccc
+                                                      : Colors.red[600],
+                                                  fontSize: 32.sp,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              )
+                                            ],
+                                          ))),
+                                  Offstage(
+                                      offstage:
+                                          state.orderDetailDTO?.creditAmount ==
+                                              Decimal.zero,
+                                      child: SizedBox(
+                                        height: 32.w,
+                                      )),
+                                  Offstage(
+                                    offstage: !(state.orderType ==
+                                        OrderType.PURCHASE),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          '批次号',
+                                          style: TextStyle(
+                                            color: Colours.text_999,
+                                            fontSize: 32.sp,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                        const Spacer(),
+                                        Text(
+                                          state.orderDetailDTO?.batchNo ?? '',
+                                          style: TextStyle(
+                                            color:
+                                                state.orderDetailDTO?.invalid ==
+                                                        IsDeleted.DELETED.value
+                                                    ? Colours.text_ccc
+                                                    : Colours.text_333,
+                                            fontSize: 32.sp,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        )
+                                      ],
                                     ),
                                   ),
-                                  const Spacer(),
-                                  Text(DateUtil.formatDefaultDateTimeMinute(
-                                      state.orderDetailDTO?.gmtCreate),
-                                    style: TextStyle(
-                                      color:state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc: Colours.text_333,
-                                      fontSize: 32.sp,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  )
+                                  Offstage(
+                                      offstage: !(state.orderType ==
+                                          OrderType.PURCHASE),
+                                      child: SizedBox(
+                                        height: 32.w,
+                                      )),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        '收银时间',
+                                        style: TextStyle(
+                                          color: Colours.text_999,
+                                          fontSize: 32.sp,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                      const Spacer(),
+                                      Text(
+                                        DateUtil.formatDefaultDateTimeMinute(
+                                            state.orderDetailDTO?.gmtCreate),
+                                        style: TextStyle(
+                                          color:
+                                              state.orderDetailDTO?.invalid ==
+                                                      IsDeleted.DELETED.value
+                                                  ? Colours.text_ccc
+                                                  : Colours.text_333,
+                                          fontSize: 32.sp,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ],
-                              ),
-
-                            ],
-                          ));
-                    })),
+                              ));
+                        })),
                 Card(
                     elevation: 6,
                     shadowColor: Colors.black45,
@@ -343,7 +500,11 @@ class SaleDetailView extends StatelessWidget {
                                     child: Row(
                                       children: [
                                         Container(
-                                          color:state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc: Colours.primary,
+                                          color:
+                                              state.orderDetailDTO?.invalid ==
+                                                      IsDeleted.DELETED.value
+                                                  ? Colours.text_ccc
+                                                  : Colours.primary,
                                           height: 32.w,
                                           width: 8.w,
                                         ),
@@ -355,7 +516,11 @@ class SaleDetailView extends StatelessWidget {
                                           child: Text(
                                             '货物详情',
                                             style: TextStyle(
-                                                color:state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc: Colours.text_666,
+                                                color: state.orderDetailDTO
+                                                            ?.invalid ==
+                                                        IsDeleted.DELETED.value
+                                                    ? Colours.text_ccc
+                                                    : Colours.text_666,
                                                 fontSize: 34.sp,
                                                 fontWeight: FontWeight.w600),
                                           ),
@@ -366,9 +531,14 @@ class SaleDetailView extends StatelessWidget {
                                   ListView.builder(
                                     shrinkWrap: true,
                                     physics: NeverScrollableScrollPhysics(),
-                                    itemCount: state.orderDetailDTO?.orderProductDetailList?.length ?? 0,
-                                    itemBuilder: (BuildContext context, int index) {
-                                      var orderProductDetail = state.orderDetailDTO?.orderProductDetailList![index];
+                                    itemCount: state.orderDetailDTO
+                                            ?.orderProductDetailList?.length ??
+                                        0,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      var orderProductDetail = state
+                                          .orderDetailDTO
+                                          ?.orderProductDetailList![index];
                                       return Container(
                                         color: Colors.white,
                                         padding: EdgeInsets.only(
@@ -385,8 +555,14 @@ class SaleDetailView extends StatelessWidget {
                                                                 ?.productName ??
                                                             '',
                                                         style: TextStyle(
-                                                          color:
-                                                          state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc: Colours.text_333,
+                                                          color: state.orderDetailDTO
+                                                                      ?.invalid ==
+                                                                  IsDeleted
+                                                                      .DELETED
+                                                                      .value
+                                                              ? Colours.text_ccc
+                                                              : Colours
+                                                                  .text_333,
                                                           fontSize: 32.sp,
                                                           fontWeight:
                                                               FontWeight.w500,
@@ -398,7 +574,13 @@ class SaleDetailView extends StatelessWidget {
                                                       textAlign:
                                                           TextAlign.right,
                                                       style: TextStyle(
-                                                        color:state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc: Colours.text_666,
+                                                        color: state.orderDetailDTO
+                                                                    ?.invalid ==
+                                                                IsDeleted
+                                                                    .DELETED
+                                                                    .value
+                                                            ? Colours.text_ccc
+                                                            : Colours.text_666,
                                                         fontSize: 32.sp,
                                                         fontWeight:
                                                             FontWeight.w400,
@@ -414,23 +596,42 @@ class SaleDetailView extends StatelessWidget {
                                                   controller.judgeUnit(
                                                       orderProductDetail),
                                                   style: TextStyle(
-                                                    color:state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc: Colours.text_999,
+                                                    color: state.orderDetailDTO
+                                                                ?.invalid ==
+                                                            IsDeleted
+                                                                .DELETED.value
+                                                        ? Colours.text_ccc
+                                                        : Colours.text_999,
                                                     fontSize: 30.sp,
                                                     fontWeight: FontWeight.w400,
                                                   )),
                                             ),
                                             Visibility(
-                                              visible: (orderProductDetail?.productPlace != null) || (orderProductDetail?.productStandard != null),
+                                              visible: (orderProductDetail
+                                                          ?.productPlace !=
+                                                      null) ||
+                                                  (orderProductDetail
+                                                          ?.productStandard !=
+                                                      null),
                                               child: Container(
                                                   padding: EdgeInsets.only(
                                                       top: 10.w),
                                                   child: Row(
                                                     children: [
                                                       Text(
-                                                          orderProductDetail?.productPlace ?? '',
+                                                          orderProductDetail
+                                                                  ?.productPlace ??
+                                                              '',
                                                           style: TextStyle(
-                                                            color: state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc:
-                                                            Colours.text_999,
+                                                            color: state.orderDetailDTO
+                                                                        ?.invalid ==
+                                                                    IsDeleted
+                                                                        .DELETED
+                                                                        .value
+                                                                ? Colours
+                                                                    .text_ccc
+                                                                : Colours
+                                                                    .text_999,
                                                             fontSize: 28.sp,
                                                             fontWeight:
                                                                 FontWeight.w500,
@@ -439,9 +640,19 @@ class SaleDetailView extends StatelessWidget {
                                                         width: 10,
                                                       ),
                                                       Text(
-                                                          orderProductDetail?.productStandard ?? '',
+                                                          orderProductDetail
+                                                                  ?.productStandard ??
+                                                              '',
                                                           style: TextStyle(
-                                                            color:state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc: Colours.text_999,
+                                                            color: state.orderDetailDTO
+                                                                        ?.invalid ==
+                                                                    IsDeleted
+                                                                        .DELETED
+                                                                        .value
+                                                                ? Colours
+                                                                    .text_ccc
+                                                                : Colours
+                                                                    .text_999,
                                                             fontSize: 28.sp,
                                                             fontWeight:
                                                                 FontWeight.w500,
@@ -467,8 +678,11 @@ class SaleDetailView extends StatelessWidget {
                                         width: double.infinity,
                                       )),
                                   Offstage(
-                                      offstage: state.orderDetailDTO
-                                              ?.orderProductDetailList?.length == 1,
+                                      offstage: state
+                                              .orderDetailDTO
+                                              ?.orderProductDetailList
+                                              ?.length ==
+                                          1,
                                       child: Container(
                                         padding: EdgeInsets.only(
                                             right: 40.w,
@@ -483,7 +697,11 @@ class SaleDetailView extends StatelessWidget {
                                             Text(
                                               '合计：',
                                               style: TextStyle(
-                                                color:state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc: Colours.text_999,
+                                                color: state.orderDetailDTO
+                                                            ?.invalid ==
+                                                        IsDeleted.DELETED.value
+                                                    ? Colours.text_ccc
+                                                    : Colours.text_999,
                                                 fontSize: 28.sp,
                                                 fontWeight: FontWeight.w400,
                                               ),
@@ -516,7 +734,12 @@ class SaleDetailView extends StatelessWidget {
                                                               ?.totalAmount),
                                                   textAlign: TextAlign.right,
                                                   style: TextStyle(
-                                                    color:state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc: Colours.text_666,
+                                                    color: state.orderDetailDTO
+                                                                ?.invalid ==
+                                                            IsDeleted
+                                                                .DELETED.value
+                                                        ? Colours.text_ccc
+                                                        : Colours.text_666,
                                                     fontSize: 32.sp,
                                                     fontWeight: FontWeight.w600,
                                                   ),
@@ -542,41 +765,54 @@ class SaleDetailView extends StatelessWidget {
                       return Card(
                           elevation: 6,
                           shadowColor: Colors.black45,
-                          margin: EdgeInsets.only(left: 24.w, top: 16.w, right: 24.w),
+                          margin: EdgeInsets.only(
+                              left: 24.w, top: 16.w, right: 24.w),
                           clipBehavior: Clip.antiAlias,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(28.w)),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(28.w)),
                           ),
-                          child:Visibility(
-                         visible: (controller.state.orderType == OrderType.PURCHASE)||(controller.state.orderType == OrderType.ADD_STOCK),
-                          child: Column(
-                                    children: [
-                                      Container(
-                                        padding:
+                          child: Visibility(
+                              visible: (controller.state.orderType ==
+                                      OrderType.PURCHASE) ||
+                                  (controller.state.orderType ==
+                                      OrderType.ADD_STOCK),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    padding:
                                         EdgeInsets.only(left: 40.w, top: 32.w),
-                                        child: Row(
-                                          children: [
-                                            Container(
-                                              color: state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc: Colours.primary,
-                                              height: 32.w,
-                                              width: 8.w,
-                                            ),
-                                            Container(
-                                              color: Colors.white,
-                                              margin: EdgeInsets.only(
-                                                left: 12.w,
-                                              ),
-                                              child: Text(
-                                                '费用详情',
-                                                style: TextStyle(
-                                                    color: state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc:Colours.text_666,
-                                                    fontSize: 34.sp,
-                                                    fontWeight: FontWeight.w600),
-                                              ),
-                                            ),
-                                          ],
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          color:
+                                              state.orderDetailDTO?.invalid ==
+                                                      IsDeleted.DELETED.value
+                                                  ? Colours.text_ccc
+                                                  : Colours.primary,
+                                          height: 32.w,
+                                          width: 8.w,
                                         ),
-                                      ),
+                                        Container(
+                                          color: Colors.white,
+                                          margin: EdgeInsets.only(
+                                            left: 12.w,
+                                          ),
+                                          child: Text(
+                                            '费用详情',
+                                            style: TextStyle(
+                                                color: state.orderDetailDTO
+                                                            ?.invalid ==
+                                                        IsDeleted.DELETED.value
+                                                    ? Colours.text_ccc
+                                                    : Colours.text_666,
+                                                fontSize: 34.sp,
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                   Container(
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 40.w, vertical: 32.w),
@@ -597,7 +833,12 @@ class SaleDetailView extends StatelessWidget {
                                                   Text(
                                                     '费用金额',
                                                     style: TextStyle(
-                                                      color: state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc:Colours.text_666,
+                                                      color: state.orderDetailDTO
+                                                                  ?.invalid ==
+                                                              IsDeleted
+                                                                  .DELETED.value
+                                                          ? Colours.text_ccc
+                                                          : Colours.text_666,
                                                       fontSize: 32.sp,
                                                       fontWeight:
                                                           FontWeight.w400,
@@ -608,12 +849,18 @@ class SaleDetailView extends StatelessWidget {
                                                       controller
                                                           .totalCostAmount(),
                                                       textAlign:
-                                                      TextAlign.right,
+                                                          TextAlign.right,
                                                       style: TextStyle(
-                                                        color: state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc:Colours.text_666,
+                                                        color: state.orderDetailDTO
+                                                                    ?.invalid ==
+                                                                IsDeleted
+                                                                    .DELETED
+                                                                    .value
+                                                            ? Colours.text_ccc
+                                                            : Colours.text_666,
                                                         fontSize: 32.sp,
                                                         fontWeight:
-                                                        FontWeight.w500,
+                                                            FontWeight.w500,
                                                       ),
                                                     ),
                                                   )
@@ -623,47 +870,55 @@ class SaleDetailView extends StatelessWidget {
                                                 height: 16.w,
                                               ),
                                               Container(
-                                                alignment: Alignment.centerRight,
+                                                alignment:
+                                                    Alignment.centerRight,
                                                 child: Container(
-                                                    padding: EdgeInsets.symmetric(vertical:8.w,horizontal: 16.w),
-                                                    decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                        color: Colours.text_ccc,
-                                                        width: 1.0,
-                                                      ),
-                                                      borderRadius: BorderRadius.circular(12.0),
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 8.w,
+                                                      horizontal: 16.w),
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                      color: Colours.text_ccc,
+                                                      width: 1.0,
                                                     ),
-                                                    child:
-                                                    Text(
-                                                      '查看明细',
-                                                      style: TextStyle(
-                                                          color: Colours.text_999,
-                                                          fontSize: 32.sp,
-                                                          fontWeight: FontWeight.w500),
-                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            12.0),
                                                   ),
+                                                  child: Text(
+                                                    '查看明细',
+                                                    style: TextStyle(
+                                                        color: Colours.text_999,
+                                                        fontSize: 32.sp,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
+                                                ),
                                               ),
                                             ],
                                           )))
-                                    ],
-                                  )
-                           ));
+                                ],
+                              )));
                     }),
                 GetBuilder<SaleDetailController>(
                     id: 'order_detail',
                     builder: (_) {
                       return Visibility(
-                        visible: state.orderDetailDTO?.remark?.isNotEmpty??false,
+                        visible:
+                            state.orderDetailDTO?.remark?.isNotEmpty ?? false,
                         child: Card(
                             elevation: 6,
                             shadowColor: Colors.black45,
-                            margin: EdgeInsets.only(left: 24.w, top: 16.w, right: 24.w),
+                            margin: EdgeInsets.only(
+                                left: 24.w, top: 16.w, right: 24.w),
                             clipBehavior: Clip.antiAlias,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(28.w)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(28.w)),
                             ),
                             child: Container(
-                              margin: EdgeInsets.symmetric(vertical: 40.w,horizontal: 32.w),
+                              margin: EdgeInsets.symmetric(
+                                  vertical: 40.w, horizontal: 32.w),
                               child: LimitedBox(
                                   maxHeight: 200.0, // 设置容器的最大高度
                                   child: Flex(
@@ -674,7 +929,11 @@ class SaleDetailView extends StatelessWidget {
                                         child: Text(
                                           '备注',
                                           style: TextStyle(
-                                            color:state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc: Colours.text_666,
+                                            color:
+                                                state.orderDetailDTO?.invalid ==
+                                                        IsDeleted.DELETED.value
+                                                    ? Colours.text_ccc
+                                                    : Colours.text_666,
                                             fontSize: 32.sp,
                                             fontWeight: FontWeight.w400,
                                           ),
@@ -685,11 +944,13 @@ class SaleDetailView extends StatelessWidget {
                                           child: Text(
                                             textAlign: TextAlign.right,
                                             softWrap: true, // 允许文本自动换行
-                                            state.orderDetailDTO
-                                                ?.remark ??
-                                                '',
+                                            state.orderDetailDTO?.remark ?? '',
                                             style: TextStyle(
-                                              color: state.orderDetailDTO?.invalid == IsDeleted.DELETED.value? Colours.text_ccc:Colours.text_333,
+                                              color: state.orderDetailDTO
+                                                          ?.invalid ==
+                                                      IsDeleted.DELETED.value
+                                                  ? Colours.text_ccc
+                                                  : Colours.text_333,
                                               fontSize: 32.sp,
                                               fontWeight: FontWeight.w500,
                                             ),
@@ -697,12 +958,17 @@ class SaleDetailView extends StatelessWidget {
                                     ],
                                   )),
                             )),
-                      );}),
-               Container(height: 100.w,)
+                      );
+                    }),
+                Container(
+                  height: 100.w,
+                )
               ]))),
       //底部按钮
       floatingActionButton: PermissionWidget(
-          permissionCode: ((state.orderType == OrderType.SALE)||(state.orderType == OrderType.SALE_RETURN)||(state.orderType == OrderType.REFUND))
+          permissionCode: ((state.orderType == OrderType.SALE) ||
+                  (state.orderType == OrderType.SALE_RETURN) ||
+                  (state.orderType == OrderType.REFUND))
               ? PermissionCode.sales_detail_share_permission
               : PermissionCode.purchase_detail_share_permission,
           child: Builder(builder: (BuildContext buildContext) {

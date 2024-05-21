@@ -85,6 +85,10 @@ OrderDTO $OrderDTOFromJson(Map<String, dynamic> json) {
   if (gmtCreate != null) {
     orderDTO.gmtCreate = gmtCreate;
   }
+  final bool? showDateTime = jsonConvert.convert<bool>(json['showDateTime']);
+  if (showDateTime != null) {
+    orderDTO.showDateTime = showDateTime;
+  }
   return orderDTO;
 }
 
@@ -108,6 +112,7 @@ Map<String, dynamic> $OrderDTOToJson(OrderDTO entity) {
   data['creator'] = entity.creator;
   data['creatorName'] = entity.creatorName;
   data['gmtCreate'] = entity.gmtCreate?.toIso8601String();
+  data['showDateTime'] = entity.showDateTime;
   return data;
 }
 
@@ -131,6 +136,7 @@ extension OrderDTOExtension on OrderDTO {
     int? creator,
     String? creatorName,
     DateTime? gmtCreate,
+    bool? showDateTime,
   }) {
     return OrderDTO()
       ..id = id ?? this.id
@@ -151,6 +157,7 @@ extension OrderDTOExtension on OrderDTO {
       ..invalid = invalid ?? this.invalid
       ..creator = creator ?? this.creator
       ..creatorName = creatorName ?? this.creatorName
-      ..gmtCreate = gmtCreate ?? this.gmtCreate;
+      ..gmtCreate = gmtCreate ?? this.gmtCreate
+      ..showDateTime = showDateTime ?? this.showDateTime;
   }
 }
