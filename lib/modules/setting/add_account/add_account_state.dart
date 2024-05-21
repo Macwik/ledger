@@ -12,5 +12,5 @@ class AddAccountState {
 
   TextEditingController nameController = TextEditingController();
 
-  bool firstIndex = false;
+  bool firstIndex = true;
 }

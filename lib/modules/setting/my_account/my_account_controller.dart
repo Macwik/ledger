@@ -5,10 +5,6 @@ import 'package:ledger/entity/ledger/user_ledger_dto.dart';
 import 'package:ledger/entity/user/user_dto_entity.dart';
 import 'package:ledger/enum/is_select.dart';
 import 'package:ledger/enum/process_status.dart';
-import 'package:ledger/modules/home/home_binding.dart';
-import 'package:ledger/modules/home/home_controller.dart';
-import 'package:ledger/modules/main/main_binding.dart';
-import 'package:ledger/modules/main/main_controller.dart';
 import 'package:ledger/res/export.dart';
 import 'package:ledger/store/store_controller.dart';
 
@@ -116,7 +112,7 @@ class MyAccountController extends GetxController {
   }
 
   void toAddAccount() {
-    Get.toNamed(RouteConfig.addAccount)?.then((result) {
+    Get.toNamed(RouteConfig.addAccount,arguments: {'firstIndex':false})?.then((result) {
       if (ProcessStatus.OK == result) {
         listLedger();
       }
