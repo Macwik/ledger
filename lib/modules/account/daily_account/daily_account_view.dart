@@ -547,13 +547,12 @@ class DailyAccountView extends StatelessWidget {
                                                                     .text_ccc),
                                                           ),
                                                           Text(
-                                                            DecimalUtil.formatAmount((salesProductStatisticsDTO.creditAmount ?? Decimal.zero) -
-                                                                (salesProductStatisticsDTO
-                                                                        .repaymentAmount ??
+                                                            DecimalUtil.formatAmount((salesProductStatisticsDTO
+                                                                        .creditAmount ??
                                                                     Decimal
                                                                         .zero) -
                                                                 (salesProductStatisticsDTO
-                                                                        .repaymentDiscountAmount ??
+                                                                        .repaymentAmount ??
                                                                     Decimal
                                                                         .zero)),
                                                             style: TextStyle(
