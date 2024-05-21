@@ -62,7 +62,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         initialRoute: hasCookie
             ? Http().hasActiveLedger()
                 ? RouteConfig.main
-                : RouteConfig.myAccount
+                : RouteConfig.addAccount
             : RouteConfig.loginVerify,
         getPages: RouteConfig.getPages,
         debugShowCheckedModeBanner: true,

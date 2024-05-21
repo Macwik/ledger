@@ -110,7 +110,7 @@ class LoginVerifyController extends GetxController {
 
       var activeLedger = result.d!.activeLedger;
       if (null == activeLedger) {
-        Get.offAllNamed(RouteConfig.firstIndex);
+        Get.toNamed(RouteConfig.addAccount,arguments: {'firstIndex':true});
       } else {
         await StoreController.to
             .updatePermissionCode()
