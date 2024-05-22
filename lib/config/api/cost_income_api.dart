@@ -15,4 +15,6 @@ class CostIncomeApi{
   static const String cost_order_detail ='/api/erp/v2/external/order/detail';
   //费用统计查询
   static const String product_cost_statistic ='/api/erp/v2/external/order/statistic/page';
+  //费用收入统计
+  static const String cost_record_statistic = '/api/erp/v2/external/order/count';
 }

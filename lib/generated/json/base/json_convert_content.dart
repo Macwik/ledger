@@ -14,6 +14,7 @@ import 'package:ledger/entity/contact/contact_dto.dart';
 import 'package:ledger/entity/costIncome/cost_income_detail_dto.dart';
 import 'package:ledger/entity/costIncome/cost_income_label_type_dto.dart';
 import 'package:ledger/entity/costIncome/cost_income_order_dto.dart';
+import 'package:ledger/entity/costIncome/external_order_count_dto.dart';
 import 'package:ledger/entity/costIncome/external_order_statistic_dto.dart';
 import 'package:ledger/entity/costIncome/order_pay_request.dart';
 import 'package:ledger/entity/custom/custom_dto.dart';
@@ -241,6 +242,10 @@ class JsonConvert {
     if (<CostIncomeOrderDTO>[] is M) {
       return data.map<CostIncomeOrderDTO>((Map<String, dynamic> e) =>
           CostIncomeOrderDTO.fromJson(e)).toList() as M;
+    }
+    if (<ExternalOrderCountDTO>[] is M) {
+      return data.map<ExternalOrderCountDTO>((Map<String, dynamic> e) =>
+          ExternalOrderCountDTO.fromJson(e)).toList() as M;
     }
     if (<ExternalOrderStatisticDTO>[] is M) {
       return data.map<ExternalOrderStatisticDTO>((Map<String, dynamic> e) =>
@@ -501,6 +506,7 @@ class JsonConvertClassCollection {
     (CostIncomeDetailDTO).toString(): CostIncomeDetailDTO.fromJson,
     (CostIncomeLabelTypeDTO).toString(): CostIncomeLabelTypeDTO.fromJson,
     (CostIncomeOrderDTO).toString(): CostIncomeOrderDTO.fromJson,
+    (ExternalOrderCountDTO).toString(): ExternalOrderCountDTO.fromJson,
     (ExternalOrderStatisticDTO).toString(): ExternalOrderStatisticDTO.fromJson,
     (OrderPayRequest).toString(): OrderPayRequest.fromJson,
     (CustomDTO).toString(): CustomDTO.fromJson,

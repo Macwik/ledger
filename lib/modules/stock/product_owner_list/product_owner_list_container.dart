@@ -220,7 +220,7 @@ class ProductOwnerListContainer extends GetxController {
 
   showBottomSheet(BuildContext context, SupplierDTO supplierDTO) {
     List<Widget> actions = [];
-    if (supplierDTO.invalid == 0) {//ToDO 参数要换成used
+    if (supplierDTO.used == 0) {
       actions.add(CupertinoActionSheetAction(
         onPressed: () {
           toDeleteProductOwner(supplierDTO.id);

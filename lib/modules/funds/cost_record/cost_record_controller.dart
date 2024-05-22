@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:ledger/config/api/cost_income_api.dart';
 import 'package:ledger/config/api/ledger_api.dart';
 import 'package:ledger/entity/costIncome/cost_income_order_dto.dart';
+import 'package:ledger/entity/costIncome/external_order_count_dto.dart';
 import 'package:ledger/entity/user/user_base_dto.dart';
 import 'package:ledger/enum/cost_order_type.dart';
 import 'package:ledger/enum/process_status.dart';
@@ -17,7 +18,9 @@ import 'package:ledger/widget/loading.dart';
 
 import 'cost_record_state.dart';
 
-class CostRecordController extends GetxController with GetSingleTickerProviderStateMixin implements DisposableInterface {
+class CostRecordController extends GetxController
+    with GetSingleTickerProviderStateMixin
+    implements DisposableInterface {
   final CostRecordState state = CostRecordState();
 
   late TabController tabController;
@@ -29,6 +32,7 @@ class CostRecordController extends GetxController with GetSingleTickerProviderSt
     }
     onRefresh();
     _queryLedgerUserList();
+    _queryStatistics();
   }
 
   @override
@@ -43,6 +47,30 @@ class CostRecordController extends GetxController with GetSingleTickerProviderSt
       onRefresh();
     });
     super.onInit();
+  }
+
+  Future<void> _queryStatistics() async {
+    final result = await Http().network<ExternalOrderCountDTO>(
+        Method.post, CostIncomeApi.cost_record_statistic,
+        data: {
+          'startDate': DateUtil.formatDefaultDate(state.startDate),
+          'endDate': DateUtil.formatDefaultDate(state.endDate),
+          'searchContent': state.searchContent,
+          'discount': state.orderStatus,
+          'invalid': state.invalid,
+          'orderType': state.index,
+          'userIdList': state.selectEmployeeIdList,
+          'labelList': state.costLabel == null ? null : [state.costLabel?.id],
+          'bindProduct': state.bindProduct,
+          'productList':
+              state.productDTO == null ? null : [state.productDTO?.id]
+        });
+    if (result.success) {
+      state.externalOrderCountDTO = result.d;
+      update(['cost_record_statistic']);
+    } else {
+      Toast.show(result.m.toString());
+    }
   }
 
   Future<void> selectDateRange(BuildContext context) async {
@@ -129,13 +157,12 @@ class CostRecordController extends GetxController with GetSingleTickerProviderSt
     return state.orderStatus == orderStatus;
   }
 
-  //筛选里拉取业务员信息
   Future<void> _queryLedgerUserList() async {
     final result = await Http()
         .network<List<UserBaseDTO>>(Method.get, LedgerApi.ledger_user_list);
     if (result.success) {
       state.employeeList = result.d;
-      update();
+      // update();
     } else {
       Toast.show(result.m.toString());
     }

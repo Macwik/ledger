@@ -14,6 +14,7 @@ class SupplierDTO {
   int? creator;
   String? creatorName;
   int? invalid;//0 正常 | 1 未启用
+  int? used;//0未使用 | 1已使用
   int? deleted;
   String? gmtCreate;
   String? gmtModified;

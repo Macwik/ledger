@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/enum/cost_order_type.dart';
 import 'package:ledger/res/export.dart';
+import 'package:ledger/util/decimal_util.dart';
 import 'package:ledger/util/image_util.dart';
 import 'package:ledger/util/picker_date_utils.dart';
 import 'package:ledger/widget/permission/permission_widget.dart';
@@ -668,45 +669,48 @@ class CostRecordView extends StatelessWidget {
               ),
             ),
           ],),
-        Container(
-          color: Colors.white38,
+        GetBuilder<CostRecordController>(
+            id: 'cost_record_statistic',
+            builder: (_){
+          return Container(
+            color: Colors.white38,
             margin: EdgeInsets.symmetric(vertical: 4.w),
             padding: EdgeInsets.symmetric(vertical: 16.w),
             child:
-           Row(
-               children: [
-             Expanded(child: Row(
-               mainAxisAlignment: MainAxisAlignment.center,
-               children: [
-               Text('笔数：',
-                 style: TextStyle(
-                     fontSize: 28.sp,
-                   color: Colours.text_666
-                 ),),
-               Text('000',
-                 style: TextStyle(
-                     fontSize: 28.sp,
-                     color: Colors.orange[600]
-                 ),)
-             ],)),
-             Expanded(child: Row(
-               mainAxisAlignment: MainAxisAlignment.center,
-               children: [
-               Text('总额：',
-                 style: TextStyle(
-                     fontSize: 28.sp,
-                     color: Colours.text_666
-                 ),),
-               Text('000',
-                 style: TextStyle(
-                     fontSize: 28.sp,
-                     color: Colors.orange[600]
-                 ),)
-             ],))
-            ]),
+            Row(
+                children: [
+                  Expanded(child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('笔数：',
+                        style: TextStyle(
+                            fontSize: 28.sp,
+                            color: Colours.text_666
+                        ),),
+                      Text(state.externalOrderCountDTO?.count.toString()??'',
+                        style: TextStyle(
+                            fontSize: 28.sp,
+                            color: Colors.orange[600]
+                        ),)
+                    ],)),
+                  Expanded(child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('总额：',
+                        style: TextStyle(
+                            fontSize: 28.sp,
+                            color: Colours.text_666
+                        ),),
+                      Text(DecimalUtil.formatAmount(state.externalOrderCountDTO?.totalAmount),
+                        style: TextStyle(
+                            fontSize: 28.sp,
+                            color: Colors.orange[600]
+                        ),)
+                    ],))
+                ]),
+          );
 
-
-       ),
+        }),
         Expanded(
           child: GetBuilder<CostRecordController>(
               id: 'costRecord',

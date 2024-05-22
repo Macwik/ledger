@@ -40,6 +40,10 @@ SupplierDTO $SupplierDTOFromJson(Map<String, dynamic> json) {
   if (invalid != null) {
     supplierDTO.invalid = invalid;
   }
+  final int? used = jsonConvert.convert<int>(json['used']);
+  if (used != null) {
+    supplierDTO.used = used;
+  }
   final int? deleted = jsonConvert.convert<int>(json['deleted']);
   if (deleted != null) {
     supplierDTO.deleted = deleted;
@@ -66,6 +70,7 @@ Map<String, dynamic> $SupplierDTOToJson(SupplierDTO entity) {
   data['creator'] = entity.creator;
   data['creatorName'] = entity.creatorName;
   data['invalid'] = entity.invalid;
+  data['used'] = entity.used;
   data['deleted'] = entity.deleted;
   data['gmtCreate'] = entity.gmtCreate;
   data['gmtModified'] = entity.gmtModified;
@@ -83,6 +88,7 @@ extension SupplierDTOExtension on SupplierDTO {
     int? creator,
     String? creatorName,
     int? invalid,
+    int? used,
     int? deleted,
     String? gmtCreate,
     String? gmtModified,
@@ -97,6 +103,7 @@ extension SupplierDTOExtension on SupplierDTO {
       ..creator = creator ?? this.creator
       ..creatorName = creatorName ?? this.creatorName
       ..invalid = invalid ?? this.invalid
+      ..used = used ?? this.used
       ..deleted = deleted ?? this.deleted
       ..gmtCreate = gmtCreate ?? this.gmtCreate
       ..gmtModified = gmtModified ?? this.gmtModified;
