@@ -136,6 +136,22 @@ ProductSalesStatisticsDTO $ProductSalesStatisticsDTOFromJson(
   if (costTotalAmount != null) {
     productSalesStatisticsDTO.costTotalAmount = costTotalAmount;
   }
+  final Decimal? costDiscountTotalAmount = jsonConvert.convert<Decimal>(
+      json['costDiscountTotalAmount']);
+  if (costDiscountTotalAmount != null) {
+    productSalesStatisticsDTO.costDiscountTotalAmount = costDiscountTotalAmount;
+  }
+  final Decimal? incomeTotalAmount = jsonConvert.convert<Decimal>(
+      json['incomeTotalAmount']);
+  if (incomeTotalAmount != null) {
+    productSalesStatisticsDTO.incomeTotalAmount = incomeTotalAmount;
+  }
+  final Decimal? incomeDiscountTotalAmount = jsonConvert.convert<Decimal>(
+      json['incomeDiscountTotalAmount']);
+  if (incomeDiscountTotalAmount != null) {
+    productSalesStatisticsDTO.incomeDiscountTotalAmount =
+        incomeDiscountTotalAmount;
+  }
   return productSalesStatisticsDTO;
 }
 
@@ -171,6 +187,10 @@ Map<String, dynamic> $ProductSalesStatisticsDTOToJson(
       entity.purchaseRepaymentDiscountAmount?.toJson();
   data['purchaseCreditAmount'] = entity.purchaseCreditAmount?.toJson();
   data['costTotalAmount'] = entity.costTotalAmount?.toJson();
+  data['costDiscountTotalAmount'] = entity.costDiscountTotalAmount?.toJson();
+  data['incomeTotalAmount'] = entity.incomeTotalAmount?.toJson();
+  data['incomeDiscountTotalAmount'] =
+      entity.incomeDiscountTotalAmount?.toJson();
   return data;
 }
 
@@ -203,6 +223,9 @@ extension ProductSalesStatisticsDTOExtension on ProductSalesStatisticsDTO {
     Decimal? purchaseRepaymentDiscountAmount,
     Decimal? purchaseCreditAmount,
     Decimal? costTotalAmount,
+    Decimal? costDiscountTotalAmount,
+    Decimal? incomeTotalAmount,
+    Decimal? incomeDiscountTotalAmount,
   }) {
     return ProductSalesStatisticsDTO()
       ..id = id ?? this.id
@@ -234,6 +257,11 @@ extension ProductSalesStatisticsDTOExtension on ProductSalesStatisticsDTO {
       ..purchaseRepaymentDiscountAmount = purchaseRepaymentDiscountAmount ??
           this.purchaseRepaymentDiscountAmount
       ..purchaseCreditAmount = purchaseCreditAmount ?? this.purchaseCreditAmount
-      ..costTotalAmount = costTotalAmount ?? this.costTotalAmount;
+      ..costTotalAmount = costTotalAmount ?? this.costTotalAmount
+      ..costDiscountTotalAmount = costDiscountTotalAmount ??
+          this.costDiscountTotalAmount
+      ..incomeTotalAmount = incomeTotalAmount ?? this.incomeTotalAmount
+      ..incomeDiscountTotalAmount = incomeDiscountTotalAmount ??
+          this.incomeDiscountTotalAmount;
   }
 }

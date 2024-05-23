@@ -45,6 +45,7 @@ class CostRecordController extends GetxController
       clearCondition();
       state.searchContent = '';
       onRefresh();
+      _queryStatistics();
     });
     super.onInit();
   }
@@ -143,7 +144,7 @@ class CostRecordController extends GetxController
       if (result.success) {
         state.items = result.d?.result;
         state.hasMore = result.d?.hasMore;
-        update(['costRecord']);
+        update(['costRecord','cost_record_statistic']);
         state.refreshController.finishRefresh();
         state.refreshController.resetFooter();
       } else {
@@ -162,7 +163,6 @@ class CostRecordController extends GetxController
         .network<List<UserBaseDTO>>(Method.get, LedgerApi.ledger_user_list);
     if (result.success) {
       state.employeeList = result.d;
-      // update();
     } else {
       Toast.show(result.m.toString());
     }
@@ -203,6 +203,7 @@ class CostRecordController extends GetxController
   //筛选里‘确定’
   void confirmCondition() {
     onRefresh();
+    _queryStatistics();
     Get.back();
   }
 

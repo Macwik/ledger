@@ -18,6 +18,7 @@ class CostIncomeDetailDTO {
   Decimal? totalAmount;
   int? salesOrderId;
   String? salesOrderNo;
+  int? salesOrderType;
   List<int>? productIdList;
   List<String>? productNameList;
   List<OrderPaymentDTO>? paymentDTOList;

@@ -184,8 +184,7 @@ class MyAccountView extends StatelessWidget {
                                 backgroundColor: Colors.red,
                                 icon: Icons.delete_outline_rounded,
                                 onPressed: (context) =>
-                                    controller.toDeleteLedger(
-                                        userRelationDetailDTO!.id!),
+                                    controller.toDeleteLedger(userRelationDetailDTO!.ledgerId!),
                               ),
                             ],
                           ),
@@ -236,8 +235,7 @@ class MyAccountView extends StatelessWidget {
                                         child:InkWell(
                                             onTap: () =>
                                                 controller.toChangeAccount(
-                                                    userRelationDetailDTO!
-                                                        .ledgerId!),
+                                                    userRelationDetailDTO!.ledgerId!),
                                             child: Row(
                                           mainAxisAlignment: MainAxisAlignment.end,
                                           children: [

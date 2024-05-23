@@ -32,8 +32,10 @@ class ProductSalesStatisticsDTO {
   Decimal? purchaseDiscountAmount;
   Decimal? purchaseRepaymentDiscountAmount;
   Decimal? purchaseCreditAmount;
-  Decimal? costTotalAmount;
-
+  Decimal? costTotalAmount;//产地费用合计
+  Decimal? costDiscountTotalAmount;//销售地费用合计
+  Decimal? incomeTotalAmount;//产地收入合计
+  Decimal? incomeDiscountTotalAmount;//销售地收入合计
 
   ProductSalesStatisticsDTO();
 

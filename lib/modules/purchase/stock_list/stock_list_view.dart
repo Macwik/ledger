@@ -80,7 +80,7 @@ class StockListView extends StatelessWidget {
                           height: 40.w,
                         ),
                         Text(
-                          '不启用是否显示',
+                          '展示停用商品',
                           style: TextStyle(
                             color: Colours.text_333,
                             fontSize: 30.sp,
@@ -91,13 +91,13 @@ class StockListView extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(
-                              controller.state.invalid == null ? '全部' : '启用',
+                              controller.state.invalid == null ? '全部' : '仅启用商品',
                               style: TextStyle(color: Colours.text_999),
                             ),
                             Switch(
                                 trackOutlineColor:
-                                    MaterialStateProperty.resolveWith((states) {
-                                  if (states.contains(MaterialState.selected)) {
+                                    WidgetStateProperty.resolveWith((states) {
+                                  if (states.contains(WidgetState.selected)) {
                                     return Colours.primary; // 设置轨道边框颜色
                                   }
                                   return Colors.grey; // 默认的轨道边框颜色
@@ -189,8 +189,8 @@ class StockListView extends StatelessWidget {
                               size: 40.w,
                             ),
                             shadowColor:
-                                MaterialStatePropertyAll<Color>(Colors.black26),
-                            hintStyle: MaterialStatePropertyAll<TextStyle>(
+                                WidgetStatePropertyAll<Color>(Colors.black26),
+                            hintStyle: WidgetStatePropertyAll<TextStyle>(
                                 TextStyle(
                                     fontSize: 34.sp, color: Colors.black26)),
                             onChanged: (value) {

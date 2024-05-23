@@ -330,9 +330,7 @@ class CostDetailView extends StatelessWidget {
                                                 MainAxisAlignment.end,
                                             children: [
                                               Text(
-                                                state.costIncomeDetailDTO
-                                                            ?.salesOrderNo ==
-                                                        null
+                                                state.costIncomeDetailDTO?.salesOrderNo == null
                                                     ? '无'
                                                     : '查看详情',
                                                 style: TextStyle(

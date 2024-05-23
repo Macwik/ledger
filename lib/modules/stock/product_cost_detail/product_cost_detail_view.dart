@@ -21,6 +21,7 @@ class ProductCostDetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    controller.initState();
     return Scaffold(
       appBar: TitleBar(
         title: '费用收入明细'.tr,

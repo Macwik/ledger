@@ -96,7 +96,7 @@ class MyAccountController extends GetxController {
         onConfirm: () {
           Http().network(Method.delete, LedgerApi.ledger_delete,
               queryParameters: {
-                'id': id,
+                'ledgerId': id,
               }).then((result) {
             if (result.success) {
               Toast.show('删除成功');

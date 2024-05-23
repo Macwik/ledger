@@ -17,8 +17,7 @@ class ProductCostDetailController extends GetxController
 
   late TabController tabController;
 
-  @override
-  void onInit() {
+  Future<void> initState() async {
     var arguments = Get.arguments;
     if ((arguments != null) && arguments['discount'] != null) {
       state.discount = arguments['discount'];
@@ -26,6 +25,12 @@ class ProductCostDetailController extends GetxController
     if ((arguments != null) && arguments['productId'] != null) {
       state.productId = arguments['productId'];
     }
+    onRefresh();
+  }
+
+  @override
+  void onInit() {
+
     tabController = TabController(length: 2, vsync: this);
     tabController.addListener(() {
       var index = tabController.index;
@@ -33,7 +38,7 @@ class ProductCostDetailController extends GetxController
       onRefresh();
     });
     super.onInit();
-    onRefresh();
+
   }
 
   Future<void> onLoad() async {

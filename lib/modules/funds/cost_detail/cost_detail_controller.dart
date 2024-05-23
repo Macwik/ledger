@@ -75,7 +75,13 @@ class CostDetailController extends GetxController {
   Future<void> toSaleDetail() async {
     if (state.costIncomeDetailDTO?.salesOrderNo == null) {
       Toast.show('未绑定采购单');
-    } else {
+    } else if(state.costIncomeDetailDTO?.salesOrderType == OrderType.ADD_STOCK.value){
+      await Get.toNamed(RouteConfig.addStockDetail, arguments: {
+        'id': state.costIncomeDetailDTO?.salesOrderId,
+      })?.then((value) {
+        _queryData();
+      });
+    }else{
       await Get.toNamed(RouteConfig.saleDetail, arguments: {
         'id': state.costIncomeDetailDTO?.salesOrderId,
         'orderType': OrderType.PURCHASE
@@ -84,21 +90,21 @@ class CostDetailController extends GetxController {
       });
     }
   }
-
-  OrderType orderType(int? orderType) {
-    switch (orderType) {
-      case 0:
-        return OrderType.PURCHASE;
-      case 1:
-        return OrderType.SALE;
-      case 2:
-        return OrderType.SALE_RETURN;
-      case 3:
-        return OrderType.PURCHASE_RETURN;
-      default:
-        throw Exception('销售单');
-    }
-  }
+  //
+  // OrderType orderType(int? orderType) {
+  //   switch (orderType) {
+  //     case 0:
+  //       return OrderType.PURCHASE;
+  //     case 1:
+  //       return OrderType.SALE;
+  //     case 2:
+  //       return OrderType.SALE_RETURN;
+  //     case 3:
+  //       return OrderType.PURCHASE_RETURN;
+  //     default:
+  //       throw Exception('销售单');
+  //   }
+  // }
 
 
   String orderPayment(List<OrderPaymentDTO>? orderPaymentList) {

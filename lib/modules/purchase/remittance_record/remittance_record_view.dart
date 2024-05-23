@@ -69,11 +69,11 @@ class RemittanceRecordView extends StatelessWidget {
                                 Expanded(
                                   child: ElevatedButton(
                                     style: ButtonStyle(
-                                      padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 12, horizontal: 10)),
+                                      padding: WidgetStateProperty.all(EdgeInsets.symmetric(vertical: 12, horizontal: 10)),
                                       backgroundColor:
-                                          MaterialStateProperty.all(
+                                          WidgetStateProperty.all(
                                               Colors.white), // 背景色
-                                      shape: MaterialStateProperty.all(
+                                      shape: WidgetStateProperty.all(
                                         RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(35.0), // 圆角
@@ -125,11 +125,11 @@ class RemittanceRecordView extends StatelessWidget {
                                 Expanded(
                                     child: ElevatedButton(
                                         style: ButtonStyle(
-                                          padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 12, horizontal: 10)),
+                                          padding: WidgetStateProperty.all(EdgeInsets.symmetric(vertical: 12, horizontal: 10)),
                                           backgroundColor:
-                                              MaterialStateProperty.all(
+                                              WidgetStateProperty.all(
                                                   Colors.white), // 背景色
-                                          shape: MaterialStateProperty.all(
+                                          shape: WidgetStateProperty.all(
                                             RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(
@@ -320,10 +320,10 @@ class RemittanceRecordView extends StatelessWidget {
                                   ),
                                   Switch(
                                       trackOutlineColor:
-                                      MaterialStateProperty.resolveWith(
+                                      WidgetStateProperty.resolveWith(
                                               (states) {
                                             if (states
-                                                .contains(MaterialState.selected)) {
+                                                .contains(WidgetState.selected)) {
                                               return Colours.primary; // 设置轨道边框颜色
                                             }
                                             return Colors.grey; // 默认的轨道边框颜色
@@ -408,8 +408,8 @@ class RemittanceRecordView extends StatelessWidget {
                             color: Colors.grey,
                             size: 40.w,
                           ),
-                          shadowColor:MaterialStatePropertyAll<Color>(Colors.black26),
-                          hintStyle: MaterialStatePropertyAll<TextStyle>(
+                          shadowColor:WidgetStatePropertyAll<Color>(Colors.black26),
+                          hintStyle: WidgetStatePropertyAll<TextStyle>(
                               TextStyle(fontSize: 34.sp,
                                 color: Colors.black26
                               )),

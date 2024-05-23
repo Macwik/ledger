@@ -125,9 +125,7 @@ class EmployeeView extends StatelessWidget {
                                     )),
                                     Expanded(
                                         child: Text(
-                                      state.ledgerUserDetailDTO?.userBaseDTO
-                                              ?.phone ??
-                                          '',
+                          TextUtil.hideNumber(state.ledgerUserDetailDTO?.userBaseDTO?.phone??''),
                                       textAlign: TextAlign.right,
                                       style: TextStyle(
                                           color: state.isEdit == true

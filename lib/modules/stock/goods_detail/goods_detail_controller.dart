@@ -144,7 +144,9 @@ Future<void> initState() async {
     var purchaseAmount  = ((state.productSalesStatisticsDTO?.purchaseTotalAmount??Decimal.zero)
         -(state.productSalesStatisticsDTO?.purchaseRepaymentDiscountAmount??Decimal.zero)
         - (state.productSalesStatisticsDTO?.purchaseDiscountAmount??Decimal.zero));
-    return DecimalUtil.formatAmount(saleAmount-purchaseAmount-(state.productSalesStatisticsDTO?.costTotalAmount??Decimal.zero));
+    var costAmount = (state.productSalesStatisticsDTO?.costDiscountTotalAmount??Decimal.zero) +(state.productSalesStatisticsDTO?.costTotalAmount??Decimal.zero);
+    var incomeAmount = (state.productSalesStatisticsDTO?.incomeDiscountTotalAmount??Decimal.zero) +(state.productSalesStatisticsDTO?.incomeTotalAmount??Decimal.zero);
+    return DecimalUtil.formatAmount(saleAmount-purchaseAmount- costAmount +incomeAmount);
   }
 
   String stockNumber() {

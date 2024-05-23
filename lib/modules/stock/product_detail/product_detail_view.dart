@@ -379,7 +379,7 @@ class ProductDetailView extends StatelessWidget {
                           Container(
                               color: Colors.white,
                               padding: EdgeInsets.symmetric(
-                                  horizontal: 40.w, vertical: 10.w),
+                                  horizontal: 40.w, vertical: 16.w,),
                               child: Row(
                                 children: [
                                   Expanded(
@@ -453,12 +453,16 @@ class ProductDetailView extends StatelessWidget {
                                   ),
                                 ],
                               )),
-                          Container(
+                          Visibility(
+                              visible: controller.state.selectedSalesType == 1,
+                              child:Container(
                             color: Colours.divider,
                             height: 1.w,
                             width: double.infinity,
-                          ),
-                          Container(
+                          )),
+                          Visibility(
+                            visible: controller.state.selectedSalesType == 1,
+                            child:Container(
                               color: Colors.white,
                               padding: EdgeInsets.symmetric(
                                   horizontal: 40.w, vertical: 40.w),
@@ -471,12 +475,10 @@ class ProductDetailView extends StatelessWidget {
                                   child: Flex(
                                     direction: Axis.horizontal,
                                     children: [
-                                      Visibility(
-                                        visible: controller.state.selectedSalesType == 1,
-                                        child:  Text(
+                                        Text(
                                           '* ',
                                           style: TextStyle(color: Colors.red),
-                                        ),),
+                                        ),
                                       Text(
                                         controller.state.selectedSalesType==1 ? '货主':'供应商',
                                         style: TextStyle(
@@ -505,7 +507,7 @@ class ProductDetailView extends StatelessWidget {
                                         ),
                                       )
                                     ],
-                                  ))),
+                                  )))),
                           Container(
                             color: Colours.divider,
                             height: 1.w,

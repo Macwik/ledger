@@ -370,8 +370,8 @@ class PurchaseRecordController extends GetxController
                   color: Colors.grey,
                   size: 40.w,
                 ),
-                shadowColor: MaterialStatePropertyAll<Color>(Colors.black26),
-                hintStyle: MaterialStatePropertyAll<TextStyle>(
+                shadowColor: WidgetStatePropertyAll<Color>(Colors.black26),
+                hintStyle: WidgetStatePropertyAll<TextStyle>(
                     TextStyle(fontSize: 34.sp, color: Colors.black26)),
                 onChanged: (value) {
                   searchPurchaseRecord(value);

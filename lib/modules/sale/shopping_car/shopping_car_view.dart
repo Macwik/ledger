@@ -54,8 +54,8 @@ class ShoppingCarView extends StatelessWidget {
                         color: Colors.grey,
                         size: 40.w,
                       ),
-                      shadowColor: MaterialStatePropertyAll<Color>(Colors.black26),
-                      hintStyle: MaterialStatePropertyAll<TextStyle>(
+                      shadowColor: WidgetStatePropertyAll<Color>(Colors.black26),
+                      hintStyle: WidgetStatePropertyAll<TextStyle>(
                           TextStyle(fontSize: 34.sp, color: Colors.black26)),
                       onChanged: (value) {
                         controller.searchShoppingCar(value);
@@ -429,11 +429,11 @@ class ShoppingCarView extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: () => Get.back(result: state.shoppingCarList),
                       style: ButtonStyle(
-                        maximumSize: MaterialStateProperty.all(
+                        maximumSize: WidgetStateProperty.all(
                             Size(double.infinity, 60)),
                         backgroundColor:
-                            MaterialStateProperty.all(Colours.primary),
-                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                            WidgetStateProperty.all(Colours.primary),
+                        shape: WidgetStateProperty.all(RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15.0),
                         )),
                       ),
@@ -478,12 +478,12 @@ class ShoppingCarView extends StatelessWidget {
      return  ElevatedButton(
           onPressed: () => controller.addToAdjust(stockDTO),
        style: ButtonStyle(
-         padding: MaterialStateProperty.all(
+         padding: WidgetStateProperty.all(
              EdgeInsets.symmetric(horizontal: 12)),
          backgroundColor:
-         MaterialStateProperty.all(Colors.white),
+         WidgetStateProperty.all(Colors.white),
          // 背景色
-         shape: MaterialStateProperty.all(
+         shape: WidgetStateProperty.all(
            RoundedRectangleBorder(
              borderRadius:
              BorderRadius.circular(35.0), // 圆角

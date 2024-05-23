@@ -22,6 +22,7 @@ class CostBillView extends StatelessWidget {
   Widget build(BuildContext context) {
     controller.initState();
     return Scaffold(
+      resizeToAvoidBottomInset: false,
         appBar: TitleBar(
           title: state.costOrderType == CostOrderType.COST ? '费用开单' : '收入开单',
           backPressed:() => controller.costBillGetBack() ,

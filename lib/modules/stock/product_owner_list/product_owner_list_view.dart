@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger/res/colors.dart';
 import 'package:ledger/util/image_util.dart';
+import 'package:ledger/util/text_util.dart';
 import 'package:ledger/widget/elevated_btn.dart';
 import 'package:ledger/widget/empty_layout.dart';
 import 'package:ledger/widget/image.dart';
@@ -262,7 +263,7 @@ class ProductOwnerListView extends StatelessWidget {
                                         ),
                                         Expanded(
                                             child: Text(
-                                              supplierDTO.phone ?? '',
+                                                TextUtil.hideNumber(supplierDTO.phone??''),
                                               textAlign: TextAlign.right,
                                               style: TextStyle(
                                                   fontSize: 32.sp,

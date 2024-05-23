@@ -127,6 +127,9 @@ class ProductDetailController extends GetxController {
   }
 
   void updateProduct() {
+    if(state.selectedSalesType != 1){
+      state.supplierId == null;
+    }
     Http().network(Method.put, ProductApi.product_detail_update, data: {
       'id': state.productDetailDTO?.id,
       'productType': state.productType,

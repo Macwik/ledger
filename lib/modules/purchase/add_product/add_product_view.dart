@@ -322,7 +322,7 @@ class AddProductView extends StatelessWidget {
                         ),
                         Container(
                             color: Colors.white,
-                            padding: EdgeInsets.symmetric(horizontal: 40.w),
+                            padding: EdgeInsets.symmetric(horizontal: 40.w,vertical: 16.w),
                             child: Row(
                               children: [
                                 Expanded(
@@ -398,28 +398,34 @@ class AddProductView extends StatelessWidget {
                                 ),
                               ],
                             )),
-                        Container(
+                        GetBuilder<AddProductController>(
+                          id: 'custom',
+                          init: controller,
+                          global: false,
+                          builder: (_) => Visibility(
+                            visible: controller.state.saleChannel == 1,
+                            child:  Container(
                           color: Colours.divider,
                           height: 1.w,
                           width: double.infinity,
-                        ),
-                        Container(
-                            color: Colors.white,
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 40.w, vertical: 30.w),
-                            child:  GetBuilder<AddProductController>(
+                        ))),
+                         GetBuilder<AddProductController>(
                                 id: 'custom',
                                 init: controller,
                                 global: false,
-                                builder: (_) =>Flex(
+                                builder: (_) => Visibility(
+                                    visible: controller.state.saleChannel == 1,
+                                    child:Container(
+                                        color: Colors.white,
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 40.w, vertical: 30.w),
+                                        child:  Flex(
                               direction: Axis.horizontal,
                               children: [
-                                Visibility(
-                                  visible: controller.state.saleChannel == 1,
-                                  child:  Text(
+                               Text(
                                     '* ',
                                     style: TextStyle(color: Colors.red),
-                                  ),),
+                                  ),
                                 Text(
                                   controller.state.saleChannel==1 ? '货主':'供应商',
                                   style: TextStyle(
@@ -451,14 +457,12 @@ class AddProductView extends StatelessWidget {
                                   ]),
                                 )
                               ],
-                            ))),
+                            )))),
                         Container(
                           color: Colours.divider,
                           height: 1.w,
                           width: double.infinity,
                         ),
-
-
                         Container(
                             color: Colors.white,
                             padding: EdgeInsets.symmetric(

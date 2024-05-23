@@ -68,14 +68,14 @@ class StockChangeRecordView extends StatelessWidget {
                                 Expanded(
                                   child: ElevatedButton(
                                     style: ButtonStyle(
-                                      padding: MaterialStateProperty.all(
+                                      padding: WidgetStateProperty.all(
                                           EdgeInsets.symmetric(
                                               vertical: 24.w, horizontal: 20.w)),
                                       backgroundColor:
-                                      MaterialStateProperty.all(
+                                      WidgetStateProperty.all(
                                           Colors.white),
                                       // 背景色
-                                      shape: MaterialStateProperty.all(
+                                      shape: WidgetStateProperty.all(
                                         RoundedRectangleBorder(
                                           borderRadius:
                                           BorderRadius.circular(35.0), // 圆角
@@ -127,14 +127,14 @@ class StockChangeRecordView extends StatelessWidget {
                                 Expanded(
                                     child: ElevatedButton(
                                         style: ButtonStyle(
-                                          padding: MaterialStateProperty.all(
+                                          padding: WidgetStateProperty.all(
                                               EdgeInsets.symmetric(
                                                   vertical: 24.w,
                                                   horizontal: 20.w)),
                                           backgroundColor:
-                                          MaterialStateProperty.all(
+                                          WidgetStateProperty.all(
                                               Colors.white), // 背景色
-                                          shape: MaterialStateProperty.all(
+                                          shape: WidgetStateProperty.all(
                                             RoundedRectangleBorder(
                                               borderRadius:
                                               BorderRadius.circular(
@@ -321,8 +321,8 @@ class StockChangeRecordView extends StatelessWidget {
                           color: Colors.grey,
                           size: 40.w,
                         ),
-                        shadowColor:MaterialStatePropertyAll<Color>(Colors.black26),
-                        hintStyle: MaterialStatePropertyAll<TextStyle>(
+                        shadowColor:WidgetStatePropertyAll<Color>(Colors.black26),
+                        hintStyle: WidgetStatePropertyAll<TextStyle>(
                             TextStyle(fontSize: 34.sp,  color: Colors.black26)),
                         onChanged: (value){
                           controller.searchStockChangeRecord(value);

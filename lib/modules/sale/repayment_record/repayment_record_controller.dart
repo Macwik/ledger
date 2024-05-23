@@ -226,8 +226,8 @@ class RepaymentRecordController extends GetxController
                             size: 40.w,
                           ),
                           shadowColor:
-                              MaterialStatePropertyAll<Color>(Colors.black26),
-                          hintStyle: MaterialStatePropertyAll<TextStyle>(
+                              WidgetStatePropertyAll<Color>(Colors.black26),
+                          hintStyle: WidgetStatePropertyAll<TextStyle>(
                               TextStyle(
                                   fontSize: 34.sp, color: Colors.black26)),
                           onChanged: (value) {

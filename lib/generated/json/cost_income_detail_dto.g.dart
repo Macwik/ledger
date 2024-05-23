@@ -54,6 +54,10 @@ CostIncomeDetailDTO $CostIncomeDetailDTOFromJson(Map<String, dynamic> json) {
   if (salesOrderNo != null) {
     costIncomeDetailDTO.salesOrderNo = salesOrderNo;
   }
+  final int? salesOrderType = jsonConvert.convert<int>(json['salesOrderType']);
+  if (salesOrderType != null) {
+    costIncomeDetailDTO.salesOrderType = salesOrderType;
+  }
   final List<int>? productIdList = (json['productIdList'] as List<dynamic>?)
       ?.map(
           (e) => jsonConvert.convert<int>(e) as int)
@@ -114,6 +118,7 @@ Map<String, dynamic> $CostIncomeDetailDTOToJson(CostIncomeDetailDTO entity) {
   data['totalAmount'] = entity.totalAmount?.toJson();
   data['salesOrderId'] = entity.salesOrderId;
   data['salesOrderNo'] = entity.salesOrderNo;
+  data['salesOrderType'] = entity.salesOrderType;
   data['productIdList'] = entity.productIdList;
   data['productNameList'] = entity.productNameList;
   data['paymentDTOList'] =
@@ -139,6 +144,7 @@ extension CostIncomeDetailDTOExtension on CostIncomeDetailDTO {
     Decimal? totalAmount,
     int? salesOrderId,
     String? salesOrderNo,
+    int? salesOrderType,
     List<int>? productIdList,
     List<String>? productNameList,
     List<OrderPaymentDTO>? paymentDTOList,
@@ -160,6 +166,7 @@ extension CostIncomeDetailDTOExtension on CostIncomeDetailDTO {
       ..totalAmount = totalAmount ?? this.totalAmount
       ..salesOrderId = salesOrderId ?? this.salesOrderId
       ..salesOrderNo = salesOrderNo ?? this.salesOrderNo
+      ..salesOrderType = salesOrderType ?? this.salesOrderType
       ..productIdList = productIdList ?? this.productIdList
       ..productNameList = productNameList ?? this.productNameList
       ..paymentDTOList = paymentDTOList ?? this.paymentDTOList

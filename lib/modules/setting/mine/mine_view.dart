@@ -48,8 +48,7 @@ class MineView extends StatelessWidget {
                                 )),
                       ),
                       subtitle: Text(
-                          TextUtil.hideNumber(
-                              StoreController.to.getUser()!.phone!),
+                          TextUtil.hideNumber(StoreController.to.getUser()!.phone!),
                           style: TextStyle(
                             fontSize: 26.sp,
                             fontWeight: FontWeight.w300,

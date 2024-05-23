@@ -423,51 +423,7 @@ class GoodsDetailView extends StatelessWidget {
                                                       fontSize: 32.sp,
                                                       fontWeight: FontWeight.w500)),
                                             ))),
-                                    SizedBox(height: 32.w,),
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                            flex: 1,
-                                            child: Text('销售地费用',
-                                                style: TextStyle(
-                                                  color: Colours.text_666,
-                                                  fontSize: 32.sp,
-                                                ))),
-                                        Expanded(
-                                            flex: 2,
-                                            child: Text(
-                                             '0000',
-                                              textAlign: TextAlign.right,
-                                              style: TextStyle(
-                                                  color: Colours.text_333,
-                                                  fontSize: 32.sp,
-                                                  fontWeight:
-                                                  FontWeight.w500),
-                                            )),
-                                      ],
-                                    ),
-                                    SizedBox(height: 16.w,),
-                                    Container(
-                                        alignment: Alignment.centerRight,
-                                        child:InkWell(
-                                            onTap: () => Get.toNamed(RouteConfig.productCostDetail,arguments: {'discount':1,'productId': state.productDTO?.id}),//扣除，销售地支付
-                                            child:  Container(
-                                              padding: EdgeInsets.symmetric(vertical:8.w,horizontal: 16.w),
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                  color: Colours.text_ccc,
-                                                  width: 1.0,
-                                                ),
-                                                borderRadius: BorderRadius.circular(12.0),
-                                              ),
-                                              child:
-                                              Text(
-                                                  '费用收入明细',
-                                                  style: TextStyle(
-                                                      color: Colours.text_999,
-                                                      fontSize: 32.sp,
-                                                      fontWeight: FontWeight.w500)),
-                                            )))
+
                                   ],
                                 )),
                         ),
@@ -639,53 +595,180 @@ class GoodsDetailView extends StatelessWidget {
                                      ),
                                    ),
                                  ),
-                                  SizedBox(height: 32.w,),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                          flex: 1,
-                                          child: Text('产地费用',
-                                              style: TextStyle(
-                                                color: Colours.text_666,
-                                                fontSize: 32.sp,
-                                              ))),
-                                      Expanded(
-                                          flex: 2,
-                                          child: Text(
-                                            DecimalUtil.formatAmount(state.productSalesStatisticsDTO?.costTotalAmount),
-                                            textAlign: TextAlign.right,
-                                            style: TextStyle(
-                                                color: Colours.text_333,
-                                                fontSize: 32.sp,
-                                                fontWeight:
-                                                FontWeight.w500),
-                                          )),
-                                    ],
-                                  ),
-                                  SizedBox(height: 16.w,),
-                                  Container(
-                                      alignment: Alignment.centerRight,
-                                      child:InkWell(
-                                          onTap: () => Get.toNamed(RouteConfig.productCostDetail,arguments: {'discount':0, 'productId': state.productDTO?.id }),//不扣除,产地费用
-                                          child:  Container(
-                                            padding: EdgeInsets.symmetric(vertical:8.w,horizontal: 16.w),
-                                            decoration: BoxDecoration(
-                                              border: Border.all(
-                                                color: Colours.text_ccc,
-                                                width: 1.0,
-                                              ),
-                                              borderRadius: BorderRadius.circular(12.0),
-                                            ),
-                                            child:
-                                            Text(
-                                                '费用收入明细',
-                                                style: TextStyle(
-                                                    color: Colours.text_999,
-                                                    fontSize: 32.sp,
-                                                    fontWeight: FontWeight.w500)),
-                                          )))
+
                                 ],
                               ))),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            padding: EdgeInsets.only(left: 40.w, top: 32.w),
+                            child: Text(
+                              '费用收入情况',
+                              style: TextStyle(
+                                  color: Colours.text_333,
+                                  fontSize: 32.sp,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                          Card(
+                            elevation: 6,
+                            shadowColor: Colors.black45,
+                            margin: EdgeInsets.only(left: 24.w, top: 16.w, right: 24.w),
+                            clipBehavior: Clip.antiAlias,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(28.w)),
+                            ),
+                            child: Container(
+                                color: Colors.white,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 40.w, vertical: 32.w),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                            flex: 1,
+                                            child: Text('销售地费用',
+                                                style: TextStyle(
+                                                  color: Colours.text_666,
+                                                  fontSize: 32.sp,
+                                                ))),
+                                        Expanded(
+                                            flex: 2,
+                                            child: Text(
+                                              DecimalUtil.formatAmount(state.productSalesStatisticsDTO?.costDiscountTotalAmount),
+                                              textAlign: TextAlign.right,
+                                              style: TextStyle(
+                                                  color: Colours.text_333,
+                                                  fontSize: 32.sp,
+                                                  fontWeight:
+                                                  FontWeight.w500),
+                                            )),
+                                      ],
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.only(top: 16.w),
+                                      child:Row(
+                                        children: [
+                                          Expanded(
+                                              flex: 1,
+                                              child: Text('销售地收入',
+                                                  style: TextStyle(
+                                                    color: Colours.text_666,
+                                                    fontSize: 32.sp,
+                                                  ))),
+                                          Expanded(
+                                              flex: 2,
+                                              child: Text(
+                                                DecimalUtil.formatAmount(state.productSalesStatisticsDTO?.incomeDiscountTotalAmount??Decimal.zero),
+                                                textAlign: TextAlign.right,
+                                                style: TextStyle(
+                                                    color: Colours.text_333,
+                                                    fontSize: 32.sp,
+                                                    fontWeight:
+                                                    FontWeight.w500),
+                                              )),
+                                        ],
+                                      ) ,
+                                    ),
+                                    SizedBox(height: 16.w,),
+                                    Container(
+                                        alignment: Alignment.centerRight,
+                                        child:InkWell(
+                                            onTap: () => Get.toNamed(RouteConfig.productCostDetail,arguments: {'discount':1,'productId': state.productDTO?.id}),//扣除，销售地支付
+                                            child:  Container(
+                                              padding: EdgeInsets.symmetric(vertical:8.w,horizontal: 16.w),
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: Colours.text_ccc,
+                                                  width: 1.0,
+                                                ),
+                                                borderRadius: BorderRadius.circular(12.0),
+                                              ),
+                                              child:
+                                              Text(
+                                                  '查看明细',
+                                                  style: TextStyle(
+                                                      color: Colours.text_999,
+                                                      fontSize: 32.sp,
+                                                      fontWeight: FontWeight.w500)),
+                                            ))),
+                                    Container(
+                                      height: 1.w,
+                                      color: Colours.divider,
+                                      margin: EdgeInsets.symmetric(vertical: 32.w),
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                            flex: 1,
+                                            child: Text('产地费用',
+                                                style: TextStyle(
+                                                  color: Colours.text_666,
+                                                  fontSize: 32.sp,
+                                                ))),
+                                        Expanded(
+                                            flex: 2,
+                                            child: Text(
+                                              DecimalUtil.formatAmount(state.productSalesStatisticsDTO?.costTotalAmount??Decimal.zero),
+                                              textAlign: TextAlign.right,
+                                              style: TextStyle(
+                                                  color: Colours.text_333,
+                                                  fontSize: 32.sp,
+                                                  fontWeight:
+                                                  FontWeight.w500),
+                                            )),
+                                      ],
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.only(top: 16.w),
+                                      child:Row(
+                                        children: [
+                                          Expanded(
+                                              flex: 1,
+                                              child: Text('产地收入',
+                                                  style: TextStyle(
+                                                    color: Colours.text_666,
+                                                    fontSize: 32.sp,
+                                                  ))),
+                                          Expanded(
+                                              flex: 2,
+                                              child: Text(
+                                                DecimalUtil.formatAmount(state.productSalesStatisticsDTO?.incomeTotalAmount??Decimal.zero),
+                                                textAlign: TextAlign.right,
+                                                style: TextStyle(
+                                                    color: Colours.text_333,
+                                                    fontSize: 32.sp,
+                                                    fontWeight:
+                                                    FontWeight.w500),
+                                              )),
+                                        ],
+                                      ) ,
+                                    ),
+                                    SizedBox(height: 16.w,),
+                                    Container(
+                                        alignment: Alignment.centerRight,
+                                        child:InkWell(
+                                            onTap: () => Get.toNamed(RouteConfig.productCostDetail,arguments: {'discount':0, 'productId': state.productDTO?.id }),//不扣除,产地费用
+                                            child:  Container(
+                                              padding: EdgeInsets.symmetric(vertical:8.w,horizontal: 16.w),
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: Colours.text_ccc,
+                                                  width: 1.0,
+                                                ),
+                                                borderRadius: BorderRadius.circular(12.0),
+                                              ),
+                                              child:
+                                              Text(
+                                                  '查看明细',
+                                                  style: TextStyle(
+                                                      color: Colours.text_999,
+                                                      fontSize: 32.sp,
+                                                      fontWeight: FontWeight.w500)),
+                                            )))
+                                  ],
+                                )),
+                          ),
                           Container(
                             alignment: Alignment.centerLeft,
                             padding: EdgeInsets.only(left: 40.w, top: 32.w),
@@ -697,44 +780,187 @@ class GoodsDetailView extends StatelessWidget {
                                   fontWeight: FontWeight.w600),
                             ),
                           ),
-                          Card(
-                              elevation: 6,
-                              shadowColor: Colors.black45,
-                              margin: EdgeInsets.only(left: 24.w, top: 16.w, right: 24.w),
-                              clipBehavior: Clip.antiAlias,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(28.w)),
-                              ),
-                              child: Container(
-                              color: Colors.white,
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 40.w, vertical:32.w),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                          flex: 1,
-                                          child: Text('实收利润',
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Expanded(child:
+                              Card(
+                                  elevation: 6,
+                                  shadowColor: Colors.black45,
+                                  clipBehavior: Clip.antiAlias,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(Radius.circular(28.w)),
+                                  ),
+                                  child: Container(
+                                      color: Colors.white,
+                                      padding: EdgeInsets.symmetric(horizontal: 40.w, vertical:32.w),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            controller.profitAmount(),
+                                            style: TextStyle(
+                                                color: Colours.text_333,
+                                                fontSize: 34.sp,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                          SizedBox(height: 8.w,),
+                                          Text('利润',
                                               style: TextStyle(
                                                 color: Colours.text_666,
-                                                fontSize: 32.sp,
-                                              ))),
-                                      Expanded(
-                                        flex: 2,
-                                        child: Text(
-                                          textAlign: TextAlign.right,
-                                          controller.profitAmount(),
-                                          style: TextStyle(
-                                              color: Colours.text_333,
-                                              fontSize: 32.sp,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                      ),
-                                    ],
+                                                fontSize: 30.sp,
+                                              )),
+                                        ],
+                                      )))),
+                              Text('=' ,
+                                style: TextStyle(
+                                  color: Colours.text_333,
+                                  fontSize: 34.sp,
+                                  fontWeight: FontWeight.w500),),
+                              Expanded(child:
+                              Card(
+                                  elevation: 6,
+                                  shadowColor: Colors.black45,
+                                  clipBehavior: Clip.antiAlias,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(Radius.circular(28.w)),
                                   ),
-                                ],
-                              ))),
+                                  child: Container(
+                                      color: Colors.white,
+                                      padding: EdgeInsets.symmetric(horizontal: 40.w, vertical:32.w),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            DecimalUtil.formatDecimalDefault(((state.productSalesStatisticsDTO?.salesTotalAmount??Decimal.zero)
+                                                -(state.productSalesStatisticsDTO?.salesRepaymentDiscountAmount??Decimal.zero)
+                                                - (state.productSalesStatisticsDTO?.salesDiscountAmount??Decimal.zero))),
+                                            style: TextStyle(
+                                                color: Colours.text_333,
+                                                fontSize: 34.sp,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                          SizedBox(height: 8.w,),
+                                          Text('销售',
+                                              style: TextStyle(
+                                                color: Colours.text_666,
+                                                fontSize: 30.sp,
+                                              )),
+                                        ],
+                                      ))) ),
+                              Text('-',
+                                style: TextStyle(
+                                    color: Colours.text_333,
+                                    fontSize: 34.sp,
+                                    fontWeight: FontWeight.w500),),
+                              Expanded(child:
+                              Card(
+                                  elevation: 6,
+                                  shadowColor: Colors.black45,
+                                  //margin: EdgeInsets.only(left: 24.w, top: 16.w, right: 24.w),
+                                  clipBehavior: Clip.antiAlias,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(Radius.circular(28.w)),
+                                  ),
+                                  child: Container(
+                                      color: Colors.white,
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 40.w, vertical:32.w),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            DecimalUtil.formatDecimalDefault(((state.productSalesStatisticsDTO?.purchaseTotalAmount??Decimal.zero)
+                                                -(state.productSalesStatisticsDTO?.purchaseRepaymentDiscountAmount??Decimal.zero)
+                                                - (state.productSalesStatisticsDTO?.purchaseDiscountAmount??Decimal.zero))),
+                                            style: TextStyle(
+                                                color: Colours.text_333,
+                                                fontSize: 34.sp,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                          SizedBox(height: 8.w,),
+                                          Text('采购',
+                                              style: TextStyle(
+                                                color: Colours.text_666,
+                                                fontSize: 30.sp,
+                                              )),
+                                        ],
+                                      ))) ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Container(
+                                padding: EdgeInsets.only(left: 32.w),
+                                child: Text('-',
+                                  style: TextStyle(
+                                      color: Colours.text_333,
+                                      fontSize: 34.sp,
+                                      fontWeight: FontWeight.w500),) ,
+                              ),
+                              Expanded(child:
+                              Card(
+                                  elevation: 6,
+                                  shadowColor: Colors.black45,
+                                  clipBehavior: Clip.antiAlias,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(Radius.circular(28.w)),
+                                  ),
+                                  child: Container(
+                                      color: Colors.white,
+                                      padding: EdgeInsets.symmetric(horizontal: 40.w, vertical:32.w),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            DecimalUtil.formatDecimalDefault((state.productSalesStatisticsDTO?.costDiscountTotalAmount??Decimal.zero)
+                                                +(state.productSalesStatisticsDTO?.costTotalAmount??Decimal.zero)),
+                                            style: TextStyle(
+                                                color: Colours.text_333,
+                                                fontSize: 34.sp,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                          SizedBox(height: 8.w,),
+                                          Text('费用',
+                                              style: TextStyle(
+                                                color: Colours.text_666,
+                                                fontSize: 30.sp,
+                                              )),
+                                        ],
+                                      )))),
+                              Text('+',
+                                style: TextStyle(
+                                    color: Colours.text_333,
+                                    fontSize: 34.sp,
+                                    fontWeight: FontWeight.w500),),
+                              Expanded(child:
+                              Card(
+                                  elevation: 6,
+                                  shadowColor: Colors.black45,
+                                  clipBehavior: Clip.antiAlias,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(Radius.circular(28.w)),
+                                  ),
+                                  child: Container(
+                                      color: Colors.white,
+                                      padding: EdgeInsets.symmetric(horizontal: 40.w, vertical:32.w),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            DecimalUtil.formatDecimalDefault((state.productSalesStatisticsDTO?.incomeDiscountTotalAmount??Decimal.zero)
+                                                +(state.productSalesStatisticsDTO?.incomeTotalAmount??Decimal.zero)),
+                                            style: TextStyle(
+                                                color: Colours.text_333,
+                                                fontSize: 34.sp,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                          SizedBox(height: 8.w,),
+                                          Text('收入',
+                                              style: TextStyle(
+                                                color: Colours.text_666,
+                                                fontSize: 30.sp,
+                                              )),
+                                        ],
+                                      ))) ),
+                            ],
+                          ),
                           SizedBox(height: 32.w,)
                         ],
                       ))),
