@@ -5,7 +5,6 @@ import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/res/export.dart';
 import 'package:ledger/util/decimal_util.dart';
 import 'package:ledger/util/image_util.dart';
-import 'package:ledger/util/picker_date_utils.dart';
 
 import 'daily_account_controller.dart';
 
@@ -364,13 +363,31 @@ class DailyAccountView extends StatelessWidget {
                             return InkWell(
                                 onTap: () => controller
                                     .pickerSalesProductDateRange(context),
-                                child: Text(
-                                    ' ${DateUtil.formatDefaultDate(controller.state.startDateSalesProduct)} ~ ${DateUtil.formatDefaultDate(controller.state.endDateSalesProduct)}',
-                                    style: TextStyle(
-                                      color: Colours.button_text,
-                                      fontSize: 30.sp,
-                                      fontWeight: FontWeight.w500,
-                                    )));
+                                child: Container(
+                                  color: Colors.white,
+                                  alignment: Alignment.center,
+                                  padding: EdgeInsets.symmetric(vertical: 16.w),
+                                  margin: EdgeInsets.only(bottom: 16.w),
+                                  child:Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text('选择日期：',
+                                          style: TextStyle(
+                                            color: Colours.button_text,
+                                            fontSize: 30.sp,
+                                            fontWeight: FontWeight.w500,
+                                          )),
+                                      Text(
+                                          ' ${DateUtil.formatDefaultDate(controller.state.startDateSalesProduct)} ~ ${DateUtil.formatDefaultDate(controller.state.endDateSalesProduct)}',
+                                          style: TextStyle(
+                                            color: Colours.button_text,
+                                            fontSize: 30.sp,
+                                            fontWeight: FontWeight.w500,
+                                          ))
+                                    ],
+                                  )
+                                )
+                               );
                           }),
                       GetBuilder<DailyAccountController>(
                           id: 'daily_sales_product_statistics',

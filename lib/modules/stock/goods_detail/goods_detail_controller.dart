@@ -1,3 +1,4 @@
+import 'package:date_picker_plus/date_picker_plus.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -163,5 +164,23 @@ Future<void> initState() async {
 
   void changeDateSaleProduct() {
     _queryData();
+  }
+
+  Future<void> pickerSalesProductDateRange(BuildContext context) async {
+    final date = await showRangePickerDialog(
+      context: context,
+      minDate: DateTime(2000, 1, 1),
+      maxDate: DateTime.now().add(Duration(days: 30)),
+      selectedRange: DateTimeRange(
+        start: state.startDate,
+        end: state.endDate,
+      ),
+    );
+    if (date != null) {
+      state.startDate = date.start;
+      state.endDate = date.end;
+      update(['date_range']);
+      changeDateSaleProduct();
+    }
   }
 }

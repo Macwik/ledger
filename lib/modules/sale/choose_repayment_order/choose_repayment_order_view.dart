@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/res/export.dart';
 import 'package:ledger/util/decimal_util.dart';
-import 'package:ledger/util/picker_date_utils.dart';
 
 import 'choose_repayment_order_controller.dart';
 
@@ -60,139 +59,47 @@ class ChooseRepaymentOrderView extends StatelessWidget {
                           ),
                         );
                       }),
-                  Center(
-                    child: Container(
-                        padding: EdgeInsets.only(left: 10,right: 10.w),
-                        color: Colors.grey[100],
-                        width: double.infinity,
-                        child: GetBuilder<ChooseRepaymentOrderController>(
+                   GetBuilder<ChooseRepaymentOrderController>(
                           id: 'date_range',
-                          builder: (_)=>Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Expanded(
-                                child: ElevatedButton(
-                                  style: ButtonStyle(
-                                    padding: MaterialStateProperty.all(
-                                        EdgeInsets.zero),
-                                    backgroundColor:
-                                    MaterialStateProperty.all(Colors.white),
-                                    // 背景色
-                                    shape: MaterialStateProperty.all(
-                                      RoundedRectangleBorder(
-                                        borderRadius:
-                                        BorderRadius.circular(35.0), // 圆角
-                                        side: BorderSide(
-                                          width: 1.0, // 边框宽度
-                                          color: Colours.primary, // 边框颜色
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    PickerDateUtils.pickerDate(context,
-                                            (result) {
-                                          if (null != result) {
-                                            if (result.compareTo(controller.state.endDate) >
-                                                0) {
-                                              Toast.show('起始时间需要小于结束时间');
-                                              return;
-                                            }
-                                            controller.state.startDate = result;
-                                            controller.update(['date_range']);
-                                          }
-                                        });
-                                  },
-                                  child: Text(
-                                    ' ${DateUtil.formatDefaultDate(controller.state.startDate)}',
-                                    style: TextStyle(
-                                      color: Colours.button_text,
-                                      fontSize: 28.sp,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
+                          builder: (_)=> InkWell(
+                            onTap: () => controller
+                                .pickerSalesProductDateRange(context),
+                            child:Column(
+                              children: [
+                                Container(
+                                  height: 2.w,
+                                  color: Colours.primary,
                                 ),
-                              ),
-                              SizedBox(
-                                width: 10.w,
-                              ),
-                              Text(
-                                ' 至',
-                                style: TextStyle(
-                                  color: Colours.text_333,
-                                  fontSize: 28.sp,
-                                  fontWeight: FontWeight.w500,
+                                Container(
+                                    color: Colors.white,
+                                    alignment: Alignment.center,
+                                    padding: EdgeInsets.symmetric(vertical: 16.w),
+                                    child:Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text('选择日期：',
+                                            style: TextStyle(
+                                              color: Colours.button_text,
+                                              fontSize: 30.sp,
+                                              fontWeight: FontWeight.w500,
+                                            )),
+                                        Text(
+                                            ' ${DateUtil.formatDefaultDate(controller.state.startDate)} ~ ${DateUtil.formatDefaultDate(controller.state.endDate)}',
+                                            style: TextStyle(
+                                              color: Colours.button_text,
+                                              fontSize: 32.sp,
+                                              fontWeight: FontWeight.w500,
+                                            ))
+                                      ],
+                                    )
                                 ),
-                              ),
-                              SizedBox(
-                                width: 10.w,
-                              ),
-                              Expanded(
-                                  child: TextButton(
-                                      style: ButtonStyle(
-                                        padding: MaterialStateProperty.all(
-                                            EdgeInsets.zero),
-                                        backgroundColor:
-                                        MaterialStateProperty.all(
-                                            Colors.white), // 背景色
-                                        shape: MaterialStateProperty.all(
-                                          RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                                35.0), // 圆角
-                                            side: BorderSide(
-                                              width: 1.0, // 边框宽度
-                                              color: Colours.primary, // 边框颜色
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      onPressed: () {
-                                        PickerDateUtils.pickerDate(context,
-                                                (result) {
-                                              if (null != result) {
-                                                if (result.compareTo(
-                                                    controller.state.startDate) <
-                                                    0) {
-                                                  Toast.show('结束时间需要大于起始时间');
-                                                  return;
-                                                }
-                                                controller.state.endDate = result;
-                                                controller.update(['date_range']);
-                                              }
-                                            });
-                                      },
-                                      child: Text(
-                                        ' ${DateUtil.formatDefaultDate(controller.state.endDate)}',
-                                        style: TextStyle(
-                                          color: Colours.button_text,
-                                          fontSize: 28.sp,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ))),
-                              SizedBox(width: 10.w,),
-                              TextButton(
-                                  style: ButtonStyle(
-                                    padding: MaterialStateProperty.all(
-                                        EdgeInsets.symmetric(horizontal: 12)),
-                                    backgroundColor:
-                                    MaterialStateProperty.all(Colors.white),
-                                    // 背景色
-                                    shape: MaterialStateProperty.all(
-                                      RoundedRectangleBorder(
-                                        borderRadius:
-                                        BorderRadius.circular(35.0), // 圆角
-                                        side: BorderSide(
-                                          width: 1.0, // 边框宽度
-                                          color: Colours.primary, // 边框颜色
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  onPressed: ()=> controller.changeDate(),
-                                  child: Text('查询',
-                                    style: TextStyle(color: Colours.primary),))
-                            ]),)),
-                  )
+                                Container(
+                                  height: 2.w,
+                                  color: Colours.primary,
+                                ),
+                              ],
+                            )
+                           ,))
                 ],
               )),
         GetBuilder<ChooseRepaymentOrderController>(
@@ -374,7 +281,7 @@ class ChooseRepaymentOrderView extends StatelessWidget {
                             color: Colours.divider,
                             width: double.infinity,
                           ),
-                          itemCount: state.items?.length ?? 0,
+                          itemCount: state.items.length,
                         ));
                   }),
           Container(

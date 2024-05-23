@@ -62,7 +62,7 @@ class AddProductController extends GetxController {
           : null,
       'slavePrice': null,
       'remark': productRemark,
-      'supplier': state.saleChannel ==1 ?state.supplierDTO?.id:state.customDTO?.id,
+      'supplier': state.saleChannel ==1 ?state.supplierDTO?.id:null,
       'salesChannel': state.saleChannel,
       'productClassify': state.productClassifyDTO?.id,
     }).then((result) {

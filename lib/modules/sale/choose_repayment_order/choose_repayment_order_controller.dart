@@ -1,5 +1,7 @@
+import 'package:date_picker_plus/date_picker_plus.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/api/repayment_api.dart';
@@ -63,22 +65,22 @@ class ChooseRepaymentOrderController extends GetxController {
   void selectAll(bool? select) {
     if (true == select) {
       state.selectAll = true;
-      if (state.items?.isEmpty ?? true) {
+      if (state.items.isEmpty) {
         return;
       }
       state.totalAmount = Decimal.zero;
       state.selected.clear();
-      state.items?.forEach((element) {
+      for (var element in state.items) {
         element.repaymentAmount = element.creditAmount;
         state.selected.add(element);
         state.totalAmount += (element.creditAmount ?? Decimal.zero);
-      });
+      }
     } else {
       state.selectAll = false;
       state.selected.clear();
-      state.items?.forEach((element) {
+      for (var element in state.items) {
         element.repaymentAmount = null;
-      });
+      }
       state.totalAmount = Decimal.zero;
     }
     update(['repayment_bill', 'choose_repayment_btn']);
@@ -217,5 +219,23 @@ class ChooseRepaymentOrderController extends GetxController {
 
   void changeDate() {
     _queryData(state.currentPage);
+  }
+
+  Future<void> pickerSalesProductDateRange(BuildContext context) async {
+    final date = await showRangePickerDialog(
+      context: context,
+      minDate: DateTime(2000, 1, 1),
+      maxDate: DateTime.now().add(Duration(days: 30)),
+      selectedRange: DateTimeRange(
+        start: state.startDate,
+        end: state.endDate,
+      ),
+    );
+    if (date != null) {
+      state.startDate = date.start;
+      state.endDate = date.end;
+      update(['date_range']);
+      changeDate();
+    }
   }
 }

@@ -145,7 +145,7 @@ class ProductDetailController extends GetxController {
           ? null
           : Decimal.tryParse(state.priceController.text),
       'remark': state.remarkController.text,
-      'supplier': state.supplierId,
+      'supplier': state.selectedSalesType ==1 ? state.supplierId:null,
       'salesChannel': state.selectedSalesType,
       'productClassify': state.productClassifyId,
     }).then((result) {
