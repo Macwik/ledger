@@ -453,6 +453,7 @@ class CostBillView extends StatelessWidget {
                                   builder: (_) {
                                     return InkWell(
                                         onTap: () {
+                                          FocusManager.instance.primaryFocus?.unfocus();
                                           controller.bindingProduct(context);
                                         },
                                         child: Flex(

@@ -109,17 +109,18 @@ class CostBillController extends GetxController {
           Toast.show('请先选择采购单后再尝试');
           return;
         }
+
         showModalBottomSheet(
           context: context,
           isScrollControlled: true,
           builder: (BuildContext context) => BindingProductDialog(
-            orderProductDetailList: orderDetailDTO!.orderProductDetailList!,
-            onClick: (result) {
-              state.bindingProduct = result;
-              update(['bindingPurchaseBill']);
-              return true;
-            },
-          ),
+              orderProductDetailList: orderDetailDTO!.orderProductDetailList!,
+              onClick: (result) {
+                state.bindingProduct = result;
+                update(['bindingPurchaseBill']);
+                return true;
+              },
+            )
         );
       } else {
         Toast.show(result.m.toString());
