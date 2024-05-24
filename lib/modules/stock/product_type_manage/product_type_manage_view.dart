@@ -1,6 +1,8 @@
+import 'package:animated_reorderable_list/animated_reorderable_list.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ledger/res/export.dart';
+import 'package:ledger/util/logger_util.dart';
 
 import 'product_type_manage_controller.dart';
 
@@ -28,11 +30,15 @@ class ProductTypeManageView extends StatelessWidget {
                           ? LottieIndicator()
                           : state.productClassifyList?.isEmpty ?? true
                               ? EmptyLayout(hintText: '什么都没有'.tr)
-                              : ListView.separated(
-                                  itemBuilder: (context, index) {
+                              : AnimatedReorderableListView(
+                                  items: state.productClassifyList!,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
                                     var productClassify =
                                         state.productClassifyList![index];
                                     return InkWell(
+                                      key: Key(
+                                          '${productClassify.id}_${productClassify.productClassify}'),
                                       onTap: () =>
                                           controller.selectProductClassify(
                                               productClassify),
@@ -40,7 +46,9 @@ class ProductTypeManageView extends StatelessWidget {
                                         color: Colors.white,
                                         child: ListTile(
                                             title: Text(
-                                                productClassify.productClassify ?? '',
+                                                productClassify
+                                                        .productClassify ??
+                                                    '',
                                                 style: TextStyle(
                                                     fontSize: 36.sp,
                                                     color: Colours.text_333)),
@@ -64,15 +72,74 @@ class ProductTypeManageView extends StatelessWidget {
                                       ),
                                     );
                                   },
-                                  separatorBuilder: (context, index) =>
-                                      Container(
-                                    height: 2.w,
-                                    color: Colours.divider,
-                                    width: double.infinity,
-                                  ),
-                                  itemCount:
-                                      state.productClassifyList?.length ?? 0,
+                                  enterTransition: [FadeIn(), ScaleIn()],
+                                  exitTransition: [SlideInUp()],
+                                  insertDuration:
+                                      const Duration(milliseconds: 300),
+                                  removeDuration:
+                                      const Duration(milliseconds: 300),
+                                  onReorder: (int oldIndex, int newIndex) {
+                                    if (oldIndex == 0 || newIndex == 0) {
+                                      Toast.showError('默认分类不能移动，且只能在第一位');
+                                      return;
+                                    }
+                                    controller.updateProductClassify(
+                                        oldIndex, newIndex);
+                                  },
                                 ));
+
+                  // return Expanded(
+                  //     child: state.productClassifyList == null
+                  //         ? LottieIndicator()
+                  //         : state.productClassifyList?.isEmpty ?? true
+                  //             ? EmptyLayout(hintText: '什么都没有'.tr)
+                  //             : ListView.separated(
+                  //                 itemBuilder: (context, index) {
+                  //                   var productClassify =
+                  //                       state.productClassifyList![index];
+                  //                   return InkWell(
+                  //                     onTap: () =>
+                  //                         controller.selectProductClassify(
+                  //                             productClassify),
+                  //                     child: Container(
+                  //                       color: Colors.white,
+                  //                       child: ListTile(
+                  //                           title: Text(
+                  //                               productClassify
+                  //                                       .productClassify ??
+                  //                                   '',
+                  //                               style: TextStyle(
+                  //                                   fontSize: 36.sp,
+                  //                                   color: Colours.text_333)),
+                  //                           subtitle: Text(
+                  //                             productClassify.remark ?? '',
+                  //                             style: TextStyle(
+                  //                               color: Colours.text_ccc,
+                  //                               fontSize: 28.sp,
+                  //                               fontWeight: FontWeight.w400,
+                  //                             ),
+                  //                           ),
+                  //                           trailing: IconButton(
+                  //                               onPressed: () =>
+                  //                                   controller.showBottomSheet(
+                  //                                       context,
+                  //                                       productClassify),
+                  //                               icon: Icon(
+                  //                                 Icons.more_horiz_outlined,
+                  //                                 color: Colours.text_999,
+                  //                               ))),
+                  //                     ),
+                  //                   );
+                  //                 },
+                  //                 separatorBuilder: (context, index) =>
+                  //                     Container(
+                  //                   height: 2.w,
+                  //                   color: Colours.divider,
+                  //                   width: double.infinity,
+                  //                 ),
+                  //                 itemCount:
+                  //                     state.productClassifyList?.length ?? 0,
+                  //               ));
                 }),
             Container(
               height: 90.w,
@@ -89,8 +156,8 @@ class ProductTypeManageView extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                     )),
                 style: ButtonStyle(
-                  fixedSize: MaterialStateProperty.all(Size(300, 50)), // 设置
-                  backgroundColor: MaterialStateProperty.all(Colors.white),
+                  fixedSize: WidgetStateProperty.all(Size(300, 50)), // 设置
+                  backgroundColor: WidgetStateProperty.all(Colors.white),
                 ),
               ),
             )

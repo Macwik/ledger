@@ -33,4 +33,6 @@ class ProductApi{
   static const String product_classify_edit= '/api/erp/v2/product/classify/update';
   //新增货物分组
   static const String product_classify_add= '/api/erp/v2/product/classify/add';
+
+  static const String product_classify_ordinal_update= '/api/erp/v2/product/classify/update/ordinal';
 }

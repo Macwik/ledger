@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_bugly/flutter_bugly.dart';
-import 'package:jverify/jverify.dart';
 import 'package:ledger/config/application.dart';
 import 'package:ledger/lang/lang.dart';
 import 'package:ledger/res/export.dart';
@@ -39,7 +38,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   bool hasCookie;
-  final Jverify jVerify = Jverify();
 
   _MyAppState({required this.hasCookie});
 
@@ -88,24 +86,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     Application.getInstance().init();
-    initPlatformState();
-  }
-
-  Future<void> initPlatformState() async {
-    // 初始化 SDK 之前添加监听
-    jVerify.addSDKSetupCallBackListener((JVSDKSetupEvent event) {
-      print('receive sdk setup call back event :${event.toMap()}');
-    });
-
-    jVerify.setDebugMode(true);
-    jVerify.setup(
-        appKey: 'e80e82f4a596945f83c44db0', channel: 'devloper-default');
-
-    if (!mounted) return;
-    /// 授权页面点击时间监听
-    jVerify.addAuthPageEventListener((JVAuthPageEvent event) {
-      print('receive auth page event :${event.toMap()}');
-    });
   }
 
   @override

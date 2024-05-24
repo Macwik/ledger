@@ -6,7 +6,8 @@ import 'dart:convert';
 class ProductClassifyDTO {
   int? id;
   String? remark;
-  String? productClassify ;
+  int? ordinal;
+  String? productClassify;
 
   ProductClassifyDTO();
 

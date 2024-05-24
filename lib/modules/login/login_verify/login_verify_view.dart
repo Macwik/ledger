@@ -15,7 +15,6 @@ class LoginVerifyView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    controller.verifyPhone();
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,

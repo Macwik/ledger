@@ -372,33 +372,36 @@ class CustomRecordView extends StatelessWidget {
                     : ListView.separated(
                   itemBuilder: (context, index) {
                     var custom = controller.state.customList[index];
-                    return Container(
-                      color: Colors.white,
-                      padding: EdgeInsets.symmetric(vertical: 16.w,horizontal: 40.w),
-                      child: Row(
-                        children: [
-                          Expanded(child:
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(custom.customName??'',
-                                style: TextStyle(fontSize: 32.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colours.text_333
-                                ),),
-                              SizedBox(height: 16.w,),
-                              Text('欠款：${DecimalUtil.formatAmount(custom.creditAmount)}',
-                                style: TextStyle(fontSize: 28.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colours.text_999
-                                ),)
-                            ],
-                          )),
-                                    IconButton(
-                                        onPressed: () =>controller.showBottomSheet(context, custom),
-                                        icon: Icon(Icons.more_vert,
-                                            color: Colors.grey))
-                                  ],
+                    return InkWell(
+                      onTap: ()=>Get.toNamed(RouteConfig.supplierDetail,arguments: {'customDTO':custom,'customType':custom.customType}),
+                      child:  Container(
+                        color: Colors.white,
+                        padding: EdgeInsets.symmetric(vertical: 16.w,horizontal: 40.w),
+                        child: Row(
+                          children: [
+                            Expanded(child:
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(custom.customName??'',
+                                  style: TextStyle(fontSize: 32.sp,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colours.text_333
+                                  ),),
+                                SizedBox(height: 16.w,),
+                                Text('欠款：${DecimalUtil.formatAmount(custom.creditAmount)}',
+                                  style: TextStyle(fontSize: 28.sp,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colours.text_999
+                                  ),)
+                              ],
+                            )),
+                            IconButton(
+                                onPressed: () =>controller.showBottomSheet(context, custom),
+                                icon: Icon(Icons.more_vert,
+                                    color: Colors.grey))
+                          ],
+                        ),
                       ),
                     );
                   },
