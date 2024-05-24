@@ -191,10 +191,10 @@ class ChooseCustomView extends StatelessWidget {
                                       ),
                                       Switch(
                                           trackOutlineColor:
-                                          MaterialStateProperty.resolveWith(
+                                          WidgetStateProperty.resolveWith(
                                                   (states) {
                                                 if (states.contains(
-                                                    MaterialState.selected)) {
+                                                    WidgetState.selected)) {
                                                   return Colours
                                                       .primary; // 设置轨道边框颜色
                                                 }
@@ -314,6 +314,7 @@ class ChooseCustomView extends StatelessWidget {
         return _buildSusWidget(tag, context);
       },
       indexBarData: SuspensionUtil.getTagIndexList(controller.state.customList),
+      indexBarItemHeight: 24,
       indexBarOptions: const IndexBarOptions(
         needRebuild: true,
         ignoreDragCancel: true,
