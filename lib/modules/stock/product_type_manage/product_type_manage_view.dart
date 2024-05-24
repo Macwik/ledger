@@ -88,59 +88,6 @@ class ProductTypeManageView extends StatelessWidget {
                                         oldIndex, newIndex);
                                   },
                                 ));
-
-                  // return Expanded(
-                  //     child: state.productClassifyList == null
-                  //         ? LottieIndicator()
-                  //         : state.productClassifyList?.isEmpty ?? true
-                  //             ? EmptyLayout(hintText: '什么都没有'.tr)
-                  //             : ListView.separated(
-                  //                 itemBuilder: (context, index) {
-                  //                   var productClassify =
-                  //                       state.productClassifyList![index];
-                  //                   return InkWell(
-                  //                     onTap: () =>
-                  //                         controller.selectProductClassify(
-                  //                             productClassify),
-                  //                     child: Container(
-                  //                       color: Colors.white,
-                  //                       child: ListTile(
-                  //                           title: Text(
-                  //                               productClassify
-                  //                                       .productClassify ??
-                  //                                   '',
-                  //                               style: TextStyle(
-                  //                                   fontSize: 36.sp,
-                  //                                   color: Colours.text_333)),
-                  //                           subtitle: Text(
-                  //                             productClassify.remark ?? '',
-                  //                             style: TextStyle(
-                  //                               color: Colours.text_ccc,
-                  //                               fontSize: 28.sp,
-                  //                               fontWeight: FontWeight.w400,
-                  //                             ),
-                  //                           ),
-                  //                           trailing: IconButton(
-                  //                               onPressed: () =>
-                  //                                   controller.showBottomSheet(
-                  //                                       context,
-                  //                                       productClassify),
-                  //                               icon: Icon(
-                  //                                 Icons.more_horiz_outlined,
-                  //                                 color: Colours.text_999,
-                  //                               ))),
-                  //                     ),
-                  //                   );
-                  //                 },
-                  //                 separatorBuilder: (context, index) =>
-                  //                     Container(
-                  //                   height: 2.w,
-                  //                   color: Colours.divider,
-                  //                   width: double.infinity,
-                  //                 ),
-                  //                 itemCount:
-                  //                     state.productClassifyList?.length ?? 0,
-                  //               ));
                 }),
             Container(
               height: 90.w,
