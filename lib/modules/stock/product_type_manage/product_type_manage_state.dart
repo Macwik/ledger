@@ -8,7 +8,6 @@ class ProductTypeManageState {
   ProductTypeManageState() {
     ///Initialize variables
   }
-  ProductClassifyListDTO? productClassifyListDTO;
 
   List<ProductClassifyDTO>? productClassifyList;
 //编辑货物分类

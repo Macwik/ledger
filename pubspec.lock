@@ -9,14 +9,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.1.0"
-  animated_reorderable_list:
-    dependency: "direct main"
-    description:
-      name: animated_reorderable_list
-      sha256: b8f7013144870e679bdcf8db70cb222ddc2f49d164866e8ecf81cb2a83d3bd3d
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "1.0.5"
   animated_tree_view:
     dependency: "direct main"
     description:
@@ -998,6 +990,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.2.2"
+  reorderables:
+    dependency: "direct main"
+    description:
+      name: reorderables
+      sha256: "004a886e4878df1ee27321831c838bc1c976311f4ca6a74ce7d561e506540a77"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.6.0"
   rxdart:
     dependency: "direct main"
     description:
