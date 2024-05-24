@@ -118,7 +118,7 @@ class BindingProductDialog extends StatelessWidget {
                     },
                     style: ButtonStyle(
                       backgroundColor:
-                          MaterialStateProperty.all(Colors.teal[300]),
+                          WidgetStateProperty.all(Colors.teal[300]),
                     ),
                     child: Text(
                       '选 好 了',

@@ -79,10 +79,12 @@ class ForgetPasswordController extends GetxController {
       'phone': phone,
       'verifyCode': verifyCode,
       'password': password,
+      'userType':0
     }).then((result) {
       Loading.dismiss();
       if (result.success) {
         Get.back();
+        Toast.show('修改成功');
       } else {
         Toast.show(result.m.toString());
       }

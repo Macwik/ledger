@@ -367,6 +367,7 @@ class AddStockDetailView extends StatelessWidget {
                                                       fontSize: 28.sp,
                                                       fontWeight: FontWeight.w500,
                                                     )),
+                                                SizedBox(width: 16.w,),
                                                 Text(
                                                     orderProductDetail?.productStandard ??
                                                         '',

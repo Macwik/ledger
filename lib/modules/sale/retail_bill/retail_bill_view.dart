@@ -625,11 +625,11 @@ class RetailBillView extends StatelessWidget {
                                  controller.showPaymentDialog();
                               },
                               style: ButtonStyle(
-                                maximumSize: MaterialStateProperty.all(
+                                maximumSize: WidgetStateProperty.all(
                                     Size(double.infinity, 60)),
                                 backgroundColor:
-                                MaterialStateProperty.all(Colours.primary),
-                                shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                                WidgetStateProperty.all(Colours.primary),
+                                shape: WidgetStateProperty.all(RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15.0),
                                 )),
                               ),

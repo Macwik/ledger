@@ -74,12 +74,12 @@ class SupplierDetailView extends StatelessWidget {
                               Expanded(
                                 child: ElevatedButton(
                                   style: ButtonStyle(
-                                    padding: MaterialStateProperty.all(
+                                    padding: WidgetStateProperty.all(
                                         EdgeInsets.symmetric(
                                             vertical: 12, horizontal: 10)),
-                                    backgroundColor: MaterialStateProperty.all(
+                                    backgroundColor: WidgetStateProperty.all(
                                         Colors.white), // 背景色
-                                    shape: MaterialStateProperty.all(
+                                    shape: WidgetStateProperty.all(
                                       RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(35.0), // 圆角
@@ -131,13 +131,13 @@ class SupplierDetailView extends StatelessWidget {
                               Expanded(
                                   child: ElevatedButton(
                                       style: ButtonStyle(
-                                        padding: MaterialStateProperty.all(
+                                        padding: WidgetStateProperty.all(
                                             EdgeInsets.symmetric(
                                                 vertical: 12, horizontal: 10)),
                                         backgroundColor:
-                                            MaterialStateProperty.all(
+                                            WidgetStateProperty.all(
                                                 Colors.white), // 背景色
-                                        shape: MaterialStateProperty.all(
+                                        shape: WidgetStateProperty.all(
                                           RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(
                                                 35.0), // 圆角
@@ -380,9 +380,9 @@ class SupplierDetailView extends StatelessWidget {
                                 ),
                                 Switch(
                                     trackOutlineColor:
-                                    MaterialStateProperty.resolveWith(
+                                    WidgetStateProperty.resolveWith(
                                             (states) {
-                                          if (states.contains(MaterialState.selected)) {
+                                          if (states.contains(WidgetState.selected)) {
                                             return Colours.primary; // 设置轨道边框颜色
                                           }
                                           return Colors.grey; // 默认的轨道边框颜色
@@ -790,8 +790,8 @@ class SupplierDetailView extends StatelessWidget {
                                                                 FontWeight.w400,
                                                               )),
                                                           Expanded(child:
-                                                          Text(statisticsCustomOrderDTO.productNameList?.isEmpty??false
-                                                              ? TextUtil.listToStr(statisticsCustomOrderDTO.productNameList):'-',
+                                                          Text(statisticsCustomOrderDTO.productNameList?.isEmpty??true
+                                                              ? '-' :TextUtil.listToStr(statisticsCustomOrderDTO.productNameList),
                                                               style: TextStyle(
                                                                 color: Colours.text_666,
                                                                 fontSize: 26.sp,

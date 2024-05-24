@@ -18,7 +18,7 @@ class RepaymentRecordView extends StatelessWidget {
     controller.initState();
     return  Scaffold(
           appBar: TitleBar(
-              title: '还款列表',
+              title: '还款记录',
             actionWidget: PermissionWidget(
                 permissionCode:PermissionCode.funds_add_debt_permission,
                 child:

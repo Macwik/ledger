@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:decimal/decimal.dart';
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +15,6 @@ import 'package:ledger/enum/custom_type.dart';
 import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/enum/sales_channel.dart';
 import 'package:ledger/enum/unit_type.dart';
-import 'package:ledger/generated/json/product_shopping_car_dto.g.dart';
 import 'package:ledger/http/base_page_entity.dart';
 import 'package:ledger/http/http_util.dart';
 import 'package:ledger/route/route_config.dart';
@@ -500,6 +497,7 @@ class RetailBillController extends GetxController with GetSingleTickerProviderSt
         return;
       }
     }
+    checkProxyProduct();
     getPaymentBottomSheet();
   }
 
@@ -600,5 +598,9 @@ class RetailBillController extends GetxController with GetSingleTickerProviderSt
     } else {
       Get.back();
     }
+  }
+
+  void checkProxyProduct() {
+    //多种货物且含有代办货物时候，弹出提示框
   }
 }

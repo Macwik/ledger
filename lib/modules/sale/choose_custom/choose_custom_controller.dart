@@ -3,15 +3,11 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/api/custom_api.dart';
-import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/entity/custom/custom_dto.dart';
 import 'package:ledger/enum/custom_type.dart';
 import 'package:ledger/enum/is_select.dart';
 import 'package:ledger/http/http_util.dart';
 import 'package:ledger/route/route_config.dart';
-import 'package:ledger/util/toast_util.dart';
-import 'package:ledger/widget/permission/permission_widget.dart';
-import 'package:ledger/widget/warning.dart';
 import 'package:lpinyin/lpinyin.dart';
 
 import 'choose_custom_state.dart';

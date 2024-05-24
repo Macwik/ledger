@@ -142,9 +142,15 @@ class MyAccountController extends GetxController {
   }
 
   void myAccountGetBack() {
-    Get.until((route) {
-      return (route.settings.name == RouteConfig.main) ||
-          (route.settings.name == RouteConfig.mine);
-    });
+    if(state.isSelect == IsSelectType.TRUE.value){
+     Get.back();
+    }else{
+      Get.until((route) {
+        return (route.settings.name == RouteConfig.main) ||
+            (route.settings.name == RouteConfig.mine);
+      });
+    }
+
+
   }
 }

@@ -20,13 +20,13 @@ class ChooseAccountView extends StatelessWidget {
       color: Colors.white,
       child: Column(
         children: [
-          InkWell(
-            onTap: ()=>Get.back(),
-            child:Container(
+         Container(
               alignment: Alignment.centerLeft,
               margin: EdgeInsets.only(top: 120.w,right: 100.w),
               padding: EdgeInsets.symmetric(horizontal: 40.w),
-              child: LoadAssetImage(
+              child:  InkWell(
+                onTap: ()=>Get.back(),
+                child: LoadAssetImage(
                 'get_back',
                 width: 40.w,
                 height: 40.w,
