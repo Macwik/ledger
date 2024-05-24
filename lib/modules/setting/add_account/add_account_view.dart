@@ -22,7 +22,7 @@ class AddAccountView extends StatelessWidget {
     controller.initState();
     return  Scaffold(
       appBar: TitleBar(
-        title:'',
+        backPressed: controller.handleBack(),
         actionName:state.firstIndex?'跳过': '',
         actionPressed: ()=>Get.toNamed(RouteConfig.chooseAccount),
           hideBottomLine:false

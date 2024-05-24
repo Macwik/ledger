@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:ledger/config/api/ledger_api.dart';
 import 'package:ledger/enum/process_status.dart';
 import 'package:ledger/res/export.dart';
+import 'package:ledger/store/store_controller.dart';
 
 import 'add_account_state.dart';
 
@@ -52,11 +53,11 @@ class AddAccountController extends GetxController {
     }).then((result) {
       Loading.dismiss();
       if (result.success) {
-        if(!state.firstIndex){
-              Get.back(result: ProcessStatus.OK);
-            }else{
-              Get.toNamed(RouteConfig.chooseAccount);
-            }
+        if (!state.firstIndex) {
+          Get.back(result: ProcessStatus.OK);
+        } else {
+          Get.toNamed(RouteConfig.chooseAccount);
+        }
         // var activeLedgerId = StoreController.to.getActiveLedgerId();
         // if (null == activeLedgerId) {
         //   Get.defaultDialog(
@@ -98,18 +99,18 @@ class AddAccountController extends GetxController {
         //   }
         // }
       } else {
-        if(!state.firstIndex){
+        if (!state.firstIndex) {
           Get.back(result: ProcessStatus.FAIL);
           Toast.show(result.m.toString());
-            }else{
+        } else {
           Toast.show(result.m.toString());
-            }
+        }
       }
     });
   }
 
   void addAccountGetBack() {
-    if (state.nameController.text.isNotEmpty ) {
+    if (state.nameController.text.isNotEmpty) {
       Get.dialog(AlertDialog(
           title: Text('是否确认退出'),
           content: Text('退出后将无法恢复'),
@@ -123,11 +124,19 @@ class AddAccountController extends GetxController {
             TextButton(
                 child: Text('确定'),
                 onPressed: () {
-                  Get.back();
-                  Get.back();
+                  handleBack();
                 }),
           ]));
     } else {
+      Get.back();
+    }
+  }
+
+  handleBack() {
+    if (state.firstIndex) {
+      StoreController.to.signOut();
+      Get.offAllNamed(RouteConfig.loginVerify);
+    }else{
       Get.back();
     }
   }
