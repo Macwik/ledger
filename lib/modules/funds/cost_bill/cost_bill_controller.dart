@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/api/cost_income_api.dart';
-import 'package:ledger/config/api/order_api.dart';
-import 'package:ledger/entity/order/order_detail_dto.dart';
 import 'package:ledger/enum/cost_order_type.dart';
 import 'package:ledger/enum/is_select.dart';
 import 'package:ledger/res/export.dart';
-import 'package:ledger/widget/dialog_widget/binding_product_dialog/binding_product_dialog.dart';
 
 import 'cost_bill_state.dart';
 
@@ -19,7 +16,6 @@ class CostBillController extends GetxController {
     if (arguments != null && arguments['costOrderType'] != null) {
       state.costOrderType = arguments['costOrderType'];
     }
-  //  update(['bill_title']);
   }
 
   Future<void> toCheckPayWay() async {
@@ -90,43 +86,13 @@ class CostBillController extends GetxController {
   Future<void> toBindingPurchaseBill() async {
     state.bindingProduct = null;
     var result = await Get.toNamed(RouteConfig.bindingSaleBill);
-    state.orderDTO = result;
-    update(['bindingPurchaseBill', 'bindingPurchaseBill']);
-  }
-
-//绑定货物
-  Future<void> bindingProduct(BuildContext context) async {
-    if (state.orderDTO == null) {
-      Toast.show('请先选择采购单后再尝试');
-      return;
+    if(result != null){
+      state.orderDTO = result['salesOrder'];
+      state.bindingProduct = result['productList'];
     }
-    //请求开单详情接口orderProductDetailList
-    await Http().network<OrderDetailDTO>(Method.get, OrderApi.order_detail,
-        queryParameters: {'id': state.orderDTO!.id}).then((result) {
-      if (result.success) {
-        var orderDetailDTO = result.d;
-        if (orderDetailDTO?.orderProductDetailList?.isEmpty ?? true) {
-          Toast.show('请先选择采购单后再尝试');
-          return;
-        }
-
-        showModalBottomSheet(
-          context: context,
-          isScrollControlled: true,
-          builder: (BuildContext context) => BindingProductDialog(
-              orderProductDetailList: orderDetailDTO!.orderProductDetailList!,
-              onClick: (result) {
-                state.bindingProduct = result;
-                update(['bindingPurchaseBill']);
-                return true;
-              },
-            )
-        );
-      } else {
-        Toast.show(result.m.toString());
-      }
-    });
+    update(['bindingPurchaseBill', 'bindingPurchaseProduct']);
   }
+
 
   void onFormChange() {
     state.formKey.currentState?.saveAndValidate(focusOnInvalid: false);
@@ -135,10 +101,12 @@ class CostBillController extends GetxController {
 
   String getBindingProductNames() {
     if (state.bindingProduct?.isEmpty ?? true) {
-      return '请选择';
+      return '请通过采购单绑定货物';
     }
     return state.bindingProduct!.map((e) => e.productName).toList().join(',');
   }
+
+
   Future<void> pickerDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,

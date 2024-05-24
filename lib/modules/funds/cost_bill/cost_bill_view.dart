@@ -22,10 +22,10 @@ class CostBillView extends StatelessWidget {
   Widget build(BuildContext context) {
     controller.initState();
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: false,
         appBar: TitleBar(
           title: state.costOrderType == CostOrderType.COST ? '费用开单' : '收入开单',
-          backPressed:() => controller.costBillGetBack() ,
+          backPressed: () => controller.costBillGetBack(),
         ),
         body: MyWillPop(
             onWillPop: () async {
@@ -199,16 +199,14 @@ class CostBillView extends StatelessWidget {
                                   ),
                                   Expanded(
                                       child: TextFormField(
-                                        controller: state.amountController,
-                                        textAlign: TextAlign.right,
-                                        decoration: InputDecoration(
-                                          counterText: '',
-                                          border: InputBorder.none,
-                                          hintText: '请填写',
-                                        ),
-                                        style: TextStyle(
-                                            fontSize: 30.sp
-                                        ),
+                                    controller: state.amountController,
+                                    textAlign: TextAlign.right,
+                                    decoration: InputDecoration(
+                                      counterText: '',
+                                      border: InputBorder.none,
+                                      hintText: '请填写',
+                                    ),
+                                    style: TextStyle(fontSize: 30.sp),
                                     maxLength: 9,
                                     keyboardType: TextInputType.number,
                                     validator: FormBuilderValidators.compose([
@@ -352,7 +350,11 @@ class CostBillView extends StatelessWidget {
                                         return DropdownButton2<int>(
                                           alignment: Alignment.centerRight,
                                           value: state.selectedOption,
-                                          hint: Text('销售地支付', style: TextStyle(color: Colours.text_333),),
+                                          hint: Text(
+                                            '销售地支付',
+                                            style: TextStyle(
+                                                color: Colours.text_333),
+                                          ),
                                           underline: Container(
                                             height: 0.w,
                                           ),
@@ -449,49 +451,38 @@ class CostBillView extends StatelessWidget {
                                 width: double.infinity,
                               ),
                               GetBuilder<CostBillController>(
-                                  id: 'bindingPurchaseBill',
+                                  id: 'bindingPurchaseProduct',
                                   builder: (_) {
-                                    return InkWell(
-                                        onTap: () {
-                                          FocusManager.instance.primaryFocus?.unfocus();
-                                          controller.bindingProduct(context);
-                                        },
-                                        child: Flex(
-                                          direction: Axis.horizontal,
+                                    return Flex(
+                                      direction: Axis.horizontal,
+                                      children: [
+                                        Text(
+                                          '绑定货物',
+                                          style: TextStyle(
+                                            color: Colours.text_666,
+                                            fontSize: 30.sp,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                        Expanded(
+                                            child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
                                           children: [
                                             Text(
-                                              '绑定货物',
-                                              style: TextStyle(
-                                                color: Colours.text_666,
-                                                fontSize: 30.sp,
-                                                fontWeight: FontWeight.w400,
-                                              ),
-                                            ),
-                                            Expanded(
-                                                child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              children: [
-                                                Text(
-                                                    controller.getBindingProductNames(),
-                                                    style: TextStyle(
-                                                      color: (state.bindingProduct?.isEmpty ?? true)
-                                                          ? Colours.text_ccc
-                                                          : Colours.text_333,
-                                                    )),
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                      left: 20.w),
-                                                  child: LoadAssetImage(
-                                                    'common/arrow_right',
-                                                    width: 25.w,
-                                                    color: Colours.text_999,
-                                                  ),
-                                                )
-                                              ],
-                                            ))
+                                                controller
+                                                    .getBindingProductNames(),
+                                                style: TextStyle(
+                                                  color: (state.bindingProduct
+                                                              ?.isEmpty ??
+                                                          true)
+                                                      ? Colours.text_ccc
+                                                      : Colours.text_333,
+                                                )),
                                           ],
-                                        ));
+                                        ))
+                                      ],
+                                    );
                                   }),
                             ],
                           ),
@@ -573,12 +564,9 @@ class CostBillView extends StatelessWidget {
                                           border: InputBorder.none,
                                           hintText: '请填写',
                                         ),
-                                        style: TextStyle(
-                                            fontSize: 30.sp
-                                        ),
+                                        style: TextStyle(fontSize: 30.sp),
                                         maxLength: 32,
-                                        keyboardType:
-                                            TextInputType.name,
+                                        keyboardType: TextInputType.name,
                                       )),
                                 ],
                               ),

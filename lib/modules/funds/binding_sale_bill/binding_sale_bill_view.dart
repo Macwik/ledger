@@ -469,8 +469,7 @@ class BindingSaleBillView extends StatelessWidget {
                                             child:  Radio(
                                               value: state.orderDTO?.id,
                                               groupValue: salePurchaseOrderDTO.id,
-                                              onChanged: (value) => controller
-                                                  .selectOrder(salePurchaseOrderDTO),
+                                              onChanged: (value) => controller.selectOrder(context,salePurchaseOrderDTO),
                                             ),
                                           ),
                                           Expanded(child:Column(
@@ -478,39 +477,6 @@ class BindingSaleBillView extends StatelessWidget {
                                               Flex(
                                                 direction: Axis.horizontal,
                                         children: [
-                                          ///不支持绑定采购退货
-                                          // Visibility(
-                                          //     visible: (salePurchaseOrderDTO
-                                          //         .orderType ==
-                                          //         OrderType.SALE_RETURN
-                                          //             .value) ||
-                                          //         (salePurchaseOrderDTO
-                                          //             .orderType ==
-                                          //             OrderType
-                                          //                 .PURCHASE_RETURN
-                                          //                 .value),
-                                          //     child: Container(
-                                          //       margin: EdgeInsets.symmetric(
-                                          //           horizontal: 8.w),
-                                          //       padding: EdgeInsets.symmetric(
-                                          //           horizontal: 8.w,
-                                          //           vertical: 4.w),
-                                          //       decoration: (BoxDecoration(
-                                          //           borderRadius:
-                                          //           BorderRadius.circular(
-                                          //               (36)),
-                                          //           border: Border.all(
-                                          //               color: Colors.orange,
-                                          //               width: 3.w),
-                                          //           color: Colors.white)),
-                                          //       child: Text(
-                                          //         '退',
-                                          //         style: TextStyle(
-                                          //           fontSize: 28.sp,
-                                          //           color: Colors.orange,
-                                          //         ),
-                                          //       ),
-                                          //     )),
                                           Expanded(
                                               child:
                                                   Text(

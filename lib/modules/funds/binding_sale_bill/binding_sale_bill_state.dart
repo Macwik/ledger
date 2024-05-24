@@ -1,5 +1,6 @@
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:ledger/entity/order/order_dto.dart';
+import 'package:ledger/entity/order/order_product_detail_dto.dart';
 import 'package:ledger/entity/user/user_base_dto.dart';
 
 class BindingSaleBillState {
@@ -35,5 +36,7 @@ class BindingSaleBillState {
   }
 
   String? searchContent = '';
+
+  Set<OrderProductDetail>? bindingProduct;
 
 }

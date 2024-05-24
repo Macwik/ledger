@@ -27,13 +27,16 @@ class BindingProductDialog extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  const Spacer(),
-                  Text(
-                    '请选择费用对应货物',
-                    style: TextStyle(
-                      fontSize: 30.sp,
-                      color: Colors.black87,
-                    ),
+                  Container(
+                    margin: EdgeInsets.only(left: 40.w,top: 32.w),
+                    child: Text(
+                      '请选择绑定的货物',
+                      style: TextStyle(
+                          fontSize: 40.sp,
+                          color: Colours.text_333,
+                          fontWeight: FontWeight.w600
+                      ),
+                    ) ,
                   ),
                   const Spacer(),
                   IconButton(
