@@ -2,7 +2,7 @@ import 'package:animated_reorderable_list/animated_reorderable_list.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ledger/res/export.dart';
-import 'package:ledger/util/logger_util.dart';
+import 'package:uuid/uuid.dart';
 
 import 'product_type_manage_controller.dart';
 
@@ -10,7 +10,6 @@ class ProductTypeManageView extends StatelessWidget {
   ProductTypeManageView({super.key});
 
   final controller = Get.find<ProductTypeManageController>();
-  final state = Get.find<ProductTypeManageController>().state;
 
   @override
   Widget build(BuildContext context) {
@@ -24,21 +23,23 @@ class ProductTypeManageView extends StatelessWidget {
             GetBuilder<ProductTypeManageController>(
                 id: 'product_classify_item',
                 init: controller,
+                global: false,
                 builder: (_) {
                   return Expanded(
-                      child: state.productClassifyList == null
+                      child: controller.state.productClassifyList == null
                           ? LottieIndicator()
-                          : state.productClassifyList?.isEmpty ?? true
+                          : controller.state.productClassifyList?.isEmpty ??
+                                  true
                               ? EmptyLayout(hintText: '什么都没有'.tr)
                               : AnimatedReorderableListView(
-                                  items: state.productClassifyList!,
+                                  items: controller.state.productClassifyList!,
                                   itemBuilder:
                                       (BuildContext context, int index) {
-                                    var productClassify =
-                                        state.productClassifyList![index];
+                                    var productClassify = controller
+                                        .state.productClassifyList![index];
                                     return InkWell(
                                       key: Key(
-                                          '${productClassify.id}_${productClassify.productClassify}'),
+                                          '${Uuid().v1()}${productClassify.id}${productClassify.ordinal}'),
                                       onTap: () =>
                                           controller.selectProductClassify(
                                               productClassify),
