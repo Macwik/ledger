@@ -58,19 +58,21 @@ class MyAccountController extends GetxController {
                   .network<UserDTOEntity>(Method.get, UserApi.user_info)
                   .then((value) async {
                 if (value.strictSuccess) {
-                  await StoreController.to
-                      .updateCurrentUserActiveLedger(value.d!);
-                  await StoreController.to.clearPermission();
-                  await StoreController.to.updatePermissionCode();
-                  listLedger();
-                  Loading.dismiss();
-                  Get.defaultDialog(
-                      title: '提示',
-                      barrierDismissible: false,
-                      middleText: '账本切换成功, 点击确定会进入首页',
-                      onConfirm: () {
-                        Get.offAndToNamed(RouteConfig.main);
-                      });
+                  await StoreController.to.reload();
+                  Future.delayed(Duration(seconds: 3)).then((_) async {
+                    await StoreController.to.signIn(value.d!);
+                    await StoreController.to.clearPermission();
+                    StoreController.to.updatePermissionCode();
+                    listLedger();
+                    Loading.dismiss();
+                    Get.defaultDialog(
+                        title: '提示',
+                        barrierDismissible: false,
+                        middleText: '账本切换成功, 可以开始记账啦~',
+                        onConfirm: () {
+                          Get.offAllNamed(RouteConfig.main);
+                        });
+                  });
                 } else {
                   Loading.dismiss();
                   Toast.showError('账本切换失败，请稍后再试');
@@ -112,7 +114,8 @@ class MyAccountController extends GetxController {
   }
 
   void toAddAccount() {
-    Get.toNamed(RouteConfig.addAccount,arguments: {'firstIndex':false})?.then((result) {
+    Get.toNamed(RouteConfig.addAccount, arguments: {'firstIndex': false})
+        ?.then((result) {
       if (ProcessStatus.OK == result) {
         listLedger();
       }
@@ -142,15 +145,13 @@ class MyAccountController extends GetxController {
   }
 
   void myAccountGetBack() {
-    if(state.isSelect == IsSelectType.TRUE.value){
-     Get.back();
-    }else{
+    if (state.isSelect == IsSelectType.TRUE.value) {
+      Get.back();
+    } else {
       Get.until((route) {
         return (route.settings.name == RouteConfig.main) ||
             (route.settings.name == RouteConfig.mine);
       });
     }
-
-
   }
 }

@@ -25,7 +25,7 @@ class ChooseAccountController extends GetxController {
         cancel: '取消',
         confirm: '确定',
         content: '确认进入此账本吗',
-        onCancel: (){},
+        onCancel: () {},
         onConfirm: () async {
           Loading.showDuration(status: '进入账本...');
           await Http()
@@ -37,18 +37,21 @@ class ChooseAccountController extends GetxController {
                   .network<UserDTOEntity>(Method.get, UserApi.user_info)
                   .then((value) async {
                 if (value.strictSuccess) {
-                  await StoreController.to.updateCurrentUserActiveLedger(value.d!);
-                  await StoreController.to.clearPermission();
-                  await StoreController.to.updatePermissionCode();
-                  listLedger();
-                  Loading.dismiss();
-                  Get.defaultDialog(
-                      title: '提示',
-                      barrierDismissible: false,
-                      middleText: '可以记账啦',
-                      onConfirm: (){
-                        Get.offAndToNamed(RouteConfig.main);
-                      });
+                  await StoreController.to.reload();
+                  Future.delayed(Duration(seconds: 3)).then((_) async {
+                    await StoreController.to.signIn(value.d!);
+                    await StoreController.to.clearPermission();
+                    StoreController.to.updatePermissionCode();
+                    listLedger();
+                    Loading.dismiss();
+                    Get.defaultDialog(
+                        title: '提示',
+                        barrierDismissible: false,
+                        middleText: '账本切换成功, 可以开始记账啦~',
+                        onConfirm: () {
+                          Get.offAllNamed(RouteConfig.main);
+                        });
+                  });
                 } else {
                   Loading.dismiss();
                   Toast.showError('账本进入失败，请稍后再试');
@@ -66,7 +69,7 @@ class ChooseAccountController extends GetxController {
 
   Future<void> listLedger() async {
     final result =
-    await Http().network<UserLedgerDTO>(Method.get, LedgerApi.ledger_list);
+        await Http().network<UserLedgerDTO>(Method.get, LedgerApi.ledger_list);
     if (result.success) {
       state.userLedger = result.d;
       update(['join_account', 'own_account']);
@@ -74,7 +77,4 @@ class ChooseAccountController extends GetxController {
       Toast.show(result.m.toString());
     }
   }
-
-
-
 }

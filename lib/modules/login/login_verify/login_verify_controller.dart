@@ -197,7 +197,7 @@ class LoginVerifyController extends GetxController {
                   Expanded(
                       child: TextButton(
                     style: ButtonStyle(
-                      padding: MaterialStateProperty.all(EdgeInsets.zero),
+                      padding: WidgetStateProperty.all(EdgeInsets.zero),
                     ),
                     onPressed: () {
                       privacyAgreement(context);
@@ -215,7 +215,7 @@ class LoginVerifyController extends GetxController {
                   Expanded(
                       child: TextButton(
                     style: ButtonStyle(
-                      padding: MaterialStateProperty.all(EdgeInsets.zero),
+                      padding: WidgetStateProperty.all(EdgeInsets.zero),
                     ),
                     onPressed: () {
                       userAgreement(context);

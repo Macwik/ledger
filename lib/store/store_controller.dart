@@ -73,6 +73,13 @@ class StoreController extends GetxController {
     _changeLoginStatus(false);
   }
 
+
+  reload() async {
+    await GetStorage().remove(Constant.CURRENT_USER);
+    clearPermission();
+    _changeLoginStatus(false);
+  }
+
   void _changeLoginStatus(bool flag) {
     if (authenticated.value != flag) {
       authenticated.value = flag;
@@ -144,10 +151,5 @@ class StoreController extends GetxController {
       });
     }
     return List<String>.empty();
-  }
-
-  updateCurrentUserActiveLedger(UserDTOEntity user) async {
-    userEntity.value = user;
-    await GetStorage().write(Constant.CURRENT_USER, user.toJson());
   }
 }
