@@ -10,6 +10,7 @@ class ProductShoppingCarDTO {
   String? productName;
   String? productStandard;
   String? productPlace;
+  int? salesChannel;
   UnitDetailDTO? unitDetailDTO;
 
   ProductShoppingCarDTO(
@@ -17,6 +18,7 @@ class ProductShoppingCarDTO {
       this.productName,
       this.productPlace,
       this.productStandard,
+      this.salesChannel,
       this.unitDetailDTO});
 
   factory ProductShoppingCarDTO.fromJson(Map<String, dynamic> json) =>

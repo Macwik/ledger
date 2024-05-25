@@ -142,6 +142,7 @@ class RefundDialog extends StatelessWidget {
         productName: productDTO.productName,
         productPlace: productDTO.productPlace,
         productStandard: productDTO.productStandard,
+        salesChannel: productDTO.salesChannel,
         unitDetailDTO: getUnitDetailDTO());
   }
 

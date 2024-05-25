@@ -26,6 +26,10 @@ ProductShoppingCarDTO $ProductShoppingCarDTOFromJson(
   if (productPlace != null) {
     productShoppingCarDTO.productPlace = productPlace;
   }
+  final int? salesChannel = jsonConvert.convert<int>(json['salesChannel']);
+  if (salesChannel != null) {
+    productShoppingCarDTO.salesChannel = salesChannel;
+  }
   final UnitDetailDTO? unitDetailDTO = jsonConvert.convert<UnitDetailDTO>(
       json['unitDetailDTO']);
   if (unitDetailDTO != null) {
@@ -41,6 +45,7 @@ Map<String, dynamic> $ProductShoppingCarDTOToJson(
   data['productName'] = entity.productName;
   data['productStandard'] = entity.productStandard;
   data['productPlace'] = entity.productPlace;
+  data['salesChannel'] = entity.salesChannel;
   data['unitDetailDTO'] = entity.unitDetailDTO?.toJson();
   return data;
 }
@@ -51,6 +56,7 @@ extension ProductShoppingCarDTOExtension on ProductShoppingCarDTO {
     String? productName,
     String? productStandard,
     String? productPlace,
+    int? salesChannel,
     UnitDetailDTO? unitDetailDTO,
   }) {
     return ProductShoppingCarDTO()
@@ -58,6 +64,7 @@ extension ProductShoppingCarDTOExtension on ProductShoppingCarDTO {
       ..productName = productName ?? this.productName
       ..productStandard = productStandard ?? this.productStandard
       ..productPlace = productPlace ?? this.productPlace
+      ..salesChannel = salesChannel ?? this.salesChannel
       ..unitDetailDTO = unitDetailDTO ?? this.unitDetailDTO;
   }
 }

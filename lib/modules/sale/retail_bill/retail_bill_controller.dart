@@ -28,12 +28,13 @@ import 'package:ledger/widget/loading.dart';
 
 import 'retail_bill_state.dart';
 
-class RetailBillController extends GetxController with GetSingleTickerProviderStateMixin implements DisposableInterface {
+class RetailBillController extends GetxController
+    with GetSingleTickerProviderStateMixin
+    implements DisposableInterface {
   final RetailBillState state = RetailBillState();
 
-
   late final AnimationController shakeController =
-  AnimationController(vsync: this, duration: Duration(milliseconds: 500));
+      AnimationController(vsync: this, duration: Duration(milliseconds: 500));
 
   Future<void> initState() async {
     var arguments = Get.arguments;
@@ -89,11 +90,6 @@ class RetailBillController extends GetxController with GetSingleTickerProviderSt
     onRefresh();
   }
 
-  // toProductClassify() {
-  //   Get.toNamed(RouteConfig.productTypeManage)
-  //       ?.then((value) => _queryProductClassifyList());
-  // }
-
   //货物分类
   Future<void> _queryProductClassifyList() async {
     await Http()
@@ -147,20 +143,22 @@ class RetailBillController extends GetxController with GetSingleTickerProviderSt
           ),
           barrierDismissible: false);
     } else {
-      await Get.dialog(AlertDialog(
-        title: null, // 设置标题为null，
-        content: SingleChildScrollView(
-          child: ProductUnitDialog(
-            productDTO: productDTO,
-            orderType: state.orderType,
-            onClick: (result) {
-              state.shoppingCarList.add(result);
-              update(['shopping_car_box', 'product_classify_list']);
-              return true;
-            },
+      await Get.dialog(
+          AlertDialog(
+            title: null, // 设置标题为null，
+            content: SingleChildScrollView(
+              child: ProductUnitDialog(
+                productDTO: productDTO,
+                orderType: state.orderType,
+                onClick: (result) {
+                  state.shoppingCarList.add(result);
+                  update(['shopping_car_box', 'product_classify_list']);
+                  return true;
+                },
+              ),
+            ),
           ),
-        ),
-      ), barrierDismissible: false);
+          barrierDismissible: false);
     }
   }
 
@@ -457,7 +455,8 @@ class RetailBillController extends GetxController with GetSingleTickerProviderSt
       var product = shoppingCarCheckList
           .firstWhereOrNull((element) => element.productId == result.productId);
       if (null == product) {
-        shoppingCarCheckList.add(ProductShoppingCarDTO.fromJson(result.toJson()));
+        shoppingCarCheckList
+            .add(ProductShoppingCarDTO.fromJson(result.toJson()));
       } else {
         if (result.unitDetailDTO?.unitType == UnitType.SINGLE.value) {
           var number = product.unitDetailDTO?.number ?? Decimal.zero;
@@ -497,8 +496,32 @@ class RetailBillController extends GetxController with GetSingleTickerProviderSt
         return;
       }
     }
-    checkProxyProduct();
-    getPaymentBottomSheet();
+    if(checkMultiContainsProxyProduct()){
+      await Get.dialog(AlertDialog(
+          title: Text(
+            '提示',
+            style: TextStyle(fontSize: 46.sp, fontWeight: FontWeight.w500),
+          ),
+          content: Text(
+            '含有代办货物。。。。。',
+            style: TextStyle(fontSize: 34.sp),
+          ),
+          actions: [
+            TextButton(
+              child: Text('取消'),
+              onPressed: () {
+                Get.back();
+              },
+            ),
+            TextButton(
+              child: Text('确定'),
+              onPressed: () {
+                Get.back();
+                getPaymentBottomSheet();
+              },
+            ),
+          ]));
+    }
   }
 
   Future<void> getPaymentBottomSheet() async {
@@ -562,7 +585,6 @@ class RetailBillController extends GetxController with GetSingleTickerProviderSt
       Loading.dismiss();
       if (result.success) {
         Get.back();
-
         ///TODO 开单详情的弹框
         Toast.showSuccess('开单成功');
         return true;
@@ -600,7 +622,13 @@ class RetailBillController extends GetxController with GetSingleTickerProviderSt
     }
   }
 
-  void checkProxyProduct() {
+  bool checkMultiContainsProxyProduct() {
     //多种货物且含有代办货物时候，弹出提示框
+    var shoppingCarList = state.shoppingCarList;
+    if (shoppingCarList.length <= 1) {
+      return false;
+    }
+    return shoppingCarList
+        .any((element) => element.salesChannel == SalesChannel.AGENCY.value);
   }
 }
