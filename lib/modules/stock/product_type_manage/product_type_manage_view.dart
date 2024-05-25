@@ -16,7 +16,7 @@ class ProductTypeManageView extends StatelessWidget {
     controller.initState();
     return Scaffold(
         appBar: TitleBar(
-          title: '货物列表分组管理',
+          title: '货物分组管理',
         ),
         body: Column(
           children: [
