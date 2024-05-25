@@ -72,6 +72,10 @@ CostIncomeOrderDTO $CostIncomeOrderDTOFromJson(Map<String, dynamic> json) {
   if (gmtCreate != null) {
     costIncomeOrderDTO.gmtCreate = gmtCreate;
   }
+  final bool? showDateTime = jsonConvert.convert<bool>(json['showDateTime']);
+  if (showDateTime != null) {
+    costIncomeOrderDTO.showDateTime = showDateTime;
+  }
   return costIncomeOrderDTO;
 }
 
@@ -92,6 +96,7 @@ Map<String, dynamic> $CostIncomeOrderDTOToJson(CostIncomeOrderDTO entity) {
   data['invalid'] = entity.invalid;
   data['orderDate'] = entity.orderDate?.toIso8601String();
   data['gmtCreate'] = entity.gmtCreate?.toIso8601String();
+  data['showDateTime'] = entity.showDateTime;
   return data;
 }
 
@@ -112,6 +117,7 @@ extension CostIncomeOrderDTOExtension on CostIncomeOrderDTO {
     int? invalid,
     DateTime? orderDate,
     DateTime? gmtCreate,
+    bool? showDateTime,
   }) {
     return CostIncomeOrderDTO()
       ..id = id ?? this.id
@@ -128,6 +134,7 @@ extension CostIncomeOrderDTOExtension on CostIncomeOrderDTO {
       ..creatorName = creatorName ?? this.creatorName
       ..invalid = invalid ?? this.invalid
       ..orderDate = orderDate ?? this.orderDate
-      ..gmtCreate = gmtCreate ?? this.gmtCreate;
+      ..gmtCreate = gmtCreate ?? this.gmtCreate
+      ..showDateTime = showDateTime ?? this.showDateTime;
   }
 }

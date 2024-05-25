@@ -20,6 +20,8 @@ class CostIncomeOrderDTO {
   int? invalid;
   DateTime? orderDate;
   DateTime? gmtCreate;
+  bool? showDateTime;
+
 
   CostIncomeOrderDTO();
 

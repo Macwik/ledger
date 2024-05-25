@@ -28,6 +28,8 @@ class RepaymentRecordState {
 
   List<CustomType> customTypeList = [];
 
+  Set<String> datetimeSet = {};
+
   RepaymentRecordState() {
     ///Initialize variables
   }

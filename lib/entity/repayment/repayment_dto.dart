@@ -17,6 +17,8 @@ class RepaymentDTO {
   int? creator;
   String? creatorName;
   DateTime? gmtCreate;
+  bool? showDateTime;
+
 
   RepaymentDTO();
 

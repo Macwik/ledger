@@ -89,7 +89,7 @@ class PurchaseRecordController extends GetxController
     state.currentPage += 1;
     await _queryData(state.currentPage).then((result) {
       if (true == result.success) {
-        state.list?.forEach((element) {
+        result.d?.result?.forEach((element) {
           element.showDateTime =
               showDate(DateUtil.formatDefaultDate2(element.orderDate));
         });

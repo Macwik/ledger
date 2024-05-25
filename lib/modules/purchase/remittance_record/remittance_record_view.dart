@@ -527,7 +527,7 @@ class RemittanceRecordView extends StatelessWidget {
                                             )),
                                       ) ),
                                       Expanded(child:
-                                      Text('￥${remittanceDTO.amount??''}',
+                                      Text(DecimalUtil.formatAmount(remittanceDTO.amount),
                                           textAlign:TextAlign.right,
                                           style: TextStyle(
                                             color: remittanceDTO.invalid == 0 ?  Colours.text_333 : Colours.text_999,

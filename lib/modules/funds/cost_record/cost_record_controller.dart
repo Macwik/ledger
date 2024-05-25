@@ -123,6 +123,10 @@ class CostRecordController extends GetxController
     state.currentPage += 1;
     _queryData(state.currentPage).then((result) {
       if (result.success) {
+        result.d?.result?.forEach((element) {
+          element.showDateTime =
+              showDate(DateUtil.formatDefaultDate2(element.orderDate));
+        });
         state.items?.addAll(result.d!.result!);
         state.hasMore = result.d?.hasMore;
         update(['costRecord']);
@@ -140,9 +144,14 @@ class CostRecordController extends GetxController
     state.currentPage = 1;
     Loading.showDuration();
     _queryData(state.currentPage).then((result) {
+      state.datetimeSet = {};
       Loading.dismiss();
       if (result.success) {
         state.items = result.d?.result;
+        state.items?.forEach((element) {
+          element.showDateTime =
+              showDate(DateUtil.formatDefaultDate2(element.orderDate));
+        });
         state.hasMore = result.d?.hasMore;
         update(['costRecord','cost_record_statistic']);
         state.refreshController.finishRefresh();
@@ -176,6 +185,16 @@ class CostRecordController extends GetxController
     return (state.selectEmployeeIdList != null) &&
         state.selectEmployeeIdList!.contains(employeeId);
   }
+
+  showDate(String? dateTimeStr) {
+    if (dateTimeStr?.isEmpty ?? true) {
+      return false;
+    }
+    var contains = state.datetimeSet.contains(dateTimeStr);
+    state.datetimeSet.add(dateTimeStr!);
+    return contains;
+  }
+
 
   //筛选里清空条件
   void clearCondition() {

@@ -72,6 +72,10 @@ class RepaymentRecordController extends GetxController
     state.currentPage += 1;
     _queryData(state.currentPage).then((result) {
       if (result.success) {
+        result.d?.result?.forEach((element) {
+          element.showDateTime =
+              showDate(DateUtil.formatDefaultDate2(element.repaymentDate));
+        });
         state.items?.addAll(result.d!.result!);
         state.hasMore = result.d?.hasMore;
         update(['custom_detail', 'supplier_detail']);
@@ -85,13 +89,29 @@ class RepaymentRecordController extends GetxController
     });
   }
 
+
+  showDate(String? dateTimeStr) {
+    if (dateTimeStr?.isEmpty ?? true) {
+      return false;
+    }
+    var contains = state.datetimeSet.contains(dateTimeStr);
+    state.datetimeSet.add(dateTimeStr!);
+    return contains;
+  }
+
+
   Future<void> onRefresh() async {
     state.currentPage = 1;
     Loading.showDuration();
     await _queryData(state.currentPage).then((result) {
+      state.datetimeSet = {};
       Loading.dismiss();
       if (result.success) {
         state.items = result.d?.result;
+        state.items?.forEach((element) {
+          element.showDateTime =
+              showDate(DateUtil.formatDefaultDate2(element.repaymentDate));
+        });
         state.hasMore = result.d?.hasMore;
         update(['custom_detail', 'supplier_detail']);
         state.refreshController.finishRefresh();
@@ -161,10 +181,11 @@ class RepaymentRecordController extends GetxController
 
   //权限控制相关--开单按钮是否展示
   String showAddBillsName() {
-    if ((state.customTypeList[state.index].value)==CustomType.SUPPLIER.value) {
+    if ((state.customTypeList[state.index].value) ==
+        CustomType.SUPPLIER.value) {
       return PermissionCode.supplier_repayment_order_permission;
     }
-    if((state.customTypeList[state.index].value)==CustomType.CUSTOM.value) {
+    if ((state.customTypeList[state.index].value) == CustomType.CUSTOM.value) {
       return PermissionCode.supplier_detail_repayment_order_permission;
     }
     return '';
@@ -199,7 +220,8 @@ class RepaymentRecordController extends GetxController
         (permissionList
             .contains(PermissionCode.supplier_repayment_order_permission))) {
       await Get.toNamed(RouteConfig.repaymentBill,
-          arguments: {'customType': CustomType.SUPPLIER.value})?.then((value) async {
+              arguments: {'customType': CustomType.SUPPLIER.value})
+          ?.then((value) async {
         await onRefresh();
       });
     }
@@ -287,20 +309,27 @@ class RepaymentRecordController extends GetxController
                                     toRepaymentDetail(repaymentOrderDTO.id),
                                 child: Column(
                                   children: [
-                                    Container(
-                                      padding: EdgeInsets.only(
-                                          bottom: 10.w, left: 30.w, top: 10.w),
-                                      alignment: Alignment.centerLeft,
-                                      color: Colors.white12,
-                                      child: Text(
-                                          DateUtil.formatDefaultDate2(
-                                              repaymentOrderDTO.repaymentDate),
-                                          style: TextStyle(
-                                            color: Colours.text_ccc,
-                                            fontSize: 24.sp,
-                                            fontWeight: FontWeight.w500,
-                                          )),
-                                    ),
+                                    Offstage(
+                                        offstage:
+                                            repaymentOrderDTO.showDateTime ??
+                                                true,
+                                        child: Container(
+                                          padding: EdgeInsets.only(
+                                              bottom: 10.w,
+                                              left: 30.w,
+                                              top: 10.w),
+                                          alignment: Alignment.centerLeft,
+                                          color: Colors.white12,
+                                          child: Text(
+                                              DateUtil.formatDefaultDate2(
+                                                  repaymentOrderDTO
+                                                      .repaymentDate),
+                                              style: TextStyle(
+                                                color: Colours.text_ccc,
+                                                fontSize: 24.sp,
+                                                fontWeight: FontWeight.w500,
+                                              )),
+                                        )),
                                     Container(
                                       color: Colors.white,
                                       padding: EdgeInsets.symmetric(
@@ -381,9 +410,17 @@ class RepaymentRecordController extends GetxController
                                                   Expanded(
                                                       child: Text(
                                                     textAlign: TextAlign.left,
-                                                    DecimalUtil.formatAmount((repaymentOrderDTO.totalAmount??Decimal.zero)-(repaymentOrderDTO.discountAmount??Decimal.zero)),
+                                                    DecimalUtil.formatAmount(
+                                                        (repaymentOrderDTO
+                                                                    .totalAmount ??
+                                                                Decimal.zero) -
+                                                            (repaymentOrderDTO
+                                                                    .discountAmount ??
+                                                                Decimal.zero)),
                                                     style: TextStyle(
-                                                      color: repaymentOrderDTO.invalid == 0
+                                                      color: repaymentOrderDTO
+                                                                  .invalid ==
+                                                              0
                                                           ? Colours.text_333
                                                           : Colours.text_ccc,
                                                       fontSize: 28.sp,
@@ -491,37 +528,36 @@ class RepaymentRecordController extends GetxController
             right: 20.w,
             child: GetBuilder<RepaymentRecordController>(
                 id: 'repayment_record_bottom',
-                builder: (_){
-              return  PermissionWidget(
-              permissionCode: showAddBillsName(),
-              child: Container(
-              width: 210.w,
-              height: 110.w,
-              margin: EdgeInsets.only(bottom: 30.w),
-              child: FloatingActionButton(
-              shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30), // 设置圆角大小
-              ),
-              onPressed: () => toRepaymentBill(),
-              child: Container(
-              child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-              Icon(
-              Icons.add,
-              size: 30.w,
-    ),
-    Text(
-    '还款',
-    style: TextStyle(fontSize: 32.sp),
-    ),
-    ],
-    )), // 按钮上显示的图标
-    )));
-            })
-
-        )],
+                builder: (_) {
+                  return PermissionWidget(
+                      permissionCode: showAddBillsName(),
+                      child: Container(
+                          width: 210.w,
+                          height: 110.w,
+                          margin: EdgeInsets.only(bottom: 30.w),
+                          child: FloatingActionButton(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30), // 设置圆角大小
+                            ),
+                            onPressed: () => toRepaymentBill(),
+                            child: Container(
+                                child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.add,
+                                  size: 30.w,
+                                ),
+                                Text(
+                                  '还款',
+                                  style: TextStyle(fontSize: 32.sp),
+                                ),
+                              ],
+                            )), // 按钮上显示的图标
+                          )));
+                }))
+      ],
     );
   }
 }

@@ -57,6 +57,10 @@ RepaymentDTO $RepaymentDTOFromJson(Map<String, dynamic> json) {
   if (gmtCreate != null) {
     repaymentDTO.gmtCreate = gmtCreate;
   }
+  final bool? showDateTime = jsonConvert.convert<bool>(json['showDateTime']);
+  if (showDateTime != null) {
+    repaymentDTO.showDateTime = showDateTime;
+  }
   return repaymentDTO;
 }
 
@@ -74,6 +78,7 @@ Map<String, dynamic> $RepaymentDTOToJson(RepaymentDTO entity) {
   data['creator'] = entity.creator;
   data['creatorName'] = entity.creatorName;
   data['gmtCreate'] = entity.gmtCreate?.toIso8601String();
+  data['showDateTime'] = entity.showDateTime;
   return data;
 }
 
@@ -91,6 +96,7 @@ extension RepaymentDTOExtension on RepaymentDTO {
     int? creator,
     String? creatorName,
     DateTime? gmtCreate,
+    bool? showDateTime,
   }) {
     return RepaymentDTO()
       ..id = id ?? this.id
@@ -104,6 +110,7 @@ extension RepaymentDTOExtension on RepaymentDTO {
       ..invalid = invalid ?? this.invalid
       ..creator = creator ?? this.creator
       ..creatorName = creatorName ?? this.creatorName
-      ..gmtCreate = gmtCreate ?? this.gmtCreate;
+      ..gmtCreate = gmtCreate ?? this.gmtCreate
+      ..showDateTime = showDateTime ?? this.showDateTime;
   }
 }

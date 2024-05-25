@@ -54,4 +54,6 @@ class CostRecordState {
 
   ExternalOrderCountDTO? externalOrderCountDTO;
 
+  Set<String> datetimeSet = {};
+
 }
