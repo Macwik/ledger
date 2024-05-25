@@ -757,14 +757,14 @@ class CostRecordView extends StatelessWidget {
                                 child: Container(
                                   width: double.infinity,
                                   padding: EdgeInsets.only(
-                                      left: 40.w, top: 10.w, bottom: 10.w),
+                                      left: 40.w, top: 16.w, bottom: 16.w),
                                   color: Colors.white12,
                                   child: Text(
                                     DateUtil.formatDefaultDate2(
                                         costIncomeOrderDTO.orderDate),
                                     style: TextStyle(
                                       color: Colours.text_ccc,
-                                      fontSize: 24.sp,
+                                      fontSize: 28.sp,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -954,7 +954,7 @@ class CostRecordView extends StatelessWidget {
                         );
                       },
                       separatorBuilder: (context, index) => Container(
-                        height: 2.w,
+                        height: 8.w,
                         color: Colors.white12,
                         width: double.infinity,
                       ),

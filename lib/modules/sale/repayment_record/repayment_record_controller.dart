@@ -301,7 +301,7 @@ class RepaymentRecordController extends GetxController
                             : state.items!.isEmpty
                                 ? EmptyLayout(hintText: '什么都没有'.tr)
                                 : null,
-                        child: ListView.builder(
+                        child: ListView.separated(
                           itemBuilder: (context, index) {
                             var repaymentOrderDTO = state.items![index];
                             return InkWell(
@@ -315,9 +315,9 @@ class RepaymentRecordController extends GetxController
                                                 true,
                                         child: Container(
                                           padding: EdgeInsets.only(
-                                              bottom: 10.w,
-                                              left: 30.w,
-                                              top: 10.w),
+                                              bottom: 16.w,
+                                              left: 40.w,
+                                              top: 16.w),
                                           alignment: Alignment.centerLeft,
                                           color: Colors.white12,
                                           child: Text(
@@ -326,7 +326,7 @@ class RepaymentRecordController extends GetxController
                                                       .repaymentDate),
                                               style: TextStyle(
                                                 color: Colours.text_ccc,
-                                                fontSize: 24.sp,
+                                                fontSize: 28.sp,
                                                 fontWeight: FontWeight.w500,
                                               )),
                                         )),
@@ -517,6 +517,11 @@ class RepaymentRecordController extends GetxController
                                   ],
                                 ));
                           },
+                          separatorBuilder: (context, index) => Container(
+                            height: 8.w,
+                            color: Colors.white12,
+                            width: double.infinity,
+                          ),
                           itemCount: state.items?.length ?? 0,
                         ),
                       );

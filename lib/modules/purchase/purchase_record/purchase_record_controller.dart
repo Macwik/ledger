@@ -459,14 +459,14 @@ class PurchaseRecordController extends GetxController
                               child: Container(
                                 width: double.infinity,
                                 padding: EdgeInsets.only(
-                                    left: 40.w, top: 10.w, bottom: 10.w),
+                                    left: 40.w, top: 16.w, bottom: 16.w),
                                 color: Colors.white12,
                                 child: Text(
                                   DateUtil.formatDefaultDate2(
                                       purchasePurchaseOrderDTO.orderDate),
                                   style: TextStyle(
                                     color: Colours.text_ccc,
-                                    fontSize: 24.sp,
+                                    fontSize: 28.sp,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
@@ -663,7 +663,7 @@ class PurchaseRecordController extends GetxController
                       );
                     },
                     separatorBuilder: (context, index) => Container(
-                      height: 2.w,
+                      height: 8.w,
                       color: Colors.white12,
                       width: double.infinity,
                     ),
