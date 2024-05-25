@@ -521,6 +521,8 @@ class RetailBillController extends GetxController
               },
             ),
           ]));
+    }else{
+      getPaymentBottomSheet();
     }
   }
 
