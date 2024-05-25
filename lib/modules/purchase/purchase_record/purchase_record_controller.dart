@@ -129,7 +129,6 @@ class PurchaseRecordController extends GetxController
     });
   }
 
-
   showDate(String? dateTimeStr) {
     if (dateTimeStr?.isEmpty ?? true) {
       return false;
@@ -293,13 +292,14 @@ class PurchaseRecordController extends GetxController
 
   //权限控制相关--开单按钮是否展示
   String showAddBillsName() {
-    if ((state.orderTypeList[state.index].value)==OrderType.PURCHASE.value) {
+    if ((state.orderTypeList[state.index].value) == OrderType.PURCHASE.value) {
       return PermissionCode.purchase_purchase_order_permission;
     }
-    if((state.orderTypeList[state.index].value)==OrderType.PURCHASE_RETURN.value) {
+    if ((state.orderTypeList[state.index].value) ==
+        OrderType.PURCHASE_RETURN.value) {
       return PermissionCode.purchase_purchase_return_order_permission;
     }
-    if  ((state.orderTypeList[state.index].value)==OrderType.ADD_STOCK.value) {
+    if ((state.orderTypeList[state.index].value) == OrderType.ADD_STOCK.value) {
       return PermissionCode.purchase_add_stock_order_permission;
     }
     return '';
@@ -357,15 +357,18 @@ class PurchaseRecordController extends GetxController
   permissionCount() {
     int count = 0;
     List<String>? permissionList = StoreController.to.getPermissionCode();
-    if (permissionList.contains(PermissionCode.purchase_purchase_record_permission)) {
+    if (permissionList
+        .contains(PermissionCode.purchase_purchase_record_permission)) {
       state.orderTypeList.add(OrderType.PURCHASE);
       count++;
     }
-    if (permissionList.contains(PermissionCode.purchase_purchase_return_record_permission)) {
+    if (permissionList
+        .contains(PermissionCode.purchase_purchase_return_record_permission)) {
       state.orderTypeList.add(OrderType.PURCHASE_RETURN);
       count++;
     }
-    if (permissionList.contains(PermissionCode.purchase_add_stock_record_permission)) {
+    if (permissionList
+        .contains(PermissionCode.purchase_add_stock_record_permission)) {
       state.orderTypeList.add(OrderType.ADD_STOCK);
       count++;
     }
@@ -450,18 +453,22 @@ class PurchaseRecordController extends GetxController
                         onTap: () => toPurchaseDetail(purchasePurchaseOrderDTO),
                         child: Column(
                           children: [
-                            Container(
-                              width: double.infinity,
-                              padding: EdgeInsets.only(
-                                  left: 40.w, top: 10.w, bottom: 10.w),
-                              color: Colors.white12,
-                              child: Text(
-                                DateUtil.formatDefaultDate2(
-                                    purchasePurchaseOrderDTO.orderDate),
-                                style: TextStyle(
-                                  color: Colours.text_ccc,
-                                  fontSize: 24.sp,
-                                  fontWeight: FontWeight.w500,
+                            Offstage(
+                              offstage:
+                                  purchasePurchaseOrderDTO.showDateTime ?? true,
+                              child: Container(
+                                width: double.infinity,
+                                padding: EdgeInsets.only(
+                                    left: 40.w, top: 10.w, bottom: 10.w),
+                                color: Colors.white12,
+                                child: Text(
+                                  DateUtil.formatDefaultDate2(
+                                      purchasePurchaseOrderDTO.orderDate),
+                                  style: TextStyle(
+                                    color: Colours.text_ccc,
+                                    fontSize: 24.sp,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
                               ),
                             ),
