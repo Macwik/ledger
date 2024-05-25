@@ -15,7 +15,6 @@ import 'package:ledger/res/export.dart';
 import 'package:ledger/store/store_controller.dart';
 import 'package:ledger/util/decimal_util.dart';
 import 'package:ledger/util/image_util.dart';
-import 'package:ledger/util/logger_util.dart';
 
 import 'sale_record_state.dart';
 

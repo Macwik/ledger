@@ -503,7 +503,7 @@ class RetailBillController extends GetxController
             style: TextStyle(fontSize: 46.sp, fontWeight: FontWeight.w500),
           ),
           content: Text(
-            '含有代办货物。。。。。',
+            '此单内容对应货主会完整看到，是否继续开单？',
             style: TextStyle(fontSize: 34.sp),
           ),
           actions: [

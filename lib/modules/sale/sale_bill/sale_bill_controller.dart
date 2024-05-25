@@ -11,6 +11,7 @@ import 'package:ledger/entity/unit/unit_detail_dto.dart';
 import 'package:ledger/enum/custom_type.dart';
 import 'package:ledger/enum/order_type.dart';
 import 'package:ledger/enum/page_to_type.dart';
+import 'package:ledger/enum/sales_channel.dart';
 import 'package:ledger/enum/unit_type.dart';
 import 'package:ledger/res/export.dart';
 import 'package:ledger/store/store_controller.dart';
@@ -89,7 +90,7 @@ class SaleBillController extends GetxController {
   }
 
 //Dialog
-  void showPaymentDialog(BuildContext context) {
+  Future<void> showPaymentDialog(BuildContext context) async {
     if (state.shoppingCarList.isEmpty) {
       Toast.show('请添加货物后再试');
       return;
@@ -106,46 +107,66 @@ class SaleBillController extends GetxController {
         return;
       }
     }
-    if(state.orderType ==OrderType.ADD_STOCK){
-      saveAddStoreOrder();
+    if(checkMultiContainsProxyProduct()){
+      await Get.dialog(AlertDialog(
+          title: Text(
+            '提示',
+            style: TextStyle(fontSize: 46.sp, fontWeight: FontWeight.w500),
+          ),
+          content: Text(
+            '此单内容对应货主会完整看到，是否继续开单？',
+            style: TextStyle(fontSize: 34.sp),
+          ),
+          actions: [
+            TextButton(
+              child: Text('取消'),
+              onPressed: () {
+                Get.back();
+              },
+            ),
+            TextButton(
+              child: Text('确定'),
+              onPressed: () {
+                Get.back();
+                getPaymentBottomSheet();
+              },
+            ),
+          ]));
     }else{
-      Get.bottomSheet(
-          isScrollControlled: true,
-          PaymentDialog(
-              paymentMethods: state.paymentMethods!,
-              customDTO: state.customDTO,
-              orderType: state.orderType,
-              totalAmount: state.totalAmount,
-              onClick: (result) async {
-                state.orderPayDialogResult = result;
-                if (null != result?.customDTO) {
-                  state.customDTO = result?.customDTO;
-                }
-                return await  saveOrder();
-              }),
-          backgroundColor: Colors.white);
+      getPaymentBottomSheet();
     }
   }
 
-  void saveAddStoreOrder()  {
-    String batchNumber = state.textEditingController.text;
-    Loading.showDuration();
-    Http().network(Method.post, OrderApi.add_add_store_order, data: {
-      'customId': state.customDTO?.id,
-      'batchNo': batchNumber,
-      'orderProductRequest': state.shoppingCarList,
-      'remark': state.addStoreRemarkController?.text,
-      'orderDate': DateUtil.formatDefaultDate(state.date),
-      'orderType': state.orderType.value,
-    }).then((result) {
-      Loading.dismiss();
-      if (result.success) {
-        Get.back();
-        Toast.showSuccess('入库成功');
-      } else {
-        Toast.show(result.m.toString());
-      }
-    });
+   void getPaymentBottomSheet(){
+     if(state.orderType ==OrderType.ADD_STOCK){
+       saveAddStoreOrder();
+     }else{
+       Get.bottomSheet(
+           isScrollControlled: true,
+           PaymentDialog(
+               paymentMethods: state.paymentMethods!,
+               customDTO: state.customDTO,
+               orderType: state.orderType,
+               totalAmount: state.totalAmount,
+               onClick: (result) async {
+                 state.orderPayDialogResult = result;
+                 if (null != result?.customDTO) {
+                   state.customDTO = result?.customDTO;
+                 }
+                 return await  saveOrder();
+               }),
+           backgroundColor: Colors.white);
+     }
+   }
+
+  bool checkMultiContainsProxyProduct() {
+    //多种货物且含有代办货物时候，弹出提示框
+    var shoppingCarList = state.shoppingCarList;
+    if (shoppingCarList.length <= 1) {
+      return false;
+    }
+    return shoppingCarList
+        .any((element) => element.salesChannel == SalesChannel.AGENCY.value);
   }
 
   void toDeleteOrder(ProductShoppingCarDTO productShoppingCarDTO) {
@@ -168,6 +189,27 @@ class SaleBillController extends GetxController {
             Toast.show('删除成功');
           }),
     );
+  }
+
+  void saveAddStoreOrder()  {
+    String batchNumber = state.textEditingController.text;
+    Loading.showDuration();
+    Http().network(Method.post, OrderApi.add_add_store_order, data: {
+      'customId': state.customDTO?.id,
+      'batchNo': batchNumber,
+      'orderProductRequest': state.shoppingCarList,
+      'remark': state.addStoreRemarkController.text,
+      'orderDate': DateUtil.formatDefaultDate(state.date),
+      'orderType': state.orderType.value,
+    }).then((result) {
+      Loading.dismiss();
+      if (result.success) {
+        Get.back();
+        Toast.showSuccess('入库成功');
+      } else {
+        Toast.show(result.m.toString());
+      }
+    });
   }
 
   Future<void> addShoppingCar() async {

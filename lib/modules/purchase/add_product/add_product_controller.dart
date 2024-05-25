@@ -37,7 +37,7 @@ class AddProductController extends GetxController {
       return;
     }
     if((state.saleChannel == 1)&&((state.supplierDTO?.supplierName?.isEmpty??false)||(state.supplierDTO == null))){
-      Toast.show('请填添加供应商');
+      Toast.show('请选择货主');
       return;
     }
     Loading.showDuration();

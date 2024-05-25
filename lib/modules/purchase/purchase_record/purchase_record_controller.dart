@@ -89,6 +89,10 @@ class PurchaseRecordController extends GetxController
     state.currentPage += 1;
     await _queryData(state.currentPage).then((result) {
       if (true == result.success) {
+        state.list?.forEach((element) {
+          element.showDateTime =
+              showDate(DateUtil.formatDefaultDate2(element.orderDate));
+        });
         state.list!.addAll(result.d!.result!);
         state.hasMore = result.d?.hasMore;
         update(['purchase_order_list']);
@@ -106,9 +110,14 @@ class PurchaseRecordController extends GetxController
     state.currentPage = 1;
     Loading.showDuration();
     await _queryData(state.currentPage).then((result) {
+      state.datetimeSet = {};
       Loading.dismiss();
-      if (true == result.success) {
+      if (result.success) {
         state.list = result.d?.result;
+        state.list?.forEach((element) {
+          element.showDateTime =
+              showDate(DateUtil.formatDefaultDate2(element.orderDate));
+        });
         state.hasMore = result.d?.hasMore;
         state.refreshController.finishRefresh();
         state.refreshController.resetFooter();
@@ -118,6 +127,16 @@ class PurchaseRecordController extends GetxController
         state.refreshController.finishRefresh();
       }
     });
+  }
+
+
+  showDate(String? dateTimeStr) {
+    if (dateTimeStr?.isEmpty ?? true) {
+      return false;
+    }
+    var contains = state.datetimeSet.contains(dateTimeStr);
+    state.datetimeSet.add(dateTimeStr!);
+    return contains;
   }
 
   void toPurchaseDetail(OrderDTO? purchasePurchaseOrderDTO) {

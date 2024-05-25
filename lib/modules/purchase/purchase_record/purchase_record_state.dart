@@ -45,4 +45,5 @@ class PurchaseRecordState {
 
   List<OrderType> orderTypeList = [];
 
+  Set<String> datetimeSet = {};
 }
