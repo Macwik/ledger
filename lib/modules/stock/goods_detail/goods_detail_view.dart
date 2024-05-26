@@ -820,72 +820,85 @@ class GoodsDetailView extends StatelessWidget {
                                   fontWeight: FontWeight.w600),
                             ),
                           ),
-                          Row(
+                          Container(
+                            margin: EdgeInsets.symmetric(horizontal: 16.w),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Expanded(
+                                    flex:2,
+                                    child:
+                                    Card(
+                                        elevation: 6,
+                                        shadowColor: Colors.black45,
+                                        clipBehavior: Clip.antiAlias,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(Radius.circular(28.w)),
+                                        ),
+                                        child: Container(
+                                            color: Colors.white,
+                                            padding: EdgeInsets.symmetric(horizontal: 40.w, vertical:32.w),
+                                            child: Column(
+                                              children: [
+                                                Text(
+                                                  controller.profitAmount(),
+                                                  style: TextStyle(
+                                                      color: Colours.text_333,
+                                                      fontSize: 34.sp,
+                                                      fontWeight: FontWeight.w500),
+                                                ),
+                                                SizedBox(height: 8.w,),
+                                                Text('利润',
+                                                    style: TextStyle(
+                                                      color: Colours.text_666,
+                                                      fontSize: 30.sp,
+                                                    )),
+                                              ],
+                                            )))),
+                                Text('=' ,
+                                  style: TextStyle(
+                                      color: Colours.text_333,
+                                      fontSize: 34.sp,
+                                      fontWeight: FontWeight.w500),),
+                                Expanded(child:
+                                Card(
+                                    elevation: 6,
+                                    shadowColor: Colors.black45,
+                                    clipBehavior: Clip.antiAlias,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(28.w)),
+                                    ),
+                                    child: Container(
+                                        color: Colors.white,
+                                        padding: EdgeInsets.symmetric(horizontal: 40.w, vertical:32.w),
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              DecimalUtil.formatDecimalDefault(((state.productSalesStatisticsDTO?.salesTotalAmount??Decimal.zero)
+                                                  -(state.productSalesStatisticsDTO?.salesRepaymentDiscountAmount??Decimal.zero)
+                                                  - (state.productSalesStatisticsDTO?.salesDiscountAmount??Decimal.zero))),
+                                              style: TextStyle(
+                                                  color: Colours.text_333,
+                                                  fontSize: 34.sp,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                            SizedBox(height: 8.w,),
+                                            Text('销售',
+                                                style: TextStyle(
+                                                  color: Colours.text_666,
+                                                  fontSize: 30.sp,
+                                                )),
+                                          ],
+                                        ))) ),
+
+                              ],
+                            ),
+                          ),
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: 16.w),
+                        child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Expanded(child:
-                              Card(
-                                  elevation: 6,
-                                  shadowColor: Colors.black45,
-                                  clipBehavior: Clip.antiAlias,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(Radius.circular(28.w)),
-                                  ),
-                                  child: Container(
-                                      color: Colors.white,
-                                      padding: EdgeInsets.symmetric(horizontal: 40.w, vertical:32.w),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            controller.profitAmount(),
-                                            style: TextStyle(
-                                                color: Colours.text_333,
-                                                fontSize: 34.sp,
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                          SizedBox(height: 8.w,),
-                                          Text('利润',
-                                              style: TextStyle(
-                                                color: Colours.text_666,
-                                                fontSize: 30.sp,
-                                              )),
-                                        ],
-                                      )))),
-                              Text('=' ,
-                                style: TextStyle(
-                                  color: Colours.text_333,
-                                  fontSize: 34.sp,
-                                  fontWeight: FontWeight.w500),),
-                              Expanded(child:
-                              Card(
-                                  elevation: 6,
-                                  shadowColor: Colors.black45,
-                                  clipBehavior: Clip.antiAlias,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(Radius.circular(28.w)),
-                                  ),
-                                  child: Container(
-                                      color: Colors.white,
-                                      padding: EdgeInsets.symmetric(horizontal: 40.w, vertical:32.w),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            DecimalUtil.formatDecimalDefault(((state.productSalesStatisticsDTO?.salesTotalAmount??Decimal.zero)
-                                                -(state.productSalesStatisticsDTO?.salesRepaymentDiscountAmount??Decimal.zero)
-                                                - (state.productSalesStatisticsDTO?.salesDiscountAmount??Decimal.zero))),
-                                            style: TextStyle(
-                                                color: Colours.text_333,
-                                                fontSize: 34.sp,
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                          SizedBox(height: 8.w,),
-                                          Text('销售',
-                                              style: TextStyle(
-                                                color: Colours.text_666,
-                                                fontSize: 30.sp,
-                                              )),
-                                        ],
-                                      ))) ),
                               Text('-',
                                 style: TextStyle(
                                     color: Colours.text_333,
@@ -923,19 +936,11 @@ class GoodsDetailView extends StatelessWidget {
                                               )),
                                         ],
                                       ))) ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Container(
-                                padding: EdgeInsets.only(left: 32.w),
-                                child: Text('-',
+                              Text('-',
                                   style: TextStyle(
                                       color: Colours.text_333,
                                       fontSize: 34.sp,
                                       fontWeight: FontWeight.w500),) ,
-                              ),
                               Expanded(child:
                               Card(
                                   elevation: 6,
@@ -1000,7 +1005,7 @@ class GoodsDetailView extends StatelessWidget {
                                         ],
                                       ))) ),
                             ],
-                          ),
+                          )),
                           SizedBox(height: 32.w,)
                         ],
                       ))),
