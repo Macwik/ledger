@@ -83,8 +83,8 @@ class ProductCostDetailView extends StatelessWidget {
                     ? EmptyLayout(hintText: '什么都没有'.tr)
                     : null,
             child: ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
+              // shrinkWrap: true,
+              // physics: NeverScrollableScrollPhysics(),
               itemCount: state.list?.length ?? 0,
               itemBuilder: (context, index) {
                 var externalOrderStatisticDTO = state.list![index];
