@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/store/store_controller.dart';
 
@@ -8,38 +9,44 @@ class PermissionMultiWidget extends StatelessWidget {
   final List<String> permissionCodes;
   final LedgerWidgetType widgetType;
   final Widget child;
+  final RxBool hasPermission = RxBool(false);
 
-  const PermissionMultiWidget({
+  PermissionMultiWidget({
     super.key,
     required this.permissionCodes,
     required this.child,
     this.widgetType = LedgerWidgetType.Offstage,
-  });
+  }) {
+    permissionCheck();
+  }
 
   @override
   Widget build(BuildContext context) {
     return widgetType == LedgerWidgetType.Visibility
         ? Visibility(
-            visible: permissionCheck(),
+            visible: hasPermission.value,
             child: child,
           )
         : Offstage(
-            offstage: !permissionCheck(),
+            offstage: !hasPermission.value,
             child: child,
           );
   }
 
-  bool permissionCheck() {
+  permissionCheck() {
     if (permissionCodes.isEmpty) {
-      return false;
+      hasPermission.value = false;
     }
     if (permissionCodes.contains(PermissionCode.common_permission)) {
-      return true;
+      hasPermission.value = true;
     }
-    List<String>? permissionList = StoreController.to.getPermissionCode();
-    if (permissionList.isEmpty) {
-      return false;
-    }
-    return permissionCodes.any((element) => permissionList.contains(element));
+
+    StoreController.to.getPermissionCodeAsync().then((permissionCodeList) {
+      if (permissionCodeList.isEmpty) {
+        hasPermission.value = false;
+      }
+      hasPermission.value =
+          permissionCodes.any((element) => permissionCodeList.contains(element));
+    });
   }
 }

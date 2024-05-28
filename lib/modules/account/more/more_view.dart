@@ -1,11 +1,7 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/permission_code.dart';
-import 'package:ledger/generated/json/base/json_convert_content.dart';
 import 'package:ledger/res/export.dart';
-import 'package:ledger/store/store_controller.dart';
 import 'package:ledger/widget/permission/permission_widget.dart';
 
 import 'more_controller.dart';
@@ -380,8 +376,6 @@ class MoreView extends StatelessWidget {
     return permissionCodes.any((element) => permissionList!.contains(element));
   }
 
-  final HashMap<int, List<Widget>> map = HashMap();
-
   List<Widget> buildWidgetPermission(
       List<String> permissionCodes,
       int total,
@@ -389,10 +383,7 @@ class MoreView extends StatelessWidget {
       List<String> imgPath,
       List<String> nameList,
       int index) {
-    List<Widget> result = map.getOrNull(index) ?? [];
-    if (result.isNotEmpty) {
-      return result;
-    }
+    List<Widget> result = [];
     for (int index = 0; index < total; ++index) {
       var permission = permissionCodes.elementAt(index);
       if (permissionCheck(permission)) {
@@ -429,7 +420,6 @@ class MoreView extends StatelessWidget {
         ));
       }
     }
-    map.putIfAbsent(index, () => result);
     return result;
   }
 
@@ -440,10 +430,7 @@ class MoreView extends StatelessWidget {
       List<String> imgPath,
       List<String> nameList,
       int index) {
-    List<Widget> result = map.getOrNull(index) ?? [];
-    if (result.isNotEmpty) {
-      return result;
-    }
+    List<Widget> result = [];
     for (int index = 0; index < total; ++index) {
       var permissions = permissionCodes.elementAt(index);
       if (permissionListCheck(permissions)) {
@@ -480,7 +467,6 @@ class MoreView extends StatelessWidget {
         ));
       }
     }
-    map.putIfAbsent(index, () => result);
     return result;
   }
 

@@ -28,7 +28,7 @@ class PermissionWidget extends StatelessWidget {
             child: child,
           )
         : Offstage(
-            offstage: hasPermission.value,
+            offstage: !hasPermission.value,
             child: child,
           );
   }
