@@ -8,6 +8,7 @@ class StoreController extends GetxController {
   static StoreController get to => Get.find();
   final RxBool authenticated = false.obs;
   final RxList<String> permissions = <String>[].obs;
+  final RxList<String> bakPermissions = <String>[].obs;
   final RxObjectMixin<UserDTOEntity> userEntity = UserDTOEntity().obs;
 
   /// 获取当前用户
@@ -73,7 +74,6 @@ class StoreController extends GetxController {
     _changeLoginStatus(false);
   }
 
-
   reload() async {
     await GetStorage().remove(Constant.CURRENT_USER);
     clearPermission();
@@ -119,16 +119,19 @@ class StoreController extends GetxController {
     return await Http().network<UserAuthorizationDTO>(
         Method.get, AuthApi.list_role_auth, queryParameters: {
       'version': getUserAuthorizationDTO()?.version
-    }).then((result) {
+    }).then((result) async {
       if (result.success) {
         var userAuthorization = result.d!;
         if (userAuthorization.latest == false) {
-          savePermission(userAuthorization);
+          await savePermission(userAuthorization);
+          if (permissions.isNotEmpty) {
+            bakPermissions.clear();
+            bakPermissions.addAll(permissions);
+          }
           permissions.clear();
           permissions.addAll(userAuthorization.authorizationCodes!);
           return true;
         }
-        return false;
       }
       return false;
     });
@@ -143,13 +146,40 @@ class StoreController extends GetxController {
     if (permissionList?.isNotEmpty ?? false) {
       permissions.addAll(permissionList!);
       return permissionList;
+    } else if (bakPermissions.isNotEmpty) {
+      return bakPermissions;
     } else {
-      updatePermissionCode().then((value) {
-        if (value) {
-          return getPermissionList();
-        }
-      });
+      updatePermissionCode();
     }
     return List<String>.empty();
+  }
+
+  /// 获取用户当前全量权限点
+  Future<List<String>> getPermissionCodeAsync() async {
+    if (permissions.isNotEmpty) {
+      return Future.value(permissions);
+    }
+    List<String>? permissionList = getPermissionList();
+    if (permissionList?.isNotEmpty ?? false) {
+      permissions.addAll(permissionList!);
+      return Future.value(permissions);
+    } else {
+      return await Http().network<UserAuthorizationDTO>(
+          Method.get, AuthApi.list_role_auth, queryParameters: {
+        'version': getUserAuthorizationDTO()?.version
+      }).then((result) async {
+        if (result.success) {
+          var userAuthorization = result.d!;
+          await savePermission(userAuthorization);
+          if (permissions.isNotEmpty) {
+            bakPermissions.clear();
+            bakPermissions.addAll(permissions);
+          }
+          permissions.clear();
+          permissions.addAll(userAuthorization.authorizationCodes!);
+        }
+        return List<String>.empty();
+      });
+    }
   }
 }

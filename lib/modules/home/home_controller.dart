@@ -1,20 +1,26 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger/config/api/app_update_api.dart';
 import 'package:ledger/config/api/home_api.dart';
+import 'package:ledger/config/permission_code.dart';
 import 'package:ledger/entity/app/app_check_dto.dart';
 import 'package:ledger/entity/home/home_statistics_dto.dart';
 import 'package:ledger/entity/home/sales_credit_statistics_dto.dart';
 import 'package:ledger/entity/home/sales_payment_statistics_dto.dart';
 import 'package:ledger/entity/home/sales_product_statistics_dto.dart';
 import 'package:ledger/entity/home/sales_repayment_statistics_dto.dart';
+import 'package:ledger/enum/stock_list_type.dart';
 import 'package:ledger/enum/unit_type.dart';
 import 'package:ledger/http/http_util.dart';
+import 'package:ledger/res/colors.dart';
+import 'package:ledger/route/route_config.dart';
 import 'package:ledger/store/store_controller.dart';
 import 'package:ledger/util/decimal_util.dart';
 import 'package:ledger/util/toast_util.dart';
 import 'package:ledger/widget/dialog_widget/update_dialog/app_update_dialog.dart';
+import 'package:ledger/widget/image.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import 'home_state.dart';
@@ -23,18 +29,21 @@ class HomeController extends GetxController {
   final HomeState state = HomeState();
 
   Future<void> initState() async {
+    _updatePermission();
+    _queryGridWidgets();
     _queryData();
     _querySalesProductStatistics();
     _querySalesRepaymentStatistics();
     _querySalesPaymentStatistics();
     _querySalesCreditStatistics();
-    updatePermission();
     update(['home_active_ledger_name']);
   }
 
-  updatePermission() {
+  _updatePermission() {
     StoreController.to.updatePermissionCode().then((result) {
-      update(['home_head_function', 'home_common_function']);
+      if (result) {
+        update(['home_head_function', 'home_common_function']);
+      }
     });
   }
 
@@ -201,5 +210,136 @@ class HomeController extends GetxController {
     } else {
       return '${DecimalUtil.formatDecimalDefault(salesProductStatisticsDTO.masterNumber)} ${salesProductStatisticsDTO.masterUnitName ?? ''}';
     }
+  }
+
+  static const List<String> gridItemNames = [
+    '销售',
+    '采购',
+    '库存',
+    '收支',
+    '还款',
+    '账目',
+    '更多'
+  ];
+  static const List<int> gridItemColors = [
+    0x7C9BA9FA,
+    0xFFFCEAF4,
+    0x60FF8D1A,
+    0x529BD4FA,
+    0x4C04BFB3,
+    0xFFFAD984,
+    0x4C04BFB3
+  ];
+  static const List<String> gridItemPaths = [
+    'xiaoshou',
+    'caigou',
+    'kucun',
+    'home_cost',
+    'home_repayment',
+    'zhangmu',
+    'more'
+  ];
+
+  final List<Function()> gridItemRoutes = [
+    () => Get.toNamed(RouteConfig.saleRecord, arguments: {'index': 0}),
+    () => Get.toNamed(RouteConfig.purchaseRecord, arguments: {'index': 0}),
+    () => Get.toNamed(RouteConfig.stockList,
+        arguments: {'select': StockListType.DETAIL}),
+    () => Get.toNamed(RouteConfig.costRecord, arguments: {'index': 0}),
+    () => Get.toNamed(RouteConfig.repaymentRecord, arguments: {'index': 0}),
+    () => Get.toNamed(RouteConfig.dailyAccount),
+    () => Get.toNamed(RouteConfig.more),
+  ];
+
+  static const List<List<String>> gridItemPermission = [
+    [
+      PermissionCode.sales_sale_record_permission,
+      PermissionCode.sales_return_sale_record_permission,
+      PermissionCode.sales_refund_sale_record_permission
+    ],
+    [
+      PermissionCode.purchase_purchase_record_permission,
+      PermissionCode.purchase_purchase_return_record_permission,
+      PermissionCode.purchase_add_stock_record_permission
+    ],
+    [PermissionCode.stock_page_permission],
+    [PermissionCode.funds_cost_record_permission],
+    [
+      PermissionCode.funds_repayment_record_permission,
+      PermissionCode.supplier_custom_repayment_record_permission
+    ],
+    [PermissionCode.account_page_permission],
+    [PermissionCode.common_permission],
+  ];
+
+  List<Widget> buildGridWidgets(List<String> permissionList) {
+    List<Widget> result = [];
+    for (int index = 0; index < gridItemPermission.length; index++) {
+      var elements = gridItemPermission[index];
+      if (elements.contains(PermissionCode.common_permission)) {
+        result.add(buildGridWidget(index));
+        continue;
+      }
+      if (permissionList.isEmpty) {
+        continue;
+      }
+      if (elements.any((element) => permissionList.contains(element))) {
+        result.add(buildGridWidget(index));
+      }
+    }
+    return result;
+  }
+
+  Widget buildGridWidget(int index) {
+    return InkWell(
+      onTap: gridItemRoutes[index],
+      child: Flex(
+        direction: Axis.vertical,
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+              child: AspectRatio(
+            aspectRatio: 1,
+            child: ClipOval(
+              child: Container(
+                width: double.infinity,
+                color: Color(gridItemColors[index]),
+                child: Center(
+                  child: LoadAssetImage(
+                    gridItemPaths[index],
+                    width: 66.w,
+                    height: 66.w,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+              ),
+            ),
+          )),
+          Padding(
+            padding: const EdgeInsets.only(top: 13),
+            child: Text(
+              gridItemNames[index],
+              style: TextStyle(
+                fontSize: 28.sp,
+                fontWeight: FontWeight.w700,
+                color: Colours.text_999,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _queryGridWidgets() {
+    StoreController.to.getPermissionCodeAsync().then((result) {
+      if (result.isNotEmpty) {
+        var widgets = buildGridWidgets(result);
+        state.gridWidgets = widgets;
+        state.gridWidgetCount = widgets.length;
+        update(['home_head_function']);
+      }
+    });
   }
 }

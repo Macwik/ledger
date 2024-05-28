@@ -25,6 +25,11 @@ class HomeState {
   Decimal?  todayCreditAmount;
 
 
+  List<Widget>? gridWidgets;
+
+  int gridWidgetCount = 0;
+
+
   HomeState() {
     ///Initialize variables
   }

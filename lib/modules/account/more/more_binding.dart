@@ -5,6 +5,6 @@ import 'more_controller.dart';
 class MoreBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => MoreController());
+    Get.create<MoreController>(() => MoreController(), permanent: false);
   }
 }

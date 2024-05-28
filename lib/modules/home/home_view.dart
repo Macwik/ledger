@@ -8,12 +8,10 @@ import 'package:ledger/entity/home/sales_repayment_statistics_dto.dart';
 import 'package:ledger/enum/custom_type.dart';
 import 'package:ledger/enum/is_select.dart';
 import 'package:ledger/enum/order_type.dart';
-import 'package:ledger/enum/stock_list_type.dart';
 import 'package:ledger/enum/unit_type.dart';
 import 'package:ledger/modules/home/home_controller.dart';
 import 'package:ledger/res/export.dart';
 import 'package:flutter/material.dart';
-import 'package:ledger/store/store_controller.dart';
 import 'package:ledger/util/decimal_util.dart';
 import 'package:ledger/util/image_util.dart';
 import 'package:ledger/widget/permission/permission_owner_widget.dart';
@@ -55,8 +53,8 @@ class HomeView extends StatelessWidget {
                         childAspectRatio: 0.639,
                       ),
                       delegate: SliverChildBuilderDelegate((context, index) {
-                        return getGridWidgetsIndex(index);
-                      }, childCount: getGridWidgetCount()),
+                        return state.gridWidgets![index];
+                      }, childCount: state.gridWidgetCount),
                     ),
                   );
                 }),
@@ -923,151 +921,6 @@ class HomeView extends StatelessWidget {
           ],
         ));
   }
-}
-
-const List<String> gridItemNames = ['销售', '采购', '库存', '收支', '还款', '账目', '更多'];
-const List<int> gridItemColors = [
-  0x7C9BA9FA,
-  0xFFFCEAF4,
-  0x60FF8D1A,
-  0x529BD4FA,
-  0x4C04BFB3,
-  0xFFFAD984,
-  0x4C04BFB3
-];
-const List<String> gridItemPaths = [
-  'xiaoshou',
-  'caigou',
-  'kucun',
-  'home_cost',
-  'home_repayment',
-  'zhangmu',
-  'more'
-];
-
-final List<Function()> gridItemRoutes = [
-  () => Get.toNamed(RouteConfig.saleRecord, arguments: {'index': 0}),
-  () => Get.toNamed(RouteConfig.purchaseRecord, arguments: {'index': 0}),
-  () => Get.toNamed(RouteConfig.stockList, arguments: {'select': StockListType.DETAIL}),
-  () => Get.toNamed(RouteConfig.costRecord, arguments: {'index': 0}),
-  () => Get.toNamed(RouteConfig.repaymentRecord, arguments: {'index': 0}),
-  () => Get.toNamed(RouteConfig.dailyAccount),
-  () => Get.toNamed(RouteConfig.more),
-];
-
-const List<List<String>> gridItemPermission = [
-  [PermissionCode.sales_sale_record_permission,
-    PermissionCode.sales_return_sale_record_permission,
-    PermissionCode.sales_refund_sale_record_permission
-  ],
-  [
-    PermissionCode.purchase_purchase_record_permission,
-    PermissionCode.purchase_purchase_return_record_permission,
-    PermissionCode.purchase_add_stock_record_permission
-  ],
-  [PermissionCode.stock_page_permission,],
-  [PermissionCode.funds_cost_record_permission,],
-  [
-    PermissionCode.funds_repayment_record_permission,
-    PermissionCode.supplier_custom_repayment_record_permission
-  ],
-  [PermissionCode.account_page_permission,],
-  [PermissionCode.common_permission],
-];
-
-int getGridWidgetCount() {
-  if (gridWidgets?.isEmpty ?? true) {
-    return getGridWidgets().length;
-  }
-  return gridWidgets?.length ?? 0;
-}
-
-getGridWidgetsIndex(index) {
-  if (gridWidgets?.isEmpty ?? true) {
-    return getGridWidgets().elementAt(index);
-  }
-  return gridWidgets!.elementAt(index);
-}
-
-List<Widget>? gridWidgets;
-
-List<Widget> getGridWidgets() {
-  List<String>? permissionList = StoreController.to.getPermissionCode();
-  List<Widget> result = [];
-  for (int index = 0; index < gridItemPermission.length; index++) {
-    var elements = gridItemPermission[index];
-    if (elements.isEmpty) {
-      continue;
-    }
-    if (elements.contains(PermissionCode.common_permission)) {
-      result.add(buildGridWidget(index));
-      continue;
-    }
-    if (permissionList.isEmpty) {
-      continue;
-    }
-    if (elements.any((element) => permissionList.contains(element))) {
-      result.add(buildGridWidget(index));
-    }
-  }
-  gridWidgets = result;
-  return result;
-}
-
-Widget buildGridWidget(int index) {
-  return InkWell(
-    onTap: gridItemRoutes[index],
-    child: Flex(
-      direction: Axis.vertical,
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Expanded(
-            child: AspectRatio(
-          aspectRatio: 1,
-          child: ClipOval(
-            child: Container(
-              width: double.infinity,
-              color: Color(gridItemColors[index]),
-              child: Center(
-                child: LoadAssetImage(
-                  gridItemPaths[index],
-                  width: 66.w,
-                  height: 66.w,
-                  fit: BoxFit.fill,
-                ),
-              ),
-            ),
-          ),
-        )),
-        Padding(
-          padding: const EdgeInsets.only(top: 13),
-          child: Text(
-            gridItemNames[index],
-            style: TextStyle(
-              fontSize: 28.sp,
-              fontWeight: FontWeight.w700,
-              color: Colours.text_999,
-            ),
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-int permissionCount() {
-  int count = 0;
-  List<String>? permissionList = StoreController.to.getPermissionCode();
-  if (permissionList.isEmpty) {
-    return count;
-  }
-  for (var element in gridItemPermission) {
-    if (permissionCheck(permissionList, element)) {
-      count++;
-    }
-  }
-  return count;
 }
 
 bool permissionCheck(
