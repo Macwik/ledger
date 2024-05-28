@@ -22,7 +22,7 @@ class PermissionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return widgetType == LedgerWidgetType.Visibility
+    return Obx(() => widgetType == LedgerWidgetType.Visibility
         ? Visibility(
             visible: hasPermission.value,
             child: child,
@@ -30,7 +30,7 @@ class PermissionWidget extends StatelessWidget {
         : Offstage(
             offstage: !hasPermission.value,
             child: child,
-          );
+          ));
   }
 
   permissionCheck() {

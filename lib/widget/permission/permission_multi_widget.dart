@@ -22,7 +22,7 @@ class PermissionMultiWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return widgetType == LedgerWidgetType.Visibility
+    return Obx(() => widgetType == LedgerWidgetType.Visibility
         ? Visibility(
             visible: hasPermission.value,
             child: child,
@@ -30,7 +30,7 @@ class PermissionMultiWidget extends StatelessWidget {
         : Offstage(
             offstage: !hasPermission.value,
             child: child,
-          );
+          ));
   }
 
   permissionCheck() {
@@ -45,8 +45,8 @@ class PermissionMultiWidget extends StatelessWidget {
       if (permissionCodeList.isEmpty) {
         hasPermission.value = false;
       }
-      hasPermission.value =
-          permissionCodes.any((element) => permissionCodeList.contains(element));
+      hasPermission.value = permissionCodes
+          .any((element) => permissionCodeList.contains(element));
     });
   }
 }

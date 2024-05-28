@@ -36,7 +36,7 @@ class HomeController extends GetxController {
     _querySalesRepaymentStatistics();
     _querySalesPaymentStatistics();
     _querySalesCreditStatistics();
-    update(['home_active_ledger_name']);
+    update(['home_active_ledger_name', 'home_common_function']);
   }
 
   _updatePermission() {
